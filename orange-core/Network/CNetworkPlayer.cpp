@@ -270,14 +270,6 @@ void CNetworkPlayer::UpdateTargetPosition()
 		// Calculate the new position
 		CVector3 vecNewPosition = (vecCurrentPosition + vecCompensation);
 
-		// Check if the distance to interpolate is too far
-		if ((vecCurrentPosition - m_interp.pos.vecTarget).Length() > 10)
-		{
-			// Abort all interpolation
-			m_interp.pos.ulFinishTime = 0;
-			vecNewPosition = m_interp.pos.vecTarget;
-		}
-
 		// Set our new position
 		SetPosition(vecNewPosition, false);
 	}
@@ -409,6 +401,8 @@ void CNetworkPlayer::SetMoveToDirectionAndAiming(CVector3 vecPos, CVector3 vecMo
 		float tX = (vecPos.fX + (vecMove.fX * 10));
 		float tY = (vecPos.fY + (vecMove.fY * 10));
 		float tZ = (vecPos.fZ + (vecMove.fZ * 10));
+		//MemoryHook::call<void, Ped, float, float, float, float, float, float, float, BOOL, float, float, BOOL, Any, BOOL, Hash>((*GTA::CAddress::Get())[PED_TASK_AIM_AT_COORD_AND_STAND_STILL], Handle, tX, tY,
+		//	tZ, aimPos.fX, aimPos.fY, aimPos.fZ, 1.f, 0, 0x3F000000, 0x40800000, 1, (shooting ? 0 : 1024), 1, 3337513804U);
 		AI::TASK_GO_TO_COORD_WHILE_AIMING_AT_COORD(Handle, tX, tY,
 			tZ, aimPos.fX, aimPos.fY, aimPos.fZ, 1.f, 0, 0x3F000000, 0x40800000, 1, (shooting ? 0 : 1024), 1, 3337513804U);
 	}
@@ -502,13 +496,13 @@ void CNetworkPlayer::MakeTag()
 		tag.width = 0.08f * 800;
 		tag.height = 0.012f * 600;
 
-		tag.k = 1.3f - tag.distance / 100;
+		tag.k = 1.3 - tag.distance / 100;
 
 		CVector3 screenPos;
-		CGraphics::Get()->WorldToScreen(CVector3(vecCurPos->fX, vecCurPos->fY, vecCurPos->fZ + 1.1f * tag.k + (tag.distance * 0.04f)), screenPos);
+		CGraphics::Get()->WorldToScreen(CVector3(vecCurPos->fX, vecCurPos->fY, vecCurPos->fZ + 1.1 * tag.k + (tag.distance * 0.04f)), screenPos);
 		auto viewPortGame = GTA::CViewportGame::Get();
-		tag.x = int(screenPos.fX * viewPortGame->Width);
-		tag.y = int(screenPos.fY * viewPortGame->Height);
+		tag.x = screenPos.fX * viewPortGame->Width;
+		tag.y = screenPos.fY * viewPortGame->Height;
 
 		tag.bVisible = true;
 	}
@@ -545,11 +539,11 @@ void CNetworkPlayer::DrawTag()
 		float font_size = 20.0f * tag.k;
 		ImVec2 textSize = CGlobals::Get().chatFont->CalcTextSizeA(font_size, 1000.f, 1000.f, _name);
 
-		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(float(tag.x - textSize.x / 2 - 1), float(tag.y - 1)), ImColor(0, 0, 0, 255), _name);
-		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(float(tag.x - textSize.x / 2 + 1), float(tag.y + 1)), ImColor(0, 0, 0, 255), _name);
-		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(float(tag.x - textSize.x / 2 + 1), float(tag.y - 1)), ImColor(0, 0, 0, 255), _name);
-		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(float(tag.x - textSize.x / 2 - 1), float(tag.y + 1)), ImColor(0, 0, 0, 255), _name);
-		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(float(tag.x - textSize.x / 2), float(tag.y)), ImColor(0xFF, 0xFF, 0xFF, 0xFF), _name);
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(tag.x - textSize.x / 2 - 1, tag.y - 1), ImColor(0, 0, 0, 255), _name);
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(tag.x - textSize.x / 2 + 1, tag.y + 1), ImColor(0, 0, 0, 255), _name);
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(tag.x - textSize.x / 2 + 1, tag.y - 1), ImColor(0, 0, 0, 255), _name);
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(tag.x - textSize.x / 2 - 1, tag.y + 1), ImColor(0, 0, 0, 255), _name);
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(tag.x - textSize.x / 2, tag.y), ImColor(0xFF, 0xFF, 0xFF, 0xFF), _name);
 
 		color_t bgColor, fgColor;
 
@@ -593,6 +587,7 @@ void CNetworkPlayer::SetModel(Hash model)
 		scriptWait(0);
 	Handle = PED::CREATE_PED(1, model, pos.fX, pos.fY, pos.fZ, heading, true, false);
 	pedHandler = CPed::GetFromScriptID(Handle);
+	log_debug << "pedHandler: 0x" << pedHandler << std::endl;
 
 	PED::SET_PED_DEFAULT_COMPONENT_VARIATION(Handle);
 	STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);

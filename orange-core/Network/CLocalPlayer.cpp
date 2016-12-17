@@ -8,7 +8,7 @@ void __fastcall eventHook(GTA::CTask* task)
 
 CLocalPlayer* CLocalPlayer::Instance = nullptr;
 
-CLocalPlayer::CLocalPlayer():CPedestrian(PLAYER::PLAYER_PED_ID())
+CLocalPlayer::CLocalPlayer() :CPedestrian(PLAYER::PLAYER_PED_ID())
 {
 	for (int i = 0; i < 5; i++)
 		GAMEPLAY::DISABLE_HOSPITAL_RESTART(i, true);
@@ -19,7 +19,7 @@ CLocalPlayer::CLocalPlayer():CPedestrian(PLAYER::PLAYER_PED_ID())
 	}
 
 	CEntity::InitOffsetFunc();
-	
+
 	aimPosition = &CWorld::Get()->CPedPtr->CPlayerInfoPtr->AimPosition;
 
 	//rageGlobals::SetPlayerColor(0x33, 0xFF, 0x33, 0xFF);
@@ -80,6 +80,7 @@ void CLocalPlayer::GetVehicleSync(VehicleData& vehsync)
 	vehsync.vecPos = pos;
 	vehsync.vecRot = veh->GetRotation();
 	vehsync.vecMoveSpeed = veh->GetMovementVelocity();
+	vehsync.usHealth = veh->GetHealth();
 
 	vehsync.RPM = *CMemory(veh->GetAddress()).get<float>(0x7F4);
 	vehsync.Burnout = VEHICLE::IS_VEHICLE_IN_BURNOUT(veh->GetHandle()) != 0;
@@ -179,11 +180,11 @@ void CLocalPlayer::SendTasks()
 				bsOut.Write(taskID);
 				unsigned int size = (unsigned int)ser->Size();
 				bsOut.Write(size);
-				
+
 				rageBuffer data;
 				unsigned char *buffer = new unsigned char[Utils::RoundToBytes(size)];
 				memset(buffer, 0, Utils::RoundToBytes(size));
-				
+
 				typedef void(*InitWriteBuffer)(rageBuffer*, unsigned char*, int, int);
 				((InitWriteBuffer)CMemory((uintptr_t)GetModuleHandle(NULL) + 0x11E7920)())(&data, buffer, size, 0);
 

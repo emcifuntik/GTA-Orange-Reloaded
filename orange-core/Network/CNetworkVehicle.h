@@ -43,12 +43,14 @@ class CNetworkVehicle : public CVehicle
 	float				lastMoveSpeed;
 	float				m_steering;
 	int					updateTick = 0;
-	int					lastTick = 0;
+	DWORD				lastTick = 0;
 	int					tasksToIgnore = 0;
 	DWORD				lastUpdate = 9999;
 
 	bool				m_Burnout;
 	float				m_RPM;
+
+	unsigned short		m_Health;
 
 	static std::vector<CNetworkVehicle *> VehiclePool;
 public:
@@ -67,6 +69,9 @@ public:
 	void Interpolate();
 
 	void BuildTasksQueue();
+
+	void UpdateLastTickTime();
+	int GetTickTime();
 
 	void SetVehicleData(VehicleData data, unsigned long ulDelay);
 
