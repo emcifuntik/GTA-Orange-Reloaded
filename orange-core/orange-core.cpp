@@ -20,6 +20,12 @@ void UnknownPatches()
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1C220E).nop(9);
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0xF8A528).retn();
 	(CMemory((uintptr_t)GetModuleHandle(NULL) + 0x11D986C) - 4).retn();
+
+	mem = CMemory((uintptr_t)GetModuleHandle(NULL) + 0x23AD9C); //HECK_MULTIPLAYER_BYTE_DRAW_MAP_FRAME
+	mem2 = CMemory(mem);
+	mem.nop(7);
+	mem2.put(0xB640i16);
+	mem2.put(0x01i8);
 }
 
 void DefineNatives()
