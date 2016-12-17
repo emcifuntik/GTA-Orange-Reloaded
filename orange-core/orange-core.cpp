@@ -143,8 +143,7 @@ void HookLoop()
 void GameProcessHooks()
 {
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x11D2E4).nop(5); //Esc freeze
-	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1F1BFF).nop(5); //UI Wheel slowmo
-	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1DF253).nop(2); //UI Wheel slowmo 2
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x2413D2).nop(6); //UI Wheel slowmo
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x127C8CA).nop(4); //Show cursor
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x127C8DC).nop(4); //Show cursor
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1BCCE8).retn(); //Rockstar loading logo
