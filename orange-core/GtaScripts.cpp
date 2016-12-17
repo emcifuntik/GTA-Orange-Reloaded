@@ -679,7 +679,7 @@ ScriptInfo scriptnames[748] = {
 	{ "sp_editor_mission_instance", false },
 	{ "sp_menuped", false },
 	{ "sp_pilotschool_reg", false },
-	{ "standard_global_init", false },
+	{ "standard_global_init", true },
 	{ "standard_global_reg", false },
 	{ "startup", false },
 	{ "startup_install", false },

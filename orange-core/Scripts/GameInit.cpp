@@ -7,6 +7,7 @@ void Action()
 	{
 		if (!teleported)
 		{
+			SCRIPT::_REQUEST_STREAMED_SCRIPT(Utils::Hash("standard_global_init"));
 			CGlobals::Get().InitializeOnline();
 			ENTITY::SET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), 0.f, 0.f, 73.f, true, false, false, false);
 			CGlobals::Get().currentcam = 
