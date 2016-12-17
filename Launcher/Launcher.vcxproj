@@ -121,6 +121,11 @@
     <Image Include="small.ico" />
     <Image Include="splash.bmp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\orange-core\orange-core.vcxproj">
+      <Project>{be62e5f0-22ab-437c-aef4-105b84989ef0}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

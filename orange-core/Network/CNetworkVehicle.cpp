@@ -3,18 +3,17 @@
 std::vector<CNetworkVehicle *> CNetworkVehicle::VehiclePool;
 Hash __adder = Utils::Hash("adder");
 
-CNetworkVehicle::CNetworkVehicle():CVehicle(__adder, 0, 0, 0, 0)
+CNetworkVehicle::CNetworkVehicle():CVehicle(__adder, 0, 0, 0, 0, false)
 {
 	log_debug << "Creating veh.." << std::endl;
-	m_Model = __adder;
-	m_futureModel = __adder;
-	UpdateModel();
+	m_Model = 0;
+	m_futureModel = 0;
 	VehiclePool.push_back(this);
 }
 
 void CNetworkVehicle::UpdateModel()
 {
-	//log << "Updating model: " << m_Model << " => " << m_futureModel << std::endl;
+	log << "Updating model: " << m_Model << " => " << m_futureModel << std::endl;
 
 	m_Model = m_futureModel;
 	CVector3 curPos = GetPosition();
@@ -42,7 +41,9 @@ void CNetworkVehicle::UpdateTargetPosition()
 	if (HasTargetPosition())
 	{
 		unsigned long ulCurrentTime = timeGetTime();
-		float fAlpha = Math::UnlerpClamped(m_interp.pos.ulStartTime, ulCurrentTime, m_interp.pos.ulFinishTime);
+		float fAlpha = Math::Unlerp(m_interp.pos.ulStartTime, ulCurrentTime, m_interp.pos.ulFinishTime);
+
+		fAlpha = Math::Clamp(0.0f, fAlpha, 1.5f);
 
 		// Get the current error portion to compensate
 		float fCurrentAlpha = (fAlpha - m_interp.pos.fLastAlpha);
@@ -52,8 +53,10 @@ void CNetworkVehicle::UpdateTargetPosition()
 		CVector3 vecCompensation = Math::Lerp(CVector3(), fCurrentAlpha, m_interp.pos.vecError);
 
 		// If we finished compensating the error, finish it for the next pulse
-		if (fAlpha == 1.0f)
+		if (fAlpha == 1.5f)
+		{
 			m_interp.pos.ulFinishTime = 0;
+		}
 
 		// Get our position
 		CVector3 vecCurrentPosition = GetPosition();
@@ -62,7 +65,7 @@ void CNetworkVehicle::UpdateTargetPosition()
 		CVector3 vecNewPosition = (vecCurrentPosition + vecCompensation);
 
 		// Check if the distance to interpolate is too far
-		if ((vecCurrentPosition - m_interp.pos.vecTarget).Length() > 10)
+		if ((vecCurrentPosition - m_interp.pos.vecTarget).Length() > 50)
 		{
 			// Abort all interpolation
 			m_interp.pos.ulFinishTime = 0;
@@ -70,7 +73,7 @@ void CNetworkVehicle::UpdateTargetPosition()
 		}
 
 		// Set our new position
-		SetPosition(vecNewPosition); // , false);
+		SetPosition(vecNewPosition);
 	}
 }
 
@@ -93,21 +96,13 @@ void CNetworkVehicle::UpdateTargetRotation()
 			m_interp.rot.ulFinishTime = 0;
 
 		// Get our position
-		CVector3 vecCurrentRotation = GetPosition();
+		CVector3 vecCurrentRotation = GetRotation();
 
 		// Calculate the new position
 		CVector3 vecNewRotation = (vecCurrentRotation + vecCompensation);
 
-		// Check if the distance to interpolate is too far
-		if ((vecCurrentRotation - m_interp.rot.vecTarget).Length() > 5)
-		{
-			// Abort all interpolation
-			m_interp.rot.ulFinishTime = 0;
-			vecNewRotation = m_interp.rot.vecTarget;
-		}
-
 		// Set our new position
-		SetRotation(vecNewRotation); // , false);
+		SetRotation(vecNewRotation);
 	}
 }
 
@@ -151,7 +146,7 @@ void CNetworkVehicle::SetTargetRotation(const CVector3& vecRotation, unsigned lo
 	m_interp.rot.vecTarget = vecRotation;
 
 	// Calculate the relative error
-	m_interp.rot.vecError = (vecRotation - vecCurrentRotation);
+	m_interp.rot.vecError = Math::GetOffsetDegrees(vecCurrentRotation, vecRotation);
 
 	// Get the interpolation interval
 	unsigned long ulTime = timeGetTime();
@@ -211,8 +206,20 @@ void CNetworkVehicle::BuildTasksQueue()
 		ENTITY::SET_ENTITY_VELOCITY(Handle, 0, 0, 0);
 		//if (m_hasDriver) AI::TASK_VEHICLE_TEMP_ACTION(m_Driver, Handle, 1, 2000);
 	}
+	SetHealth(m_Health);
 	*CMemory(GetAddress()).get<float>(0x8CC) = m_steering / 180 * PI;
 	*CMemory(GetAddress()).get<float>(0x7F4) = m_RPM;
+}
+
+void CNetworkVehicle::UpdateLastTickTime()
+{
+	updateTick = (timeGetTime() - lastTick);
+	lastTick = timeGetTime();
+}
+
+int CNetworkVehicle::GetTickTime()
+{
+	return updateTick;
 }
 
 void CNetworkVehicle::SetVehicleData(VehicleData data, unsigned long ulDelay)
@@ -221,10 +228,6 @@ void CNetworkVehicle::SetVehicleData(VehicleData data, unsigned long ulDelay)
 	if (m_hasDriver && data.driver != UNASSIGNED_RAKNET_GUID) {
 		m_Driver = CNetworkPlayer::GetByGUID(data.driver)->GetHandle();
 		if (PED::GET_VEHICLE_PED_IS_IN(m_Driver, false) != Handle) m_hasDriver = false;
-		//log << "Driver...." << data.driver.ToString() << std::endl;
-		//AI::TASK_OPEN_VEHICLE_DOOR(m_Driver, Handle, 10, -1, 2.0f);
-		//AI::TASK_ENTER_VEHICLE(m_Driver, Handle, -1, -1, 2.0, 0, 0);
-		//PED::SET_PED_INTO_VEHICLE(m_Driver, Handle, -1);
 	}
 	else m_hasDriver = false;
 
@@ -239,7 +242,7 @@ void CNetworkVehicle::SetVehicleData(VehicleData data, unsigned long ulDelay)
 	
 	SetTargetPosition(data.vecPos, ulDelay);
 	SetTargetRotation(data.vecRot, ulDelay);
-	//SetHealth(data.usHealth);
+	m_Health = data.usHealth;
 }
 
 

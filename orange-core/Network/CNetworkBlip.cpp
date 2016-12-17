@@ -40,6 +40,11 @@ void CNetworkBlip::SetSprite(int sprite)
 	UI::SET_BLIP_SPRITE(Handle, sprite);
 }
 
+void CNetworkBlip::SetRoute(bool route)
+{
+	UI::SET_BLIP_ROUTE(Handle, route);
+}
+
 void CNetworkBlip::AttachToPlayer(RakNet::RakNetGUID GUID)
 {
 	if (CNetworkPlayer::Exists(GUID))
@@ -56,6 +61,7 @@ void CNetworkBlip::AttachToPlayer(RakNet::RakNetGUID GUID)
 
 CNetworkBlip::~CNetworkBlip()
 {
+	UI::REMOVE_BLIP(&Handle);
 }
 
 std::vector<CNetworkBlip*> CNetworkBlip::All()

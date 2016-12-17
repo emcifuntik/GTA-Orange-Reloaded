@@ -28,14 +28,17 @@ void CRPCPlugin::BindFunctions()
 
 	#pragma region Blip functions
 	rpc.RegisterSlot("CreateBlip", FPlayer::CreateBlip, 0);
+	rpc.RegisterSlot("DeleteBlip", FPlayer::DeleteBlip, 0);
 	rpc.RegisterSlot("SetBlipScale", FPlayer::SetBlipScale, 0);
 	rpc.RegisterSlot("SetBlipColor", FPlayer::SetBlipColor, 0);
 	rpc.RegisterSlot("SetBlipSprite", FPlayer::SetBlipSprite, 0);
 	rpc.RegisterSlot("SetBlipAsShortRange", FPlayer::SetBlipAsShortRange, 0);
+	rpc.RegisterSlot("SetBlipRoute", FPlayer::SetBlipRoute, 0);
 	#pragma endregion
 
 	#pragma region Marker functions
 	rpc.RegisterSlot("CreateMarker", FPlayer::CreateMarker, 0);
+	rpc.RegisterSlot("DeleteMarker", FPlayer::DeleteMarker, 0);
 	#pragma endregion
 
 	#pragma region UI functions

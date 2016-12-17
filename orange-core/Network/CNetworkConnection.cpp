@@ -121,7 +121,8 @@ void CNetworkConnection::Tick()
 				CNetworkPlayer *remotePlayer = CNetworkPlayer::GetByGUID(playerGUID);
 				if(rsName.GetLength())
 					remotePlayer->SetName(std::string(rsName.C_String()));
-				remotePlayer->SetOnFootData(data, 100);
+				remotePlayer->UpdateLastTickTime();
+				remotePlayer->SetOnFootData(data, 100); //remotePlayer->GetTickTime());
 				if (data.bShooting)
 					remotePlayer->Interpolate();
 				break;
@@ -136,7 +137,8 @@ void CNetworkConnection::Tick()
 				if (data.GUID == UNASSIGNED_RAKNET_GUID) continue;
 
 				CNetworkVehicle *remoteVeh = CNetworkVehicle::GetByGUID(data.GUID);
-				if (remoteVeh) remoteVeh->SetVehicleData(data, 100);
+				remoteVeh->UpdateLastTickTime();
+				if (remoteVeh) remoteVeh->SetVehicleData(data, 100); // remoteVeh->GetTickTime());
 				break;
 			}
 			case ID_SEND_TASKS:
@@ -164,11 +166,11 @@ void CNetworkConnection::Tick()
 						bsIn.ReadBits(taskInfo, size);
 						rageBuffer data;
 						typedef void(*InitBuffer)(rageBuffer*);
-						((InitBuffer)CMemory((uintptr_t)GetModuleHandle(NULL) + 0x11E7920)())(&data);
+						((InitBuffer)CMemory::Find("80 61 1C ? 33 C0 48 89 01 48 89 41 08 48 89 41 10 89 41 18 48 8B C1")())(&data);
 						typedef void(*InitReadBuffer)(rageBuffer*, unsigned char*, int, int);
-						((InitReadBuffer)CMemory((uintptr_t)GetModuleHandle(NULL) + 0x11EBCA8)())(&data, taskInfo, size, 0);
+						((InitReadBuffer)CMemory::Find("80 61 1C ? 80 49 1C ? 33 C0 48 89 41 10 89 41 18 48 89 11 44 89 41 0C 44 89 49 08")())(&data, taskInfo, size, 0);
 						typedef CSerialisedFSMTaskInfo*(*CreateTaskInfoByID)(unsigned int);
-						CSerialisedFSMTaskInfo* serTask = ((CreateTaskInfoByID)CMemory((uintptr_t)GetModuleHandle(NULL) + 0x658904)())(taskID);
+						CSerialisedFSMTaskInfo* serTask = ((CreateTaskInfoByID)CMemory::Find("48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 57 41 54 41 55 41 56 41 57 48 83 EC 20 33 F6 B8 ? ? ? ?")())(taskID);
 
 						serTask->Read(&data);
 						ClonedTasks.push_back({ serTask, taskID });

@@ -4,6 +4,7 @@ ULONGLONG lastSendTick = 0;
 
 void NetworkAction()
 {
+	keyboardHandlerRegister(CNetworkUI::ScriptKeyboardMessage);
 	for (;;)
 	{
 		CLocalPlayer::Get()->Tick();
@@ -11,14 +12,14 @@ void NetworkAction()
 			if (CNetworkConnection::Get()->IsConnectionEstablished())
 			{
 				CLocalPlayer::Get()->SendOnFootData();
-				if (CLocalPlayer::Get()->updateTasks)
+				/*if (CLocalPlayer::Get()->updateTasks)
 				{
-					CLocalPlayer::Get()->updateTasks ^= 1;
-					//CLocalPlayer::Get()->SendTasks();
-				}
+				CLocalPlayer::Get()->updateTasks ^= 1;
+				CLocalPlayer::Get()->SendTasks();
+				}*/
 			}
 		}
-		if (GetTickCount64() >= (lastSendTick+10))
+		if (GetTickCount64() >= (lastSendTick + 10))
 		{
 			if (CNetworkConnection::Get()->IsConnected()) {
 				CNetworkConnection::Get()->Tick();
@@ -26,6 +27,8 @@ void NetworkAction()
 			}
 			lastSendTick = GetTickCount64();
 		}
+		CNetworkVehicle::Tick();
+		CNetworkPlayer::PreRender();
 		CNetworkUI::Get()->Render();
 		scriptWait(0);
 	}

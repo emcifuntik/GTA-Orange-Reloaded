@@ -17,6 +17,7 @@ public:
 	void SetColor(int color);
 	void SetAsShortRange(bool _short);
 	void SetSprite(int sprite);
+	void SetRoute(bool route);
 	void AttachToPlayer(RakNet::RakNetGUID GUID);
 
 	static std::vector<CNetworkBlip*> All();

@@ -17,14 +17,17 @@ namespace FPlayer
 	void SetPlayerModel(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 
 	void CreateBlip(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+	void DeleteBlip(RakNet::BitStream * bitStream, RakNet::Packet * packet);
 	void SetBlipScale(RakNet::BitStream * bitStream, RakNet::Packet *packet);
 	void SetBlipColor(RakNet::BitStream * bitStream, RakNet::Packet *packet);
 	void SetBlipSprite(RakNet::BitStream * bitStream, RakNet::Packet *packet);
 	void SetBlipAsShortRange(RakNet::BitStream * bitStream, RakNet::Packet *packet);
+	void SetBlipRoute(RakNet::BitStream * bitStream, RakNet::Packet * packet);
 
 	void SetInfoMsg(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 
 	void CreateVehicle(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 
 	void CreateMarker(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+	void DeleteMarker(RakNet::BitStream * bitStream, RakNet::Packet * packet);
 }

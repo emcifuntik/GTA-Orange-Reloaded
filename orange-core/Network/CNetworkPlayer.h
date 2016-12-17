@@ -54,7 +54,7 @@ private:
 	float				m_MoveSpeed;
 	float				lastMoveSpeed;
 	int					updateTick = 0;
-	int					lastTick = 0;
+	DWORD				lastTick = 0;
 	int					tasksToIgnore = 0;
 	DWORD				lastUpdate = 9999;
 	unsigned short		m_Health = 200;

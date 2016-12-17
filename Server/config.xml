@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <server port="7788" maxplayers="100">Funtik test server</server>
+	<!-- http://www.cplusplus.com/reference/ctime/strftime/ -->
+	<logtime>[%Ex %EX]</logtime>
+    <scripts>
+        <script>lsrp</script>
+    </scripts>
+</config>

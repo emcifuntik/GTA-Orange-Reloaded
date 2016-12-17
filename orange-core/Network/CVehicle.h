@@ -5,6 +5,7 @@ class CVehicle : public CEntity
 	CPedestrian *driver = nullptr;
 public:
 	CVehicle(Hash model, float x, float y, float z, float heading);
+	CVehicle(Hash model, float x, float y, float z, float heading, bool spawn);
 	~CVehicle();
 	bool IsTaxiLightOn();
 	void SetColours(int first, int second);

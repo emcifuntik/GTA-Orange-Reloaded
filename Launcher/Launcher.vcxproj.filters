@@ -36,9 +36,6 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="CConfig.h">
-      <Filter>PreLoad\Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="Registry.h">
       <Filter>PreLoad\Заголовочные файлы</Filter>
     </ClInclude>
@@ -57,9 +54,6 @@
       <Filter>PreLoad\Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="Utils.cpp">
-      <Filter>PreLoad\Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="CConfig.cpp">
       <Filter>PreLoad\Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="Registry.cpp">

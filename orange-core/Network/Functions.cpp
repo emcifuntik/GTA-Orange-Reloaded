@@ -115,6 +115,14 @@ namespace FPlayer
 		new CNetworkBlip(guid, x, y, z, scale, color, sprite);
 	}
 
+	void DeleteBlip(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNet::RakNetGUID guid;
+		bitStream->Read(guid);
+
+		CNetworkBlip::GetByGUID(guid)->~CNetworkBlip();
+	}
+
 	void SetBlipScale(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 	{
 		RakNet::RakNetGUID guid;
@@ -159,6 +167,17 @@ namespace FPlayer
 		CNetworkBlip::GetByGUID(guid)->SetAsShortRange(_short);
 	}
 
+	void SetBlipRoute(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNet::RakNetGUID guid;
+		bool route;
+
+		bitStream->Read(guid);
+		bitStream->Read(route);
+
+		CNetworkBlip::GetByGUID(guid)->SetRoute(route);
+	}
+
 	void SetInfoMsg(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 	{
 		bool set;
@@ -189,7 +208,7 @@ namespace FPlayer
 	{
 		RakNet::RakNetGUID guid;
 		float x, y, z, height, radius;
-		//int color, sprite;
+		int color, sprite;
 
 		bitStream->Read(guid);
 
@@ -201,6 +220,14 @@ namespace FPlayer
 		bitStream->Read(radius);
 
 		new CNetworkMarker(guid, x, y, z, height, radius);
+	}
+
+	void DeleteMarker(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNet::RakNetGUID guid;
+		bitStream->Read(guid);
+
+		CNetworkMarker::GetByGUID(guid)->~CNetworkMarker();
 	}
 }
 
