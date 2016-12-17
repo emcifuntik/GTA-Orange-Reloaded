@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BE62E5F0-22AB-437C-AEF4-105B84989EF0}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>orangecore</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;ORANGECORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>../deps/RakNet/;../shared/;../deps/ClientDeps/Cef/</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>../deps/bin</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libcef_dll_wrapper_$(Configuration)_$(Platform).lib;libcef_$(Configuration)_$(Platform).lib;RakNet_$(Configuration)_$(Platform).lib;tinyxml2_$(Configuration)_$(Platform).lib;d3dcompiler.lib;winmm.lib;Mincore.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;ORANGECORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>../deps/RakNet/;../shared/;../deps/ClientDeps/Cef/;./;../deps/tinyxml2/</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>../deps/bin</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libcef_dll_wrapper_$(Configuration)_$(Platform).lib;libcef_$(Configuration)_$(Platform).lib;RakNet_$(Configuration)_$(Platform).lib;tinyxml2_$(Configuration)_$(Platform).lib;d3dcompiler.lib;winmm.lib;Mincore.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Cef\Window.h" />
+    <ClInclude Include="Core\Chat.h" />
+    <ClInclude Include="Core\Commands.h" />
+    <ClInclude Include="Core\nativeCaller.h" />
+    <ClInclude Include="Core\nativeInvoker.h" />
+    <ClInclude Include="Core\Natives.h" />
+    <ClInclude Include="Core\pgCollection.h" />
+    <ClInclude Include="Core\pgPtrCollection.h" />
+    <ClInclude Include="Core\scrEngine.h" />
+    <ClInclude Include="Core\Script.h" />
+    <ClInclude Include="Core\ScriptInvoker.h" />
+    <ClInclude Include="Core\scrManager.h" />
+    <ClInclude Include="Core\scrThread.h" />
+    <ClInclude Include="Core\types.h" />
+    <ClInclude Include="D3D11\d3dhook.h" />
+    <ClInclude Include="D3D11\d3dx11effect.h" />
+    <ClInclude Include="D3D11\d3dxGlobal.h" />
+    <ClInclude Include="D3D11\imgui.h" />
+    <ClInclude Include="D3D11\imgui_impl_dx11.h" />
+    <ClInclude Include="D3D11\imgui_internal.h" />
+    <ClInclude Include="D3D11\Memory\GameMemory.h" />
+    <ClInclude Include="D3D11\Memory\Memory.h" />
+    <ClInclude Include="D3D11\Memory\minhook\include\MinHook.h" />
+    <ClInclude Include="D3D11\Memory\minhook\src\buffer.h" />
+    <ClInclude Include="D3D11\Memory\minhook\src\HDE\hde64.h" />
+    <ClInclude Include="D3D11\Memory\minhook\src\HDE\pstdint.h" />
+    <ClInclude Include="D3D11\Memory\minhook\src\HDE\table64.h" />
+    <ClInclude Include="D3D11\Memory\minhook\src\trampoline.h" />
+    <ClInclude Include="D3D11\stb_rect_pack.h" />
+    <ClInclude Include="D3D11\stb_textedit.h" />
+    <ClInclude Include="D3D11\stb_truetype.h" />
+    <ClInclude Include="Globals.h" />
+    <ClInclude Include="GtaScripts.h" />
+    <ClInclude Include="GTA\CGraphics.h" />
+    <ClInclude Include="GTA\CRage.h" />
+    <ClInclude Include="GTA\CReplayInterface.h" />
+    <ClInclude Include="GTA\sysAllocator.h" />
+    <ClInclude Include="GTA\VTasks.h" />
+    <ClInclude Include="Memory.h" />
+    <ClInclude Include="MemoryCache.h" />
+    <ClInclude Include="Network\CConfig.h" />
+    <ClInclude Include="Network\CEntity.h" />
+    <ClInclude Include="Network\CLocalPlayer.h" />
+    <ClInclude Include="Network\CNetworkBlip.h" />
+    <ClInclude Include="Network\CNetworkConnection.h" />
+    <ClInclude Include="Network\CNetworkMarker.h" />
+    <ClInclude Include="Network\CNetworkPlayer.h" />
+    <ClInclude Include="Network\CNetworkUI.h" />
+    <ClInclude Include="Network\CNetworkVehicle.h" />
+    <ClInclude Include="Network\CPedestrian.h" />
+    <ClInclude Include="Network\CRPCPlugin.h" />
+    <ClInclude Include="Network\CVehicle.h" />
+    <ClInclude Include="Network\Functions.h" />
+    <ClInclude Include="orange-core.h" />
+    <ClInclude Include="Registry.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="Utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Cef\Window.cpp" />
+    <ClCompile Include="Core\Chat.cpp" />
+    <ClCompile Include="Core\Commands.cpp" />
+    <ClCompile Include="Core\nativeInvoker.cpp" />
+    <ClCompile Include="Core\scrEngine.cpp" />
+    <ClCompile Include="Core\Script.cpp" />
+    <ClCompile Include="Core\ScriptInvoker.cpp" />
+    <ClCompile Include="Core\scrManager.cpp" />
+    <ClCompile Include="Core\scrThread.cpp" />
+    <ClCompile Include="D3D11\d3dhook.cpp" />
+    <ClCompile Include="D3D11\imgui.cpp" />
+    <ClCompile Include="D3D11\imgui_draw.cpp" />
+    <ClCompile Include="D3D11\imgui_impl_dx11.cpp" />
+    <ClCompile Include="D3D11\Memory\GameMemory.cpp" />
+    <ClCompile Include="D3D11\Memory\HMemory.cpp" />
+    <ClCompile Include="D3D11\Memory\Hooking.cpp" />
+    <ClCompile Include="D3D11\Memory\minhook\src\buffer.cpp" />
+    <ClCompile Include="D3D11\Memory\minhook\src\HDE\hde64.cpp" />
+    <ClCompile Include="D3D11\Memory\minhook\src\hook.cpp" />
+    <ClCompile Include="D3D11\Memory\minhook\src\trampoline.cpp" />
+    <ClCompile Include="D3D11\rendering.cpp" />
+    <ClCompile Include="dllmain.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </PrecompiledHeader>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Globals.cpp" />
+    <ClCompile Include="GtaScripts.cpp" />
+    <ClCompile Include="GTA\CGraphics.cpp" />
+    <ClCompile Include="GTA\CRage.cpp" />
+    <ClCompile Include="GTA\CReplayInterface.cpp" />
+    <ClCompile Include="GTA\sysAllocator.cpp" />
+    <ClCompile Include="GTA\VTasks.cpp" />
+    <ClCompile Include="Memory.cpp" />
+    <ClCompile Include="MemoryCache.cpp" />
+    <ClCompile Include="Network\CConfig.cpp" />
+    <ClCompile Include="Network\CEntity.cpp" />
+    <ClCompile Include="Network\CLocalPlayer.cpp" />
+    <ClCompile Include="Network\CNetworkBlip.cpp" />
+    <ClCompile Include="Network\CNetworkConnection.cpp" />
+    <ClCompile Include="Network\CNetworkMarker.cpp" />
+    <ClCompile Include="Network\CNetworkPlayer.cpp" />
+    <ClCompile Include="Network\CNetworkUI.cpp" />
+    <ClCompile Include="Network\CNetworkVehicle.cpp" />
+    <ClCompile Include="Network\CPedestrian.cpp" />
+    <ClCompile Include="Network\CRPCPlugin.cpp" />
+    <ClCompile Include="Network\CVehicle.cpp" />
+    <ClCompile Include="Network\Functions.cpp" />
+    <ClCompile Include="orange-core.cpp" />
+    <ClCompile Include="Registry.cpp" />
+    <ClCompile Include="Scripts\ChatScript.cpp" />
+    <ClCompile Include="Scripts\GameInit.cpp" />
+    <ClCompile Include="Scripts\NetworkScript.cpp" />
+    <ClCompile Include="Scripts\ScriptDispatcher.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Launcher.ico" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

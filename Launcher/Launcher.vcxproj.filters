@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="PreLoad">
+      <UniqueIdentifier>{ce4002d9-ad94-48ea-b03b-fe62fe274954}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PreLoad\Заголовочные файлы">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="PreLoad\Файлы исходного кода">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Launcher.h">
+      <Filter>PreLoad\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Injector.h">
+      <Filter>PreLoad\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="FolderBrowser.h">
+      <Filter>PreLoad\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>PreLoad\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="CConfig.h">
+      <Filter>PreLoad\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Registry.h">
+      <Filter>PreLoad\Заголовочные файлы</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>PreLoad\Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Launcher.cpp">
+      <Filter>PreLoad\Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Injector.cpp">
+      <Filter>PreLoad\Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="FolderBrowser.cpp">
+      <Filter>PreLoad\Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>PreLoad\Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="CConfig.cpp">
+      <Filter>PreLoad\Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Registry.cpp">
+      <Filter>PreLoad\Файлы исходного кода</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Launcher.rc">
+      <Filter>Файлы ресурсов</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="Launcher.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="splash.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

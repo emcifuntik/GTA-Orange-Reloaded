@@ -1,0 +1,6 @@
+<config>
+    <server port="7788">127.0.0.1</server>
+    <player>Player</player>
+    <gtapath></gtapath>
+    <orangepath>C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\Launcher</orangepath>
+</config>
