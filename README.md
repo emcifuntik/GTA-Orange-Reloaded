@@ -14,3 +14,7 @@ changelog goes here
 ## How to compile:
 
 tutorial goes here
+
+## Libs:
+
+https://yadi.sk/d/HpMfa2b-33t6Tu
