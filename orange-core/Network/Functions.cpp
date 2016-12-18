@@ -208,7 +208,7 @@ namespace FPlayer
 	{
 		RakNet::RakNetGUID guid;
 		float x, y, z, height, radius;
-		int color, sprite;
+		//int color, sprite;
 
 		bitStream->Read(guid);
 
