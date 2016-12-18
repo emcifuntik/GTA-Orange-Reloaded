@@ -16,8 +16,6 @@ std::vector<std::string> split(const std::string &s, char delim) {
 	return elems;
 }
 
-#include "Natives.h"
-
 int CommandProcessor(std::string command)
 {
 	std::string fullCmd = command;

@@ -85,14 +85,10 @@ void OnGameStateChange(int gameState)
 		break;
 	case GameStatePlaying:
 	{
-		/*AllocConsole();
-		SetConsoleTitle(L"Grand Theft Auto: Orange");
-		FILE * unused = NULL;
-		freopen_s(&unused, "CONOUT$", "w", stdout);
-		freopen_s(&unused, "CONOUT$", "w", stderr);*/
 
 		CGlobals::Get().gtaHwnd = FindWindowA(NULL, "Grand Theft Auto V");
-		/*Icon = LPARAM(LoadIconA(NULL, (CGlobals::Get().orangePath + "/Launcher.ico").c_str()));
+		/*SetWindowText(CGlobals::Get().gtaHwnd, L"GTA:Orange");
+		Icon = LPARAM(LoadIconA(NULL, (CGlobals::Get().orangePath + "/Launcher.ico").c_str()));
 		SendMessage(CGlobals::Get().gtaHwnd, WM_SETICON, ICON_BIG, Icon);
 		SendMessage(CGlobals::Get().gtaHwnd, WM_SETICON, ICON_SMALL, Icon);*/
 
