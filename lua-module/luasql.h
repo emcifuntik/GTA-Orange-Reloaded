@@ -3,6 +3,8 @@
 ** See Copyright Notice in license.html
 */
 
+#ifndef _LUA_NOSQL
+
 #ifndef _LUASQL_
 #define _LUASQL_
 
@@ -32,6 +34,8 @@ LUASQL_API void luasql_set_info (lua_State *L);
 
 #if !defined LUA_VERSION_NUM || LUA_VERSION_NUM==501
 void luaL_setfuncs (lua_State *L, const luaL_Reg *l, int nup);
+#endif
+
 #endif
 
 #endif

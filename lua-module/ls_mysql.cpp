@@ -4,6 +4,11 @@
 ** See Copyright Notice in license.html
 ** $Id: ls_mysql.c,v 1.31 2009/02/07 23:16:23 tomas Exp $
 */
+#include "stdafx.h"
+
+#ifndef _LUA_NOSQL
+
+#pragma comment(lib, "libmysql.lib")
 
 #include <assert.h>
 #include <stdio.h>
@@ -16,7 +21,6 @@
 #define NO_CLIENT_LONG_LONG
 #endif
 
-#include "stdafx.h"
 
 #include "lua.h"
 #include "lauxlib.h"
@@ -605,3 +609,5 @@ LUASQL_API int luaopen_luasql_mysql (lua_State *L) {
     lua_settable (L, -3);
 	return 1;
 }
+
+#endif

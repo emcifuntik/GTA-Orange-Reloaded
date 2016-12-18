@@ -2,10 +2,12 @@
 ** $Id: luasql.c,v 1.28 2009/02/11 12:08:50 tomas Exp $
 ** See Copyright Notice in license.html
 */
+#include "stdafx.h"
+
+#ifndef _LUA_NOSQL
 
 #include <string.h>
 
-#include "stdafx.h"
 
 #include "lua.h"
 #include "lauxlib.h"
@@ -114,3 +116,5 @@ LUASQL_API void luasql_set_info (lua_State *L) {
 	lua_pushliteral (L, "LuaSQL 2.3.0");
 	lua_settable (L, -3);
 }
+
+#endif
