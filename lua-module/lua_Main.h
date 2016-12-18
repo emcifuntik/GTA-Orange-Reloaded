@@ -32,3 +32,6 @@ int lua_DeleteMarker(lua_State *L);
 
 //MySQL
 int luaopen_luasql_mysql(lua_State *L);
+
+//3DText
+int lua_Create3DText(lua_State *L);
