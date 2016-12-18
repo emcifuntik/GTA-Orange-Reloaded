@@ -76,6 +76,7 @@ public:
 	void SetVehicleData(VehicleData data, unsigned long ulDelay);
 
 	static std::vector<CNetworkVehicle*> All();
+	static void Clear();
 	static CNetworkVehicle * GetByHandle(Vehicle veh);
 	static CNetworkVehicle * GetByGUID(RakNet::RakNetGUID GUID);
 
