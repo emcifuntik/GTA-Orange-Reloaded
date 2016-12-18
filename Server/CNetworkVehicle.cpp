@@ -26,6 +26,7 @@ CNetworkVehicle::CNetworkVehicle(Hash model, float x, float y, float z, float he
 	data.RPM = 0.2f;
 	data.Burnout = false;
 	data.steering = 0;
+	data.hasDriver = false;
 
 	bsOut.Write(data);
 
@@ -116,10 +117,9 @@ void CNetworkVehicle::SendGlobal(RakNet::Packet *packet)
 		data.RPM = 0.2f;
 		data.Burnout = false;
 		data.steering = 0;
+		data.hasDriver = false;
 
 		bsOut.Write(data);
-
-		log << "sending veh..." << std::endl;
 
 		CRPCPlugin::Get()->Signal("CreateVehicle", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, packet->guid, false, false);
 	}

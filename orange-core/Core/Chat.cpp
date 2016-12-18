@@ -223,6 +223,7 @@ void CChat::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, BOOL i
 			break;
 		case 0x47:
 			CLocalPlayer::Get()->GoPassenger();
+			break;
 		case VK_F12:
 			CGlobals::Get().displayServerBrowser = true;
 			break;

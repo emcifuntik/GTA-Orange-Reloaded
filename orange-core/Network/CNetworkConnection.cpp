@@ -63,8 +63,6 @@ void CNetworkConnection::Tick()
 				bsOut.Write((unsigned char)ID_CONNECT_TO_SERVER);
 				bsOut.Write(playerName);
 				CLocalPlayer::Get()->SetMoney(0);
-				/*Hash adder = Utils::Hash("adder");
-				CNetworkVehicle *veh = new CNetworkVehicle(adder, -632.78f, -719.33f, 31.55f, 0.f);*/
 
 				CAM::RENDER_SCRIPT_CAMS(false, false, 0, false, false);
 				UI::DISPLAY_HUD(true);
@@ -106,11 +104,14 @@ void CNetworkConnection::Tick()
 			}
 			case ID_CONNECT_TO_SERVER:
 			{
+				log << "connect" << std::endl;
+
 				bEstablished = true;
 				break;
 			}
 			case ID_SEND_PLAYER_DATA:
 			{
+				log << "player" << std::endl;
 				OnFootSyncData data;
 				RakNet::RakNetGUID playerGUID;
 				RakNet::RakString rsName;
@@ -134,14 +135,16 @@ void CNetworkConnection::Tick()
 				RakNet::RakString rsName;
 				bsIn.Read(data);
 
-				if (data.GUID == UNASSIGNED_RAKNET_GUID) continue;
-
-				CNetworkVehicle *remoteVeh = CNetworkVehicle::GetByGUID(data.GUID);
-				if (remoteVeh && bEstablished)
+				if (data.GUID != UNASSIGNED_RAKNET_GUID)
 				{
-					remoteVeh->UpdateLastTickTime();
-					remoteVeh->SetVehicleData(data, 150); // remoteVeh->GetTickTime());
+					CNetworkVehicle *remoteVeh = CNetworkVehicle::GetByGUID(data.GUID);
+					if (remoteVeh)
+					{
+						remoteVeh->UpdateLastTickTime();
+						remoteVeh->SetVehicleData(data, 150); // remoteVeh->GetTickTime());
+					}
 				}
+
 				break;
 			}
 			case ID_SEND_TASKS:

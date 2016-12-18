@@ -5,7 +5,6 @@ Hash __adder = Utils::Hash("adder");
 
 CNetworkVehicle::CNetworkVehicle():CVehicle(__adder, 0, 0, 0, 0, false)
 {
-	log_debug << "Creating veh.." << std::endl;
 	m_Model = 0;
 	m_futureModel = 0;
 	VehiclePool.push_back(this);
@@ -13,8 +12,6 @@ CNetworkVehicle::CNetworkVehicle():CVehicle(__adder, 0, 0, 0, 0, false)
 
 void CNetworkVehicle::UpdateModel()
 {
-	log << "Updating model: " << m_Model << " => " << m_futureModel << std::endl;
-
 	m_Model = m_futureModel;
 	CVector3 curPos = GetPosition();
 	float curHead = GetHeading();
@@ -226,7 +223,8 @@ void CNetworkVehicle::SetVehicleData(VehicleData data, unsigned long ulDelay)
 {
 	m_hasDriver = data.hasDriver;
 	if (m_hasDriver && data.driver != UNASSIGNED_RAKNET_GUID) {
-		m_Driver = CNetworkPlayer::GetByGUID(data.driver)->GetHandle();
+		CNetworkPlayer *pl = CNetworkPlayer::GetByGUID(data.driver);
+		m_Driver = pl->GetHandle();
 		if (PED::GET_VEHICLE_PED_IS_IN(m_Driver, false) != Handle) m_hasDriver = false;
 	}
 	else m_hasDriver = false;
