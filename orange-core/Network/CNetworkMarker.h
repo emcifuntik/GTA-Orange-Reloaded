@@ -6,17 +6,19 @@ class CNetworkMarker
 
 	CVector3 vecPos;
 	float height;
-	int color;
+	color_t color;
 	int type;
 	int Handle;
 	float radius;
+	float scale = 1.0f;
 
 public:
 	RakNet::RakNetGUID	m_GUID;
-	CNetworkMarker(RakNetGUID guid, float x, float y, float z, float height, float radius);
+	CNetworkMarker(RakNetGUID guid, float x, float y, float z, float height, float radius, color_t color = { 255, 0, 0, 255 });
 
-	void SetColor(int color);
+	void SetColor(color_t color);
 	void SetHeight(float height);
+	void SetScale(float scale);
 
 	static std::vector<CNetworkMarker*> All();
 	static CNetworkMarker * GetByGUID(RakNet::RakNetGUID GUID);

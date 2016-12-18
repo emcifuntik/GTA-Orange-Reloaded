@@ -321,6 +321,7 @@ bool API::SetInfoMsg(long playerid, const char* msg)
 	bsOut.Write(RakNet::RakString(msg));
 
 	CRPCPlugin::Get()->Signal("SetInfoMsg", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, player->GetGUID(), false, false);
+	return true;
 }
 
 bool API::UnsetInfoMsg(long playerid)
@@ -333,6 +334,7 @@ bool API::UnsetInfoMsg(long playerid)
 	bsOut.Write(false);
 
 	CRPCPlugin::Get()->Signal("SetInfoMsg", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, player->GetGUID(), false, false);
+	return true;
 }
 
 void API::Print(const char * message)

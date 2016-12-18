@@ -56,6 +56,14 @@ namespace Utils {
 		return ((r & 0xff) << 24) + ((g & 0xff) << 16) + ((b & 0xff) << 8) + (a & 0xff);
 	}
 
+	void HexToRGBA(DWORD hexValue, BYTE & r, BYTE & g, BYTE & b, BYTE & a)
+	{
+		r = ((hexValue >> 24) & 0xFF);
+		g = ((hexValue >> 16) & 0xFF);
+		b = ((hexValue >> 8) & 0xFF);
+		a = ((hexValue) & 0xFF);
+	}
+
 	bool ReadRegistry(HKEY hKeyLocation, const char * szLocation, const char * szRow, const char *szBuffer, DWORD dwSize)
 	{
 		HKEY hKey = NULL;

@@ -21,12 +21,6 @@
 #include <thread>
 #include <iomanip>
 #include <TimeAPI.h>
-#pragma comment(lib, "winmm.lib")
-#ifdef _DEBUG
-#pragma comment(lib, "libyaml-cppmd_Debug_x64.lib")
-#else
-#pragma comment(lib, "libyaml-cppmd_Release_x64.lib")
-#endif
 
 // YAML
 #include "yaml-cpp\yaml.h"

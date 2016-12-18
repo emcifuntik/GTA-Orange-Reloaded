@@ -167,12 +167,12 @@ using namespace RakNet;
 
 #include "Core/ScriptInvoker.h"
 #include "Core/Natives.h"
-#include "Utils.h"
 #include "MemoryCache.h"
 #include "Memory.h"
 #include "Globals.h"
 #include "GtaScripts.h"
 #include "orange-core.h"
+#include "Utils.h"
 
 IMGUI_API LRESULT ImGui_ImplDX11_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void CreateRenderTarget();
