@@ -122,6 +122,7 @@ using namespace RakNet;
 #include "Network\CNetworkBlip.h"
 #include "Network\CNetworkPlayer.h"
 #include "Network\CNetworkVehicle.h"
+#include "Network\CNetworkObject.h"
 #include "Network\CNetworkConnection.h"
 #include "Network\CNetworkUI.h"
 #include "Network\CNetworkMarker.h"

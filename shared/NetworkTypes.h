@@ -89,6 +89,40 @@ public:
 	}
 };
 
+class ObjectData
+{
+public:
+	RakNet::RakNetGUID GUID;
+	//RakNet::RakNetGUID driver;			// vehicle driver
+	Hash hashModel;						// vehicle model
+	CVector3 vecPos;					// vehicle position
+	CVector3 vecRot;					// vehicle rotation
+	//CVector3 vecMoveSpeed;				// vehicle move speed
+	unsigned short int usHealth : 16;	// vehicle health 
+	//bool bTaxiLights : 1;				// vehicle taxi lights
+	//bool bSirenState : 1;				// vehicle siren state
+	//float iDirtLevel;					// vehicle dirt level
+	//bool hasDriver = false;
+	//float steering;
+	//bool Burnout;
+	//float RPM;
+
+	std::string ToString()
+	{
+		std::stringstream ss;
+		ss << "Position: X = " << vecPos.fX << ", Y = " << vecPos.fY << ", Z = " << vecPos.fZ << std::endl <<
+			"Rotation: X = " << vecRot.fY << ", Y = " << vecRot.fY << ", Z = " << vecRot.fZ << std::endl <<
+			//"Velocity: X = " << vecMoveSpeed.fX << ", Y = " << vecMoveSpeed.fY << ", Z = " << vecMoveSpeed.fY << std::endl <<
+			"Health: " << usHealth << std::endl <<
+			"Model: 0x" << std::hex << hashModel << std::endl; // <<
+			//"Driver: " << driver.ToString() << std::endl <<
+			//"Taxi lights: " << (bTaxiLights ? "true" : "false") << std::endl <<
+			//"Siren state: " << (bSirenState ? "true" : "false") << std::endl <<
+			//"Dirt level: " << iDirtLevel << std::endl;
+		return ss.str();
+	}
+};
+
 class CSyncDataLogger
 {
 public:

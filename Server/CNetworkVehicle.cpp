@@ -26,6 +26,7 @@ CNetworkVehicle::CNetworkVehicle(Hash model, float x, float y, float z, float he
 	data.RPM = 0.2f;
 	data.Burnout = false;
 	data.steering = 0;
+	data.hasDriver = false;
 
 	bsOut.Write(data);
 
@@ -116,6 +117,7 @@ void CNetworkVehicle::SendGlobal(RakNet::Packet *packet)
 		data.RPM = 0.2f;
 		data.Burnout = false;
 		data.steering = 0;
+		data.hasDriver = false;
 
 		bsOut.Write(data);
 

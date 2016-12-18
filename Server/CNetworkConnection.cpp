@@ -110,6 +110,7 @@ void CNetworkConnection::Tick()
 				CNetworkMarker::SendGlobal(packet);
 				CNetworkVehicle::SendGlobal(packet);
 				CNetwork3DText::SendGlobal(packet);
+				CNetworkObject::SendGlobal(packet);
 				
 				bsOut.Write((unsigned char)ID_CONNECT_TO_SERVER);
 				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);

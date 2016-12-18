@@ -70,6 +70,7 @@ using namespace RakNet;
 #include "CNetworkBlip.h"
 #include "CNetworkMarker.h"
 #include "CNetwork3DText.h"
+#include "CNetworkObject.h"
 
 //Http Server
 #include "CivetServer.h"

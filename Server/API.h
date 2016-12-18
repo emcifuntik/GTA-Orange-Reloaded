@@ -131,6 +131,8 @@ public:
 	virtual bool SetVehiclePosition(int vehicleid, float x, float y, float z) = 0;
 	virtual CVector3 GetVehiclePosition(int vehicleid) = 0;
 
+	virtual void CreateObject(long model, float x, float y, float z, float pitch, float yaw, float roll) = 0;
+
 	virtual bool CreatePickup(int type, float x, float y, float z, float scale) = 0;
 	virtual unsigned long CreateBlipForAll(float x, float y, float z, float scale, int color, int sprite) = 0;
 	virtual unsigned long CreateBlipForPlayer(long playerid, float x, float y, float z, float scale, int color, int sprite) = 0;
@@ -200,6 +202,8 @@ public:
 	unsigned long CreateMarkerForAll(float x, float y, float z, float height, float radius);
 	unsigned long CreateMarkerForPlayer(long playerid, float x, float y, float z, float height, float radius);
 	void DeleteMarker(unsigned long guid);
+
+	void CreateObject(long model, float x, float y, float z, float pitch, float yaw, float roll);
 
 	bool SetInfoMsg(long playerid, const char * msg);
 	bool UnsetInfoMsg(long playerid);

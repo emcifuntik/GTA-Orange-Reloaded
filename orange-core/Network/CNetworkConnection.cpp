@@ -104,11 +104,14 @@ void CNetworkConnection::Tick()
 			}
 			case ID_CONNECT_TO_SERVER:
 			{
+				log << "connect" << std::endl;
+
 				bEstablished = true;
 				break;
 			}
 			case ID_SEND_PLAYER_DATA:
 			{
+				log << "player" << std::endl;
 				OnFootSyncData data;
 				RakNet::RakNetGUID playerGUID;
 				RakNet::RakString rsName;
@@ -132,14 +135,16 @@ void CNetworkConnection::Tick()
 				RakNet::RakString rsName;
 				bsIn.Read(data);
 
-				if (data.GUID == UNASSIGNED_RAKNET_GUID) continue;
-
-				CNetworkVehicle *remoteVeh = CNetworkVehicle::GetByGUID(data.GUID);
-				if (remoteVeh && bEstablished)
+				if (data.GUID != UNASSIGNED_RAKNET_GUID)
 				{
-					remoteVeh->UpdateLastTickTime();
-					remoteVeh->SetVehicleData(data, 150); // remoteVeh->GetTickTime());
+					CNetworkVehicle *remoteVeh = CNetworkVehicle::GetByGUID(data.GUID);
+					if (remoteVeh)
+					{
+						remoteVeh->UpdateLastTickTime();
+						remoteVeh->SetVehicleData(data, 150); // remoteVeh->GetTickTime());
+					}
 				}
+
 				break;
 			}
 			case ID_SEND_TASKS:

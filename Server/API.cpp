@@ -316,6 +316,11 @@ void API::DeleteMarker(unsigned long guid)
 	CNetworkMarker::GetByGUID(RakNetGUID(guid))->~CNetworkMarker();
 }
 
+void API::CreateObject(long model, float x, float y, float z, float pitch, float yaw, float roll)
+{
+	new CNetworkObject(model, x, y, z, pitch, yaw, roll);
+}
+
 bool API::SetInfoMsg(long playerid, const char* msg)
 {
 	auto player = CNetworkPlayer::GetByID(playerid);

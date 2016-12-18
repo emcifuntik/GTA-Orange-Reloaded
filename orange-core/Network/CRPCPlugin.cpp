@@ -56,6 +56,10 @@ void CRPCPlugin::BindFunctions()
 	rpc.RegisterSlot("Change3DTextContent",		FPlayer::Change3DTextContent, 0);
 	rpc.RegisterSlot("Delete3DText",			FPlayer::Delete3DText, 0);
 	#pragma endregion
+
+	#pragma region Object functions
+	rpc.RegisterSlot("CreateObject", FPlayer::CreateObject, 0);
+	#pragma endregion
 }
 
 CRPCPlugin * CRPCPlugin::Get()

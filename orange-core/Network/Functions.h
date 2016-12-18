@@ -37,4 +37,5 @@ namespace FPlayer
 	void Change3DTextContent(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void Delete3DText(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 
+	void CreateObject(RakNet::BitStream * bitStream, RakNet::Packet * packet);
 }
