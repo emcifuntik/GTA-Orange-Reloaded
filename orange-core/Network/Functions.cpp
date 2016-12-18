@@ -308,5 +308,12 @@ namespace FPlayer
 		bitStream->Read(guid);
 		CNetwork3DText::DeleteByGUID(guid);
 	}
+
+	void CreateObject(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		ObjectData data;
+		bitStream->Read(data);
+		new CNetworkObject(data);
+	}
 }
 
