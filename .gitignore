@@ -251,6 +251,8 @@ paket-files/
 
 *.tlog
 *.lastbuildstate
+*.rule
+
 
 
 /HighFive/Setup
