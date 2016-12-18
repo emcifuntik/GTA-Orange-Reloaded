@@ -15,6 +15,9 @@ int lua_SetPlayerInfoMsg(lua_State *L);
 //Vehicle
 int lua_CreateVehicle(lua_State *L);
 
+//Object
+int lua_CreateObject(lua_State *L);
+
 //Blips
 int lua_CreateBlipForAll(lua_State *L);
 int lua_CreateBlipForPlayer(lua_State *L);

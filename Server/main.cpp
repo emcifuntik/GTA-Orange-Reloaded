@@ -31,8 +31,6 @@ int main(void)
 		auto blip = new CNetwork3DText(0.f, 0.f, 71.f, 0xAAAAAAFF, 0x000000FF, "[ 0 ] Funtik");
 		blip->AttachToVehicle(*veh);
 
-		new CNetworkObject(API::Get()->Hash("prop_mp_ramp_03"), 5, 5, 75, 60, 60, 60);
-
 		for (;;)
 		{
 			RakSleep(5);
