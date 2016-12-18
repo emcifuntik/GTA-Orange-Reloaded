@@ -216,7 +216,7 @@ bool API::SendClientMessage(long playerid, const char * message, unsigned int co
 	return true;
 }
 
-int API::CreateVehicle(long hash, float x, float y, float z, float heading)
+unsigned long API::CreateVehicle(long hash, float x, float y, float z, float heading)
 {
 	CNetworkVehicle *veh = new CNetworkVehicle(hash, x, y, z, heading);
 	return RakNetGUID::ToUint32(veh->GetGUID()); // (new CNetworkVehicle(hash, x, y, z, heading));
@@ -316,9 +316,10 @@ void API::DeleteMarker(unsigned long guid)
 	CNetworkMarker::GetByGUID(RakNetGUID(guid))->~CNetworkMarker();
 }
 
-void API::CreateObject(long model, float x, float y, float z, float pitch, float yaw, float roll)
+unsigned long API::CreateObject(long model, float x, float y, float z, float pitch, float yaw, float roll)
 {
-	new CNetworkObject(model, x, y, z, pitch, yaw, roll);
+	CNetworkObject *obj = new CNetworkObject(model, x, y, z, pitch, yaw, roll);
+	return RakNetGUID::ToUint32(obj->rnGUID);
 }
 
 bool API::SetInfoMsg(long playerid, const char* msg)

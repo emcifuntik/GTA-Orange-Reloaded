@@ -127,11 +127,11 @@ public:
 	//TODO
 	//virtual bool PlayerExists(long playerid) = 0;
 	//virtual bool VehicleExists(long playerid) = 0;
-	virtual int CreateVehicle(long hash, float x, float y, float z, float heading) = 0;
+	virtual unsigned long CreateVehicle(long hash, float x, float y, float z, float heading) = 0;
 	virtual bool SetVehiclePosition(int vehicleid, float x, float y, float z) = 0;
 	virtual CVector3 GetVehiclePosition(int vehicleid) = 0;
 
-	virtual void CreateObject(long model, float x, float y, float z, float pitch, float yaw, float roll) = 0;
+	virtual unsigned long CreateObject(long model, float x, float y, float z, float pitch, float yaw, float roll) = 0;
 
 	virtual bool CreatePickup(int type, float x, float y, float z, float scale) = 0;
 	virtual unsigned long CreateBlipForAll(float x, float y, float z, float scale, int color, int sprite) = 0;
@@ -181,7 +181,7 @@ public:
 	bool SendClientMessage(long playerid, const char * message, unsigned int color);
 
 	//Vehicle
-	int CreateVehicle(long hash, float x, float y, float z, float heading);
+	unsigned long CreateVehicle(long hash, float x, float y, float z, float heading);
 	bool SetVehiclePosition(int vehicleid, float x, float y, float z);
 	CVector3 GetVehiclePosition(int vehicleid);
 
@@ -198,7 +198,7 @@ public:
 	unsigned long CreateMarkerForPlayer(long playerid, float x, float y, float z, float height, float radius);
 	void DeleteMarker(unsigned long guid);
 
-	void CreateObject(long model, float x, float y, float z, float pitch, float yaw, float roll);
+	unsigned long CreateObject(long model, float x, float y, float z, float pitch, float yaw, float roll);
 
 	bool SetInfoMsg(long playerid, const char * msg);
 	bool UnsetInfoMsg(long playerid);

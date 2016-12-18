@@ -28,8 +28,6 @@ int main(void)
 		DWORD lastTick = 0;
 		RakNet::RakNetStatistics stat;
 
-		new CNetworkObject(API::Get()->Hash("prop_mp_ramp_03"), 5, 5, 75, 60, 60, 60);
-
 		for (;;)
 		{
 			RakSleep(5);

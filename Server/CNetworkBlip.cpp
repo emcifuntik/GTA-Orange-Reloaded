@@ -27,12 +27,10 @@ CNetworkBlip::CNetworkBlip(float x, float y, float z, float scale, int color, in
 	{
 		CRPCPlugin::Get()->Signal("CreateBlip", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 		GlobalBlips.push_back(this);
-		log << "gl bl" << std::endl;
 	} else {
 		RakNetGUID guid = CNetworkPlayer::GetByID(playerid)->GetGUID();
 		CRPCPlugin::Get()->Signal("CreateBlip", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, guid, false, false);
 		PlayerBlips.push_back(this);
-		log << "loc bl" << std::endl;
 	}
 	
 }
