@@ -22,7 +22,7 @@ CLocalPlayer::CLocalPlayer() :CPedestrian(PLAYER::PLAYER_PED_ID())
 
 	aimPosition = &CWorld::Get()->CPedPtr->CPlayerInfoPtr->AimPosition;
 
-	//rageGlobals::SetPlayerColor(0x33, 0xFF, 0x33, 0xFF);
+	rageGlobals::SetPlayerColor(0xFF, 0x8F, 0x00, 0xFF);
 
 	/*auto addr = CMemory((uintptr_t)GetModuleHandle(NULL) + 0x4E1FA4);
 	addr.nop(20);*/
@@ -148,6 +148,14 @@ void CLocalPlayer::SendOnFootData()
 		bsOut.Write(data);
 	}
 	CNetworkConnection::Get()->client->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
+}
+
+void CLocalPlayer::GoPassenger()
+{
+	AI::CLEAR_PED_TASKS(Handle);
+	CVector3 pos = GetPosition();
+	Vehicle veh = VEHICLE::GET_CLOSEST_VEHICLE(pos.fX, pos.fY, pos.fZ, 5, 0, 70);
+	AI::TASK_ENTER_VEHICLE(Handle, veh, -1, 0, 2, 0, 0);
 }
 
 void CLocalPlayer::SendTasks()

@@ -23,14 +23,22 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 
 		my_ostream::SetLogFile(CGlobals::Get().orangePath + "/client.log");
 		PreLoadPatches();
+#ifdef _DEBUG
+		AllocConsole();
+		SetConsoleTitle(L"Grand Theft Auto: Orange");
+		FILE * unused = NULL;
+		freopen_s(&unused, "CONOUT$", "w", stdout);
+		freopen_s(&unused, "CONOUT$", "w", stderr);
+#endif
 		break;
 	}
 	case DLL_THREAD_ATTACH:
-	{
-		break;
-	}
 	case DLL_THREAD_DETACH:
+		break;
 	case DLL_PROCESS_DETACH:
+#ifdef _DEBUG
+		FreeConsole();
+#endif
 		break;
 	}
 	return TRUE;

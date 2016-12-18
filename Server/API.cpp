@@ -266,7 +266,9 @@ void API::SetBlipColor(unsigned long _guid, int color)
 
 	bsOut.Write(guid);
 	bsOut.Write(color);
-	CRPCPlugin::Get()->Signal("SetBlipColor", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	
+	if (blip->GetPlayerID() == -1) CRPCPlugin::Get()->Signal("SetBlipColor", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	else CRPCPlugin::Get()->Signal("SetBlipColor", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, CNetworkPlayer::GetByID(blip->GetPlayerID())->GetGUID(), false, false);
 }
 
 void API::SetBlipScale(unsigned long _guid, float scale)
@@ -278,7 +280,9 @@ void API::SetBlipScale(unsigned long _guid, float scale)
 
 	bsOut.Write(guid);
 	bsOut.Write(scale);
-	CRPCPlugin::Get()->Signal("SetBlipScale", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+
+	if(blip->GetPlayerID() == -1) CRPCPlugin::Get()->Signal("SetBlipScale", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	else CRPCPlugin::Get()->Signal("SetBlipScale", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, CNetworkPlayer::GetByID(blip->GetPlayerID())->GetGUID(), false, false);
 }
 
 void API::SetBlipRoute(unsigned long _guid, bool route)
@@ -290,7 +294,9 @@ void API::SetBlipRoute(unsigned long _guid, bool route)
 
 	bsOut.Write(guid);
 	bsOut.Write(route);
-	CRPCPlugin::Get()->Signal("SetBlipRoute", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	
+	if (blip->GetPlayerID() == -1) CRPCPlugin::Get()->Signal("SetBlipRoute", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	else CRPCPlugin::Get()->Signal("SetBlipRoute", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, CNetworkPlayer::GetByID(blip->GetPlayerID())->GetGUID(), false, false);
 }
 
 unsigned long API::CreateMarkerForAll(float x, float y, float z, float height, float radius)

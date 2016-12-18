@@ -21,6 +21,7 @@ public:
 	void GetOnFootSync(OnFootSyncData& onfoot);
 	void GetVehicleSync(VehicleData & vehsync);
 	void SendOnFootData();
+	void GoPassenger();
 	void SendTasks();
 	void SetMoney(int money);
 	~CLocalPlayer();

@@ -15,6 +15,8 @@ public:
 
 	void SetScale(float _scale);
 
+	int GetPlayerID() { return playerid; };
+
 	void Delete();
 
 	~CNetworkBlip();

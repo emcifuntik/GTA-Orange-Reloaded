@@ -30,12 +30,13 @@ CNetworkMarker::CNetworkMarker(float x, float y, float z, float height, float ra
 	{
 		CRPCPlugin::Get()->Signal("CreateMarker", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 		GlobalMarkers.push_back(this);
+		log << "gl m" << std::endl;
 	}
 	else {
 		RakNetGUID guid = CNetworkPlayer::GetByID(playerid)->GetGUID();
 		CRPCPlugin::Get()->Signal("CreateMarker", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, guid, false, false);
 		PlayerMarkers.push_back(this);
-		log << "send" << std::endl;
+		log << "loc m" << std::endl;
 	}
 
 }
