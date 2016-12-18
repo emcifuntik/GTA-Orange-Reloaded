@@ -177,10 +177,10 @@ void CNetworkVehicle::BuildTasksQueue()
 	}
 	if (m_MoveSpeed != .0f)
 	{
+		ENTITY::SET_ENTITY_VELOCITY(Handle, m_vecMove.fX, m_vecMove.fY, m_vecMove.fZ);
 		if (m_hasDriver)
 		{
 			//SetMoveToDirection(m_interp.pos.vecTarget, m_vecMove, m_MoveSpeed);
-			ENTITY::SET_ENTITY_VELOCITY(Handle, m_vecMove.fX, m_vecMove.fY, m_vecMove.fZ);
 
 			if (VEHICLE::IS_THIS_MODEL_A_CAR(m_Model) || VEHICLE::IS_THIS_MODEL_A_BIKE(m_Model))
 			{
@@ -190,7 +190,7 @@ void CNetworkVehicle::BuildTasksQueue()
 					//VEHICLE::SET_VEHICLE_FORWARD_SPEED(Handle, m_MoveSpeed);
 
 				if (m_Burnout) {
-					AI::TASK_VEHICLE_TEMP_ACTION(m_Driver, Handle, 23, 2000);
+					AI::TASK_VEHICLE_TEMP_ACTION(m_Driver, Handle, 23, 200);
 					//AI::TASK_VEHICLE_TEMP_ACTION(m_Driver, Handle, 30, 2000);
 					//AI::TASK_VEHICLE_TEMP_ACTION(m_Driver, Handle, 6, 2000);
 				} //else if (m_RPM > 0.9 && m_MoveSpeed < 0.025) AI::TASK_VEHICLE_TEMP_ACTION(m_Driver, Handle, 31, 2000);

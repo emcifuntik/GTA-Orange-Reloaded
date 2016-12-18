@@ -37,7 +37,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		break;
 	case DLL_PROCESS_DETACH:
 #ifdef _DEBUG
-		CloseConsole();
+		FreeConsole();
 #endif
 		break;
 	}

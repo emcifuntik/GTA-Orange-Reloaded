@@ -423,18 +423,33 @@ void CNetworkPlayer::BuildTasksQueue()
 		tasksToIgnore--;
 		return;
 	}
-	if (m_InVehicle && !m_Entering)
+	if (m_InVehicle)
 	{
-		CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(m_Vehicle);
-		if (veh)
+		if (m_Entering && !PED::IS_PED_IN_ANY_VEHICLE(Handle, false)) return;
+		if (!m_Entering)
 		{
-			m_Entering = true;
-			AI::CLEAR_PED_TASKS(Handle);
-			AI::CLEAR_PED_SECONDARY_TASK(Handle);
-			AI::CLEAR_PED_TASKS_IMMEDIATELY(Handle);
-			AI::TASK_ENTER_VEHICLE(Handle, veh->GetHandle(), 500, -1, 2, 0, 0);
-			//PED::SET_PED_INTO_VEHICLE(Handle, veh->GetHandle(), -1);
+			CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(m_Vehicle);
+			if (veh)
+			{
+				m_Entering = true;
+				AI::CLEAR_PED_TASKS(Handle);
+				AI::CLEAR_PED_SECONDARY_TASK(Handle);
+				AI::CLEAR_PED_TASKS_IMMEDIATELY(Handle);
+				AI::TASK_ENTER_VEHICLE(Handle, veh->GetHandle(), -1, -1, 2, 0, 0);
+			}
 		}
+	}
+	/*else if (!m_Entering && !PED::IS_PED_IN_ANY_VEHICLE(Handle, false))
+	{
+
+	}*/
+	else if (m_Entering)
+	{
+		AI::CLEAR_PED_TASKS(Handle);
+		AI::CLEAR_PED_SECONDARY_TASK(Handle);
+		AI::CLEAR_PED_TASKS_IMMEDIATELY(Handle);
+		AI::TASK_LEAVE_VEHICLE(Handle, PED::GET_VEHICLE_PED_IS_IN(Handle, false), 0);
+		m_Entering = false;
 	}
 	else if (m_Jumping)
 	{

@@ -138,7 +138,7 @@ void CNetworkConnection::Tick()
 
 				CNetworkVehicle *remoteVeh = CNetworkVehicle::GetByGUID(data.GUID);
 				remoteVeh->UpdateLastTickTime();
-				if (remoteVeh) remoteVeh->SetVehicleData(data, 100); // remoteVeh->GetTickTime());
+				if (remoteVeh) remoteVeh->SetVehicleData(data, 150); // remoteVeh->GetTickTime());
 				break;
 			}
 			case ID_SEND_TASKS:
