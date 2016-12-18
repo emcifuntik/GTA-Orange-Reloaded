@@ -343,15 +343,60 @@ bool API::UnsetInfoMsg(long playerid)
 	return true;
 }
 
+unsigned long API::Create3DText(const char * text, float x, float y, float z, int color, int outColor)
+{
+	CNetwork3DText * blip = new CNetwork3DText(x, y, z, color, outColor, text);
+	return RakNetGUID::ToUint32(blip->rnGUID);
+}
+
+unsigned long API::Create3DTextForPlayer(unsigned long player, const char * text, float x, float y, float z, int color, int outColor)
+{
+	auto pl = CNetworkPlayer::GetByGUID(RakNetGUID(player));
+	CNetwork3DText * blip = new CNetwork3DText(x, y, z, color, outColor, text, pl->GetID());
+	return RakNetGUID::ToUint32(blip->rnGUID);
+}
+
+bool API::Attach3DTextToVehicle(unsigned long textId, unsigned long vehicle, float oX, float oY, float oZ)
+{
+	CNetwork3DText *text = CNetwork3DText::GetByGUID(RakNetGUID(textId));
+	auto veh = CNetworkVehicle::GetByGUID(RakNetGUID(vehicle));
+	if (veh)
+	{
+		text->AttachToVehicle(*veh, oX, oY, oZ);
+		return true;
+	}
+	return false;
+}
+
+bool API::Attach3DTextToPlayer(unsigned long textId, unsigned long player, float oX, float oY, float oZ)
+{
+	CNetwork3DText *text = CNetwork3DText::GetByGUID(RakNetGUID(textId));
+	auto pl = CNetworkPlayer::GetByGUID(RakNetGUID(player));
+	if (pl)
+	{
+		text->AttachToPlayer(*pl, oX, oY, oZ);
+		return true;
+	}
+	return false;
+}
+
+bool API::Set3DTextContent(unsigned long textId, const char * text)
+{
+	CNetwork3DText *textItem = CNetwork3DText::GetByGUID(RakNetGUID(textId));
+	textItem->SetText(text);
+	return true;
+}
+
+bool API::Delete3DText(unsigned long textId)
+{
+	CNetwork3DText *textItem = CNetwork3DText::GetByGUID(RakNetGUID(textId));
+	delete[] textItem;
+	return true;
+}
+
 void API::Print(const char * message)
 {
 	log << message << std::endl;
-}
-
-bool API::Print3DText(const char* text, float x, float y, float z, float scale)
-{
-	log << "Not implemented" << std::endl;
-	return true;
 }
 
 long API::Hash(const char * str)

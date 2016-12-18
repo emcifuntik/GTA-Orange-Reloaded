@@ -22,11 +22,13 @@ void CreateRenderTarget()
 
 void D3DHook::Render()
 {
+	if (UI::IS_PAUSE_MENU_ACTIVE() || UI::_0xE18B138FABC53103())
+		return;
 	ImGui_ImplDX11_NewFrame();
 	if(CGlobals::Get().showChat)
 		CChat::Get()->Render();
 
-	if (CGlobals::Get().displayServerBrowser || CGlobals::Get().mainmenushown && CGlobals::Get().isDebug)
+	if (CGlobals::Get().displayServerBrowser)
 	{
 		ShowCursor(TRUE);
 		CConfig::Get();
@@ -178,7 +180,7 @@ void D3DHook::Render()
 	}
 #endif
 	CNetworkPlayer::Render();
+	CNetwork3DText::Render();
 	ImGui::End();
-
 	ImGui::Render();
 }

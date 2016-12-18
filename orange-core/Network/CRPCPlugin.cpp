@@ -48,6 +48,14 @@ void CRPCPlugin::BindFunctions()
 	#pragma region Vehicle functions
 	rpc.RegisterSlot("CreateVehicle", FPlayer::CreateVehicle, 0);
 	#pragma endregion
+
+	#pragma region 3DText functions
+	rpc.RegisterSlot("Create3DText",			FPlayer::Create3DText, 0);
+	rpc.RegisterSlot("Attach3DTextToVehicle",	FPlayer::Attach3DTextToVehicle, 0);
+	rpc.RegisterSlot("Attach3DTextToPlayer",	FPlayer::Attach3DTextToPlayer, 0);
+	rpc.RegisterSlot("Change3DTextContent",		FPlayer::Change3DTextContent, 0);
+	rpc.RegisterSlot("Delete3DText",			FPlayer::Delete3DText, 0);
+	#pragma endregion
 }
 
 CRPCPlugin * CRPCPlugin::Get()

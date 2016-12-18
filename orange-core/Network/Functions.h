@@ -30,4 +30,11 @@ namespace FPlayer
 
 	void CreateMarker(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void DeleteMarker(RakNet::BitStream * bitStream, RakNet::Packet * packet);
+
+	void Create3DText(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+	void Attach3DTextToVehicle(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+	void Attach3DTextToPlayer(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+	void Change3DTextContent(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+	void Delete3DText(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+
 }

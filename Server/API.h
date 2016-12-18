@@ -146,7 +146,12 @@ public:
 	virtual bool SetInfoMsg(long playerid, const char * msg) = 0;
 	virtual bool UnsetInfoMsg(long playerid) = 0;
 
-	virtual bool Print3DText(const char * text, float x, float y, float z, float scale) = 0;
+	virtual unsigned long Create3DText(const char * text, float x, float y, float z, int color, int outColor) = 0;
+	virtual unsigned long Create3DTextForPlayer(unsigned long player, const char * text, float x, float y, float z, int color, int outColor) = 0;
+	virtual bool Attach3DTextToVehicle(unsigned long textId, unsigned long vehicle, float oX, float oY, float oZ) = 0;
+	virtual bool Attach3DTextToPlayer(unsigned long textId, unsigned long player, float oX, float oY, float oZ) = 0;
+	virtual bool Set3DTextContent(unsigned long textId, const char * text) = 0;
+	virtual bool Delete3DText(unsigned long textId) = 0;
 };
 
 class API: 
@@ -199,9 +204,16 @@ public:
 	bool SetInfoMsg(long playerid, const char * msg);
 	bool UnsetInfoMsg(long playerid);
 
+	//3DTexts
+	virtual unsigned long Create3DText(const char * text, float x, float y, float z, int color, int outColor);
+	virtual unsigned long Create3DTextForPlayer(unsigned long player, const char * text, float x, float y, float z, int color, int outColor);
+	virtual bool Attach3DTextToVehicle(unsigned long textId, unsigned long vehicle, float oX, float oY, float oZ);
+	virtual bool Attach3DTextToPlayer(unsigned long textId, unsigned long player, float oX, float oY, float oZ);
+	virtual bool Set3DTextContent(unsigned long textId, const char * text);
+	virtual bool Delete3DText(unsigned long textId);
+
 	//World
 	void Print(const char * message);
-	bool Print3DText(const char * text, float x, float y, float z, float scale);
 	long Hash(const char * str);
 
 	static API * Get()

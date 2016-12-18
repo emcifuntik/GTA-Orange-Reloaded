@@ -94,19 +94,14 @@ void CNetworkConnection::Tick()
 			case ID_NEW_INCOMING_CONNECTION:
 			{
 				log << "Incoming connection from " << packet->systemAddress.ToString(true) << std::endl;
-
-				log << "0" << std::endl;
 				break;
 			}
 			case ID_CONNECT_TO_SERVER:
 			{
-				log << "1" << std::endl;
 				RakNet::RakString playerName;
 				bsIn.Read(playerName);
 				CNetworkPlayer *player = new CNetworkPlayer(packet->guid);
 				player->SetName(playerName.C_String());
-
-				log << "2" << std::endl;
 
 				Plugin::PlayerConnect(player->GetID());
 				Plugin::Trigger("PlayerConnect", (unsigned long)player->GetID());
@@ -114,6 +109,7 @@ void CNetworkConnection::Tick()
 				CNetworkBlip::SendGlobal(packet);
 				CNetworkMarker::SendGlobal(packet);
 				CNetworkVehicle::SendGlobal(packet);
+				CNetwork3DText::SendGlobal(packet);
 				
 				bsOut.Write((unsigned char)ID_CONNECT_TO_SERVER);
 				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);

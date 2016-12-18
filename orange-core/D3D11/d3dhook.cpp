@@ -314,9 +314,9 @@ bool D3DHook::HookD3D11()
 	auto gui_result = ImGui_ImplDX11_Init(CGlobals::Get().gtaHwnd, device, device_context);
 	ImGuiIO& io = ImGui::GetIO();
 	io.Fonts->AddFontDefault();
-	char windowsPath[MAX_PATH];
-	GetWindowsDirectoryA(windowsPath, MAX_PATH);
-	CGlobals::Get().chatFont = io.Fonts->AddFontFromFileTTF((std::string(windowsPath) + "\\fonts\\SEGUISB.TTF").c_str(), 16.0f);
+	/*char windowsPath[MAX_PATH];
+	GetWindowsDirectoryA(windowsPath, MAX_PATH);*/
+	CGlobals::Get().chatFont = io.Fonts->AddFontFromFileTTF((CGlobals::Get().orangePath + "\\fonts\\RobotoCondensedRegular.ttf").c_str(), 16.0f);
 	/*for (int i = 0; i < 256; ++i)
 		CGlobals::Get().chatFont->AddRemapChar(charTable[i].old_, charTable[i].new_, true);*/
 

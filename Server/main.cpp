@@ -27,6 +27,9 @@ int main(void)
 		CRPCPlugin::Get();
 		DWORD lastTick = 0;
 		RakNet::RakNetStatistics stat;
+		auto veh = new CNetworkVehicle(API::Get()->Hash("adder"), 77.2324f, -690.258f, 43.6847f, 339.335f);
+		auto blip = new CNetwork3DText(0.f, 0.f, 71.f, 0xAAAAAAFF, 0x000000FF, "[ 0 ] Funtik");
+		blip->AttachToVehicle(*veh);
 		for (;;)
 		{
 			RakSleep(5);

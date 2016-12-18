@@ -119,8 +119,6 @@ void CNetworkVehicle::SendGlobal(RakNet::Packet *packet)
 
 		bsOut.Write(data);
 
-		log << "sending veh..." << std::endl;
-
 		CRPCPlugin::Get()->Signal("CreateVehicle", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, packet->guid, false, false);
 	}
 }
