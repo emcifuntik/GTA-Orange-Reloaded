@@ -1,15 +1,5 @@
 #include "stdafx.h"
 
-struct tag_t {
-	bool bVisible;
-	float health, distance;
-	float x, y;
-	float width, height;
-	float k;
-};
-
-tag_t tag;
-
 std::vector<CNetworkPlayer *> CNetworkPlayer::PlayersPool;
 Hash CNetworkPlayer::hFutureModel = 0;
 int CNetworkPlayer::ignoreTasks = 0;

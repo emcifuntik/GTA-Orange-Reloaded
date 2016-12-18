@@ -104,14 +104,11 @@ void CNetworkConnection::Tick()
 			}
 			case ID_CONNECT_TO_SERVER:
 			{
-				log << "connect" << std::endl;
-
 				bEstablished = true;
 				break;
 			}
 			case ID_SEND_PLAYER_DATA:
 			{
-				log << "player" << std::endl;
 				OnFootSyncData data;
 				RakNet::RakNetGUID playerGUID;
 				RakNet::RakString rsName;

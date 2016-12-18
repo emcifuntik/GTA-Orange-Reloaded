@@ -1,5 +1,13 @@
 #pragma once
 
+struct tag_t {
+	bool bVisible;
+	float health, distance;
+	float x, y;
+	float width, height;
+	float k;
+};
+
 class CNetworkPlayer: public CPedestrian
 {
 private:
@@ -58,6 +66,7 @@ private:
 	int					tasksToIgnore = 0;
 	DWORD				lastUpdate = 9999;
 	unsigned short		m_Health = 200;
+	tag_t				tag;
 	std::queue<std::function<void()>> taskQueue;
 	CNetworkPlayer();
 public:
