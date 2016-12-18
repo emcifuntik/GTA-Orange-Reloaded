@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{CA9A54E4-D759-3205-837E-FEED93E77484}</ProjectGUID>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>yaml</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\bin\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)\$(Platform)-$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)_$(Configuration)_$(Platform)</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectName)_$(Configuration)_$(Platform)</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.lib</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\bin\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectName)\$(Platform)-$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectName)_$(Configuration)_$(Platform)</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectName)_$(Configuration)_$(Platform)</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.lib</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>..\..\..\bin\</OutDir>
+    <IntDir>$(ProjectName)\$(Platform)-$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>..\..\..\bin\</OutDir>
+    <IntDir>$(ProjectName)\$(Platform)-$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\src\;..\include\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include;C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include;C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions> /machine:X86 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\src\;..\include\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <PreprocessorDefinitions>_WINDOWS;_DEBUG;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include;C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include;C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\src\;..\include\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include;C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include;C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions> /machine:X86 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\src\;..\include\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <PreprocessorDefinitions>_WINDOWS;NDEBUG;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include;C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include;C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\aliasmanager.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\anchor.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\binary.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\conversion.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\dll.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\emitfromevents.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\emitter.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\emittermanip.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\eventhandler.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\exceptions.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\iterator.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\ltnode.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\mark.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\node.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\nodeimpl.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\nodereadimpl.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\nodeutil.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\noncopyable.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\null.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\ostream.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\parser.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\stlemitter.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\stlnode.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\traits.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\yaml.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\collectionstack.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\directives.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\emitterstate.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\emitterutils.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\exp.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\indentation.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\iterpriv.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\nodebuilder.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\nodeownership.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\ptr_stack.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\ptr_vector.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\regex.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\regeximpl.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\scanner.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\scanscalar.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\scantag.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\setting.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\singledocparser.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\stream.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\streamcharsource.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\stringsource.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\tag.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\token.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\contrib\anchordict.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\include\yaml-cpp\contrib\graphbuilder.h" />
+    <ClInclude Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\contrib\graphbuilderadapter.h" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\aliasmanager.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\binary.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\conversion.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\directives.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\emitfromevents.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\emitter.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\emitterstate.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\emitterutils.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\exp.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\iterator.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\node.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\nodebuilder.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\nodeownership.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\null.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\ostream.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\parser.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\regex.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\scanner.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\scanscalar.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\scantag.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\scantoken.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\simplekey.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\singledocparser.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\stream.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\tag.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\contrib\graphbuilder.cpp" />
+    <ClCompile Include="C:\Users\tuxic\Документы\Visual Studio 2015\Projects\Launcher\deps\ServerDeps\yaml-cpp\src\contrib\graphbuilderadapter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:/Users/tuxic/Документы/Visual Studio 2015/Projects/Launcher/deps/ServerDeps/yaml-cpp/vs/ZERO_CHECK.vcxproj">
+      <Project>ADD31EA6-6142-307D-8772-1BADBF11A58F</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

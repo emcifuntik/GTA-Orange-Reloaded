@@ -6,7 +6,7 @@ std::vector<CNetworkMarker *> CNetworkMarker::PlayerMarkers;
 std::map<CNetworkMarker *, std::vector<CNetworkPlayer *>> playermap;
 std::map<CNetworkMarker *, std::vector<CNetworkVehicle *>> vehmap;
 
-CNetworkMarker::CNetworkMarker(float x, float y, float z, float height, float radius, int playerid)
+CNetworkMarker::CNetworkMarker(float x, float y, float z, float height, float radius, int playerid, int color)
 {
 	RakNet::BitStream bsOut;
 
@@ -19,6 +19,7 @@ CNetworkMarker::CNetworkMarker(float x, float y, float z, float height, float ra
 
 	bsOut.Write(height);
 	bsOut.Write(radius);
+	bsOut.Write(color);
 
 	vecPos = CVector3(x, y, z);
 	this->height = height;
@@ -67,6 +68,7 @@ void CNetworkMarker::SendGlobal(RakNet::Packet *packet)
 		bsOut.Write(Marker->vecPos.fZ);
 		bsOut.Write(Marker->height);
 		bsOut.Write(Marker->radius);
+		bsOut.Write(Marker->color);
 
 		CRPCPlugin::Get()->Signal("CreateMarker", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, packet->guid, false, false);
 	}

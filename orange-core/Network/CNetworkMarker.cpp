@@ -2,29 +2,34 @@
 
 std::vector<CNetworkMarker *> CNetworkMarker::MarkerPool;
 
-CNetworkMarker::CNetworkMarker(RakNetGUID guid, float x, float y, float z, float height, float radius)
+CNetworkMarker::CNetworkMarker(RakNetGUID guid, float x, float y, float z, float height, float radius, color_t color)
 {
 	m_GUID = guid;
 	this->vecPos = CVector3(x, y, z);
-	this->height = height;
 	this->radius = radius;
-	this->color = color;
 
 	Handle = GRAPHICS::CREATE_CHECKPOINT(45, x, y, z - 1.1f, 0, 0, 0, radius, 255, 216, 0, 115, 0);
 	SetHeight(height);
-
+	SetColor(color);
 	MarkerPool.push_back(this);
 }
 
-void CNetworkMarker::SetColor(int color)
+void CNetworkMarker::SetColor(color_t color)
 {
-	//UI::SET_Marker_COLOUR(Handle, color);
+	this->color = color;
+	GRAPHICS::SET_CHECKPOINT_RGBA(Handle, color.red, color.green, color.blue, color.alpha);
+	GRAPHICS::_SET_CHECKPOINT_ICON_RGBA(Handle, color.red, color.green, color.blue, color.alpha);
 }
 
 void CNetworkMarker::SetHeight(float height)
 {
 	this->height = height;
 	GRAPHICS::SET_CHECKPOINT_CYLINDER_HEIGHT(Handle, height, height, radius);
+}
+
+void CNetworkMarker::SetScale(float scale)
+{
+	GRAPHICS::_0x4B5B4DA5D79F1943(Handle, scale);
 }
 
 CNetworkMarker::~CNetworkMarker()

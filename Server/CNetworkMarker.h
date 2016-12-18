@@ -7,10 +7,11 @@ class CNetworkMarker
 	float height;
 	float radius;
 	int playerid;
+	int color = 0xFF0000FF;
 public:
 	RakNet::RakNetGUID rnGUID;
 	static std::vector<CNetworkMarker *> AllGlobal();
-	CNetworkMarker(float x, float y, float z, float height, float radius, int playerid);
+	CNetworkMarker(float x, float y, float z, float height, float radius, int playerid, int color = 0xFF0000FF);
 
 	//void SetScale(float _scale);
 

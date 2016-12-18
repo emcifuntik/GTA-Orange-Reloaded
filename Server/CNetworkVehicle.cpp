@@ -23,7 +23,7 @@ CNetworkVehicle::CNetworkVehicle(Hash model, float x, float y, float z, float he
 	VehicleData data;
 	GetVehicleData(data);
 
-	data.RPM = 0.2;
+	data.RPM = 0.2f;
 	data.Burnout = false;
 	data.steering = 0;
 
@@ -113,7 +113,7 @@ void CNetworkVehicle::SendGlobal(RakNet::Packet *packet)
 		VehicleData data;
 		veh->GetVehicleData(data);
 
-		data.RPM = 0.2;
+		data.RPM = 0.2f;
 		data.Burnout = false;
 		data.steering = 0;
 

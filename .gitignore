@@ -249,6 +249,11 @@ _Pvt_Extensions
 .paket/paket.exe
 paket-files/
 
+*.tlog
+*.lastbuildstate
+*.rule
+
+
 
 /HighFive/Setup
 /HighFive/Launcher/memcache.xml

@@ -208,7 +208,7 @@ namespace FPlayer
 	{
 		RakNet::RakNetGUID guid;
 		float x, y, z, height, radius;
-		//int color, sprite;
+		int color;
 
 		bitStream->Read(guid);
 
@@ -218,8 +218,12 @@ namespace FPlayer
 
 		bitStream->Read(height);
 		bitStream->Read(radius);
+		bitStream->Read(color);
 
-		new CNetworkMarker(guid, x, y, z, height, radius);
+		color_t c;
+		Utils::HexToRGBA(color, c.red, c.green, c.blue, c.alpha);
+
+		new CNetworkMarker(guid, x, y, z, height, radius, c);
 	}
 
 	void DeleteMarker(RakNet::BitStream *bitStream, RakNet::Packet *packet)
