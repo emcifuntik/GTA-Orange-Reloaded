@@ -20,15 +20,45 @@ std::vector<std::string> split(const std::string &s, char delim) {
 
 int CommandProcessor(std::string command)
 {
+	std::string fullCmd = command;
 	std::vector<std::string> params = split(command, ' ');
 	command = params[0];
 	params.erase(params.begin());
-	if (!command.compare("/quit") || !command.compare("/q") || !command.compare("/exit"))
+	if (!command.compare("/quit") || !command.compare("/q"))
 	{
 		ExitProcess(EXIT_SUCCESS);
 		return true;
 	}
-	if (!command.compare("/vehicle"))
+	if (!command.compare("/save") && CGlobals::Get().isDebug)
+	{
+		if (!params.size())
+		{
+			CChat::Get()->AddChatMessage("USAGE: /save [comment]", 0xAAAAAAFF);
+			return true;
+		}
+		std::string comment = fullCmd.substr(command.length() + 1);
+		auto playerPed = PLAYER::PLAYER_PED_ID();
+		if (PED::IS_PED_IN_ANY_VEHICLE(playerPed, false))
+		{
+			auto pedVeh = PED::GET_VEHICLE_PED_IS_IN(playerPed, false);
+			Vector3 coords = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(pedVeh, 0.0, 0.0, 0.0);
+			float heading = ENTITY::GET_ENTITY_HEADING(pedVeh);
+			std::ofstream saveFile(CGlobals::Get().orangePath + "\\savedcoords.txt", std::ofstream::app);
+			saveFile << "{\"vehicle\": { \"coords\": { " << coords.x << ", " << coords.y << ", " << coords.z << "}, \"heading\": " << heading << " }}//" << comment << std::endl;
+			saveFile.close();
+		}
+		else
+		{
+			Vector3 coords = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(playerPed, 0.0, 0.0, 0.0);
+			float heading = ENTITY::GET_ENTITY_HEADING(playerPed);
+			std::ofstream saveFile(CGlobals::Get().orangePath + "\\savedcoords.txt", std::ofstream::app);
+			saveFile << "{\"ped\": { \"coords\": { " << coords.x << ", " << coords.y << ", " << coords.z << "}, \"heading\": " << heading << " }}//" << comment << std::endl;
+			saveFile.close();
+		}
+		CChat::Get()->AddChatMessage("DEBUG: You coordinates saved successfull.", 0xAAFFAAFF);
+		return true;
+	}
+	if (!command.compare("/vehicle") && CGlobals::Get().isDebug)
 	{
 		if (!params.size())
 		{
@@ -53,14 +83,14 @@ int CommandProcessor(std::string command)
 		});
 		return true;
 	}
-	if (!command.compare("/snow"))
+	if (!command.compare("/snow") && CGlobals::Get().isDebug)
 	{
 		GAMEPLAY::SET_WEATHER_TYPE_NOW_PERSIST("XMAS");
 		GRAPHICS::_SET_FORCE_PED_FOOTSTEPS_TRACKS(true);
 		GRAPHICS::_SET_FORCE_VEHICLE_TRAILS(true);
 		return true;
 	}
-	if (!command.compare("/model"))
+	if (!command.compare("/model") && CGlobals::Get().isDebug)
 	{
 		if (!params.size())
 		{
@@ -69,86 +99,11 @@ int CommandProcessor(std::string command)
 		}
 		CLocalPlayer::Get()->newModel = GAMEPLAY::GET_HASH_KEY((char*)(models[std::atoi(params[0].c_str())]));
 		return true;
-	}
-
-	if (!command.compare("/freemode"))
-	{
-		CChat::Get()->AddChatMessage("Changed!", 0xAAAAAAFF);
-		CLocalPlayer::Get()->newModel = GAMEPLAY::GET_HASH_KEY("mp_m_freemode_01");
-		return true;
-	}
-	
-#if _DEBUG
-	if (!command.compare("/model"))
-	{
-		if (!params.size())
-		{
-			CChat::Get()->AddChatMessage("USAGE: /model [model id]", 0xAAAAAAFF);
-			return true;
-		}
-		CLocalPlayer::Get()->newModel = GAMEPLAY::GET_HASH_KEY((char*)(models[std::atoi(params[0].c_str())]));
-		return true;
-	}
-	if (!command.compare("/anim"))
-	{
-		if (!params.size())
-		{
-			CChat::Get()->AddChatMessage("USAGE: /anim [ped id]", 0xAAAAAAFF);
-			return true;
-		}
-		int handler = std::atoi(params[0].c_str());
-		int setToPed = std::atoi(params[1].c_str());
-		auto pool = &ReplayInterfaces::Get()->ReplayInterfacePed->pool;
-		int pedID = -1;
-		for (int i = 0; i < pool->Capacity(); ++i)
-		{
-			if (pool->GetHandle(i) == handler)
-			{
-				pedID = i;
-				break;
-			}
-		}
-		if (pedID == -1)
-		{
-			CChat::Get()->AddChatMessage("ERROR: Ped with this id not found", 0xFFAAAAFF);
-			return true;
-		}
-		CPed *ped = (*pool)[pedID];
-		GTA::CTask *parent = nullptr;
-		for (GTA::CTask *task = CWorld::Get()->CPedPtr->TasksPtr->PrimaryTasks->GetTask(); task; task = task->SubTask)
-		{
-			if (!task->IsSerializable())
-				continue;
-			auto ptr = task->Serialize();
-			if (ptr)
-			{
-				//log_debug << "Size: " << ptr->Size() << std::endl;
-				auto nextTask = (GTA::CTask*) ptr->GetTask();
-				nextTask->Deserialize(ptr);
-				if (!parent)
-				{
-					log_debug << "0x" << std::hex << nextTask << std::endl;
-					if (setToPed)
-						ped->TasksPtr->PrimaryTasks->AssignTask(nextTask, GTA::TASK_PRIORITY_HIGH);
-					parent = nextTask;
-				}
-				else
-				{
-					GTA::CTask *lastChild;
-					for (lastChild = parent; lastChild->SubTask; lastChild = lastChild->SubTask);
-					
-				}
-				rage::sysMemAllocator::Get()->free(ptr, rage::HEAP_TASK_CLONE);
-			}
-			break;
-		}
-		return true;
-	}
+	}	
 	if (!command.compare("/debug"))
 	{
 		CGlobals::Get().isDebug ^= 1;
 		return true;
 	}
-#endif
 	return false;
 }

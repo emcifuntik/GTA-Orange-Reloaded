@@ -126,6 +126,7 @@ using namespace RakNet;
 #include "Network\CNetworkConnection.h"
 #include "Network\CNetworkUI.h"
 #include "Network\CNetworkMarker.h"
+#include "Network\CNetwork3DText.h"
 #include "Network\Functions.h"
 #include "Network\CRPCPlugin.h"
 #pragma endregion

@@ -134,6 +134,7 @@
     <ClInclude Include="Network\CConfig.h" />
     <ClInclude Include="Network\CEntity.h" />
     <ClInclude Include="Network\CLocalPlayer.h" />
+    <ClInclude Include="Network\CNetwork3DText.h" />
     <ClInclude Include="Network\CNetworkBlip.h" />
     <ClInclude Include="Network\CNetworkConnection.h" />
     <ClInclude Include="Network\CNetworkMarker.h" />
@@ -194,6 +195,7 @@
     <ClCompile Include="Network\CConfig.cpp" />
     <ClCompile Include="Network\CEntity.cpp" />
     <ClCompile Include="Network\CLocalPlayer.cpp" />
+    <ClCompile Include="Network\CNetwork3DText.cpp" />
     <ClCompile Include="Network\CNetworkBlip.cpp" />
     <ClCompile Include="Network\CNetworkConnection.cpp" />
     <ClCompile Include="Network\CNetworkMarker.cpp" />

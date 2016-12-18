@@ -234,12 +234,85 @@ namespace FPlayer
 		CNetworkMarker::GetByGUID(guid)->~CNetworkMarker();
 	}
 
+	void Create3DText(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNet::RakNetGUID guid;
+		float x, y, z, oX, oY, oZ;
+		int color, outColor;
+		std::string content;
+		TextAttachedTo attachType = TextAttachedTo::NON_ATTACHED;
+		RakNet::RakNetGUID attachedTo;
+
+		bitStream->Read(guid);
+		bitStream->Read(x);
+		bitStream->Read(y);
+		bitStream->Read(z);
+		bitStream->Read(color);
+		bitStream->Read(outColor);
+		RakString contentRak;
+		bitStream->Read(contentRak);
+		content = contentRak.C_String();
+		bitStream->Read(attachType);
+		bitStream->Read(attachedTo);
+		bitStream->Read(oX);
+		bitStream->Read(oY);
+		bitStream->Read(oZ);
+		new CNetwork3DText(guid, x, y, z, color, outColor, content, attachType, attachedTo);
+	}
+
+	void Attach3DTextToVehicle(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNet::RakNetGUID guid;
+		float oX, oY, oZ;
+		TextAttachedTo attachType = TextAttachedTo::VEHICLE_ATTACHED;
+		RakNet::RakNetGUID attachedTo;
+
+		bitStream->Read(guid);
+		bitStream->Read(attachedTo);
+		bitStream->Read(oX);
+		bitStream->Read(oY);
+		bitStream->Read(oZ);
+		CNetwork3DText::GetByGUID(guid)->AttachToVehicle(attachedTo, oX, oY, oZ);
+	}
+
+	void Attach3DTextToPlayer(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNet::RakNetGUID guid;
+		float oX, oY, oZ;
+		TextAttachedTo attachType = TextAttachedTo::PLAYER_ATTACHED;
+		RakNet::RakNetGUID attachedTo;
+
+		bitStream->Read(guid);
+		bitStream->Read(attachedTo);
+		bitStream->Read(oX);
+		bitStream->Read(oY);
+		bitStream->Read(oZ);
+		CNetwork3DText::GetByGUID(guid)->AttachToPlayer(attachedTo, oX, oY, oZ);
+	}
+
+	void Change3DTextContent(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNet::RakNetGUID guid;
+		std::string content;
+
+		bitStream->Read(guid);
+		RakString contentRak;
+		bitStream->Read(contentRak);
+		content = contentRak.C_String();
+		CNetwork3DText::GetByGUID(guid)->SetText(content);
+	}
+
+	void Delete3DText(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNet::RakNetGUID guid;
+		bitStream->Read(guid);
+		CNetwork3DText::DeleteByGUID(guid);
+	}
+
 	void CreateObject(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 	{
 		ObjectData data;
 		bitStream->Read(data);
-		log << "Creating object: " << data.ToString() << std::endl;
-
 		new CNetworkObject(data);
 	}
 }

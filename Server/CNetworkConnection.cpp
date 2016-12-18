@@ -109,6 +109,7 @@ void CNetworkConnection::Tick()
 				CNetworkBlip::SendGlobal(packet);
 				CNetworkMarker::SendGlobal(packet);
 				CNetworkVehicle::SendGlobal(packet);
+				CNetwork3DText::SendGlobal(packet);
 				CNetworkObject::SendGlobal(packet);
 				
 				bsOut.Write((unsigned char)ID_CONNECT_TO_SERVER);

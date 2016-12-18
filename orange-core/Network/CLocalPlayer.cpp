@@ -19,15 +19,20 @@ CLocalPlayer::CLocalPlayer() :CPedestrian(PLAYER::PLAYER_PED_ID())
 	}
 
 	CEntity::InitOffsetFunc();
-
-	aimPosition = &CWorld::Get()->CPedPtr->CPlayerInfoPtr->AimPosition;
+	aimPosition = new CVector3(0.f, 0.f, 0.f);//&CWorld::Get()->CPedPtr->CPlayerInfoPtr->AimPosition;
 
 	rageGlobals::SetPlayerColor(0xFF, 0x8F, 0x00, 0xFF);
 
 	/*auto addr = CMemory((uintptr_t)GetModuleHandle(NULL) + 0x4E1FA4);
 	addr.nop(20);*/
 
-	GiveWeapon(Utils::Hash("weapon_smg"), 9999);
+	STATS::STAT_SET_INT(Utils::Hash("WHEELIE_ABILITY"), 100, 1);
+	STATS::STAT_SET_INT(Utils::Hash("STAMINA"), 100, 1);
+	STATS::STAT_SET_INT(Utils::Hash("STRENGTH"), 100, 1);
+	STATS::STAT_SET_INT(Utils::Hash("LUNG_CAPACITY"), 100, 1);
+	STATS::STAT_SET_INT(Utils::Hash("FLYING_ABILITY"), 100, 1);
+	STATS::STAT_SET_INT(Utils::Hash("SHOOTING_ABILITY"), 100, 1);
+	STATS::STAT_SET_INT(Utils::Hash("STEALTH_ABILITY"), 100, 1);
 
 	typedef int(*ShowAbilityBar)(bool);
 	((ShowAbilityBar)CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1F26D4)())(false);
@@ -155,7 +160,7 @@ void CLocalPlayer::GoPassenger()
 	AI::CLEAR_PED_TASKS(Handle);
 	CVector3 pos = GetPosition();
 	Vehicle veh = VEHICLE::GET_CLOSEST_VEHICLE(pos.fX, pos.fY, pos.fZ, 5, 0, 70);
-	AI::TASK_ENTER_VEHICLE(Handle, veh, -1, 0, 2, 0, 0);
+	AI::TASK_ENTER_VEHICLE(Handle, veh, -1, -2, 2, 0, 0);
 }
 
 void CLocalPlayer::SendTasks()
