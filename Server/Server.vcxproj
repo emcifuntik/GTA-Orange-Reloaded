@@ -23,6 +23,7 @@
     <ClInclude Include="..\..\GTA-Orange\Shared\Console\CLog.h" />
     <ClInclude Include="API.h" />
     <ClInclude Include="CHTTPServer.h" />
+    <ClInclude Include="CNetworkObject.h" />
     <ClInclude Include="CNetworkBlip.h" />
     <ClInclude Include="CNetworkConnection.h" />
     <ClInclude Include="CNetworkMarker.h" />
@@ -42,6 +43,7 @@
     <ClCompile Include="CNetwokMarker.cpp" />
     <ClCompile Include="CNetworkBlip.cpp" />
     <ClCompile Include="CNetworkConnection.cpp" />
+    <ClCompile Include="CNetworkObject.cpp" />
     <ClCompile Include="CNetworkPlayer.cpp" />
     <ClCompile Include="CConfig.cpp" />
     <ClCompile Include="main.cpp">

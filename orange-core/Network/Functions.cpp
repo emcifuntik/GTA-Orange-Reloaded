@@ -233,5 +233,14 @@ namespace FPlayer
 
 		CNetworkMarker::GetByGUID(guid)->~CNetworkMarker();
 	}
+
+	void CreateObject(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		ObjectData data;
+		bitStream->Read(data);
+		log << "Creating object: " << data.ToString() << std::endl;
+
+		new CNetworkObject(data);
+	}
 }
 

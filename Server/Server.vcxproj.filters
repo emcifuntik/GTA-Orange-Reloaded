@@ -43,6 +43,9 @@
     <ClInclude Include="..\..\GTA-Orange\Shared\Console\CConsole.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
+    <ClInclude Include="CNetworkObject.h">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -85,6 +88,9 @@
       <Filter>Source Files\Net</Filter>
     </ClCompile>
     <ClCompile Include="..\deps\ServerDeps\Civet\civetweb.c">
+      <Filter>Source Files\Net</Filter>
+    </ClCompile>
+    <ClCompile Include="CNetworkObject.cpp">
       <Filter>Source Files\Net</Filter>
     </ClCompile>
   </ItemGroup>

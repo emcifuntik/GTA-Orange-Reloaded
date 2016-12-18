@@ -48,6 +48,10 @@ void CRPCPlugin::BindFunctions()
 	#pragma region Vehicle functions
 	rpc.RegisterSlot("CreateVehicle", FPlayer::CreateVehicle, 0);
 	#pragma endregion
+
+	#pragma region Object functions
+	rpc.RegisterSlot("CreateObject", FPlayer::CreateObject, 0);
+	#pragma endregion
 }
 
 CRPCPlugin * CRPCPlugin::Get()

@@ -30,4 +30,5 @@ namespace FPlayer
 
 	void CreateMarker(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void DeleteMarker(RakNet::BitStream * bitStream, RakNet::Packet * packet);
+	void CreateObject(RakNet::BitStream * bitStream, RakNet::Packet * packet);
 }
