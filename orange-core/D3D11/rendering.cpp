@@ -42,6 +42,8 @@ void D3DHook::Render()
 		ImGui::InputInt("Port", &CGlobals::Get().serverPort, 1, 100);
 		if (ImGui::Button("Connect"))
 		{
+			CNetworkPlayer::Clear();
+			CNetworkVehicle::Clear();
 			std::stringstream ss;
 			ss << "Connecting to " << CGlobals::Get().serverIP << ":" << CGlobals::Get().serverPort;
 			CChat::Get()->AddChatMessage(ss.str());

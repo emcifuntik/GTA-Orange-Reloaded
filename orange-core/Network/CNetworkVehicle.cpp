@@ -248,11 +248,22 @@ void CNetworkVehicle::SetVehicleData(VehicleData data, unsigned long ulDelay)
 
 CNetworkVehicle::~CNetworkVehicle()
 {
+	VEHICLE::DELETE_VEHICLE(&Handle);
 }
 
 std::vector<CNetworkVehicle*> CNetworkVehicle::All()
 {
 	return VehiclePool;
+}
+
+void CNetworkVehicle::Clear()
+{
+	for each(CNetworkVehicle* veh in VehiclePool)
+	{
+		veh->~CNetworkVehicle();
+		delete veh;
+	}
+	VehiclePool.erase(VehiclePool.begin(), VehiclePool.end());
 }
 
 CNetworkVehicle * CNetworkVehicle::GetByHandle(Vehicle veh)

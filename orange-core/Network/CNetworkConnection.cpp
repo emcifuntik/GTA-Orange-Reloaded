@@ -137,8 +137,11 @@ void CNetworkConnection::Tick()
 				if (data.GUID == UNASSIGNED_RAKNET_GUID) continue;
 
 				CNetworkVehicle *remoteVeh = CNetworkVehicle::GetByGUID(data.GUID);
-				remoteVeh->UpdateLastTickTime();
-				if (remoteVeh) remoteVeh->SetVehicleData(data, 150); // remoteVeh->GetTickTime());
+				if (remoteVeh && bEstablished)
+				{
+					remoteVeh->UpdateLastTickTime();
+					remoteVeh->SetVehicleData(data, 150); // remoteVeh->GetTickTime());
+				}
 				break;
 			}
 			case ID_SEND_TASKS:
