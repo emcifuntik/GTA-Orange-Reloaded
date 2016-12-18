@@ -14,14 +14,6 @@
 #include <include/cef_browser.h>
 #include <include/cef_command_line.h>
 
-#ifdef _DEBUG
-#pragma comment(lib, "libcef_Debug_x64.lib")
-#pragma comment(lib, "libcef_dll_wrapper_Debug_x64.lib")
-#else
-#pragma comment(lib, "libcef_Release_x64.lib")
-#pragma comment(lib, "libcef_dll_wrapper_Release_x64.lib")
-#endif
-
 int WINAPI WinMain(HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
 	LPSTR lpCmdLine,
