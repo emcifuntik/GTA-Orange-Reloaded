@@ -121,3 +121,9 @@ int lua_Event(lua_State *L)
 
 	return 0;
 }
+
+int lua_Create3DText(lua_State *L)
+{
+	lua_pushinteger(L, API::Get().Create3DText(lua_tostring(L, 1), lua_tonumber(L, 2), lua_tonumber(L, 3), lua_tonumber(L, 4), lua_tointeger(L, 5), lua_tointeger(L, 6)));
+	return 1;
+}

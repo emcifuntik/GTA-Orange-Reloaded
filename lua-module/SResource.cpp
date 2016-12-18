@@ -36,6 +36,8 @@ static const struct luaL_Reg mfunclib[] = {
 	{ "OnEvent", lua_Event },
 	{ "SQLEnv", luaopen_luasql_mysql },
 
+	{ "Create3DText", lua_Create3DText },
+
 	{ NULL, NULL }
 };
 
