@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\util\parse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\util\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{DB75084E-E57C-323B-AE48-3B40B55D689A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

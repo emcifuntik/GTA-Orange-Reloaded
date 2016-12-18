@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\build\CMakeFiles\3f0cb9cf7e8a99fdf50793c7f887b982\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{F51E3C3D-2506-31CA-B8E9-A009E14336B0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

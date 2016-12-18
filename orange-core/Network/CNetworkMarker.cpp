@@ -10,7 +10,7 @@ CNetworkMarker::CNetworkMarker(RakNetGUID guid, float x, float y, float z, float
 	this->radius = radius;
 	this->color = color;
 
-	Handle = GRAPHICS::CREATE_CHECKPOINT(45, x, y, z - 1.1, 0, 0, 0, radius, 255, 216, 0, 115, 0);
+	Handle = GRAPHICS::CREATE_CHECKPOINT(45, x, y, z - 1.1f, 0, 0, 0, radius, 255, 216, 0, 115, 0);
 	SetHeight(height);
 
 	MarkerPool.push_back(this);

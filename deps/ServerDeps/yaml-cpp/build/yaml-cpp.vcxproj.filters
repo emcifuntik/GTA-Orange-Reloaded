@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\aliasmanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\binary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\conversion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\directives.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\emitfromevents.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\emitter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\emitterstate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\emitterutils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\exp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\iterator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\nodebuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\nodeownership.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\null.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\ostream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\regex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\scanner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\scanscalar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\scantag.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\scantoken.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\simplekey.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\singledocparser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\stream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\tag.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\contrib\graphbuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\contrib\graphbuilderadapter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\aliasmanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\anchor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\binary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\conversion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\dll.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\emitfromevents.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\emitter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\emittermanip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\eventhandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\exceptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\iterator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\ltnode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\mark.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\nodeimpl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\nodereadimpl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\nodeutil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\noncopyable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\null.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\ostream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\stlemitter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\stlnode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\traits.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\yaml.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\collectionstack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\directives.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\emitterstate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\emitterutils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\exp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\indentation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\iterpriv.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\nodebuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\nodeownership.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\ptr_stack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\ptr_vector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\regex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\regeximpl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\scanner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\scanscalar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\scantag.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\setting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\singledocparser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\stream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\streamcharsource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\stringsource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\tag.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\token.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\contrib\anchordict.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\include\yaml-cpp\contrib\graphbuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\VadZz\Documents\GTA-Orange\HighFive\yaml-cpp\src\contrib\graphbuilderadapter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{DB75084E-E57C-323B-AE48-3B40B55D689A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{6063BE5F-E976-33A3-84B4-F7151F2B71EC}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

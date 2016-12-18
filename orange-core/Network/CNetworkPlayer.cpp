@@ -3,7 +3,7 @@
 struct tag_t {
 	bool bVisible;
 	float health, distance;
-	int x, y;
+	float x, y;
 	float width, height;
 	float k;
 };
@@ -511,10 +511,10 @@ void CNetworkPlayer::MakeTag()
 		tag.width = 0.08f * 800;
 		tag.height = 0.012f * 600;
 
-		tag.k = 1.3 - tag.distance / 100;
+		tag.k = 1.0f - tag.distance / 100;
 
 		CVector3 screenPos;
-		CGraphics::Get()->WorldToScreen(CVector3(vecCurPos->fX, vecCurPos->fY, vecCurPos->fZ + 1.1 * tag.k + (tag.distance * 0.04f)), screenPos);
+		CGraphics::Get()->WorldToScreen(CVector3(vecCurPos->fX, vecCurPos->fY, vecCurPos->fZ + 1.1f * tag.k + (tag.distance * 0.04f)), screenPos);
 		auto viewPortGame = GTA::CViewportGame::Get();
 		tag.x = screenPos.fX * viewPortGame->Width;
 		tag.y = screenPos.fY * viewPortGame->Height;
@@ -592,7 +592,6 @@ void CNetworkPlayer::DrawTag()
 void CNetworkPlayer::SetModel(Hash model)
 {
 	m_Model = model;
-	//MemoryHook::call<int, int>((*GTA::CAddress::Get())[PED_CHANGE_MODEL], Handle, model);
 	CVector3 pos = GetPosition();
 	float heading = GetHeading();
 	ENTITY::DELETE_ENTITY(&Handle);
@@ -602,8 +601,6 @@ void CNetworkPlayer::SetModel(Hash model)
 		scriptWait(0);
 	Handle = PED::CREATE_PED(1, model, pos.fX, pos.fY, pos.fZ, heading, true, false);
 	pedHandler = CPed::GetFromScriptID(Handle);
-	log_debug << "pedHandler: 0x" << pedHandler << std::endl;
-
 	PED::SET_PED_DEFAULT_COMPONENT_VARIATION(Handle);
 	STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
 	AI::TASK_SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Handle, true);

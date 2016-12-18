@@ -42,13 +42,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>../../$(Platform)/$(Configuration)/</OutDir>
+    <OutDir>..\..\$(Platform)\$(Configuration)\cef\</OutDir>
     <TargetName>csp</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>D:\Downloads\cef_binary_3.2743.1439.g7cf8c6f_windows64\cef_binary_3.2743.1439.g7cf8c6f_windows64;$(IncludePath)</IncludePath>
-    <OutDir>../../$(Platform)/$(Configuration)/</OutDir>
+    <OutDir>..\..\$(Platform)\$(Configuration)\cef\</OutDir>
     <TargetName>csp</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -64,7 +64,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
