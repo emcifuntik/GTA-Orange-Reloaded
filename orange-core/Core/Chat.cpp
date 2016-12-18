@@ -221,6 +221,9 @@ void CChat::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, BOOL i
 		case VK_F7:
 			Chat->bEnabled = !Chat->bEnabled;
 			break;
+		case 0x47:
+			CLocalPlayer::Get()->GoPassenger();
+			break;
 		}
 	}
 }

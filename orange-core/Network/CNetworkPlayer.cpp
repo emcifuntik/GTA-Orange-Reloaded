@@ -429,11 +429,11 @@ void CNetworkPlayer::BuildTasksQueue()
 		if (veh)
 		{
 			m_Entering = true;
-			//AI::CLEAR_PED_TASKS(Handle);
-			//AI::CLEAR_PED_SECONDARY_TASK(Handle);
-			//AI::CLEAR_PED_TASKS_IMMEDIATELY(Handle);
-			//AI::TASK_ENTER_VEHICLE(Handle, veh->GetHandle(), -1, -1, 2, 0, 0);
-			PED::SET_PED_INTO_VEHICLE(Handle, veh->GetHandle(), -1);
+			AI::CLEAR_PED_TASKS(Handle);
+			AI::CLEAR_PED_SECONDARY_TASK(Handle);
+			AI::CLEAR_PED_TASKS_IMMEDIATELY(Handle);
+			AI::TASK_ENTER_VEHICLE(Handle, veh->GetHandle(), 500, -1, 2, 0, 0);
+			//PED::SET_PED_INTO_VEHICLE(Handle, veh->GetHandle(), -1);
 		}
 	}
 	else if (m_Jumping)
