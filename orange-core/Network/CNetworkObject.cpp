@@ -28,11 +28,6 @@ void CNetworkObject::UpdateModel()
 		Handle = OBJECT::CREATE_OBJECT(m_Model, curPos.fX, curPos.fY, curPos.fZ, false, true, false);
 		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(m_Model);
 	}
-
-	Blip blip = AddBlip();
-	UI::SET_BLIP_AS_SHORT_RANGE(blip, false);
-	UI::SET_BLIP_COLOUR(blip, 0);
-	UI::SET_BLIP_SPRITE(blip, 225);
 }
 
 /*void CNetworkObject::UpdateTargetPosition()

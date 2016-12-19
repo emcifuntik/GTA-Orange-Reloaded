@@ -96,7 +96,6 @@ void CNetworkObject::SendGlobal(RakNet::Packet *packet)
 {
 	for each(auto *obj in Objects)
 	{
-		log << "Sending object..." << std::endl;
 		RakNet::BitStream bsOut;
 
 		ObjectData data;
