@@ -77,7 +77,7 @@ void CNetwork3DText::PreRender()
 		{
 			case TextAttachedTo::PLAYER_ATTACHED:
 			{
-				auto pl = CNetworkPlayer::GetByGUID(text->attachedTo);
+				auto pl = CNetworkPlayer::GetByGUID(text->attachedTo, false);
 				if (pl)
 					text->vecPos = (pl->GetPosition() + text->vecOffset);
 				else

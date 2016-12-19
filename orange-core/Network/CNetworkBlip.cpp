@@ -49,13 +49,16 @@ void CNetworkBlip::AttachToPlayer(RakNet::RakNetGUID GUID)
 {
 	if (CNetworkPlayer::Exists(GUID))
 	{
-		UI::REMOVE_BLIP(&Handle);
-		Handle = CNetworkPlayer::GetByGUID(GUID)->AddBlip();
-
-		SetScale(scale);
-		SetColor(color);
-		SetSprite(sprite);
-		SetAsShortRange(false);
+		auto pl = CNetworkPlayer::GetByGUID(GUID);
+		if (pl)
+		{
+			UI::REMOVE_BLIP(&Handle);
+			Handle = pl->AddBlip();
+			SetScale(scale);
+			SetColor(color);
+			SetSprite(sprite);
+			SetAsShortRange(false);
+		}
 	}
 }
 

@@ -223,9 +223,12 @@ void CNetworkVehicle::SetVehicleData(VehicleData data, unsigned long ulDelay)
 {
 	m_hasDriver = data.hasDriver;
 	if (m_hasDriver && data.driver != UNASSIGNED_RAKNET_GUID) {
-		CNetworkPlayer *pl = CNetworkPlayer::GetByGUID(data.driver);
-		m_Driver = pl->GetHandle();
-		if (PED::GET_VEHICLE_PED_IS_IN(m_Driver, false) != Handle) m_hasDriver = false;
+		CNetworkPlayer *pl = CNetworkPlayer::GetByGUID(data.driver, false);
+		if (pl)
+		{
+			m_Driver = pl->GetHandle();
+			if (PED::GET_VEHICLE_PED_IS_IN(m_Driver, false) != Handle) m_hasDriver = false;
+		}
 	}
 	else m_hasDriver = false;
 

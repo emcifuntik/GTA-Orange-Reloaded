@@ -7,11 +7,11 @@ void NetworkAction()
 	keyboardHandlerRegister(CNetworkUI::ScriptKeyboardMessage);
 	for (;;)
 	{
-		CLocalPlayer::Get()->Tick();
+		CLocalPlayer::Get()->Tick(); TRACE();
 		if (CNetworkConnection::Get()->IsConnected()) {
 			if (CNetworkConnection::Get()->IsConnectionEstablished())
 			{
-				CLocalPlayer::Get()->SendOnFootData();
+				CLocalPlayer::Get()->SendOnFootData(); TRACE();
 				/*if (CLocalPlayer::Get()->updateTasks)
 				{
 				CLocalPlayer::Get()->updateTasks ^= 1;
@@ -22,17 +22,15 @@ void NetworkAction()
 		if (GetTickCount64() >= (lastSendTick + 10))
 		{
 			if (CNetworkConnection::Get()->IsConnected()) {
-				CNetworkConnection::Get()->Tick();
-				CNetworkPlayer::Tick();
+				CNetworkConnection::Get()->Tick(); TRACE();
+				CNetworkPlayer::Tick(); TRACE();
 			}
-			lastSendTick = GetTickCount64();
+			lastSendTick = GetTickCount64(); TRACE();
 		}
-		CNetworkVehicle::Tick();
-
-		CNetworkPlayer::PreRender();
-		CNetwork3DText::PreRender();
-
-		CNetworkUI::Get()->Render();
+		CNetworkVehicle::Tick(); TRACE();
+		CNetworkPlayer::PreRender(); TRACE();
+		CNetwork3DText::PreRender(); TRACE();
+		CNetworkUI::Get()->Render(); TRACE();
 		scriptWait(0);
 	}
 }

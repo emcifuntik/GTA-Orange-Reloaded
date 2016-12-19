@@ -11,17 +11,20 @@ CNetworkPlayer::CNetworkPlayer() :CPedestrian(0)
 	Spawn({ 0.f, 0.f, 0.f });
 }
 
-CNetworkPlayer* CNetworkPlayer::GetByGUID(RakNet::RakNetGUID GUID)
+CNetworkPlayer* CNetworkPlayer::GetByGUID(RakNet::RakNetGUID GUID, bool create)
 {
 	for each (CNetworkPlayer *_player in PlayersPool)
 	{
 		if (_player->m_GUID == GUID)
 			return _player;
 	}
-	
-	CNetworkPlayer *_newPlayer = new CNetworkPlayer();
-	_newPlayer->m_GUID = GUID;
-	return _newPlayer;
+	if (create)
+	{
+		CNetworkPlayer *_newPlayer = new CNetworkPlayer();
+		_newPlayer->m_GUID = GUID;
+		return _newPlayer;
+	}
+	return nullptr;
 }
 
 bool CNetworkPlayer::Exists(RakNet::RakNetGUID GUID)
@@ -515,30 +518,6 @@ void CNetworkPlayer::MakeTag()
 
 void CNetworkPlayer::DrawTag()
 {
-	/*if (ENTITY::HAS_ENTITY_CLEAR_LOS_TO_ENTITY(CLocalPlayer::Get()->GetHandle(), Handle, 17))
-	{
-		CVector3 *vecCurPos = &pedHandler->Position;
-		//float health = (((m_Health < 100.f ? 100.f : m_Health) - 100.f) / (pedHandler->MaxHealth - 100.f));
-		float health = ((((m_Health - 100.f) < pedHandler->MaxHealth ? (m_Health - 100.f) : pedHandler->MaxHealth)) / (pedHandler->MaxHealth-100.f));
-		float distance = ((*vecCurPos) - CWorld::Get()->CPedPtr->Position).Length();
-		if (distance < 100.f)
-		{
-			color_t bgColor, fgColor;
-			if (health > 0.2f)
-			{
-				bgColor = { 50, 100, 50, 150 };
-				fgColor = { 100, 200, 100, 150 };
-			}
-			else
-			{
-				bgColor = { 150, 30, 30, 150 };
-				fgColor = { 230, 70, 70, 150 };
-			}
-			auto viewPortGame = GTA::CViewportGame::Get();
-			CGraphics::Get()->Draw3DText(m_Name, vecCurPos->fX, vecCurPos->fY, vecCurPos->fZ + 1.1f + (distance * 0.04f), { 0xFF, 0xFF, 0xFF, 0xFF });
-			CGraphics::Get()->Draw3DProgressBar(bgColor, fgColor, 0.08f, 0.012f, vecCurPos->fX, vecCurPos->fY, vecCurPos->fZ + 1.1f + (distance * 0.04f), health);
-		}
-	}*/
 	if (tag.bVisible) {
 		const char* _name = m_Name.c_str();
 		float font_size = 20.0f * tag.k;
