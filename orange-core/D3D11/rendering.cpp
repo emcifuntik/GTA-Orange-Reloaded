@@ -67,6 +67,9 @@ void D3DHook::Render()
 	ImGui::SetNextWindowPos(ImVec2(0.f, 0.f), ImGuiSetCond_Always);
 	ImGui::Begin("Background", 0, ImVec2((float)viewPortGame->Width, (float)viewPortGame->Height), 0.f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.f, 0.f));
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.f);
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.f, 0.f));
+	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.f);
 	if (CGlobals::Get().currentGameState == GameStatePlaying && CGlobals::Get().isDebug)
 	{
 		std::stringstream ss;
@@ -183,6 +186,9 @@ void D3DHook::Render()
 #endif
 	CNetworkPlayer::Render();
 	CNetwork3DText::Render();
+	ImGui::PopStyleVar();
+	ImGui::PopStyleVar();
+	ImGui::PopStyleVar();
 	ImGui::PopStyleVar();
 	ImGui::End();
 	ImGui::Render();
