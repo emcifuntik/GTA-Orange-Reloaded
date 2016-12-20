@@ -26,10 +26,6 @@ void UnknownPatches()
 	mem.nop(7);
 	mem2.put(0xB640i16);
 	mem2.put(0x01i8);
-
-	(CMemory((uintptr_t)GetModuleHandle(NULL) + 0x141A3) + 2).put(0x08i8);
-	(CMemory((uintptr_t)GetModuleHandle(NULL) + 0xA64CA6) - 74).retn();
-	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1AE3A0).nop(5);
 }
 
 void DefineNatives()
@@ -220,9 +216,6 @@ void *OldCreateWindowExW = nullptr;
 
 void PreLoadPatches()
 {
-	auto mem = CMemory((uintptr_t)GetModuleHandle(NULL) + 0x14493);
-	mem.put(0xEB90909090909090);
-
 	DefineNatives();
 	ForceToSingle();
 	UnknownPatches();
