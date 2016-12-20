@@ -51,7 +51,7 @@ void CLocalPlayer::GetOnFootSync(OnFootSyncData& onfoot)
 	onfoot.vecPos = GetPosition();
 	onfoot.vecRot = GetRotation();
 	onfoot.fHeading = GetHeading();
-	GetMoveSpeed(onfoot.vecMoveSpeed);
+	GetMoveSpeed(onfoot.vecMoveSpeed); TRACE();
 	onfoot.vecTurnSpeed = GetRotationVelocity();
 	onfoot.bDuckState = IsDucking();
 	onfoot.usHealth = GetHealth();
@@ -59,14 +59,16 @@ void CLocalPlayer::GetOnFootSync(OnFootSyncData& onfoot)
 	onfoot.ulWeapon = GetCurrentWeapon();
 	onfoot.uAmmo = GetCurrentWeaponAmmo();
 	onfoot.vecAim = *aimPosition;
-	onfoot.bAiming = (CWorld::Get()->CPedPtr->CPlayerInfoPtr->AimState == 2);
-	onfoot.bShooting = PED::IS_PED_SHOOTING(Handle) ? true : false;
+	onfoot.bAiming = (CWorld::Get()->CPedPtr->CPlayerInfoPtr->AimState == 2); TRACE();
+	onfoot.bShooting = PED::IS_PED_SHOOTING(Handle) ? true : false; TRACE();
 	if (PED::IS_PED_IN_ANY_VEHICLE(Handle, true)) {
-		onfoot.bInVehicle = true;
-		onfoot.vehicle = CNetworkVehicle::GetByHandle(PED::GET_VEHICLE_PED_IS_TRYING_TO_ENTER(Handle))->m_GUID;
+		onfoot.bInVehicle = true; TRACE();
+		CNetworkVehicle *veh = CNetworkVehicle::GetByHandle(PED::GET_VEHICLE_PED_IS_TRYING_TO_ENTER(Handle));
+		if(!veh) veh = CNetworkVehicle::GetByHandle(PED::GET_VEHICLE_PED_IS_IN(Handle, false));
+		if(veh) onfoot.vehicle = veh->m_GUID; TRACE();
 	}
 	else {
-		onfoot.bInVehicle = false;
+		onfoot.bInVehicle = false; TRACE();
 	}
 }
 
@@ -90,6 +92,8 @@ void CLocalPlayer::GetVehicleSync(VehicleData& vehsync)
 	vehsync.RPM = *CMemory(veh->GetAddress()).get<float>(0x7F4);
 	vehsync.Burnout = VEHICLE::IS_VEHICLE_IN_BURNOUT(veh->GetHandle()) != 0;
 
+	log_debug << "wheelspeed: " << *CMemory(GetAddress()).get<float>(0x9C4) << std::endl;
+
 	if (VEHICLE::IS_THIS_MODEL_A_CAR(veh->GetModel()) || VEHICLE::IS_THIS_MODEL_A_BIKE(veh->GetModel()) || VEHICLE::IS_THIS_MODEL_A_QUADBIKE(veh->GetModel()))
 		vehsync.steering = (*CMemory(veh->GetAddress()).get<float>(0x8CC)) * (180.0f / PI);
 }
@@ -105,26 +109,28 @@ void CLocalPlayer::Tick()
 {
 	if (newModel != 0)
 	{
-		ChangeModel(newModel);
-		newModel = 0;
+		ChangeModel(newModel); TRACE();
+		newModel = 0; TRACE();
 	}
-	PLAYER::SET_PLAYER_HEALTH_RECHARGE_MULTIPLIER(PLAYER::PLAYER_ID(), 0.f);
-	PLAYER::SET_AUTO_GIVE_PARACHUTE_WHEN_ENTER_PLANE(PLAYER::PLAYER_ID(), false);
-	PLAYER::ENABLE_SPECIAL_ABILITY(PLAYER::PLAYER_ID(), false);
+	PLAYER::SET_PLAYER_HEALTH_RECHARGE_MULTIPLIER(PLAYER::PLAYER_ID(), 0.f); TRACE();
+	PLAYER::SET_AUTO_GIVE_PARACHUTE_WHEN_ENTER_PLANE(PLAYER::PLAYER_ID(), false); TRACE();
+	PLAYER::ENABLE_SPECIAL_ABILITY(PLAYER::PLAYER_ID(), false); TRACE();
 }
 
 void CLocalPlayer::ChangeModel(Hash model)
 {
 	if (STREAMING::IS_MODEL_IN_CDIMAGE(model) && STREAMING::IS_MODEL_VALID(model))
+	{
 		STREAMING::REQUEST_MODEL(model);
-	while (!STREAMING::HAS_MODEL_LOADED(model))
-		scriptWait(0);
-	PLAYER::SET_PLAYER_MODEL(PLAYER::PLAYER_ID(), model);
-	PED::SET_PED_DEFAULT_COMPONENT_VARIATION(PLAYER::PLAYER_PED_ID());
-	STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
-	Handle = PLAYER::PLAYER_PED_ID();
-	typedef int(*ShowAbilityBar)(bool);
-	((ShowAbilityBar)CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1F26D4)())(false);
+		while (!STREAMING::HAS_MODEL_LOADED(model))
+			scriptWait(0);
+		PLAYER::SET_PLAYER_MODEL(PLAYER::PLAYER_ID(), model);
+		PED::SET_PED_DEFAULT_COMPONENT_VARIATION(PLAYER::PLAYER_PED_ID());
+		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
+		Handle = PLAYER::PLAYER_PED_ID();
+		typedef int(*ShowAbilityBar)(bool);
+		((ShowAbilityBar)CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1F26D4)())(false);
+	}
 }
 
 void CLocalPlayer::Connect()
@@ -141,18 +147,18 @@ void CLocalPlayer::SendOnFootData()
 	RakNet::BitStream bsOut;
 	if (!PED::IS_PED_IN_ANY_VEHICLE(Handle, false))
 	{
-		bsOut.Write((MessageID)ID_SEND_PLAYER_DATA);
-		OnFootSyncData data;
-		GetOnFootSync(data);
-		bsOut.Write(data);
+		bsOut.Write((MessageID)ID_SEND_PLAYER_DATA); TRACE();
+		OnFootSyncData data; TRACE();
+		GetOnFootSync(data); TRACE();
+		bsOut.Write(data); TRACE();
 	}
 	else {
-		bsOut.Write((MessageID)ID_SEND_VEHICLE_DATA);
-		VehicleData data;
-		GetVehicleSync(data);
-		bsOut.Write(data);
+		bsOut.Write((MessageID)ID_SEND_VEHICLE_DATA); TRACE();
+		VehicleData data; TRACE();
+		GetVehicleSync(data); TRACE();
+		bsOut.Write(data); TRACE();
 	}
-	CNetworkConnection::Get()->client->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
+	CNetworkConnection::Get()->client->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true); TRACE();
 }
 
 void CLocalPlayer::GoPassenger()

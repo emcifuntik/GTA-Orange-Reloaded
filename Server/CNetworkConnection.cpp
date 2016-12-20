@@ -88,7 +88,7 @@ void CNetworkConnection::Tick()
 				bsOut.Write((unsigned char)ID_PLAYER_LEFT);
 				bsOut.Write(packet->guid);
 
-				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
+				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->guid, true);
 				break;
 			}
 			case ID_NEW_INCOMING_CONNECTION:

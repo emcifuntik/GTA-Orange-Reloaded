@@ -46,6 +46,8 @@ void D3DHook::Render()
 		{
 			CNetworkPlayer::Clear();
 			CNetworkVehicle::Clear();
+			CNetworkObject::Clear();
+			if (CNetworkConnection::Get()->IsConnected()) CNetworkConnection::Get()->Disconnect();
 			std::stringstream ss;
 			ss << "Connecting to " << CGlobals::Get().serverIP << ":" << CGlobals::Get().serverPort;
 			CChat::Get()->AddChatMessage(ss.str());
@@ -66,13 +68,18 @@ void D3DHook::Render()
 	auto viewPortGame = GTA::CViewportGame::Get();
 	ImGui::SetNextWindowPos(ImVec2(0.f, 0.f), ImGuiSetCond_Always);
 	ImGui::Begin("Background", 0, ImVec2((float)viewPortGame->Width, (float)viewPortGame->Height), 0.f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings);
-	if (CGlobals::Get().currentGameState == GameStatePlaying)
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.f, 0.f));
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.f);
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.f, 0.f));
+	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.f);
+	if (CGlobals::Get().currentGameState == GameStatePlaying && CGlobals::Get().isDebug)
 	{
 		std::stringstream ss;
 		ss << "Peds pool: " << ReplayInterfaces::Get()->ReplayInterfacePed->pool.Count() << " / " << ReplayInterfaces::Get()->ReplayInterfacePed->pool.Capacity() << std::endl <<
 			"Vehicles pool: " << ReplayInterfaces::Get()->ReplayInterfaceVeh->pool.Count() << " / " << ReplayInterfaces::Get()->ReplayInterfaceVeh->pool.Capacity() << std::endl <<
 			"Objects pool: " << ReplayInterfaces::Get()->ReplayInterfaceObject->pool.Count() << " / " << ReplayInterfaces::Get()->ReplayInterfaceObject->pool.Capacity() << std::endl <<
 			"Ped pos: " << CLocalPlayer::Get()->GetPosition().ToString() << std::endl <<
+			"Ped heading: " << CLocalPlayer::Get()->GetHeading() << std::endl <<
 			"FPS: " << ImGui::GetIO().Framerate;
 		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, 14.f, ImVec2(0.23f * viewPortGame->Width, 0.85f * viewPortGame->Height),
 			ImColor(0x21, 0x96, 0xF3, 0xFF), ss.str().c_str());
@@ -181,6 +188,10 @@ void D3DHook::Render()
 #endif
 	CNetworkPlayer::Render();
 	CNetwork3DText::Render();
+	ImGui::PopStyleVar();
+	ImGui::PopStyleVar();
+	ImGui::PopStyleVar();
+	ImGui::PopStyleVar();
 	ImGui::End();
 	ImGui::Render();
 }

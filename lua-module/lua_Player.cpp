@@ -11,6 +11,12 @@ int lua_GetPlayerCoords(lua_State *L)
 	return 3;
 }
 
+int lua_SetPlayerCoords(lua_State *L)
+{
+	API::Get().SetPlayerPosition(lua_tointeger(L, 1), lua_tonumber(L, 2), lua_tonumber(L, 3), lua_tonumber(L, 4));
+	return 0;
+}
+
 int lua_GetPlayerName(lua_State *L)
 {
 	std::string name = API::Get().GetPlayerName(lua_tointeger(L, 1));

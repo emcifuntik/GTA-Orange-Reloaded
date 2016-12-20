@@ -25,12 +25,12 @@ void CNetworkVehicle::UpdateModel()
 			scriptWait(0);
 		Handle = VEHICLE::CREATE_VEHICLE(m_Model, curPos.fX, curPos.fY, curPos.fZ, curHead, false, true);
 		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(m_Model);
-	}
 
-	Blip blip = AddBlip();
-	UI::SET_BLIP_AS_SHORT_RANGE(blip, false);
-	UI::SET_BLIP_COLOUR(blip, 0);
-	UI::SET_BLIP_SPRITE(blip, 225);
+		Blip blip = AddBlip();
+		UI::SET_BLIP_AS_SHORT_RANGE(blip, false);
+		UI::SET_BLIP_COLOUR(blip, 0);
+		UI::SET_BLIP_SPRITE(blip, 225);
+	}
 }
 
 void CNetworkVehicle::UpdateTargetPosition()
@@ -156,12 +156,12 @@ void CNetworkVehicle::SetTargetRotation(const CVector3& vecRotation, unsigned lo
 
 void CNetworkVehicle::Interpolate()
 {
-	if (m_Model != m_futureModel) UpdateModel();
+	if (m_Model != m_futureModel) UpdateModel(); TRACE();
 	if (PED::GET_VEHICLE_PED_IS_IN(CLocalPlayer::Get()->GetHandle(), false) != Handle)
 	{
-		UpdateTargetRotation();
-		UpdateTargetPosition();
-		BuildTasksQueue();
+		UpdateTargetRotation(); TRACE();
+		UpdateTargetPosition(); TRACE();
+		BuildTasksQueue(); TRACE();
 	}
 }
 
@@ -187,7 +187,7 @@ void CNetworkVehicle::BuildTasksQueue()
 					//VEHICLE::SET_VEHICLE_FORWARD_SPEED(Handle, m_MoveSpeed);
 
 				if (m_Burnout) {
-					AI::TASK_VEHICLE_TEMP_ACTION(m_Driver, Handle, 23, 200);
+					//AI::TASK_VEHICLE_TEMP_ACTION(m_Driver, Handle, 23, 200);
 					//AI::TASK_VEHICLE_TEMP_ACTION(m_Driver, Handle, 30, 2000);
 					//AI::TASK_VEHICLE_TEMP_ACTION(m_Driver, Handle, 6, 2000);
 				} //else if (m_RPM > 0.9 && m_MoveSpeed < 0.025) AI::TASK_VEHICLE_TEMP_ACTION(m_Driver, Handle, 31, 2000);
