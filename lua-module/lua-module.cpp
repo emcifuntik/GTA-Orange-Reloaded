@@ -79,17 +79,7 @@ extern "C"
 
 	EXPORT bool OnPlayerCommand(long playerid, const char * command)
 	{
-		std::stringstream ss;
-		ss << API::Get().GetPlayerName(playerid) << "(cmd): " << command << std::endl;
-		API::Get().Print(ss.str().c_str());
-
-		if (!strcmp(command, "veh"))
-		{
-			CVector3 pos = API::Get().GetPlayerPosition(playerid);
-			API::Get().CreateVehicle(API::Get().Hash("t20"), pos.fX + 1, pos.fY + 1, pos.fZ + 1, 0.0);
-			return false;
-		}
-		return true;
+		return SResource::Get()->OnPlayerCommand(playerid, command);
 	}
 
 	EXPORT bool OnPlayerText(long playerid, const char * text)

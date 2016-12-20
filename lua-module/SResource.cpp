@@ -1,9 +1,5 @@
 #include "stdafx.h"
 
-lua_State *m_lua;
-std::function<void()> tick;
-std::function<char*(const char* method, const char* url, const char* query, const char* body)> http;
-std::function<void(const char* e, std::vector<MValue> *args)> onevent;
 SResource *SResource::singleInstance = nullptr;
 
 static const struct luaL_Reg gfunclib[] = {
@@ -34,6 +30,7 @@ static const struct luaL_Reg mfunclib[] = {
 	{ "OnTick", lua_tick },
 	{ "OnHTTPReq", lua_HTTPReq },
 	{ "OnEvent", lua_Event },
+	{ "OnCommand", lua_Command },
 	{ "SQLEnv", luaopen_luasql_mysql },
 
 	{ "Create3DText", lua_Create3DText },
@@ -97,7 +94,7 @@ bool SResource::Start(const char* name)
 	return true;
 }
 
-bool SResource::OnPlayerConnect(long playerid)
+/*bool SResource::OnPlayerConnect(long playerid)
 {
 	lua_getglobal(m_lua, "__OnPlayerConnect");
 	lua_pushinteger(m_lua, playerid);
@@ -109,7 +106,7 @@ bool SResource::OnPlayerConnect(long playerid)
 	}
 
 	return true;
-}
+}*/
 
 char* SResource::OnHTTPRequest(const char* method, const char* url, const char* query, const char* body)
 {
@@ -120,6 +117,11 @@ bool SResource::OnTick()
 {
 	tick();
 	return true;
+}
+
+bool SResource::OnPlayerCommand(long playerid, const char* cmd)
+{
+	return oncommand(playerid, cmd);
 }
 
 void SResource::SetHTTP(const std::function<char*(const char* method, const char* url, const char* query, const char* body)>& t)
@@ -135,6 +137,11 @@ void SResource::SetTick(const std::function<void()>& t)
 void SResource::SetEvent(const std::function<void(const char* e, std::vector<MValue> *args)>& t)
 {
 	onevent = t;
+}
+
+void SResource::SetCommandProcessor(const std::function<bool(long pid, const char*command)>& t)
+{
+	oncommand = t;
 }
 
 

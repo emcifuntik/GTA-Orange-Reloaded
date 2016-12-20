@@ -26,10 +26,10 @@
 #include "orange/mysql/include/mysql.h"
 #endif
 
-#include "SResource.h"
-
 #include "lua.hpp"
 #include "lua_Main.h"
+
+#include "SResource.h"
 
 #ifdef __linux__
 char *_strdup(const char *str);
