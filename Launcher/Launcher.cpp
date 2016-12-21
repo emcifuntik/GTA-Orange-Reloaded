@@ -105,7 +105,7 @@ void LaunchGame()
 	else
 		gameFolder = TgameFolder;
 
-	std::wstring gamePath = gameFolder + L"\\GTAVLauncher.exe";
+	std::wstring gamePath = gameFolder + L"\\GTA5.exe";
 
 	int fs = (int)Utils::FileSize(gameFolder + L"\\GTA5.exe");
 	if (fs == PIRATE_EXECUTABLE_SIZE)
