@@ -201,6 +201,7 @@ namespace FPlayer
 		bitStream->Read(data);
 		CNetworkVehicle *veh = new CNetworkVehicle();
 		veh->m_GUID = data.GUID;
+		veh->UpdateModel();
 		veh->SetVehicleData(data, 0);
 	}
 

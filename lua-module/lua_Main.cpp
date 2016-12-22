@@ -162,3 +162,27 @@ int lua_Create3DText(lua_State *L)
 	lua_pushinteger(L, API::Get().Create3DText(lua_tostring(L, 1), lua_tonumber(L, 2), lua_tonumber(L, 3), lua_tonumber(L, 4), lua_tointeger(L, 5), lua_tointeger(L, 6)));
 	return 1;
 }
+
+int lua_Delete3DText(lua_State *L)
+{
+	API::Get().Delete3DText(lua_tointeger(L, 1));
+	return 0;
+}
+
+int lua_Set3DTextText(lua_State *L)
+{
+	API::Get().Set3DTextContent(lua_tointeger(L, 1), lua_tostring(L, 2));
+	return 0;
+}
+
+int lua_Attach3DTextToVeh(lua_State *L)
+{
+	API::Get().Attach3DTextToVehicle(lua_tointeger(L, 1), lua_tointeger(L, 2), lua_tonumber(L, 3), lua_tonumber(L, 4), lua_tonumber(L, 5));
+	return 0;
+}
+
+int lua_Attach3DTextToPlayer(lua_State *L)
+{
+	API::Get().Attach3DTextToPlayer(lua_tointeger(L, 1), lua_tointeger(L, 2), lua_tonumber(L, 3), lua_tonumber(L, 4), lua_tonumber(L, 5));
+	return 0;
+}

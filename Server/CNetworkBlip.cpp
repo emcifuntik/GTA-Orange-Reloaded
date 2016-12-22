@@ -3,7 +3,7 @@
 std::vector<CNetworkBlip *> CNetworkBlip::GlobalBlips;
 std::vector<CNetworkBlip *> CNetworkBlip::PlayerBlips;
 
-CNetworkBlip::CNetworkBlip(float x, float y, float z, float scale, int color, int sprite, int playerid)
+CNetworkBlip::CNetworkBlip(float x, float y, float z, float scale, int color, int sprite, int playerid):vecPos(x, y, z), scale(scale), color(color), sprite(sprite), playerid(playerid)
 {
 	RakNet::BitStream bsOut;
 
@@ -16,12 +16,6 @@ CNetworkBlip::CNetworkBlip(float x, float y, float z, float scale, int color, in
 	bsOut.Write(scale);
 	bsOut.Write(color);
 	bsOut.Write(sprite);
-
-	vecPos = CVector3(x, y, z);
-	this->scale = scale;
-	this->color = color;
-	this->sprite = sprite;
-	this->playerid = playerid;
 
 	if (playerid == -1)
 	{

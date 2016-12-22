@@ -156,12 +156,16 @@ void CNetworkVehicle::SetTargetRotation(const CVector3& vecRotation, unsigned lo
 
 void CNetworkVehicle::Interpolate()
 {
-	if (m_Model != m_futureModel) UpdateModel(); TRACE();
+	if (Handle == 0) {
+		//UpdateModel();
+		return;
+	}
+	if (m_Model != m_futureModel) UpdateModel();
 	if (PED::GET_VEHICLE_PED_IS_IN(CLocalPlayer::Get()->GetHandle(), false) != Handle)
 	{
-		UpdateTargetRotation(); TRACE();
+		UpdateTargetRotation();
 		UpdateTargetPosition(); TRACE();
-		BuildTasksQueue(); TRACE();
+		BuildTasksQueue();
 	}
 }
 
@@ -174,14 +178,14 @@ void CNetworkVehicle::BuildTasksQueue()
 	}
 	if (m_MoveSpeed != .0f)
 	{
-		ENTITY::SET_ENTITY_VELOCITY(Handle, m_vecMove.fX, m_vecMove.fY, m_vecMove.fZ);
+		ENTITY::SET_ENTITY_VELOCITY(Handle, m_vecMove.fX, m_vecMove.fY, m_vecMove.fZ); TRACE();
 		if (m_hasDriver)
 		{
 			//SetMoveToDirection(m_interp.pos.vecTarget, m_vecMove, m_MoveSpeed);
 
 			if (VEHICLE::IS_THIS_MODEL_A_CAR(m_Model) || VEHICLE::IS_THIS_MODEL_A_BIKE(m_Model))
 			{
-				CVector3 curPos = GetPosition();
+				CVector3 curPos = GetPosition(); TRACE();
 
 					//if (m_hasDriver) AI::TASK_VEHICLE_DRIVE_TO_COORD(m_Driver, Handle, curPos.fX + m_vecMove.fX, curPos.fY + m_vecMove.fY, curPos.fZ + m_vecMove.fZ, 100, 0, m_Model, 16, 0.f, 0.f);
 					//VEHICLE::SET_VEHICLE_FORWARD_SPEED(Handle, m_MoveSpeed);
@@ -194,18 +198,18 @@ void CNetworkVehicle::BuildTasksQueue()
 			}
 			if (VEHICLE::IS_THIS_MODEL_A_PLANE(m_Model))
 			{
-				VEHICLE::_0xB8FBC8B1330CA9B4(Handle, true);
+				VEHICLE::_0xB8FBC8B1330CA9B4(Handle, true); TRACE();
 			}
 		}
 	}
 	else
 	{
-		ENTITY::SET_ENTITY_VELOCITY(Handle, 0, 0, 0);
+		ENTITY::SET_ENTITY_VELOCITY(Handle, 0, 0, 0); TRACE();
 		//if (m_hasDriver) AI::TASK_VEHICLE_TEMP_ACTION(m_Driver, Handle, 1, 2000);
 	}
-	SetHealth(m_Health);
-	*CMemory(GetAddress()).get<float>(0x8CC) = m_steering / 180 * PI;
-	*CMemory(GetAddress()).get<float>(0x7F4) = m_RPM;
+	SetHealth(m_Health); TRACE();
+	*CMemory(GetAddress()).get<float>(0x8CC) = m_steering / 180 * PI; TRACE();
+	*CMemory(GetAddress()).get<float>(0x7F4) = m_RPM; TRACE();
 }
 
 void CNetworkVehicle::UpdateLastTickTime()

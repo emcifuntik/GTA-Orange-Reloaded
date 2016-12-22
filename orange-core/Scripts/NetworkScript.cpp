@@ -11,7 +11,7 @@ void NetworkAction()
 		if (CNetworkConnection::Get()->IsConnected()) {
 			if (CNetworkConnection::Get()->IsConnectionEstablished())
 			{
-				CLocalPlayer::Get()->SendOnFootData(); TRACE();
+				CLocalPlayer::Get()->SendOnFootData();
 				/*if (CLocalPlayer::Get()->updateTasks)
 				{
 				CLocalPlayer::Get()->updateTasks ^= 1;
@@ -22,15 +22,15 @@ void NetworkAction()
 		if (GetTickCount64() >= (lastSendTick + 10))
 		{
 			if (CNetworkConnection::Get()->IsConnected()) {
-				CNetworkConnection::Get()->Tick(); TRACE();
-				CNetworkPlayer::Tick(); TRACE();
+				CNetworkConnection::Get()->Tick();
+				CNetworkPlayer::Tick();
 			}
 			lastSendTick = GetTickCount64();
 		}
-		CNetworkVehicle::Tick(); TRACE();
-		CNetworkPlayer::PreRender(); TRACE();
-		CNetwork3DText::PreRender(); TRACE();
-		CNetworkUI::Get()->Render(); TRACE();
+		CNetworkVehicle::Tick();
+		CNetworkPlayer::PreRender();
+		CNetwork3DText::PreRender();
+		CNetworkUI::Get()->Render();
 		scriptWait(0);
 	}
 }

@@ -362,6 +362,7 @@ void CNetworkPlayer::Interpolate()
 	{
 		pedJustDead = true;
 		ENTITY::DELETE_ENTITY(&Handle);
+		log << "just dead" << std::endl;
 		return;
 	}
 		

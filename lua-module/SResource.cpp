@@ -35,6 +35,9 @@ static const struct luaL_Reg mfunclib[] = {
 	{ "SQLEnv", luaopen_luasql_mysql },
 
 	{ "Create3DText", lua_Create3DText },
+	{ "Set3DTextText", lua_Set3DTextText },
+	{ "Attach3DTextToVeh", lua_Attach3DTextToVeh },
+	{ "Attach3DTextToPlayer", lua_Attach3DTextToPlayer },
 
 	{ NULL, NULL }
 };
@@ -88,7 +91,7 @@ bool SResource::Start(const char* name)
 	
 	if (luaL_loadfile(m_lua, respath) || lua_pcall(m_lua, 0, 0, 0)) {
 		std::stringstream ss;
-		ss << "[LUA] Could not load main.lua for resource " << name;
+		ss << "[LUA] Could not load main.lua for resource:\n\t" << lua_tostring(m_lua, -1) << name;
 		API::Get().Print(ss.str().c_str());
 		return false;
 	}
