@@ -2,8 +2,6 @@
 
 Injector * Injector::instance = nullptr;
 
-
-
 Injector::Injector()
 {
 }
