@@ -25,6 +25,7 @@ static const struct luaL_Reg mfunclib[] = {
 	{ "GetPlayerCoords", lua_GetPlayerCoords },
 	{ "SetPlayerCoords", lua_SetPlayerCoords },
 	{ "GetPlayerName", lua_GetPlayerName },
+	{ "GetPlayerModel", lua_GetPlayerModel },
 	{ "PlayerExists", lua_PlayerExists },
 	{ "SetPlayerInfoMsg", lua_SetPlayerInfoMsg },
 
