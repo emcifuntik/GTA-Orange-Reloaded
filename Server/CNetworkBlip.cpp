@@ -1,7 +1,6 @@
 #include "stdafx.h"
 
-std::vector<CNetworkBlip *> CNetworkBlip::GlobalBlips;
-std::vector<CNetworkBlip *> CNetworkBlip::PlayerBlips;
+std::vector<CNetworkBlip *> CNetworkBlip::AllBlips;
 
 CNetworkBlip::CNetworkBlip(float x, float y, float z, float scale, int color, int sprite, int playerid):vecPos(x, y, z), scale(scale), color(color), sprite(sprite), playerid(playerid)
 {
@@ -20,13 +19,11 @@ CNetworkBlip::CNetworkBlip(float x, float y, float z, float scale, int color, in
 	if (playerid == -1)
 	{
 		CRPCPlugin::Get()->Signal("CreateBlip", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
-		GlobalBlips.push_back(this);
 	} else {
 		RakNetGUID guid = CNetworkPlayer::GetByID(playerid)->GetGUID();
 		CRPCPlugin::Get()->Signal("CreateBlip", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, guid, false, false);
-		PlayerBlips.push_back(this);
 	}
-	
+	AllBlips.push_back(this);
 }
 
 void CNetworkBlip::SetScale(float _scale)
@@ -51,37 +48,36 @@ CNetworkBlip::~CNetworkBlip()
 
 void CNetworkBlip::SendGlobal(RakNet::Packet *packet)
 {
-	for each(auto *blip in GlobalBlips)
+	for each(auto *blip in AllBlips)
 	{
-		RakNet::BitStream bsOut;
+		if (blip->playerid != -1)
+		{
+			RakNet::BitStream bsOut;
 
-		bsOut.Write(blip->rnGUID);
-		bsOut.Write(blip->vecPos.fX);
-		bsOut.Write(blip->vecPos.fY);
-		bsOut.Write(blip->vecPos.fZ);
-		bsOut.Write(blip->scale);
-		bsOut.Write(blip->color);
-		bsOut.Write(blip->sprite);
+			bsOut.Write(blip->rnGUID);
+			bsOut.Write(blip->vecPos.fX);
+			bsOut.Write(blip->vecPos.fY);
+			bsOut.Write(blip->vecPos.fZ);
+			bsOut.Write(blip->scale);
+			bsOut.Write(blip->color);
+			bsOut.Write(blip->sprite);
 
-		CRPCPlugin::Get()->Signal("CreateBlip", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, packet->guid, false, false);
+			CRPCPlugin::Get()->Signal("CreateBlip", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, packet->guid, false, false);
+		}
 	}
 }
 
 CNetworkBlip * CNetworkBlip::GetByGUID(RakNetGUID guid)
 {
-	for each (CNetworkBlip *blip in GlobalBlips)
-		if (blip && blip->rnGUID == guid)
-			return blip;
-
-	for each (CNetworkBlip *blip in PlayerBlips)
+	for each (CNetworkBlip *blip in AllBlips)
 		if (blip && blip->rnGUID == guid)
 			return blip;
 
 	return nullptr;
 }
 
-std::vector<CNetworkBlip *> CNetworkBlip::AllGlobal()
+std::vector<CNetworkBlip *> CNetworkBlip::All()
 {
-	return GlobalBlips;
+	return AllBlips;
 }
 

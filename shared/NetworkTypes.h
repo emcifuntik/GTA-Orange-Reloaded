@@ -31,6 +31,7 @@ public:
 	CVector3 vecAim;
 	bool bInVehicle;
 	RakNetGUID vehicle;
+	short vehseat;
 
 	std::string ToString()
 	{

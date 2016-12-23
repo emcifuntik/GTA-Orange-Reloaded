@@ -2,7 +2,7 @@
 
 std::vector<CNetwork3DText *> CNetwork3DText::AllTexts;
 
-CNetwork3DText::CNetwork3DText(float x, float y, float z, int color, int outColor, std::string text, int playerid, float oX, float oY, float oZ)
+CNetwork3DText::CNetwork3DText(float x, float y, float z, int color, int outColor, std::string text, int playerid, float oX, float oY, float oZ, float fontSize)
 {
 	RakNet::BitStream bsOut;
 
@@ -14,6 +14,7 @@ CNetwork3DText::CNetwork3DText(float x, float y, float z, int color, int outColo
 	bsOut.Write(z);
 	bsOut.Write(color);
 	bsOut.Write(outColor);
+	bsOut.Write(fontSize);
 	RakString content = RakString(text.c_str());
 	bsOut.Write(content);
 	bsOut.Write(attachmentType);
@@ -28,6 +29,7 @@ CNetwork3DText::CNetwork3DText(float x, float y, float z, int color, int outColo
 	this->outColor = outColor;
 	this->text = text;
 	this->playerid = playerid;
+	this->fontSize = fontSize;
 
 	if (playerid == -1)
 	{
@@ -131,6 +133,7 @@ void CNetwork3DText::SendGlobal(RakNet::Packet *packet)
 		bsOut.Write(text->vecPos.fZ);
 		bsOut.Write(text->color);
 		bsOut.Write(text->outColor);
+		bsOut.Write(text->fontSize);
 		RakString content = RakString(text->text.c_str());
 		bsOut.Write(content);
 		bsOut.Write(text->attachmentType);

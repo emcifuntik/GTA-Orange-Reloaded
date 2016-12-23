@@ -71,6 +71,8 @@ private:
 	CNetworkPlayer();
 public:
 	CPed* pedHandler;
+	short m_Seat;
+	short m_FutureSeat;
 	static int ignoreTasks;
 	static Hash hFutureModel;
 	static std::vector<CNetworkPlayer*> All();

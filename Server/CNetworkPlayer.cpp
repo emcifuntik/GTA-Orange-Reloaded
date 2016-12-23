@@ -88,6 +88,7 @@ void CNetworkPlayer::SetOnFootData(const OnFootSyncData& data)
 	}
 
 	vehicle = data.vehicle;
+	sSeat = data.vehseat;
 }
 
 void CNetworkPlayer::GetOnFootData(OnFootSyncData& data)
@@ -109,6 +110,7 @@ void CNetworkPlayer::GetOnFootData(OnFootSyncData& data)
 	data.bShooting = bShooting;
 	data.bInVehicle = bInVehicle;
 	data.vehicle = vehicle;
+	data.vehseat = sSeat;
 }
 
 void CNetworkPlayer::SetPosition(const CVector3 & position)

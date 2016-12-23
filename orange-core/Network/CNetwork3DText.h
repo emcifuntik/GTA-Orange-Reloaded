@@ -21,6 +21,7 @@ class CNetwork3DText
 	CVector3 scrPos;
 	bool IsVisible = false;
 	float fontSize = 20.f;
+	float rawFontSize = 20.f;
 public:
 	RakNet::RakNetGUID	m_GUID;
 	CNetwork3DText(RakNetGUID guid, float x, float y, float z, int color, int outColor, std::string text, TextAttachedTo attachmentType, RakNet::RakNetGUID attachedTo);
@@ -28,6 +29,7 @@ public:
 	void SetColor(int color);
 	void SetOutColor(int outColor);
 	void SetText(std::string text);
+	void SetFontSize(float size);
 	void AttachToPlayer(RakNet::RakNetGUID GUID, float oX, float oY, float oZ);
 	void AttachToVehicle(RakNet::RakNetGUID GUID, float oX, float oY, float oZ);
 

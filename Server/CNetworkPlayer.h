@@ -37,6 +37,7 @@ public:
 
 	bool bInVehicle = false;
 	RakNetGUID vehicle;
+	short sSeat;
 
 	static void Each(void(*func)(CNetworkPlayer*));
 	static CNetworkPlayer *GetByGUID(RakNet::RakNetGUID GUID);

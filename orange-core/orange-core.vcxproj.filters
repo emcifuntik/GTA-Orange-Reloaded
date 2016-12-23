@@ -382,9 +382,6 @@
     <ClCompile Include="Network\CVehicle.cpp">
       <Filter>Network\Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="Network\Functions.cpp">
-      <Filter>Network\Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Commands.cpp">
       <Filter>Core\Файлы исходного кода</Filter>
     </ClCompile>
@@ -416,6 +413,9 @@
       <Filter>Network\Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="Network\CNetworkObject.cpp">
+      <Filter>Network\Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\Functions.cpp">
       <Filter>Network\Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>

@@ -138,7 +138,7 @@ void CNetworkConnection::Tick()
 					if (remoteVeh)
 					{
 						remoteVeh->UpdateLastTickTime();
-						remoteVeh->SetVehicleData(data, 200); // remoteVeh->GetTickTime());
+						remoteVeh->SetVehicleData(data, 300); // remoteVeh->GetTickTime());
 					}
 				}
 

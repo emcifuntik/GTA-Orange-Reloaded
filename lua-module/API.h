@@ -108,7 +108,7 @@ public:
 	virtual bool SetInfoMsg(long playerid, const char * msg) = 0;
 	virtual bool UnsetInfoMsg(long playerid) = 0;
 
-	virtual unsigned long Create3DText(const char * text, float x, float y, float z, int color, int outColor) = 0;
+	virtual unsigned long Create3DText(const char * text, float x, float y, float z, int color, int outColor, float fontSize) = 0;
 	virtual unsigned long Create3DTextForPlayer(unsigned long player, const char * text, float x, float y, float z, int color, int outColor) = 0;
 	virtual bool Attach3DTextToVehicle(unsigned long textId, unsigned long vehicle, float oX, float oY, float oZ) = 0;
 	virtual bool Attach3DTextToPlayer(unsigned long textId, unsigned long player, float oX, float oY, float oZ) = 0;

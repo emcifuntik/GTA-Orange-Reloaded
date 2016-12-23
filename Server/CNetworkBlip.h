@@ -1,8 +1,7 @@
 #pragma once
 class CNetworkBlip
 {
-	static std::vector<CNetworkBlip *> GlobalBlips;
-	static std::vector<CNetworkBlip *> PlayerBlips;
+	static std::vector<CNetworkBlip *> AllBlips;
 	CVector3 vecPos;
 	float scale;
 	int color;
@@ -10,7 +9,7 @@ class CNetworkBlip
 	int playerid;
 public:
 	RakNet::RakNetGUID rnGUID;
-	static std::vector<CNetworkBlip *> AllGlobal();
+	static std::vector<CNetworkBlip *> All();
 	CNetworkBlip(float x, float y, float z, float scale, int color, int sprite, int playerid);
 
 	void SetScale(float _scale);

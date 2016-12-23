@@ -12,6 +12,8 @@ public:
 	bool updateTasks = false;
 	CVector3 *aimPosition = nullptr;
 	Hash newModel = 0;
+	bool _togopassenger = false;
+	short lastSendSeat;
 
 	static CLocalPlayer *Get();
 
@@ -21,6 +23,7 @@ public:
 	void GetOnFootSync(OnFootSyncData& onfoot);
 	void GetVehicleSync(VehicleData & vehsync);
 	void SendOnFootData();
+	short GetSeat();
 	void GoPassenger();
 	void SendTasks();
 	void SetMoney(int money);

@@ -156,12 +156,9 @@ void CNetworkVehicle::SetTargetRotation(const CVector3& vecRotation, unsigned lo
 
 void CNetworkVehicle::Interpolate()
 {
-	if (Handle == 0) {
-		//UpdateModel();
-		return;
-	}
 	if (m_Model != m_futureModel) UpdateModel();
-	if (PED::GET_VEHICLE_PED_IS_IN(CLocalPlayer::Get()->GetHandle(), false) != Handle)
+	if (Handle == 0) return;
+	if (PED::GET_VEHICLE_PED_IS_IN(CLocalPlayer::Get()->GetHandle(), false) != Handle || CLocalPlayer::Get()->GetSeat() != -1)
 	{
 		UpdateTargetRotation();
 		UpdateTargetPosition(); TRACE();
@@ -181,11 +178,9 @@ void CNetworkVehicle::BuildTasksQueue()
 		ENTITY::SET_ENTITY_VELOCITY(Handle, m_vecMove.fX, m_vecMove.fY, m_vecMove.fZ); TRACE();
 		if (m_hasDriver)
 		{
-			//SetMoveToDirection(m_interp.pos.vecTarget, m_vecMove, m_MoveSpeed);
-
 			if (VEHICLE::IS_THIS_MODEL_A_CAR(m_Model) || VEHICLE::IS_THIS_MODEL_A_BIKE(m_Model))
 			{
-				CVector3 curPos = GetPosition(); TRACE();
+				CVector3 curPos = GetPosition();
 
 					//if (m_hasDriver) AI::TASK_VEHICLE_DRIVE_TO_COORD(m_Driver, Handle, curPos.fX + m_vecMove.fX, curPos.fY + m_vecMove.fY, curPos.fZ + m_vecMove.fZ, 100, 0, m_Model, 16, 0.f, 0.f);
 					//VEHICLE::SET_VEHICLE_FORWARD_SPEED(Handle, m_MoveSpeed);
@@ -232,6 +227,7 @@ void CNetworkVehicle::SetVehicleData(VehicleData data, unsigned long ulDelay)
 		{
 			m_Driver = pl->GetHandle();
 			if (PED::GET_VEHICLE_PED_IS_IN(m_Driver, false) != Handle) m_hasDriver = false;
+			else pl->m_FutureSeat = -1;
 		}
 	}
 	else m_hasDriver = false;

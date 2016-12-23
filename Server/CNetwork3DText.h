@@ -14,13 +14,14 @@ class CNetwork3DText
 	CVector3 vecOffset;
 	int color;
 	int outColor;
+	float fontSize;
 	std::string text;
 	int playerid;
 	TextAttachedTo attachmentType = TextAttachedTo::NON_ATTACHED;
 	RakNet::RakNetGUID attachedTo;
 public:
 	RakNet::RakNetGUID rnGUID;
-	CNetwork3DText(float x, float y, float z, int color, int outColor, std::string text, int playerid = -1, float oX = 0.f, float oY = 0.f, float oZ = 0.f);
+	CNetwork3DText(float x, float y, float z, int color, int outColor, std::string text, int playerid = -1, float oX = 0.f, float oY = 0.f, float oZ = 0.f, float fontSize = 16.f);
 	void AttachToVehicle(CNetworkVehicle &vehicle, float oX = 0.f, float oY = 0.f, float oZ = 0.f);
 	void AttachToPlayer(CNetworkPlayer &player, float oX = 0.f, float oY = 0.f, float oZ = 0.f);
 	void SetText(std::string text);

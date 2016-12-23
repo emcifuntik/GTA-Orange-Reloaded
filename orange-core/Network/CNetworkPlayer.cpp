@@ -236,7 +236,10 @@ void CNetworkPlayer::SetOnFootData(OnFootSyncData data, unsigned long ulDelay)
 		pedHandler->MoveSpeed = data.fMoveSpeed;
 		m_Entering = false;
 	}
-	else m_Vehicle = data.vehicle;
+	else {
+		m_Vehicle = data.vehicle;
+		m_FutureSeat = data.vehseat;
+	}
 }
 
 void CNetworkPlayer::UpdateTargetPosition()
@@ -362,7 +365,6 @@ void CNetworkPlayer::Interpolate()
 	{
 		pedJustDead = true;
 		ENTITY::DELETE_ENTITY(&Handle);
-		log << "just dead" << std::endl;
 		return;
 	}
 		
@@ -429,7 +431,21 @@ void CNetworkPlayer::BuildTasksQueue()
 				AI::CLEAR_PED_TASKS(Handle);
 				AI::CLEAR_PED_SECONDARY_TASK(Handle);
 				AI::CLEAR_PED_TASKS_IMMEDIATELY(Handle);
-				AI::TASK_ENTER_VEHICLE(Handle, veh->GetHandle(), -1, -1, 2, 0, 0);
+				m_Seat = m_FutureSeat;
+				AI::TASK_ENTER_VEHICLE(Handle, veh->GetHandle(), -1, m_Seat, 2, 0, 0);
+			}
+		}
+		else if (m_FutureSeat != m_Seat)
+		{
+			CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(m_Vehicle);
+			if (veh)
+			{
+				log << "shuffle: " << m_Seat << " => " << m_FutureSeat << std::endl;
+				AI::CLEAR_PED_TASKS(Handle);
+				AI::TASK_SHUFFLE_TO_NEXT_VEHICLE_SEAT(Handle, veh->GetHandle());
+				for (int i = -1; i < VEHICLE::GET_VEHICLE_MAX_NUMBER_OF_PASSENGERS(veh->GetHandle()); i++)
+					if (!VEHICLE::IS_VEHICLE_SEAT_FREE(veh->GetHandle(), i) && VEHICLE::GET_PED_IN_VEHICLE_SEAT(veh->GetHandle(), i) == Handle) m_Seat = i;
+
 			}
 		}
 	}

@@ -349,9 +349,9 @@ bool API::UnsetInfoMsg(long playerid)
 	return true;
 }
 
-unsigned long API::Create3DText(const char * text, float x, float y, float z, int color, int outColor)
+unsigned long API::Create3DText(const char * text, float x, float y, float z, int color, int outColor, float fontSize)
 {
-	CNetwork3DText * blip = new CNetwork3DText(x, y, z, color, outColor, text);
+	CNetwork3DText * blip = new CNetwork3DText(x, y, z, color, outColor, text, -1, 0.f, 0.f, 0.f, fontSize);
 	return RakNetGUID::ToUint32(blip->rnGUID);
 }
 

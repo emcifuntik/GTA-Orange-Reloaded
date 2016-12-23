@@ -50,6 +50,11 @@ void CNetwork3DText::SetText(std::string text)
 	this->text = text;
 }
 
+void CNetwork3DText::SetFontSize(float size)
+{
+	rawFontSize = size;
+}
+
 void CNetwork3DText::Render()
 {
 	for each (CNetwork3DText *text in TextPool)
@@ -108,7 +113,7 @@ void CNetwork3DText::PreRender()
 		text->IsVisible = true;
 
 		float k = 1.0f - distance / 100;
-		text->fontSize = 16.0f * k;
+		text->fontSize = text->rawFontSize * k;
 		ImVec2 textSize = CGlobals::Get().chatFont->CalcTextSizeA(text->fontSize, 1000.f, 1000.f, text->text.c_str());
 		CVector3 screenPos;
 		CGraphics::Get()->WorldToScreen(CVector3(text->vecPos.fX, text->vecPos.fY, text->vecPos.fZ), screenPos);

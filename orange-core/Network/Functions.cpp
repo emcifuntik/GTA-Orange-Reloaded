@@ -201,7 +201,6 @@ namespace FPlayer
 		bitStream->Read(data);
 		CNetworkVehicle *veh = new CNetworkVehicle();
 		veh->m_GUID = data.GUID;
-		veh->UpdateModel();
 		veh->SetVehicleData(data, 0);
 	}
 
@@ -238,7 +237,7 @@ namespace FPlayer
 	void Create3DText(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 	{
 		RakNet::RakNetGUID guid;
-		float x, y, z, oX, oY, oZ;
+		float x, y, z, oX, oY, oZ, fontSize;
 		int color, outColor;
 		std::string content;
 		TextAttachedTo attachType = TextAttachedTo::NON_ATTACHED;
@@ -250,6 +249,7 @@ namespace FPlayer
 		bitStream->Read(z);
 		bitStream->Read(color);
 		bitStream->Read(outColor);
+		bitStream->Read(fontSize);
 		RakString contentRak;
 		bitStream->Read(contentRak);
 		content = contentRak.C_String();
@@ -258,7 +258,7 @@ namespace FPlayer
 		bitStream->Read(oX);
 		bitStream->Read(oY);
 		bitStream->Read(oZ);
-		new CNetwork3DText(guid, x, y, z, color, outColor, content, attachType, attachedTo);
+		(new CNetwork3DText(guid, x, y, z, color, outColor, content, attachType, attachedTo))->SetFontSize(fontSize);
 	}
 
 	void Attach3DTextToVehicle(RakNet::BitStream *bitStream, RakNet::Packet *packet)
