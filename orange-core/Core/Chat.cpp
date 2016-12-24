@@ -201,7 +201,6 @@ void CChat::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, BOOL i
 	
 	if (isUpNow || wasDownBefore)
 	{
-		log << std::hex << key << std::endl;
 		switch (key)
 		{
 		case VK_ESCAPE:

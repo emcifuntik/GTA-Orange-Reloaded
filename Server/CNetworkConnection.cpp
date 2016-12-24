@@ -158,7 +158,7 @@ void CNetworkConnection::Tick()
 				OnFootSyncData data;
 				bsIn.Read(data);
 
-				if(data.bInVehicle) log << "(" << player->GetID() << ") seat: " << data.vehseat << std::endl;
+				//if(data.bInVehicle) log << "(" << player->GetID() << ") seat: " << data.vehseat << std::endl;
 				player->SetOnFootData(data);
 				
 				if (!Plugin::PlayerUpdate(CNetworkPlayer::GetByGUID(packet->guid)->GetID()))

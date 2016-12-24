@@ -44,7 +44,7 @@ void CLocalPlayer::GetOnFootSync(OnFootSyncData& onfoot)
 	onfoot.fHeading = GetHeading();
 	GetMoveSpeed(onfoot.vecMoveSpeed); TRACE();
 	onfoot.vecTurnSpeed = GetRotationVelocity();
-	onfoot.bDuckState = IsDucking();
+	onfoot.bDuckState = IsDucking(); TRACE();
 	onfoot.usHealth = GetHealth();
 	onfoot.usArmour = GetArmour();
 	onfoot.ulWeapon = GetCurrentWeapon();
@@ -58,15 +58,15 @@ void CLocalPlayer::GetOnFootSync(OnFootSyncData& onfoot)
 		if (veh)
 		{
 			onfoot.vehicle = veh->m_GUID;
-			short seat = PED::GET_SEAT_PED_IS_TRYING_TO_ENTER(Handle);
-			onfoot.vehseat = seat == -3 ? -2 : seat;
+			short seat = PED::GET_SEAT_PED_IS_TRYING_TO_ENTER(Handle); TRACE();
+			onfoot.vehseat = seat == -3 ? -2 : seat; TRACE();
 			log << "seat: " << seat << "\ndseat: " << onfoot.vehseat << std::endl;
 		}
 		else {
-			veh = CNetworkVehicle::GetByHandle(PED::GET_VEHICLE_PED_IS_IN(Handle, false));
+			veh = CNetworkVehicle::GetByHandle(PED::GET_VEHICLE_PED_IS_IN(Handle, false)); TRACE();
 			if (veh) {
 				onfoot.vehicle = veh->m_GUID;
-				onfoot.vehseat = GetSeat();
+				onfoot.vehseat = GetSeat(); TRACE();
 				log << "getseat: " << onfoot.vehseat << std::endl; TRACE();
 			}
 		}
@@ -109,13 +109,13 @@ void CLocalPlayer::Tick()
 {
 	if (newModel != 0)
 	{
-		ChangeModel(newModel); TRACE();
-		newModel = 0; TRACE();
+		ChangeModel(newModel);
+		newModel = 0;
 	}
-	PLAYER::SET_PLAYER_HEALTH_RECHARGE_MULTIPLIER(PLAYER::PLAYER_ID(), 0.f); TRACE();
-	PLAYER::SET_AUTO_GIVE_PARACHUTE_WHEN_ENTER_PLANE(PLAYER::PLAYER_ID(), false); TRACE();
-	PLAYER::ENABLE_SPECIAL_ABILITY(PLAYER::PLAYER_ID(), false); TRACE();
-	if (_togopassenger) CLocalPlayer::GoPassenger();
+	PLAYER::SET_PLAYER_HEALTH_RECHARGE_MULTIPLIER(PLAYER::PLAYER_ID(), 0.f);
+	PLAYER::SET_AUTO_GIVE_PARACHUTE_WHEN_ENTER_PLANE(PLAYER::PLAYER_ID(), false);
+	PLAYER::ENABLE_SPECIAL_ABILITY(PLAYER::PLAYER_ID(), false);
+	if (_togopassenger) CLocalPlayer::GoPassenger(); TRACE();
 }
 
 void CLocalPlayer::ChangeModel(Hash model)
@@ -149,7 +149,7 @@ void CLocalPlayer::SendOnFootData()
 	if (PED::IS_PED_IN_ANY_VEHICLE(Handle, false) && GetSeat() == -1) {
 		bsOut.Write((MessageID)ID_SEND_VEHICLE_DATA);
 		VehicleData data;
-		GetVehicleSync(data);
+		GetVehicleSync(data); TRACE();
 		bsOut.Write(data);
 	}
 	else {
@@ -192,7 +192,14 @@ void CLocalPlayer::GoPassenger()
 	if (smallestDistance > 10.f) return;
 
 	AI::CLEAR_PED_TASKS(Handle);
-	AI::TASK_ENTER_VEHICLE(Handle, veh, -1, -2, 2.f, 0, 0);
+	for (int seat = 0; seat < VEHICLE::GET_VEHICLE_MAX_NUMBER_OF_PASSENGERS(veh); seat++)
+	{
+		if (VEHICLE::IS_VEHICLE_SEAT_FREE(veh, seat))
+		{
+			AI::TASK_ENTER_VEHICLE(Handle, veh, -1, seat, 2.f, 0, 0);
+			return;
+		}
+	}
 }
 
 void CLocalPlayer::SendTasks()
