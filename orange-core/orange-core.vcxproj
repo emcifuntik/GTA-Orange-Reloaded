@@ -55,7 +55,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;ORANGECORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../deps/RakNet/;../shared/;../deps/ClientDeps/Cef/;./;../deps/tinyxml2/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../deps/RakNet/;../shared/;./;../deps/tinyxml2/</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -63,7 +63,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../deps/bin</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libcef_dll_wrapper_$(Configuration)_$(Platform).lib;libcef_$(Configuration)_$(Platform).lib;RakNet_$(Configuration)_$(Platform).lib;tinyxml2_$(Configuration)_$(Platform).lib;d3dcompiler.lib;winmm.lib;Mincore.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sciter.lib;libcef_dll_wrapper_$(Configuration)_$(Platform).lib;libcef_$(Configuration)_$(Platform).lib;RakNet_$(Configuration)_$(Platform).lib;tinyxml2_$(Configuration)_$(Platform).lib;d3dcompiler.lib;winmm.lib;Mincore.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -75,7 +75,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;ORANGECORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../deps/RakNet/;../shared/;../deps/ClientDeps/Cef/;./;../deps/tinyxml2/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../deps/RakNet/;../shared/;./;../deps/tinyxml2/</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -84,14 +84,13 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\deps\bin\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libcef_dll_wrapper_$(Configuration)_$(Platform).lib;libcef_$(Configuration)_$(Platform).lib;RakNet_$(Configuration)_$(Platform).lib;tinyxml2_$(Configuration)_$(Platform).lib;d3dcompiler.lib;winmm.lib;Mincore.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sciter.lib;libcef_dll_wrapper_$(Configuration)_$(Platform).lib;libcef_$(Configuration)_$(Platform).lib;RakNet_$(Configuration)_$(Platform).lib;tinyxml2_$(Configuration)_$(Platform).lib;d3dcompiler.lib;winmm.lib;Mincore.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Cef\Window.h" />
     <ClInclude Include="Core\Chat.h" />
     <ClInclude Include="Core\Commands.h" />
     <ClInclude Include="Core\nativeCaller.h" />
@@ -149,12 +148,12 @@
     <ClInclude Include="orange-core.h" />
     <ClInclude Include="Registry.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="sciter.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Cef\Window.cpp" />
     <ClCompile Include="Core\Chat.cpp" />
     <ClCompile Include="Core\Commands.cpp" />
     <ClCompile Include="Core\nativeInvoker.cpp" />
@@ -209,6 +208,7 @@
     <ClCompile Include="Network\Functions.cpp" />
     <ClCompile Include="orange-core.cpp" />
     <ClCompile Include="Registry.cpp" />
+    <ClCompile Include="sciter.cpp" />
     <ClCompile Include="Scripts\ChatScript.cpp" />
     <ClCompile Include="Scripts\GameInit.cpp" />
     <ClCompile Include="Scripts\NetworkScript.cpp" />
