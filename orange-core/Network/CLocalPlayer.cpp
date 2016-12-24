@@ -103,7 +103,7 @@ void CLocalPlayer::GetVehicleSync(VehicleData& vehsync)
 
 	if (VEHICLE::IS_THIS_MODEL_A_CAR(veh->GetModel()) || VEHICLE::IS_THIS_MODEL_A_BIKE(veh->GetModel()) || VEHICLE::IS_THIS_MODEL_A_QUADBIKE(veh->GetModel()))
 		vehsync.steering = (*CMemory(veh->GetAddress()).get<float>(0x8CC)) * (180.0f / PI);
-	log << "Wheel speed: " << *CMemory(veh->GetAddress()).get<float>(0x9C4) << std::endl;
+	log << "Wheel speed: " << *CMemory(veh->GetAddress()).get<float>(0x9F0) << std::endl;
 }
 
 CLocalPlayer * CLocalPlayer::Get()
