@@ -7,7 +7,7 @@ void NetworkAction()
 	keyboardHandlerRegister(CNetworkUI::ScriptKeyboardMessage);
 	for (;;)
 	{
-		CLocalPlayer::Get()->Tick(); TRACE();
+		CLocalPlayer::Get()->Tick();
 		if (CNetworkConnection::Get()->IsConnected()) {
 			if (CNetworkConnection::Get()->IsConnectionEstablished())
 			{
@@ -27,7 +27,7 @@ void NetworkAction()
 			}
 			lastSendTick = GetTickCount64();
 		}
-		CNetworkVehicle::Tick(); TRACE();
+		CNetworkVehicle::Tick();
 		CNetworkPlayer::PreRender();
 		CNetwork3DText::PreRender();
 		CNetworkUI::Get()->Render();

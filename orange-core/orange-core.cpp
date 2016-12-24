@@ -96,7 +96,7 @@ void OnGameStateChange(int gameState)
 		break;
 	case GameStatePlaying:
 	{
-
+		TurnOnConsole();
 		CGlobals::Get().gtaHwnd = FindWindowA(NULL, "Grand Theft Auto V");
 		/*SetWindowText(CGlobals::Get().gtaHwnd, L"GTA:Orange");
 		Icon = LPARAM(LoadIconA(NULL, (CGlobals::Get().orangePath + "/Launcher.ico").c_str()));

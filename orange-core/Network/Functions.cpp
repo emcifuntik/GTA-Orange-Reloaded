@@ -66,6 +66,7 @@ namespace FPlayer
 		CVector3 pos;
 		bitStream->Read(pos);
 		CLocalPlayer::Get()->SetCoordsKeepVehicle(pos.fX, pos.fY, pos.fZ);
+		if (!CLocalPlayer::Get()->Spawned) CLocalPlayer::Get()->Spawn();
 	}
 
 	void SetPlayerHeading(RakNet::BitStream *bitStream, RakNet::Packet *packet) // float heading
