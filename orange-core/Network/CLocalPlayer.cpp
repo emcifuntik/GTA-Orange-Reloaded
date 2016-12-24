@@ -1,11 +1,5 @@
 #include "stdafx.h"
 
-void __fastcall eventHook(GTA::CTask* task)
-{
-	log_debug << task->GetTree() << std::endl;
-	CLocalPlayer::Get()->updateTasks = true;
-}
-
 CLocalPlayer* CLocalPlayer::Instance = nullptr;
 
 CLocalPlayer::CLocalPlayer() :CPedestrian(PLAYER::PLAYER_PED_ID())
@@ -22,17 +16,6 @@ CLocalPlayer::CLocalPlayer() :CPedestrian(PLAYER::PLAYER_PED_ID())
 	aimPosition = new CVector3(0.f, 0.f, 0.f);//&CWorld::Get()->CPedPtr->CPlayerInfoPtr->AimPosition;
 
 	rageGlobals::SetPlayerColor(0xFF, 0x8F, 0x00, 0xFF);
-
-	/*auto addr = CMemory((uintptr_t)GetModuleHandle(NULL) + 0x4E1FA4);
-	addr.nop(20);*/
-
-	STATS::STAT_SET_INT(Utils::Hash("WHEELIE_ABILITY"), 100, 1);
-	STATS::STAT_SET_INT(Utils::Hash("STAMINA"), 100, 1);
-	STATS::STAT_SET_INT(Utils::Hash("STRENGTH"), 100, 1);
-	STATS::STAT_SET_INT(Utils::Hash("LUNG_CAPACITY"), 100, 1);
-	STATS::STAT_SET_INT(Utils::Hash("FLYING_ABILITY"), 100, 1);
-	STATS::STAT_SET_INT(Utils::Hash("SHOOTING_ABILITY"), 100, 1);
-	STATS::STAT_SET_INT(Utils::Hash("STEALTH_ABILITY"), 100, 1);
 
 	typedef int(*ShowAbilityBar)(bool);
 	((ShowAbilityBar)CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1F26D4)())(false);
@@ -124,7 +107,14 @@ void CLocalPlayer::Tick()
 	PLAYER::SET_PLAYER_HEALTH_RECHARGE_MULTIPLIER(PLAYER::PLAYER_ID(), 0.f);
 	PLAYER::SET_AUTO_GIVE_PARACHUTE_WHEN_ENTER_PLANE(PLAYER::PLAYER_ID(), false);
 	PLAYER::ENABLE_SPECIAL_ABILITY(PLAYER::PLAYER_ID(), false);
-	if (_togopassenger) CLocalPlayer::GoPassenger(); TRACE();
+	STATS::STAT_SET_INT(Utils::Hash("WHEELIE_ABILITY"), 100, 1);
+	STATS::STAT_SET_INT(Utils::Hash("STAMINA"), 100, 1);
+	STATS::STAT_SET_INT(Utils::Hash("STRENGTH"), 100, 1);
+	STATS::STAT_SET_INT(Utils::Hash("LUNG_CAPACITY"), 100, 1);
+	STATS::STAT_SET_INT(Utils::Hash("FLYING_ABILITY"), 100, 1);
+	STATS::STAT_SET_INT(Utils::Hash("SHOOTING_ABILITY"), 100, 1);
+	STATS::STAT_SET_INT(Utils::Hash("STEALTH_ABILITY"), 100, 1);
+	if (_togopassenger) CLocalPlayer::GoPassenger();
 }
 
 void CLocalPlayer::ChangeModel(Hash model)
