@@ -64,10 +64,6 @@ void CNetworkConnection::Tick()
 				bsOut.Write(playerName);
 				CLocalPlayer::Get()->SetMoney(0);
 
-				CAM::RENDER_SCRIPT_CAMS(false, false, 0, false, false);
-				UI::DISPLAY_HUD(true);
-				UI::DISPLAY_RADAR(true);
-
 				client->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
 				break;
 			}
@@ -138,7 +134,7 @@ void CNetworkConnection::Tick()
 					if (remoteVeh)
 					{
 						remoteVeh->UpdateLastTickTime();
-						remoteVeh->SetVehicleData(data, 300); // remoteVeh->GetTickTime());
+						remoteVeh->SetVehicleData(data, 100 + (int)(data.vecMoveSpeed.Length()*1.8)); // remoteVeh->GetTickTime());
 					}
 				}
 

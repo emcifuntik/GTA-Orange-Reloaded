@@ -161,7 +161,7 @@ void CNetworkVehicle::Interpolate()
 	if (PED::GET_VEHICLE_PED_IS_IN(CLocalPlayer::Get()->GetHandle(), false) != Handle || CLocalPlayer::Get()->GetSeat() != -1)
 	{
 		UpdateTargetRotation();
-		UpdateTargetPosition(); TRACE();
+		UpdateTargetPosition();
 		BuildTasksQueue();
 	}
 }
@@ -175,7 +175,7 @@ void CNetworkVehicle::BuildTasksQueue()
 	}
 	if (m_MoveSpeed != .0f)
 	{
-		ENTITY::SET_ENTITY_VELOCITY(Handle, m_vecMove.fX, m_vecMove.fY, m_vecMove.fZ); TRACE();
+		ENTITY::SET_ENTITY_VELOCITY(Handle, m_vecMove.fX, m_vecMove.fY, m_vecMove.fZ);
 		if (m_hasDriver)
 		{
 			if (VEHICLE::IS_THIS_MODEL_A_CAR(m_Model) || VEHICLE::IS_THIS_MODEL_A_BIKE(m_Model))
@@ -193,18 +193,18 @@ void CNetworkVehicle::BuildTasksQueue()
 			}
 			if (VEHICLE::IS_THIS_MODEL_A_PLANE(m_Model))
 			{
-				VEHICLE::_0xB8FBC8B1330CA9B4(Handle, true); TRACE();
+				VEHICLE::_0xB8FBC8B1330CA9B4(Handle, true);
 			}
 		}
 	}
 	else
 	{
-		ENTITY::SET_ENTITY_VELOCITY(Handle, 0, 0, 0); TRACE();
+		ENTITY::SET_ENTITY_VELOCITY(Handle, 0, 0, 0);
 		//if (m_hasDriver) AI::TASK_VEHICLE_TEMP_ACTION(m_Driver, Handle, 1, 2000);
 	}
-	SetHealth(m_Health); TRACE();
-	*CMemory(GetAddress()).get<float>(0x8CC) = m_steering / 180 * PI; TRACE();
-	*CMemory(GetAddress()).get<float>(0x7F4) = m_RPM; TRACE();
+	SetHealth(m_Health);
+	*CMemory(GetAddress()).get<float>(0x8CC) = m_steering / 180 * PI;
+	*CMemory(GetAddress()).get<float>(0x7F4) = m_RPM;
 }
 
 void CNetworkVehicle::UpdateLastTickTime()

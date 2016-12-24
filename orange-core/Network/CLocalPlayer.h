@@ -9,6 +9,7 @@ class CLocalPlayer: public CPedestrian
 	static CLocalPlayer* Instance;
 	CLocalPlayer();
 public:
+	bool Spawned = false;
 	bool updateTasks = false;
 	CVector3 *aimPosition = nullptr;
 	Hash newModel = 0;
@@ -28,5 +29,6 @@ public:
 	void SendTasks();
 	void SetMoney(int money);
 	~CLocalPlayer();
+	void Spawn();
 };
 
