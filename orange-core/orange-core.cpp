@@ -60,6 +60,8 @@ static bool OnLookAlive()
 	if (!IsScriptsDisabled() && IsAnyScriptLoaded())
 	{
 		DisableScripts();
+		CGlobals::Get().ShutdownLoadingScreen();
+		CGlobals::Get().DoScreenFadeIn(0);
 	}
 	//OnGameFrame
 	return g_origLookAlive();

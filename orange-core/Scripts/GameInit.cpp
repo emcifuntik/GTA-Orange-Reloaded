@@ -20,8 +20,6 @@ void Action()
 			CGlobals::Get().displayServerBrowser = true;
 			teleported = true;
 			CLocalPlayer::Get()->ChangeModel(Utils::Hash("mp_m_freemode_01"));
-			CGlobals::Get().ShutdownLoadingScreen();
-			CGlobals::Get().DoScreenFadeIn(0);
 			CChat::Get()->AddChatMessage("Grand Theft Auto: Orange loaded");
 		}
 		scriptWait(0);
