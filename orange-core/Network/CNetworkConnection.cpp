@@ -153,55 +153,57 @@ void CNetworkConnection::Tick()
 					bsIn.Read(tasks);
 					for (int i = 0; i < tasks; i++)
 					{
-						unsigned short taskID;
-						bsIn.Read(taskID);
-						log_debug << "Recieved " << VTasks::Get()->GetTaskName(taskID) << std::endl;
+						unsigned short taskID; TRACE();
+						bsIn.Read(taskID); TRACE();
+						log_debug << "Recieved " << VTasks::Get()->GetTaskName(taskID) << std::endl; TRACE();
 
-						unsigned int size;
-						bsIn.Read(size);
+						unsigned int size; TRACE();
+						bsIn.Read(size); TRACE();
 
-						int bytesSize = (size % 8) ? (size / 8 + 1) : (size / 8);
-						unsigned char* taskInfo = new unsigned char[bytesSize];
-						bsIn.ReadBits(taskInfo, size);
-						rageBuffer data;
-						typedef void(*InitBuffer)(rageBuffer*);
-						((InitBuffer)CMemory::Find("80 61 1C ? 33 C0 48 89 01 48 89 41 08 48 89 41 10 89 41 18 48 8B C1")())(&data);
-						typedef void(*InitReadBuffer)(rageBuffer*, unsigned char*, int, int);
-						((InitReadBuffer)CMemory::Find("80 61 1C ? 80 49 1C ? 33 C0 48 89 41 10 89 41 18 48 89 11 44 89 41 0C 44 89 49 08")())(&data, taskInfo, size, 0);
-						typedef CSerialisedFSMTaskInfo*(*CreateTaskInfoByID)(unsigned int);
-						CSerialisedFSMTaskInfo* serTask = ((CreateTaskInfoByID)CMemory::Find("48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 57 41 54 41 55 41 56 41 57 48 83 EC 20 33 F6 B8 ? ? ? ?")())(taskID);
+						int bytesSize = (size % 8) ? (size / 8 + 1) : (size / 8); TRACE();
+						unsigned char* taskInfo = new unsigned char[bytesSize]; TRACE();
+						bsIn.ReadBits(taskInfo, size); TRACE();
+						rageBuffer data; TRACE();
+						typedef void(*InitBuffer)(rageBuffer*); TRACE();
+						((InitBuffer)CMemory((uintptr_t)GetModuleHandle(NULL) + 0x11E7920)())(&data); TRACE();
+						typedef void(*InitReadBuffer)(rageBuffer*, unsigned char*, int, int); TRACE();
+						((InitReadBuffer)CMemory((uintptr_t)GetModuleHandle(NULL) + 0x11EBCA8)())(&data, taskInfo, size, 0); TRACE();
+						typedef CSerialisedFSMTaskInfo*(*CreateTaskInfoByID)(unsigned int); TRACE();
+						CSerialisedFSMTaskInfo* serTask = ((CreateTaskInfoByID)CMemory((uintptr_t)GetModuleHandle(NULL) + 0x0658904)())(taskID); TRACE();
 
-						serTask->Read(&data);
-						ClonedTasks.push_back({ serTask, taskID });
-						delete[size] taskInfo;
+						serTask->Read(&data); TRACE();
+						ClonedTasks.push_back({ serTask, taskID }); TRACE();
+						delete[size] taskInfo; TRACE();
 						if (parentTaskID == -1)
 							parentTaskID = taskID;
+						TRACE();
 					}
 					if (parentTaskID != -1)
 					{
-						GTA::CTask *parentTask = nullptr;
-						GTA::CTask *cursorTask = nullptr;
+						GTA::CTask *parentTask = nullptr; TRACE();
+						GTA::CTask *cursorTask = nullptr; TRACE();
 						for each (auto cloned in ClonedTasks)
 						{
 							if (!parentTask)
 							{
-								parentTask = (GTA::CTask*)cloned.task->GetTask();
-								parentTask->Deserialize(cloned.task);
-								cursorTask = parentTask;
+								parentTask = (GTA::CTask*)cloned.task->GetTask(); TRACE();
+								parentTask->Deserialize(cloned.task); TRACE();
+								cursorTask = parentTask; TRACE();
 							}
 							else
 							{
-								GTA::CTask *newTask = (GTA::CTask*)cloned.task->GetTask();
-								newTask->Deserialize(cloned.task);
-								cursorTask->NextSubTask = newTask;
-								cursorTask = newTask;
+								GTA::CTask *newTask = (GTA::CTask*)cloned.task->GetTask(); TRACE();
+								newTask->Deserialize(cloned.task); TRACE();
+								cursorTask->NextSubTask = newTask; TRACE();
+								cursorTask = newTask; TRACE();
 							}
 						}
 						log_debug << "Assigned: " << parentTask->GetTree() << std::endl;
-						player->AssignTask(parentTask);
+						player->AssignTask(parentTask); TRACE();
 
 						for each (auto cloned in ClonedTasks)
 							rage::sysMemAllocator::Get()->free((void*)cloned.task, rage::HEAP_TASK_CLONE);
+						TRACE();
 					}
 				}
 				break;

@@ -4,7 +4,7 @@ void ForceToSingle()
 {
 	CMemory mem((uintptr_t)GetModuleHandle(NULL) + 0x2773C); //48 83 EC 28 85 D2 78 71 75 0F
 	CMemory mem2((uintptr_t)GetModuleHandle(NULL) + 0x186680); //48 83 EC 28 B9 ? ? ? ? E8 ? ? ? ? B9 ? ? ? ? E8 ? ? ? ? B1 01
-	(mem + 0x3B).put(DWORD(mem2.getFunc() - mem.getFunc() - 0x3F));
+	(mem + 0x3B).put(DWORD(mem2() - mem() - 0x3F));
 }
 
 void UnknownPatches()
@@ -81,8 +81,14 @@ LRESULT APIENTRY WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	ScriptManager::WndProc(hwnd, uMsg, wParam, lParam);
 	ImGui_ImplDX11_WndProcHandler(hwnd, uMsg, wParam, lParam);
-	//log_debug << "WndProc: " << hwnd << " " << uMsg << " " << wParam << " " << lParam << std::endl;
 	return CallWindowProc(CGlobals::Get().gtaWndProc, hwnd, uMsg, wParam, lParam);
+}
+
+
+void __fastcall eventHook(GTA::CTask* task)
+{
+	log_debug << task->GetTree() << std::endl;
+	CLocalPlayer::Get()->updateTasks = true;
 }
 
 bool consoleShowed = false;
@@ -125,6 +131,8 @@ void OnGameStateChange(int gameState)
 		//InitNetStuff();
 
 		//(CMemory::Find("48 89 45 D7 48 8D 45 B7 48 89 5D B7 48 89 45 DF 4C 8D 45 D7 EB ?") + 35).nop(9);
+
+		CMemory((uintptr_t)GetModuleHandle(NULL) + 0x7FFF0C).farJmp(eventHook);
 		break;
 	}
 	case GameStateMainMenu:
