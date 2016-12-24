@@ -31,6 +31,11 @@ public:
 		return (LPVOID)(*ptr + ((intptr_t)address + offset + sizeof(long)));
 	}
 
+	DWORD getFunc()
+	{
+		return (DWORD)((uintptr_t)address);
+	}
+
 	CMemory& operator+(uintptr_t offset)
 	{
 		return *(new CMemory((uintptr_t)(this->address) + offset));

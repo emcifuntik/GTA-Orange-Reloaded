@@ -83,7 +83,6 @@ int CommandProcessor(std::string command)
 	}
 	if (!command.compare("/snow") && CGlobals::Get().isDebug)
 	{
-		CMemory((uintptr_t)GetModuleHandle(NULL) + 0x4E1FA4).nop(20);
 		GAMEPLAY::SET_WEATHER_TYPE_NOW_PERSIST("XMAS");
 		GRAPHICS::_SET_FORCE_PED_FOOTSTEPS_TRACKS(true);
 		GRAPHICS::_SET_FORCE_VEHICLE_TRAILS(true);
