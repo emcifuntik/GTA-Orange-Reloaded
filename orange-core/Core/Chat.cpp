@@ -222,10 +222,7 @@ void CChat::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, BOOL i
 			Chat->bEnabled = !Chat->bEnabled;
 			break;
 		case 0x47:
-			if (!Chat->bOpened)
-			{
-				CLocalPlayer::Get()->_togopassenger = true;
-			}
+			CLocalPlayer::Get()->_togopassenger = true;
 			break;
 		case VK_F12:
 			CGlobals::Get().displayServerBrowser = !CGlobals::Get().displayServerBrowser;

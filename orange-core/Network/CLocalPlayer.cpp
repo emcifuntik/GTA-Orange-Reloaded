@@ -1,5 +1,11 @@
 #include "stdafx.h"
 
+void __fastcall eventHook(GTA::CTask* task)
+{
+	log_debug << task->GetTree() << std::endl;
+	CLocalPlayer::Get()->updateTasks = true;
+}
+
 CLocalPlayer* CLocalPlayer::Instance = nullptr;
 
 CLocalPlayer::CLocalPlayer() :CPedestrian(PLAYER::PLAYER_PED_ID())
@@ -16,6 +22,9 @@ CLocalPlayer::CLocalPlayer() :CPedestrian(PLAYER::PLAYER_PED_ID())
 	aimPosition = new CVector3(0.f, 0.f, 0.f);//&CWorld::Get()->CPedPtr->CPlayerInfoPtr->AimPosition;
 
 	rageGlobals::SetPlayerColor(0xFF, 0x8F, 0x00, 0xFF);
+
+	/*auto addr = CMemory((uintptr_t)GetModuleHandle(NULL) + 0x4E1FA4);
+	addr.nop(20);*/
 
 	STATS::STAT_SET_INT(Utils::Hash("WHEELIE_ABILITY"), 100, 1);
 	STATS::STAT_SET_INT(Utils::Hash("STAMINA"), 100, 1);
@@ -174,7 +183,7 @@ short CLocalPlayer::GetSeat()
 void CLocalPlayer::GoPassenger()
 {
 	Vehicle veh;
-	float smallestDistance = 0.f;
+	float smallestDistance = 0;
 
 	if (PED::IS_PED_IN_ANY_VEHICLE(Handle, true)) return;
 
