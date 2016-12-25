@@ -10,6 +10,26 @@ CNetworkVehicle::CNetworkVehicle():CVehicle(__adder, 0, 0, 0, 0, false)
 	VehiclePool.push_back(this);
 }
 
+void CNetworkVehicle::Init()
+{
+	m_Inited = true;
+	//log << " ShouldHaveDriver: " << m_ShouldHasDriver << std::endl;
+	if (m_ShouldHasDriver) {
+		log << "DGUID: " << m_DriverGUID.ToString() << std::endl;
+		CNetworkPlayer *pl = CNetworkPlayer::GetByGUID(m_DriverGUID, false);
+		if (pl)
+		{
+			log << "Handle: " << pl->GetHandle() << " Seat: " << pl->m_FutureSeat << " Player: 0x" << std::hex << pl << " GUID: " << m_DriverGUID.ToString() << std::endl;
+			PED::SET_PED_INTO_VEHICLE(pl->GetHandle(), Handle, pl->m_FutureSeat);
+			if (!PED::IS_PED_IN_ANY_VEHICLE(pl->GetHandle(), false)) {
+				m_Inited = false;
+				log << "Not set" << std::endl;
+			}
+		}
+		else m_Inited = false;
+	}
+}
+
 void CNetworkVehicle::UpdateModel()
 {
 	m_Model = m_futureModel;
@@ -157,7 +177,7 @@ void CNetworkVehicle::SetTargetRotation(const CVector3& vecRotation, unsigned lo
 void CNetworkVehicle::Interpolate()
 {
 	if (m_Model != m_futureModel) UpdateModel();
-	if (Handle == 0) return;
+	if (Handle == 0 || m_ShouldHasDriver != m_hasDriver) return;
 	if (PED::GET_VEHICLE_PED_IS_IN(CLocalPlayer::Get()->GetHandle(), false) != Handle || CLocalPlayer::Get()->GetSeat() != -1)
 	{
 		UpdateTargetRotation();
@@ -173,6 +193,7 @@ void CNetworkVehicle::BuildTasksQueue()
 		tasksToIgnore--;
 		return;
 	}
+	*CMemory(GetAddress()).get<float>(0x8CC) = m_steering / 180 * PI;
 	if (m_MoveSpeed != .0f)
 	{
 		ENTITY::SET_ENTITY_VELOCITY(Handle, m_vecMove.fX, m_vecMove.fY, m_vecMove.fZ);
@@ -187,7 +208,7 @@ void CNetworkVehicle::BuildTasksQueue()
 
 				if (m_Burnout) {
 					//AI::TASK_VEHICLE_TEMP_ACTION(m_Driver, Handle, 23, 200);
-					//AI::TASK_VEHICLE_TEMP_ACTION(m_Driver, Handle, 30, 2000);
+					//AI::TASK_VEHICLE_TEMP_ACTION(m_Driver, Handle, 30, 200);
 					//AI::TASK_VEHICLE_TEMP_ACTION(m_Driver, Handle, 6, 2000);
 				} //else if (m_RPM > 0.9 && m_MoveSpeed < 0.025) AI::TASK_VEHICLE_TEMP_ACTION(m_Driver, Handle, 31, 2000);
 			}
@@ -220,8 +241,10 @@ int CNetworkVehicle::GetTickTime()
 
 void CNetworkVehicle::SetVehicleData(VehicleData data, unsigned long ulDelay)
 {
-	m_hasDriver = data.hasDriver;
+	m_ShouldHasDriver = data.hasDriver;
+	m_hasDriver = m_ShouldHasDriver;
 	if (m_hasDriver && data.driver != UNASSIGNED_RAKNET_GUID) {
+		m_DriverGUID = data.driver;
 		CNetworkPlayer *pl = CNetworkPlayer::GetByGUID(data.driver, false);
 		if (pl)
 		{
@@ -291,6 +314,7 @@ void CNetworkVehicle::Tick()
 {
 	for each (CNetworkVehicle * veh in VehiclePool)
 	{
+		if (!veh->m_Inited) veh->Init();
 		veh->Interpolate();
 	}
 }

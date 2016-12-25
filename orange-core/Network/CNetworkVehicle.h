@@ -37,7 +37,9 @@ class CNetworkVehicle : public CVehicle
 	Hash				m_Model;
 	Hash				m_futureModel;
 	bool				m_hasDriver;
+	bool				m_ShouldHasDriver;
 	Ped					m_Driver;
+	RakNetGUID			m_DriverGUID;
 
 	float				m_MoveSpeed;
 	float				lastMoveSpeed;
@@ -52,10 +54,14 @@ class CNetworkVehicle : public CVehicle
 
 	unsigned short		m_Health;
 
+	bool				m_Inited = false;
+
 	static std::vector<CNetworkVehicle *> VehiclePool;
 public:
 	RakNet::RakNetGUID	m_GUID;
 	CNetworkVehicle();
+
+	void Init();
 
 	void UpdateModel();
 

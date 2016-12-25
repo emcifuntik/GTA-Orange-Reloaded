@@ -112,7 +112,8 @@ void CLocalPlayer::GetVehicleSync(VehicleData& vehsync)
 
 	if (VEHICLE::IS_THIS_MODEL_A_CAR(veh->GetModel()) || VEHICLE::IS_THIS_MODEL_A_BIKE(veh->GetModel()) || VEHICLE::IS_THIS_MODEL_A_QUADBIKE(veh->GetModel()))
 		vehsync.steering = (*CMemory(veh->GetAddress()).get<float>(0x8CC)) * (180.0f / PI);
-	log << "Wheel speed: " << *CMemory(veh->GetAddress()).get<float>(0x9F0) << std::endl;
+	log << "Wheel speed: " << *CMemory(veh->GetAddress()).get<float>(0x994) << std::endl;
+	log << "Acceleration: " << *CMemory(veh->GetAddress()).get<float>(0x804) << std::endl;
 }
 
 CLocalPlayer * CLocalPlayer::Get()
@@ -164,20 +165,23 @@ void CLocalPlayer::Connect()
 void CLocalPlayer::SendOnFootData()
 {
 	RakNet::BitStream bsOut;
+	bsOut.Write((MessageID)ID_SEND_PLAYER_DATA);
+	OnFootSyncData data;
+	GetOnFootSync(data);
+	lastSendSeat = data.vehseat;
+	bsOut.Write(data);
+
+	CNetworkConnection::Get()->client->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
+
 	if (PED::IS_PED_IN_ANY_VEHICLE(Handle, false) && GetSeat() == -1) {
-		bsOut.Write((MessageID)ID_SEND_VEHICLE_DATA);
+		RakNet::BitStream bsOut2;
+		bsOut2.Write((MessageID)ID_SEND_VEHICLE_DATA);
 		VehicleData data;
 		GetVehicleSync(data);
-		bsOut.Write(data);
-	}
-	else {
-		bsOut.Write((MessageID)ID_SEND_PLAYER_DATA);
-		OnFootSyncData data;
-		GetOnFootSync(data);
-		lastSendSeat = data.vehseat;
-		bsOut.Write(data);
-	}
-	CNetworkConnection::Get()->client->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
+		bsOut2.Write(data);
+
+		CNetworkConnection::Get()->client->Send(&bsOut2, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
+	}	
 }
 
 short CLocalPlayer::GetSeat()
