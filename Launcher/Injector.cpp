@@ -35,7 +35,7 @@ void Injector::InjectAll(bool waitForUnpack)
 	{
 		if (!Inject(pid, lib.c_str()))
 		{
-			MessageBox(NULL, L"Not injected", L"Alert", MB_OK);
+			MessageBox(NULL, L"Not injected", L"Alert", MB_OK | MB_ICONERROR);
 			return;
 		}
 	}

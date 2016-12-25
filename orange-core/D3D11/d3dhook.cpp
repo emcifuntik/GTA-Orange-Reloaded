@@ -3,23 +3,6 @@
 //this disables broken typedef
 #define __dxgitype_h__
 
-//ONLY IF YOU HAVE WIN 10 ANNIVERSARY
-//#undef DXGI_RGBA
-/*
-typedef struct _DXGI_RGBA {
-	float r;
-	float g;
-	float b;
-	float a;
-} DXGI_RGBA;*/
-
-/*#include <DXGIFormat.h>
-#include <DXGI.h>
-#include <DXGIType.h>
-#include <dxgi1_2.h>
-#include <d3d11.h>*/
-//#include "Memory\Memory.h"
-
 struct charTableItem {
 	SHORT old_;
 	SHORT new_;
