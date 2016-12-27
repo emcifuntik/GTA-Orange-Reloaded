@@ -29,6 +29,11 @@ extern "C"
 		message << "Player " << API::Get().GetPlayerName(playerid) << " joined the server!";
 		API::Get().BroadcastClientMessage(message.str().c_str(), 0xFFFFFFFF);
 		API::Get().SetPlayerPosition(playerid, 21.2369f, -711.042f, 45.973f);
+
+		API::Get().GivePlayerWeapon(playerid, 0x2BE6766B, 2000);
+		API::Get().GivePlayerWeapon(playerid, 0xBFEFFF6D, 2000);
+		API::Get().GivePlayerWeapon(playerid, 0x1B06D571, 2000);
+
 		return true;
 	}
 
