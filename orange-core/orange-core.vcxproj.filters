@@ -25,15 +25,6 @@
     <Filter Include="Core\Файлы исходного кода">
       <UniqueIdentifier>{1d35ddcd-b36e-41c8-849e-69199b6c50cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Cef">
-      <UniqueIdentifier>{545efd41-ce43-4f8d-a16f-06b9e29e7bca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Cef\Файлы исходного кода">
-      <UniqueIdentifier>{5b8d3fd2-74e0-425d-9a9a-4df881dfd215}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Cef\Заголовочные файлы">
-      <UniqueIdentifier>{49687da4-f818-48b8-a349-9eea5a5f3297}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GTA">
       <UniqueIdentifier>{9bc55cf7-4487-4f80-bd3a-16e4be0711f9}</UniqueIdentifier>
     </Filter>
@@ -131,9 +122,6 @@
     </ClInclude>
     <ClInclude Include="Core\types.h">
       <Filter>Core\Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="Cef\Window.h">
-      <Filter>Cef\Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="GTA\CGraphics.h">
       <Filter>GTA\Заголовочные файлы</Filter>
@@ -312,9 +300,6 @@
     </ClCompile>
     <ClCompile Include="Core\scrThread.cpp">
       <Filter>Core\Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="Cef\Window.cpp">
-      <Filter>Cef\Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="GTA\CGraphics.cpp">
       <Filter>GTA\Файлы исходного кода</Filter>
