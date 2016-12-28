@@ -55,6 +55,17 @@ void Plugin::LoadPlugins()
 	{
 		do {
 			const std::string ppath = pfolder + "\\" + filedat.cFileName;
+
+			std::string modulename = std::string(filedat.cFileName);
+			modulename = modulename.substr(0, modulename.size() - 4);
+			log << CConfig::Get()->Path << std::endl;
+
+			std::stringstream path;
+			path << CConfig::Get()->Path
+				<< "\\modules\\" << modulename << "\\bin;" << std::getenv("PATH");
+
+			_putenv_s("PATH", path.str().c_str());
+
 			HMODULE module = LoadLibraryA(ppath.c_str());
 			if (!module)
 			{

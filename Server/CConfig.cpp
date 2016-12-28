@@ -35,6 +35,11 @@ CConfig::CConfig()
 		log << "Only 256 players supported, set players to 256" << std::endl;
 		MaxPlayers = 256;
 	}
+
+	char buffer[MAX_PATH];
+	GetModuleFileName(NULL, buffer, MAX_PATH);
+	std::string::size_type pos = std::string(buffer).find_last_of("\\/");
+	Path = std::string(buffer).substr(0, pos);
 }
 
 CConfig* CConfig::Get()
