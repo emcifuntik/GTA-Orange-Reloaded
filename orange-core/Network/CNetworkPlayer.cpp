@@ -510,7 +510,7 @@ void CNetworkPlayer::MakeTag()
 		CVector3 *vecCurPos = &pedHandler->Position;
 		tag.distance = ((*vecCurPos) - CWorld::Get()->CPedPtr->Position).Length();
 
-		if (tag.distance > 50.f)
+		if (tag.distance > 70.f)
 			return;
 
 		tag.health = ((((m_Health - 100.f) < pedHandler->MaxHealth ? (m_Health - 100.f) : pedHandler->MaxHealth)) / (pedHandler->MaxHealth - 100.f));
@@ -521,7 +521,7 @@ void CNetworkPlayer::MakeTag()
 		tag.width = 0.08f * 800;
 		tag.height = 0.012f * 600;
 
-		tag.k = 1.3f - tag.distance / 100;
+		tag.k = 1.0f - tag.distance / 100;
 
 		CVector3 screenPos;
 		CGraphics::Get()->WorldToScreen(CVector3(vecCurPos->fX, vecCurPos->fY, vecCurPos->fZ + 1.1f * tag.k + (tag.distance * 0.04f)), screenPos);
@@ -537,7 +537,7 @@ void CNetworkPlayer::DrawTag()
 {
 	if (tag.bVisible) {
 		const char* _name = m_Name.c_str();
-		float font_size = 22.0f * tag.k;
+		float font_size = 20.0f * tag.k;
 		ImVec2 textSize = CGlobals::Get().chatFont->CalcTextSizeA(font_size, 1000.f, 1000.f, _name);
 
 		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(tag.x - textSize.x / 2 - 1, tag.y - 1), ImColor(0, 0, 0, 255), _name);
@@ -550,8 +550,8 @@ void CNetworkPlayer::DrawTag()
 
 		if (tag.health > 0.2f)
 		{
-			bgColor = { 50, 100, 50, 100 };
-			fgColor = { 100, 200, 100, 100 };
+			bgColor = { 50, 100, 50, 150 };
+			fgColor = { 100, 200, 100, 150 };
 		}
 		else
 		{
@@ -566,9 +566,9 @@ void CNetworkPlayer::DrawTag()
 		float height = tag.height * tag.k;
 
 		float x = tag.x - (width / 2);
-		float y = tag.y + 18 * tag.k;
+		float y = tag.y + 24 * tag.k;
 
-		ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(x - 1, y - 1), ImVec2(x + width + 1, y + height + 1), ImColor(0, 0, 0, 200), 0.f, 15);
+		ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(x - 2, y - 2), ImVec2(x + width + 2, y + height + 2), ImColor(0, 0, 0, 255), 0.f, 15);
 		ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(x, y), ImVec2(x + width, y + height), colorOut, 0.f);
 		ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(x, y), ImVec2(x + (width * tag.health), y + height), colorIn, 0.f);
 	}
