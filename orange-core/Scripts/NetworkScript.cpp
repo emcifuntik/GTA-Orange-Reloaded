@@ -35,4 +35,4 @@ void NetworkAction()
 	}
 }
 
-SCRIPT(NetworkAction, networkAction);
+SCRIPT(NetworkAction);
