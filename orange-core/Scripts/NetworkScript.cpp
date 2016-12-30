@@ -23,10 +23,10 @@ void NetworkAction()
 		{
 			if (CNetworkConnection::Get()->IsConnected()) {
 				CNetworkConnection::Get()->Tick();
-				CNetworkPlayer::Tick();
 			}
 			lastSendTick = GetTickCount64();
 		}
+		CNetworkPlayer::Tick();
 		CNetworkVehicle::Tick();
 		CNetworkPlayer::PreRender();
 		CNetwork3DText::PreRender();

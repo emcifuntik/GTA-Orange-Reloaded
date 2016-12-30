@@ -45,7 +45,7 @@ void Injector::InjectAll(bool waitForUnpack)
 void Injector::PushLibrary(std::string path)
 {
 	if (Injected == true)
-		throw new std::exception("Libraries already injected");
+		throw new std::exception("Libraries are already injected");
 	if (!Utils::FileExist(Utils::MultibyteToUnicode(path)))
 		throw new std::exception("Library doesn't exist");
 	libs.push_back(path);

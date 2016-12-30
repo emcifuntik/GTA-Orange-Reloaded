@@ -11,11 +11,10 @@
 
 // Глобальные переменные:
 HINSTANCE hInst;
-WCHAR szTitle[MAX_LOADSTRING] = L"Orange Launcher";
-WCHAR szWindowClass[MAX_LOADSTRING] = L"_orange_launcher";
+WCHAR szTitle[MAX_LOADSTRING] = L"GTA:Orange Launcher";
+WCHAR szWindowClass[MAX_LOADSTRING] = L"_gtaorange_launcher";
 Image* pBitmap = NULL;
 float loadProgress = 0.0;
-std::wstring splashText = L"Starting launcher";
 HWND splashHwnd = NULL;
 ULONG_PTR m_gdiplusToken;
 
@@ -24,16 +23,15 @@ ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
-void				UpdateSplash(std::wstring text, float progress);
+void				UpdateSplash(float progress);
 
-void UpdateSplash(std::wstring text, float progress)
+void UpdateSplash(float progress)
 {
 	if (progress == 1.0)
 	{
 		TerminateProcess(GetCurrentProcess(), 0);
 		return;
 	}
-	splashText = text;
 	loadProgress = progress;
 	::RECT rect;
 	rect.left = 0;
@@ -73,10 +71,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 void LaunchGame()
 {
-	Registry::CreateRegKeyStructure(HKEY_CURRENT_USER, L"SOFTWARE\\Orange Team\\GTA Orange");
+	Registry::CreateRegKeyStructure(HKEY_CURRENT_USER, L"SOFTWARE\\GTA:Orange Team\\GTA:Orange");
 	TCHAR curDir[MAX_PATH];
 	GetCurrentDirectory(MAX_PATH, curDir);
-	Registry::Set_StringRegistryValue(HKEY_CURRENT_USER, L"SOFTWARE\\Orange Team\\GTA Orange", L"OrangeFolder", curDir);
+	Registry::Set_StringRegistryValue(HKEY_CURRENT_USER, L"SOFTWARE\\GTA:Orange Team\\GTA:Orange", L"OrangeFolder", curDir);
 
 
 	std::string curPath = Utils::GetCurDir();
@@ -85,14 +83,14 @@ void LaunchGame()
 	bool isSteam = false;
 	bool isPirate = false;
 
-	UpdateSplash(L"Running GTA5", 0.33f);
+	UpdateSplash(0.33f);
 	std::wstring gameFolder = L"";
 	TCHAR TgameFolder[MAX_PATH];
 	DWORD gameLen = MAX_PATH;
 
-	if (!Registry::Get_StringRegistryValue(HKEY_CURRENT_USER, L"SOFTWARE\\Orange Team\\GTA Orange", L"GameFolder", TgameFolder, gameLen))
+	if (!Registry::Get_StringRegistryValue(HKEY_CURRENT_USER, L"SOFTWARE\\GTA:Orange Team\\GTA:Orange", L"GameFolder", TgameFolder, gameLen))
 	{
-		CFolderBrowser folderBrowser(L"Select GTA5 folder");
+		CFolderBrowser folderBrowser(L"Select your GTA:V folder");
 		bool folderSelected = folderBrowser.Show();
 		if (!folderSelected)
 		{
@@ -100,7 +98,7 @@ void LaunchGame()
 			return;
 		}
 		gameFolder = folderBrowser.GetPath();
-		Registry::Set_StringRegistryValue(HKEY_CURRENT_USER, L"SOFTWARE\\Orange Team\\GTA Orange", L"GameFolder", gameFolder.c_str());
+		Registry::Set_StringRegistryValue(HKEY_CURRENT_USER, L"SOFTWARE\\GTA:Orange Team\\GTA:Orange", L"GameFolder", gameFolder.c_str());
 	}
 	else
 		gameFolder = TgameFolder;
@@ -117,9 +115,9 @@ void LaunchGame()
 		Injector::Get().Run(gameFolder, gamePath);
 	else
 		Injector::Get().RunSteam();
-	UpdateSplash(L"Waiting for GTA5 starts", 0.66f);
+	UpdateSplash(0.70f);
 	Injector::Get().InjectAll(!isPirate);
-	UpdateSplash(L"GTA:Orange started", 1.0f);
+	UpdateSplash(1.0f);
 }
 
 ATOM MyRegisterClass(HINSTANCE hInstance)
@@ -186,20 +184,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		SwapBuffers(hdc);
 		Graphics g(hdc);
 		g.DrawImage(pBitmap, 0, 0);
-		SolidBrush backPen(Gdiplus::Color(255, 192, 0));
+		SolidBrush backPen(Gdiplus::Color(50, 231, 231, 231));
 		SolidBrush frontPen(Gdiplus::Color(255, 130, 0));
 		g.FillRectangle(&backPen, 67, 220, 168, 6);
 		g.FillRectangle(&frontPen, 67, 220, (int)round(168 * loadProgress), 6);
-		::RECT rect;
-		rect.left = 0;
-		rect.top = 200;
-		rect.right = 300;
-		rect.bottom = 220;
-
-		HFONT font = CreateFont(18, 0, 0, 0, 300, false, false, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, L"Segoe UI");
-		HFONT hFontOld = (HFONT)SelectObject(hdc, font);
-		DrawText(hdc, splashText.c_str(), (int)splashText.length(), &rect, DT_CENTER | DT_VCENTER);
-		SelectObject(hdc, hFontOld);
 		SwapBuffers(hdc);
 		EndPaint(hWnd, &ps);
 	}
