@@ -25,4 +25,4 @@ void Action()
 	}
 }
 
-SCRIPT("gameInit", Action, gameInit);
+SCRIPT(Action);

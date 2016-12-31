@@ -11,4 +11,4 @@ void ChatAction()
 	}
 }
 
-SCRIPT("chatScript", ChatAction, chatScript);
+SCRIPT(ChatAction);

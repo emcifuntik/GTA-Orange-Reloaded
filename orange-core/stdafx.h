@@ -145,6 +145,7 @@ using namespace RakNet;
 #include "D3D11/d3dhook.h"
 #include "D3D11/imgui.h"
 #include "D3D11/imgui_impl_dx11.h"
+#include "GuiDispatcher.h"
 #pragma endregion
 
 
@@ -196,17 +197,24 @@ struct Color
 static LPARAM Icon;
 
 #pragma region script macro
-#define SCRIPT(x,y,z) class z:\
+#define SCRIPT(z) class __script__##z:\
 public CScript\
 {\
 public:\
-	z() : CScript(\
-		x\
-	) {}\
+	__script__##z() : CScript(__FILE__) {}\
 protected:\
-	virtual void Run() override { scriptRegister(x, y); }\
-} z;
+	virtual void Run() override { scriptRegister(__FILE__, z); }\
+} __script__##z;
 #pragma endregion
-// USAGE: SCRIPT(name, function);
+// USAGE: SCRIPT(function);
+
+#pragma region gui macro
+#define GUI(z) class __gui__##z\
+{\
+public:\
+	__gui__##z(){CGuiDispatcher::Get() += z;}\
+} __gui__##z;
+#pragma endregion
+// USAGE: GUI(function);
 
 #define TRACE() log_debug << __FILE__ << " -> Line " << std::dec << __LINE__ << std::endl

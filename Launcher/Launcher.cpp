@@ -71,11 +71,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 void LaunchGame()
 {
-	Registry::CreateRegKeyStructure(HKEY_CURRENT_USER, L"SOFTWARE\\GTA:Orange Team\\GTA:Orange");
+	Registry::CreateRegKeyStructure(HKEY_CURRENT_USER, L"SOFTWARE\\GTA Orange Team\\GTA Orange");
 	TCHAR curDir[MAX_PATH];
 	GetCurrentDirectory(MAX_PATH, curDir);
-	Registry::Set_StringRegistryValue(HKEY_CURRENT_USER, L"SOFTWARE\\GTA:Orange Team\\GTA:Orange", L"OrangeFolder", curDir);
-
+	Registry::Set_StringRegistryValue(HKEY_CURRENT_USER, L"SOFTWARE\\GTA Orange Team\\GTA Orange", L"OrangeFolder", curDir);
 
 	std::string curPath = Utils::GetCurDir();
 	Injector::Get().PushLibrary(curPath + "\\orange-core.dll");
@@ -88,7 +87,7 @@ void LaunchGame()
 	TCHAR TgameFolder[MAX_PATH];
 	DWORD gameLen = MAX_PATH;
 
-	if (!Registry::Get_StringRegistryValue(HKEY_CURRENT_USER, L"SOFTWARE\\GTA:Orange Team\\GTA:Orange", L"GameFolder", TgameFolder, gameLen))
+	if (!Registry::Get_StringRegistryValue(HKEY_CURRENT_USER, L"SOFTWARE\\GTA Orange Team\\GTA Orange", L"GameFolder", TgameFolder, gameLen))
 	{
 		CFolderBrowser folderBrowser(L"Select your GTA:V folder");
 		bool folderSelected = folderBrowser.Show();
@@ -98,7 +97,7 @@ void LaunchGame()
 			return;
 		}
 		gameFolder = folderBrowser.GetPath();
-		Registry::Set_StringRegistryValue(HKEY_CURRENT_USER, L"SOFTWARE\\GTA:Orange Team\\GTA:Orange", L"GameFolder", gameFolder.c_str());
+		Registry::Set_StringRegistryValue(HKEY_CURRENT_USER, L"SOFTWARE\\GTA Orange Team\\GTA Orange", L"GameFolder", gameFolder.c_str());
 	}
 	else
 		gameFolder = TgameFolder;

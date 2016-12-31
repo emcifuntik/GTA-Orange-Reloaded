@@ -10,4 +10,4 @@ void ScriptDispatcherAction()
 	}
 }
 
-SCRIPT("scriptDispatcher", ScriptDispatcherAction, scriptDispatcher);
+SCRIPT(ScriptDispatcherAction);
