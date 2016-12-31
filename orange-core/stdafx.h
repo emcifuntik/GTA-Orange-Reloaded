@@ -171,8 +171,10 @@ enum eGameState {
 
 typedef bool(*LookAlive)();
 typedef bool(*GameStateChange_)();
+typedef int(*GunShootEvent_)(LPVOID, LPVOID);
 static LookAlive g_origLookAlive;
 static GameStateChange_ g_gameStateChange;
+static GunShootEvent_ g_gunShootEvent;
 
 struct Color
 {

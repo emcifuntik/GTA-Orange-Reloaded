@@ -12,18 +12,17 @@ void NetworkAction()
 			if (CNetworkConnection::Get()->IsConnectionEstablished())
 			{
 				CLocalPlayer::Get()->SendOnFootData();
-				/*if (CLocalPlayer::Get()->updateTasks)
+				if (CLocalPlayer::Get()->updateTasks)
 				{
-				CLocalPlayer::Get()->updateTasks ^= 1;
-				CLocalPlayer::Get()->SendTasks();
-				}*/
+					CLocalPlayer::Get()->updateTasks = false;
+					CLocalPlayer::Get()->SendTasks();
+				}
 			}
 		}
 		if (GetTickCount64() >= (lastSendTick + 10))
 		{
-			if (CNetworkConnection::Get()->IsConnected()) {
+			if (CNetworkConnection::Get()->IsConnected())
 				CNetworkConnection::Get()->Tick();
-			}
 			lastSendTick = GetTickCount64();
 		}
 		CNetworkPlayer::Tick();

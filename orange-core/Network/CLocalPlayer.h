@@ -1,7 +1,5 @@
 #pragma once
 
-void __fastcall eventHook(GTA::CTask* task);
-
 class CPedestrian;
 
 class CLocalPlayer: public CPedestrian

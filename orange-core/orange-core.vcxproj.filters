@@ -421,6 +421,9 @@
     <ClCompile Include="BackScene.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
+    <ClCompile Include="FreemodeCustomize.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Launcher.ico">

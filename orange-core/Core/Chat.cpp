@@ -225,6 +225,9 @@ void CChat::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, BOOL i
 			if (!Chat->bOpened)
 				CLocalPlayer::Get()->_togopassenger = true;
 			break;
+		case VK_F11:
+			CGlobals::Get().displayCustomizeWindow ^= 1;
+			break;
 		case VK_F12:
 			CGlobals::Get().displayServerBrowser = !CGlobals::Get().displayServerBrowser;
 			break;

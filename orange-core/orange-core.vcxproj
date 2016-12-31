@@ -184,6 +184,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="FreemodeCustomize.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="GtaScripts.cpp" />
     <ClCompile Include="GTA\CGraphics.cpp" />

@@ -8,6 +8,35 @@ typedef void(*DoScreenFadeIn_)(int64_t delay);
 typedef bool(*HasScriptLoaded_)(const char * name);
 typedef bool(*SetMenuState_)(const char * name);
 
+struct FreemodeCustomize {
+	int Blemishes = 0;
+	bool BlemishesOff;
+	int Facial_Hair = 0;
+	bool Facial_HairOff;
+	int Eyebrows = 0;
+	bool EyebrowsOff;
+	int Ageing = 0;
+	bool AgeingOff;
+	int Makeup = 0;
+	bool MakeupOff;
+	int Blush = 0;
+	bool BlushOff;
+	int Complexion = 0;
+	bool ComplexionOff;
+	int Sun_Damage = 0;
+	bool Sun_DamageOff;
+	int Lipstick = 0;
+	bool LipstickOff;
+	int Moles_Freckles = 0;
+	bool Moles_FrecklesOff;
+	int Chest_Hair = 0;
+	bool Chest_HairOff;
+	int Body_Blemishes = 0;
+	bool Body_BlemishesOff;
+	int Add_Body_Blemishes = 0;
+	bool Add_Body_BlemishesOff;
+};
+
 class CGlobals
 {
 	CGlobals() {}
@@ -19,6 +48,8 @@ public:
 			singleInstance = new CGlobals();
 		return *singleInstance;
 	}
+	FreemodeCustomize lastCustom;
+	FreemodeCustomize custom;
 	LPVOID baseAddr = nullptr;
 	std::string orangePath;
 	bool alreadyRunned = false;
@@ -37,6 +68,7 @@ public:
 	bool renderer = false;
 	bool *hudDisabled = nullptr;
 	bool displayServerBrowser = false;
+	bool displayCustomizeWindow = false;
 	bool mainmenushown = false;
 	bool showChat = false;
 	bool blockquickswitch = true;

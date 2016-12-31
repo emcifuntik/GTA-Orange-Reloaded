@@ -84,10 +84,54 @@ LRESULT APIENTRY WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return CallWindowProc(CGlobals::Get().gtaWndProc, hwnd, uMsg, wParam, lParam);
 }
 
-void __fastcall eventHook(GTA::CTask* task)
+void __fastcall eventHook(GTA::CTask* oldTask)
 {
-	log_debug << task->GetTree() << std::endl;
+	log_debug << "Old: " << oldTask->GetTree() << std::endl;
+	GTA::CTask *newTask = CWorld::Get()->CPedPtr->TasksPtr->PrimaryTasks->GetTask();
+	log_debug << "New: " << newTask->GetTree() << std::endl;
+
 	CLocalPlayer::Get()->updateTasks = true;
+}
+
+__int64 __fastcall gunShotHook(__int64 a1, __int64 a2, __int64 a3, __int64 a4, char a5, int a6, int a7)
+{
+	log_debug << "Shot" << std::endl;
+	__int64 v7; // rbx@1
+	__int64 v8; // rdi@1
+	__int64 v9; // rsi@1
+
+	*(__int64 *)(a1 + 8) = 0i64;
+	*(DWORD *)(a1 + 16) = 0;
+	*(unsigned char *)(a1 + 20) &= 0xF8u;
+	*(unsigned char *)(a1 + 24) &= 0xFCu;
+	*(DWORD *)(a1 + 28) = 0;
+	*(DWORD *)(a1 + 32) = -1;
+	*(DWORD *)(a1 + 36) = 0;
+	*(unsigned char *)(a1 + 41) |= 1u;
+	v7 = a1;
+	*(unsigned char *)(a1 + 40) = 0;
+	v8 = a4;
+	v9 = a3;
+	*(__int64 *)a1 = (uintptr_t)GetModuleHandle(NULL) + 0x1830EC8;
+	*(__int64 *)(a1 + 48) = a2;
+	typedef void(*func_)(__int64, LPVOID);
+	if (a2)
+		func_((uintptr_t)GetModuleHandle(NULL) + 0x5800)(a2, LPVOID(a1 + 48));
+	*(DWORD *)(v7 + 64) = *(DWORD *)v9;
+	*(DWORD *)(v7 + 68) = *(DWORD *)(v9 + 4);
+	*(DWORD *)(v7 + 72) = *(DWORD *)(v9 + 8);
+	*(DWORD *)(v7 + 76) = *(DWORD *)(v9 + 12);
+	*(DWORD *)(v7 + 80) = *(DWORD *)v8;
+	*(DWORD *)(v7 + 84) = *(DWORD *)(v8 + 4);
+	*(DWORD *)(v7 + 88) = *(DWORD *)(v8 + 8);
+	*(DWORD *)(v7 + 92) = *(DWORD *)(v8 + 12);
+	*(WORD *)(v7 + 97) = 1;
+	*(DWORD *)(v7 + 100) = a7;
+	*(unsigned char *)(v7 + 96) = a5;
+	*(unsigned char *)(v7 + 99) = 0;
+	*(unsigned char *)(v7 + 104) = a6;
+	(*(DWORD*)((uintptr_t)GetModuleHandle(NULL) + 0x1FF3598)) = (*(DWORD*)((uintptr_t)GetModuleHandle(NULL) + 0x2BFC170));
+	return v7;
 }
 
 bool consoleShowed = false;
@@ -161,6 +205,8 @@ void HookLoop()
 	auto gameStateMem = gameStateChange();
 	g_gameStateChange = gameStateChange.get_call<GameStateChange_>();
 	(gameStateChange + 1).put(long(callToMem - gameStateMem - 5));
+
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x46A1BC).farJmp(gunShotHook);
 }
 
 void GameProcessHooks()
