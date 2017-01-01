@@ -201,9 +201,9 @@ static LPARAM Icon;
 public CScript\
 {\
 public:\
-	__script__##z() : CScript(__FILE__) {}\
+	__script__##z() : CScript(""__FILE__"") {}\
 protected:\
-	virtual void Run() override { scriptRegister(__FILE__, z); }\
+	virtual void Run() override { scriptRegister(""__FILE__"", z); }\
 } __script__##z;
 #pragma endregion
 // USAGE: SCRIPT(function);
