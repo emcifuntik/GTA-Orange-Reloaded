@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+bool ScriptsDisabled = false;
+
 void ForceToSingle()
 {
 	CMemory mem((uintptr_t)GetModuleHandle(NULL) + 0x2773C); //48 83 EC 28 85 D2 78 71 75 0F
@@ -57,9 +59,11 @@ static bool OnLookAlive()
 		InitHUD(CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1F358F)() - 0x23)();
 		HUDInited = true;
 	}
-	if (!IsScriptsDisabled() && IsAnyScriptLoaded())
+	if (!ScriptsDisabled && CGlobals::Get().HasScriptLoaded("startup"))
 	{
-		DisableScripts();
+		//DisableScripts();
+		CGlobals::Get().ForceCleanupForAllThreadsWithThisName("startup", 8);
+		CGlobals::Get().TerminateAllScriptsWithThisName("startup");
 		CGlobals::Get().ShutdownLoadingScreen();
 		CGlobals::Get().DoScreenFadeIn(0);
 	}

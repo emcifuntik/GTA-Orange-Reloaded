@@ -53,6 +53,15 @@ class CNetworkVehicle : public CVehicle
 	float				m_RPM;
 
 	unsigned short		m_Health;
+	float				m_EngineHealth = 1000,
+		m_BodyHealth = 100,
+		m_TankHealth = 1000;
+
+	bool				m_Drivable = false;
+	bool				m_Exploded = false;
+
+	bool				m_Horn = false;
+	bool				m_Siren = false;
 
 	bool				m_Inited = false;
 

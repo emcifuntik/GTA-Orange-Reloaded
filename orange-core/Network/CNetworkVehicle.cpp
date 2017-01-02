@@ -46,6 +46,8 @@ void CNetworkVehicle::UpdateModel()
 		Handle = VEHICLE::CREATE_VEHICLE(m_Model, curPos.fX, curPos.fY, curPos.fZ, curHead, false, true);
 		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(m_Model);
 
+		VEHICLE::SET_VEHICLE_EXPLODES_ON_HIGH_EXPLOSION_DAMAGE(Handle, false);
+
 		Blip blip = AddBlip();
 		UI::SET_BLIP_AS_SHORT_RANGE(blip, false);
 		UI::SET_BLIP_COLOUR(blip, 0);
@@ -72,6 +74,7 @@ void CNetworkVehicle::UpdateTargetPosition()
 		// If we finished compensating the error, finish it for the next pulse
 		if (fAlpha == 1.5f)
 		{
+			ENTITY::SET_ENTITY_VELOCITY(Handle, 0, 0, 0);
 			m_interp.pos.ulFinishTime = 0;
 		}
 
@@ -220,10 +223,17 @@ void CNetworkVehicle::BuildTasksQueue()
 	}
 	else
 	{
-		ENTITY::SET_ENTITY_VELOCITY(Handle, 0, 0, 0);
+		//ENTITY::SET_ENTITY_VELOCITY(Handle, 0, 0, 0);
 		//if (m_hasDriver) AI::TASK_VEHICLE_TEMP_ACTION(m_Driver, Handle, 1, 2000);
 	}
+
+	if(m_Horn) VEHICLE::START_VEHICLE_HORN(Handle, 40, 0x4f485502, 0);
+
 	SetHealth(m_Health);
+	VEHICLE::SET_VEHICLE_BODY_HEALTH(Handle, m_BodyHealth);
+	VEHICLE::SET_VEHICLE_ENGINE_HEALTH(Handle, m_EngineHealth);
+	VEHICLE::SET_VEHICLE_PETROL_TANK_HEALTH(Handle, m_TankHealth);
+
 	*CMemory(GetAddress()).get<float>(0x8CC) = m_steering / 180 * PI;
 	*CMemory(GetAddress()).get<float>(0x7F4) = m_RPM;
 }
@@ -266,7 +276,25 @@ void CNetworkVehicle::SetVehicleData(VehicleData data, unsigned long ulDelay)
 	
 	SetTargetPosition(data.vecPos, ulDelay);
 	SetTargetRotation(data.vecRot, ulDelay);
+
 	m_Health = data.usHealth;
+	m_EngineHealth = data.fEngineHealth;
+	m_BodyHealth = data.fBodyHealth;
+	m_TankHealth = data.fTankHealth;
+	m_Drivable = data.bDrivable;
+
+	if (!m_Exploded && m_EngineHealth < 0 && m_TankHealth < 0 && (m_EngineHealth == -4000 || m_TankHealth == -1000))
+	{
+		NETWORK::NETWORK_EXPLODE_VEHICLE(Handle, 1, 0, 0);
+		m_Exploded = true;
+	}
+
+	m_Horn = data.bHorn;
+
+	if (m_Siren != data.bSirenState) {
+		m_Siren = data.bSirenState;
+		VEHICLE::SET_VEHICLE_SIREN(Handle, m_Siren);
+	}
 }
 
 

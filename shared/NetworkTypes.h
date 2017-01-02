@@ -27,6 +27,7 @@ public:
 	unsigned int uAmmo;					// player weapon and ammo
 	bool bAiming : 1;
 	bool bShooting : 1;
+	bool bRagdoll : 1;
 	bool bReloading : 1;
 	CVector3 vecAim;
 	bool bInVehicle;
@@ -73,6 +74,10 @@ public:
 	float steering;
 	bool Burnout;
 	float RPM;
+
+	bool bHorn : 1;
+	float fEngineHealth, fBodyHealth, fTankHealth;
+	bool bDrivable : 1;
 
 	std::string ToString()
 	{

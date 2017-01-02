@@ -13,7 +13,6 @@ CLocalPlayer::CLocalPlayer() :CPedestrian(PLAYER::PLAYER_PED_ID())
 	}
 
 	CEntity::InitOffsetFunc();
-	aimPosition = new CVector3(0.f, 0.f, 0.f);//&CWorld::Get()->CPedPtr->CPlayerInfoPtr->AimPosition;
 
 	rageGlobals::SetPlayerColor(0xFF, 0x8F, 0x00, 0xFF);
 
@@ -41,6 +40,7 @@ void CLocalPlayer::Spawn()
 {
 	Spawned = true;
 
+	//CAM::DESTROY_CAM(CGlobals::Get().currentcam, true);
 	CAM::RENDER_SCRIPT_CAMS(false, false, 0, false, false);
 	UI::DISPLAY_HUD(true);
 	UI::DISPLAY_RADAR(true);
@@ -61,9 +61,11 @@ void CLocalPlayer::GetOnFootSync(OnFootSyncData& onfoot)
 	onfoot.usArmour = GetArmour();
 	onfoot.ulWeapon = GetCurrentWeapon();
 	onfoot.uAmmo = GetCurrentWeaponAmmo();
-	onfoot.vecAim = *aimPosition;
+	onfoot.vecAim = CWorld::Get()->CPedPtr->CPlayerInfoPtr->AimPosition;
 	onfoot.bAiming = (CWorld::Get()->CPedPtr->CPlayerInfoPtr->AimState == 2);
 	onfoot.bShooting = PED::IS_PED_SHOOTING(Handle) ? true : false;
+	onfoot.bRagdoll = PED::IS_PED_RAGDOLL(Handle) ? true : false;
+
 	if (PED::IS_PED_IN_ANY_VEHICLE(Handle, true)) {
 		onfoot.bInVehicle = true;
 		CNetworkVehicle *veh = CNetworkVehicle::GetByHandle(PED::GET_VEHICLE_PED_IS_TRYING_TO_ENTER(Handle));
@@ -99,15 +101,29 @@ void CLocalPlayer::GetVehicleSync(VehicleData& vehsync)
 	vehsync.vecPos = pos;
 	vehsync.vecRot = veh->GetRotation();
 	vehsync.vecMoveSpeed = veh->GetMovementVelocity();
-	vehsync.usHealth = veh->GetHealth();
 
 	vehsync.RPM = *CMemory(veh->GetAddress()).get<float>(0x7F4);
 	vehsync.Burnout = VEHICLE::IS_VEHICLE_IN_BURNOUT(veh->GetHandle()) != 0;
 
 	if (VEHICLE::IS_THIS_MODEL_A_CAR(veh->GetModel()) || VEHICLE::IS_THIS_MODEL_A_BIKE(veh->GetModel()) || VEHICLE::IS_THIS_MODEL_A_QUADBIKE(veh->GetModel()))
 		vehsync.steering = (*CMemory(veh->GetAddress()).get<float>(0x8CC)) * (180.0f / PI);
-	log << "Wheel speed: " << *CMemory(veh->GetAddress()).get<float>(0x994) << std::endl;
-	log << "Acceleration: " << *CMemory(veh->GetAddress()).get<float>(0x804) << std::endl;
+
+	vehsync.usHealth = veh->GetHealth();
+	vehsync.fEngineHealth = VEHICLE::GET_VEHICLE_ENGINE_HEALTH(veh->GetHandle());
+	vehsync.fBodyHealth = VEHICLE::GET_VEHICLE_BODY_HEALTH(veh->GetHandle());
+	vehsync.fTankHealth = VEHICLE::GET_VEHICLE_PETROL_TANK_HEALTH(veh->GetHandle());
+	vehsync.bDrivable = VEHICLE::IS_VEHICLE_DRIVEABLE(veh->GetHandle(), 0) == 1;
+
+	vehsync.bHorn = AUDIO::IS_HORN_ACTIVE(veh->GetHandle()) == 1;
+	vehsync.bSirenState = VEHICLE::IS_VEHICLE_SIREN_ON(veh->GetHandle());
+
+	//log << "Vehicle: 0x" << std::hex << veh->GetAddress() << std::endl;
+	//log << "Horn: " << AUDIO::IS_HORN_ACTIVE(veh->GetHandle()) << std::endl;
+	//log << "Engine health: " << VEHICLE::GET_VEHICLE_ENGINE_HEALTH(veh->GetHandle()) << std::endl;
+	//log << "Body health: " << VEHICLE::GET_VEHICLE_BODY_HEALTH(veh->GetHandle()) << std::endl;
+	//log << "PetrolTank health: " << VEHICLE::GET_VEHICLE_PETROL_TANK_HEALTH(veh->GetHandle()) << std::endl;
+	//log << "Drivable: " << VEHICLE::IS_VEHICLE_DRIVEABLE(veh->GetHandle(), 0) << std::endl;
+	//log << "Health: " << veh->GetHealth() << std::endl;
 }
 
 CLocalPlayer * CLocalPlayer::Get()
@@ -119,6 +135,11 @@ CLocalPlayer * CLocalPlayer::Get()
 
 void CLocalPlayer::Tick()
 {
+	if (PED::IS_PED_DEAD_OR_DYING(Handle, 1))
+	{
+		//CVector3 pos = GetPosition();
+		//ChangeModel(GetModel());
+	}
 	if (newModel != 0)
 	{
 		ChangeModel(newModel);
@@ -182,7 +203,12 @@ void CLocalPlayer::SendOnFootData()
 		bsOut2.Write(data);
 
 		CNetworkConnection::Get()->client->Send(&bsOut2, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
-	}	
+	}
+
+	//log << "Using: " << PED::GET_VEHICLE_PED_IS_USING(Handle) << std::endl;
+	//log << "In(false): " << PED::GET_VEHICLE_PED_IS_IN(Handle, false) << std::endl;
+	//log << "In(true): " << PED::GET_VEHICLE_PED_IS_IN(Handle, true) << std::endl;
+	//log << "Trying: " << PED::GET_VEHICLE_PED_IS_TRYING_TO_ENTER(Handle) << std::endl;
 }
 
 short CLocalPlayer::GetSeat()

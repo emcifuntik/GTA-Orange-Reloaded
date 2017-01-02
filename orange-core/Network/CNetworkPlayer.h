@@ -57,6 +57,8 @@ private:
 	bool				m_InVehicle = false;
 	RakNetGUID			m_Vehicle;
 	bool				m_Entering = false;
+	bool				m_Lefting = false;
+	bool				m_Ragdoll = false;
 
 	bool				pedJustDead = false;
 	float				m_MoveSpeed;

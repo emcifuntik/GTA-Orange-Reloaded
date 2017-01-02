@@ -787,11 +787,13 @@ bool IsAnyScriptLoaded()
 
 void DisableScripts()
 {
-	for (int i = 0; i < 748; i++) {
+	/*for (int i = 0; i < 748; i++) {
 		if (!scriptnames[i].enable) {
 			CGlobals::Get().ForceCleanupForAllThreadsWithThisName(scriptnames[i].name, 8);
 			CGlobals::Get().TerminateAllScriptsWithThisName(scriptnames[i].name);
 		}
-	}
+	}*/
+	CGlobals::Get().ForceCleanupForAllThreadsWithThisName("startup", 8);
+	CGlobals::Get().TerminateAllScriptsWithThisName("startup");
 	scriptsDisabled = true;
 }

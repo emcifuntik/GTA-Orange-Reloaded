@@ -67,6 +67,10 @@ void CNetworkVehicle::SetVehicleData(const VehicleData & data)
 	vecMoveSpeed = data.vecMoveSpeed;
 	hasDriver = data.hasDriver;
 	driverGUID = data.driver;
+	fEngineHealth = data.fEngineHealth;
+	fBodyHealth = data.fBodyHealth;
+	fTankHealth = data.fTankHealth;
+	bDrivable = data.bDrivable;
 
 	if (hasDriver)
 	{
@@ -84,6 +88,10 @@ void CNetworkVehicle::GetVehicleData(VehicleData & data)
 	data.vecMoveSpeed = vecMoveSpeed;
 	data.hasDriver = hasDriver;
 	data.driver = driverGUID;
+	data.fEngineHealth = fEngineHealth;
+	data.fBodyHealth = fBodyHealth;
+	data.fTankHealth = fTankHealth;
+	data.bDrivable = bDrivable;
 }
 
 

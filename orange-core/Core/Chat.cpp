@@ -124,7 +124,10 @@ void CChat::Render()
 void CChat::Input()
 {
 	if (bOpened)
+	{
 		UI::SET_PAUSE_MENU_ACTIVE(false);
+		//CONTROLS::DISABLE_ALL_CONTROL_ACTIONS(0);
+	}
 }
 
 void CChat::AddChatMessage(std::string text, unsigned int rgba)

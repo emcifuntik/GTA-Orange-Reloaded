@@ -12,5 +12,5 @@ int lua_CreateVehicle(lua_State *L)
 
 int lua_GetVehicleCoords(lua_State *L)
 {
-
+	return 0;
 }

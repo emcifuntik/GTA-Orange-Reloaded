@@ -178,7 +178,7 @@ void CNetworkPlayer::SetTargetRotation(const CVector3& vecRotation, unsigned lon
 	if (IsSpawned())
 	{
 		// Update our target position
-		UpdateTargetRotation();
+		//UpdateTargetRotation();
 
 		// Get our position
 		CVector3 vecCurrentRotation = GetRotation();
@@ -212,8 +212,26 @@ void CNetworkPlayer::SetOnFootData(OnFootSyncData data, unsigned long ulDelay)
 		Spawn(data.vecPos);
 		pedJustDead = false;
 	}
+
+	if (m_InVehicle && !data.bInVehicle)
+	{
+		//AI::CLEAR_PED_TASKS(Handle);
+		//AI::CLEAR_PED_SECONDARY_TASK(Handle);
+		//AI::CLEAR_PED_TASKS_IMMEDIATELY(Handle);
+		AI::TASK_LEAVE_VEHICLE(Handle, PED::GET_VEHICLE_PED_IS_IN(Handle, false), (CLocalPlayer::Get()->GetPosition() - GetPosition()).Length() > 50 ? 16 : 0);
+		log << "exit" << std::endl;
+		m_Entering = false;
+		m_Lefting = true;
+	}
+
 	m_InVehicle = data.bInVehicle;
-	if (!m_InVehicle)
+
+	if (data.bRagdoll != m_Ragdoll) {
+		m_Ragdoll = data.bRagdoll;
+		PED::SET_PED_CAN_RAGDOLL(Handle, m_Ragdoll);
+	}
+
+	if (!m_InVehicle && !m_Lefting)
 	{
 		if (data.hModel != m_Model)
 			SetModel(data.hModel);
@@ -234,7 +252,7 @@ void CNetworkPlayer::SetOnFootData(OnFootSyncData data, unsigned long ulDelay)
 		m_Ducking = data.bDuckState;
 		SetMovementVelocity(data.vecMoveSpeed);
 		pedHandler->MoveSpeed = data.fMoveSpeed;
-		m_Entering = false;
+		//m_Entering = false;
 	}
 	else {
 		m_Vehicle = data.vehicle;
@@ -244,7 +262,7 @@ void CNetworkPlayer::SetOnFootData(OnFootSyncData data, unsigned long ulDelay)
 
 void CNetworkPlayer::UpdateTargetPosition()
 {
-	if (HasTargetPosition())
+	if (HasTargetPosition() && !m_Lefting)
 	{
 		unsigned long ulCurrentTime = timeGetTime();
 		float fAlpha = Math::UnlerpClamped(m_interp.pos.ulStartTime, ulCurrentTime, m_interp.pos.ulFinishTime);
@@ -255,6 +273,8 @@ void CNetworkPlayer::UpdateTargetPosition()
 
 		// Apply the error compensation
 		CVector3 vecCompensation = Math::Lerp(CVector3(), fCurrentAlpha, m_interp.pos.vecError);
+
+		if (m_Ragdoll) vecCompensation.fZ = 0;
 
 		// If we finished compensating the error, finish it for the next pulse
 		if (fAlpha == 1.0f)
@@ -368,9 +388,9 @@ void CNetworkPlayer::Interpolate()
 		return;
 	}
 		
-	if (!m_InVehicle)
+	if (!m_InVehicle && !m_Lefting)
 	{
-		if (!m_Shooting && !m_Aiming)
+		if (!m_Shooting && !m_Aiming && !m_Ragdoll)
 			UpdateTargetRotation();
 		UpdateTargetPosition();
 		SetMovementVelocity(m_vecMove);
@@ -400,7 +420,7 @@ void CNetworkPlayer::SetMoveToDirectionAndAiming(CVector3 vecPos, CVector3 vecMo
 		//MemoryHook::call<void, Ped, float, float, float, float, float, float, float, BOOL, float, float, BOOL, Any, BOOL, Hash>((*GTA::CAddress::Get())[PED_TASK_AIM_AT_COORD_AND_STAND_STILL], Handle, tX, tY,
 		//	tZ, aimPos.fX, aimPos.fY, aimPos.fZ, 1.f, 0, 0x3F000000, 0x40800000, 1, (shooting ? 0 : 1024), 1, 3337513804U);
 		AI::TASK_GO_TO_COORD_WHILE_AIMING_AT_COORD(Handle, tX, tY,
-			tZ, aimPos.fX, aimPos.fY, aimPos.fZ, 1.f, 0, 0x3F000000, 0x40800000, 1, (shooting ? 0 : 1024), 1, 3337513804U);
+			tZ, aimPos.fX, aimPos.fY, aimPos.fZ, moveSpeed, 0, 0x3F000000, 0x40800000, 1, (shooting ? 0 : 1024), 1, 3337513804U);
 	}
 }
 
@@ -414,16 +434,26 @@ void CNetworkPlayer::AssignTask(GTA::CTask *task)
 
 void CNetworkPlayer::BuildTasksQueue()
 {
+	log << GetPosition().ToString() << std::endl;
 	if (tasksToIgnore > 0)
 	{
 		tasksToIgnore--;
 		return;
 	}
+	if (m_Lefting)
+	{
+		if (PED::GET_VEHICLE_PED_IS_USING(Handle) == 0) m_Lefting = false;
+		log << "Lefting..." << std::endl;
+		return;
+	}
 	if (m_InVehicle)
 	{
-		if (m_Entering && !PED::IS_PED_IN_ANY_VEHICLE(Handle, false)) return;
+		if (m_FutureSeat == -2) m_FutureSeat = m_Seat;
+		log << "-3" << std::endl;
+		if (m_Entering && !PED::IS_PED_IN_ANY_VEHICLE(Handle, false) && PED::GET_VEHICLE_PED_IS_TRYING_TO_ENTER(Handle) != 0) return;
 		if (!m_Entering)
 		{
+			log << "-2" << std::endl;
 			CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(m_Vehicle);
 			if (veh)
 			{
@@ -435,17 +465,33 @@ void CNetworkPlayer::BuildTasksQueue()
 				AI::TASK_ENTER_VEHICLE(Handle, veh->GetHandle(), -1, m_Seat, 2, 0, 0);
 			}
 		}
-		else if (m_FutureSeat != m_Seat)
+		else
 		{
+			if (m_FutureSeat != m_Seat)
+			{
+				log << "-1" << std::endl;
+				CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(m_Vehicle);
+				if (veh)
+				{
+					//log << "shuffle: " << m_Seat << " => " << m_FutureSeat << std::endl;
+					AI::CLEAR_PED_TASKS(Handle);
+					AI::TASK_SHUFFLE_TO_NEXT_VEHICLE_SEAT(Handle, veh->GetHandle());
+					for (int i = -1; i < VEHICLE::GET_VEHICLE_MAX_NUMBER_OF_PASSENGERS(veh->GetHandle()); i++)
+						if (!VEHICLE::IS_VEHICLE_SEAT_FREE(veh->GetHandle(), i) && VEHICLE::GET_PED_IN_VEHICLE_SEAT(veh->GetHandle(), i) == Handle) m_Seat = i;
+
+				}
+			}
+			log << "2" << std::endl;
 			CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(m_Vehicle);
 			if (veh)
 			{
-				log << "shuffle: " << m_Seat << " => " << m_FutureSeat << std::endl;
-				AI::CLEAR_PED_TASKS(Handle);
-				AI::TASK_SHUFFLE_TO_NEXT_VEHICLE_SEAT(Handle, veh->GetHandle());
-				for (int i = -1; i < VEHICLE::GET_VEHICLE_MAX_NUMBER_OF_PASSENGERS(veh->GetHandle()); i++)
-					if (!VEHICLE::IS_VEHICLE_SEAT_FREE(veh->GetHandle(), i) && VEHICLE::GET_PED_IN_VEHICLE_SEAT(veh->GetHandle(), i) == Handle) m_Seat = i;
-
+				log << "0" << std::endl;
+				if (!PED::IS_PED_IN_ANY_VEHICLE(Handle, true) || PED::GET_VEHICLE_PED_IS_USING(Handle) != veh->GetHandle())
+				{
+					log << "3" << std::endl;
+					m_Seat = m_FutureSeat;
+					PED::SET_PED_INTO_VEHICLE(Handle, veh->GetHandle(), m_FutureSeat);
+				}
 			}
 		}
 	}
@@ -453,14 +499,6 @@ void CNetworkPlayer::BuildTasksQueue()
 	{
 
 	}*/
-	else if (m_Entering)
-	{
-		AI::CLEAR_PED_TASKS(Handle);
-		AI::CLEAR_PED_SECONDARY_TASK(Handle);
-		AI::CLEAR_PED_TASKS_IMMEDIATELY(Handle);
-		AI::TASK_LEAVE_VEHICLE(Handle, PED::GET_VEHICLE_PED_IS_IN(Handle, false), 0);
-		m_Entering = false;
-	}
 	else if (m_Jumping)
 	{
 		if(!IsJumping()) TaskJump();
@@ -593,7 +631,7 @@ void CNetworkPlayer::SetModel(Hash model)
 	PED::SET_PED_CAN_RAGDOLL_FROM_PLAYER_IMPACT(Handle, false);
 	PED::SET_PED_FLEE_ATTRIBUTES(Handle, 0, 0);
 	PED::SET_PED_COMBAT_ATTRIBUTES(Handle, 17, 1);
-	PED::SET_PED_CAN_RAGDOLL(Handle, false);
+	PED::SET_PED_CAN_RAGDOLL(Handle, m_Ragdoll);
 	//PED::_SET_PED_RAGDOLL_FLAG(Handle, 1 | 2 | 4);
 #if _DEBUG
 	pedHandler->Flags |= 1 << 30;

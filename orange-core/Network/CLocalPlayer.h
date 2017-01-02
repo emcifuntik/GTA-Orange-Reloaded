@@ -29,6 +29,7 @@ public:
 	void SendTasks();
 	void SetMoney(int money);
 	~CLocalPlayer();
+	void GetAimPosition(CVector3 & aimPos);
 	void Spawn();
 };
 

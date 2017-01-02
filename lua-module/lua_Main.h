@@ -11,6 +11,7 @@ int lua_Command(lua_State *L);
 int lua_GetPlayerCoords(lua_State *L);
 int lua_GetPlayerModel(lua_State *L);
 int lua_GetPlayerName(lua_State *L);
+int lua_GivePlayerWeapon(lua_State *L);
 int lua_SetPlayerCoords(lua_State *L);
 int lua_SetPlayerInfoMsg(lua_State *L);
 int lua_PlayerExists(lua_State *L);

@@ -91,4 +91,17 @@ namespace Utils {
 		}
 		return false;
 	}
+
+	double DegToRad(double deg)
+	{
+		return deg * PI / 180.0;
+	}
+
+	CVector3 RotationToDirection(CVector3 rotation)
+	{
+		auto z = DegToRad(rotation.fZ);
+		auto x = DegToRad(rotation.fX);
+		auto num = std::abs(std::cos(x));
+		return CVector3((float)(-std::sin(z) * num), (float)(std::cos(z) * num), (float)std::sin(x));
+	}
 };
