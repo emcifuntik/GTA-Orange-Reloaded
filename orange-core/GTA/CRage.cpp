@@ -43,6 +43,26 @@ namespace GTA
 		}
 	}
 
+	std::string CTask::GetNextTree(CTask *task, int n)
+	{
+		if (!n)
+		{
+			task = this;
+			return VTasks::Get()->GetTaskName(this->GetID()) + GetTree(task->NextSubTask, n + 1);
+		}
+		else
+		{
+			std::string res("\n");
+			if (!task)
+				return res;
+			for (int i = 0; i < n; ++i)
+				res += "-";
+			res += " ";
+			res += VTasks::Get()->GetTaskName(task->GetID());
+			return res + GetTree(task->NextSubTask, n + 1);
+		}
+	}
+
 	CViewportGame *CViewportGame::Get()
 	{
 		return *(CViewportGame**)(CMemory((uintptr_t)GetModuleHandle(NULL) + 0xA27578).getOffset());

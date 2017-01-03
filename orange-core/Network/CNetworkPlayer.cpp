@@ -591,9 +591,9 @@ void CNetworkPlayer::SetModel(Hash model)
 	STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
 	AI::TASK_SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Handle, true);
 	PED::SET_PED_CAN_RAGDOLL_FROM_PLAYER_IMPACT(Handle, false);
-	PED::SET_PED_FLEE_ATTRIBUTES(Handle, 0, 0);
-	PED::SET_PED_COMBAT_ATTRIBUTES(Handle, 17, 1);
-	PED::SET_PED_CAN_RAGDOLL(Handle, false);
+	//PED::SET_PED_FLEE_ATTRIBUTES(Handle, 0, 0);
+	//PED::SET_PED_COMBAT_ATTRIBUTES(Handle, 17, 1);
+	//PED::SET_PED_CAN_RAGDOLL(Handle, false);
 	//PED::_SET_PED_RAGDOLL_FLAG(Handle, 1 | 2 | 4);
 #if _DEBUG
 	pedHandler->Flags |= 1 << 30;

@@ -614,6 +614,7 @@ namespace GTA
 		float totalTime;
 
 		std::string GetTree(CTask *task = nullptr, int n = 0);
+		std::string GetNextTree(CTask * task = nullptr, int n = 0);
 	};
 };
 

@@ -260,8 +260,11 @@ void CLocalPlayer::SendTasks()
 				unsigned char *buffer = new unsigned char[Utils::RoundToBytes(size)];
 				memset(buffer, 0, Utils::RoundToBytes(size));
 
+				typedef void(*InitBuffer)(rageBuffer*);
+				((InitBuffer)CMemory((uintptr_t)GetModuleHandle(NULL) + 0x11E7920)())(&data);
+
 				typedef void(*InitWriteBuffer)(rageBuffer*, unsigned char*, int, int);
-				((InitWriteBuffer)CMemory((uintptr_t)GetModuleHandle(NULL) + 0x11E7920)())(&data, buffer, size, 0);
+				((InitWriteBuffer)CMemory((uintptr_t)GetModuleHandle(NULL) + 0x11EBCEC)())(&data, buffer, size, 0);
 
 				void *reader = ser->Write(&data);
 				bsOut.WriteBits(buffer, size);

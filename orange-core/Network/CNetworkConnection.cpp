@@ -186,18 +186,20 @@ void CNetworkConnection::Tick()
 							if (!parentTask)
 							{
 								parentTask = (GTA::CTask*)cloned.task->GetTask();
+								log_debug << "Setting task " << VTasks::Get()->GetTaskName(parentTask->GetID()) << " as parent " << std::endl;
 								parentTask->Deserialize(cloned.task);
 								cursorTask = parentTask;
 							}
 							else
 							{
 								GTA::CTask *newTask = (GTA::CTask*)cloned.task->GetTask();
+								log_debug << "Setting task " << VTasks::Get()->GetTaskName(newTask->GetID()) << " as child " << std::endl;
 								newTask->Deserialize(cloned.task);
 								cursorTask->NextSubTask = newTask;
 								cursorTask = newTask;
 							}
 						}
-						log_debug << "Assigned: " << parentTask->GetTree() << std::endl;
+						log_debug << "Assigned: " << parentTask->GetNextTree() << std::endl;
 						player->AssignTask(parentTask);
 
 						for each (auto cloned in ClonedTasks)
