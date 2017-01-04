@@ -2,6 +2,7 @@
 
 CNetworkConnection * CNetworkConnection::singleInstance = nullptr;
 
+
 std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
 	std::stringstream ss(s);
 	std::string item;
@@ -10,7 +11,6 @@ std::vector<std::string> &split(const std::string &s, char delim, std::vector<st
 	}
 	return elems;
 }
-
 
 std::vector<std::string> split(const std::string &s, char delim) {
 	std::vector<std::string> elems;
@@ -94,6 +94,9 @@ void CNetworkConnection::Tick()
 			case ID_NEW_INCOMING_CONNECTION:
 			{
 				log << "Incoming connection from " << packet->systemAddress.ToString(true) << std::endl;
+				bsOut.Write(UsedModels.size());
+				for (Hash m : UsedModels) bsOut.Write(m);
+				CRPCPlugin::Get()->Signal("PreloadModels", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 				break;
 			}
 			case ID_CONNECT_TO_SERVER:

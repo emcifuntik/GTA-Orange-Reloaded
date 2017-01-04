@@ -26,7 +26,6 @@ void CNetworkObject::UpdateModel()
 		while (!STREAMING::HAS_MODEL_LOADED(m_Model))
 			scriptWait(0);
 		Handle = OBJECT::CREATE_OBJECT(m_Model, curPos.fX, curPos.fY, curPos.fZ, false, true, false);
-		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(m_Model);
 	}
 }
 

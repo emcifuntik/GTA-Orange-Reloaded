@@ -2,6 +2,8 @@
 
 namespace FPlayer
 {
+	void PreloadModels(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+
 	void SendNotification(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void SendClientMessage(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void GivePlayerWeapon(RakNet::BitStream *bitStream, RakNet::Packet *packet);

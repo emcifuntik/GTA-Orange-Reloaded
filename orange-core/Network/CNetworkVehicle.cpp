@@ -44,7 +44,6 @@ void CNetworkVehicle::UpdateModel()
 		while (!STREAMING::HAS_MODEL_LOADED(m_Model))
 			scriptWait(0);
 		Handle = VEHICLE::CREATE_VEHICLE(m_Model, curPos.fX, curPos.fY, curPos.fZ, curHead, false, true);
-		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(m_Model);
 
 		VEHICLE::SET_VEHICLE_EXPLODES_ON_HIGH_EXPLOSION_DAMAGE(Handle, false);
 
@@ -196,7 +195,6 @@ void CNetworkVehicle::BuildTasksQueue()
 		tasksToIgnore--;
 		return;
 	}
-	*CMemory(GetAddress()).get<float>(0x8CC) = m_steering / 180 * PI;
 	if (m_MoveSpeed != .0f)
 	{
 		ENTITY::SET_ENTITY_VELOCITY(Handle, m_vecMove.fX, m_vecMove.fY, m_vecMove.fZ);

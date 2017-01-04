@@ -18,6 +18,10 @@ CNetworkObject::CNetworkObject(Hash model, float x, float y, float z, float pitc
 	rnGUID = RakNetGUID::RakNetGUID(createGUID());
 	Objects.push_back(this);
 
+	bool e = false;
+	for (Hash _model : CNetworkConnection::Get()->UsedModels) if (_model == model) e = true;
+	if (!e) CNetworkConnection::Get()->UsedModels.push_back(model);
+
 	RakNet::BitStream bsOut;
 
 	ObjectData data;

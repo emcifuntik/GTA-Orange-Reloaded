@@ -18,6 +18,10 @@ CNetworkVehicle::CNetworkVehicle(Hash model, float x, float y, float z, float he
 	rnGUID = RakNetGUID::RakNetGUID(createGUID());
 	Vehicles.push_back(this);
 
+	bool e = false;
+	for (Hash _model : CNetworkConnection::Get()->UsedModels) if (_model == model) e = true;
+	if (!e) CNetworkConnection::Get()->UsedModels.push_back(model);
+
 	RakNet::BitStream bsOut;
 
 	VehicleData data;

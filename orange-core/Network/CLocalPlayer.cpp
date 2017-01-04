@@ -12,6 +12,8 @@ CLocalPlayer::CLocalPlayer() :CPedestrian(PLAYER::PLAYER_PED_ID())
 		GAMEPLAY::DELETE_STUNT_JUMP(i);
 	}
 
+	TIME::SET_CLOCK_TIME(0, 0, 0);
+
 	CEntity::InitOffsetFunc();
 
 	rageGlobals::SetPlayerColor(0xFF, 0x8F, 0x00, 0xFF);

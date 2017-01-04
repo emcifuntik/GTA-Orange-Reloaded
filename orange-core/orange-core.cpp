@@ -169,6 +169,8 @@ void HookLoop()
 
 void GameProcessHooks()
 {
+	auto allobj = CMemory((uintptr_t)GetModuleHandle(NULL) + 0xC91D39);
+	memset((void*)allobj(), 0x90, 24);
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x11D2E4).nop(5); //Esc freeze
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x2413D2).nop(6); //UI Wheel slowmo
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x127C8CA).nop(4); //Show cursor
