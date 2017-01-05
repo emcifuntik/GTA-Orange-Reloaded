@@ -27,6 +27,15 @@ CNetworkPlayer* CNetworkPlayer::GetByGUID(RakNet::RakNetGUID GUID, bool create)
 	return nullptr;
 }
 
+CNetworkPlayer * CNetworkPlayer::GetByPedPtr(CPed * ped)
+{
+	for each (CNetworkPlayer *_player in PlayersPool)
+		for (int i = 0, cnt = 0; i < ReplayInterfaces::Get()->ReplayInterfacePed->pool.Capacity(); ++i)
+			if (ReplayInterfaces::Get()->ReplayInterfacePed->pool.GetHandle(i) == _player->GetHandle())
+				return _player;
+	return nullptr;
+}
+
 bool CNetworkPlayer::Exists(RakNet::RakNetGUID GUID)
 {
 	for each (CNetworkPlayer *_player in PlayersPool)

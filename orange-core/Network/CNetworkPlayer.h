@@ -78,8 +78,9 @@ public:
 	static std::vector<CNetworkPlayer*> All();
 	static void DeleteByGUID(RakNet::RakNetGUID guid);
 	static CNetworkPlayer * GetByGUID(RakNet::RakNetGUID GUID, bool create = true);
-	static bool Exists(RakNet::RakNetGUID GUID);
+	static CNetworkPlayer * GetByPedPtr(CPed *ped);
 	static CNetworkPlayer * GetByHandler(Entity handler);
+	static bool Exists(RakNet::RakNetGUID GUID);
 	static void Clear();
 	static void Tick();
 	static void PreRender();
@@ -112,8 +113,6 @@ public:
 	void RemoveTargetPosition();
 	void RemoveTargetRotation();
 	void ResetInterpolation();
-
-	void SetMovementTask(RakNet::BitStream& bsIn);
 
 	void Interpolate();
 

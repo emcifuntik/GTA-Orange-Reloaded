@@ -248,6 +248,8 @@ void CLocalPlayer::SendTasks()
 				continue;
 			auto ser = task->Serialize();
 
+			
+
 			if (ser)
 			{
 				foundPrimary = true;

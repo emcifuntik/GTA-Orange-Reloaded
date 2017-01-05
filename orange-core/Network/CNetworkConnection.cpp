@@ -195,6 +195,29 @@ void CNetworkConnection::Tick()
 								GTA::CTask *newTask = (GTA::CTask*)cloned.task->GetTask();
 								log_debug << "Setting task " << VTasks::Get()->GetTaskName(newTask->GetID()) << " as child " << std::endl;
 								newTask->Deserialize(cloned.task);
+
+								if (newTask->GetID() == GTA::CTaskMelee)
+								{
+									*(CPed **)(newTask + 0x1A0) = CWorld::Get()->CPedPtr;
+									/*auto pl = CNetworkPlayer::GetByPedPtr(player);
+									if (pl)
+									{
+										std::stringstream ss;
+										ss << "Melee " << pl->GetName();
+										CChat::Get()->AddChatMessage(ss.str(), { 0x00, 0xAA, 0x33, 0xFF });
+									}
+									else if (player == CWorld::Get()->CPedPtr)
+									{
+										CChat::Get()->AddChatMessage("Melee yourself", { 0x00, 0xAA, 0x33, 0xFF });
+									}
+									else
+									{
+										std::stringstream ss;
+										ss << "Melee 0x" << std::hex << player;
+										CChat::Get()->AddChatMessage(ss.str(), { 0x00, 0xAA, 0x33, 0xFF });
+									}*/
+								}
+
 								cursorTask->NextSubTask = newTask;
 								cursorTask = newTask;
 							}

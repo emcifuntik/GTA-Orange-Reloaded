@@ -64,6 +64,15 @@
     <Filter Include="GUI">
       <UniqueIdentifier>{3cb60bbc-0b2d-4dbd-8047-37e5258211e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="rage">
+      <UniqueIdentifier>{4b695db5-412b-4982-aac0-2a6c1f2607c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rage\Заголовочные файлы">
+      <UniqueIdentifier>{14ac80ec-9cfe-4e9e-a48b-aadd7eaad8aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rage\Файлы исходного кода">
+      <UniqueIdentifier>{cdd5cf74-8814-48d8-88f3-d159e2fc21d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -247,6 +256,57 @@
     </ClInclude>
     <ClInclude Include="GuiDispatcher.h">
       <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CPedFactory.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\RagePredefine.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CBuffer.h">
+      <Filter>GTA\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\phInstGta.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CEntity.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CBaseModelInfo.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CPed.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CDynamicEntity.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CPortalTracker.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CPhysical.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CPedTasks.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CPlayerInfo.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\ioConstantLightEffect.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\fwWantedLightEffect.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CPlayerPedTargeting.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CPedInventory.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CPedWeaponManager.h">
+      <Filter>rage\Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

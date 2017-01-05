@@ -1,0 +1,87 @@
+#pragma once
+namespace rage {
+	class CPed : public rage::CPhysical
+	{
+	public:
+		char pad_0x0300[0x10]; //0x0300
+		CVector3 vecPedVelocity; //0x0310 
+		char pad_0x031C[0xC]; //0x031C
+		float fUnknown8; //0x0328 
+		char pad_0x032C[0x4]; //0x032C
+		float fUnknown9; //0x0330 
+		float fUnknown10; //0x0334 
+		float fUnknown11; //0x0338 
+		char pad_0x033C[0xC4]; //0x033C
+		CVector3 vecHeadBone; //0x0400 
+		DWORD N00000223; //0x040C 
+		CVector3 vecRightFootFrontBone; //0x0410 
+		char pad_0x041C[0x4]; //0x041C
+		CVector3 vecLeftFootFrontBone; //0x0420 
+		char pad_0x042C[0x4]; //0x042C
+		CVector3 vecRightFootBackBone; //0x0430 
+		char pad_0x043C[0x4]; //0x043C
+		CVector3 vecLeftFootBackBone; //0x0440 
+		char pad_0x044C[0x4]; //0x044C
+		CVector3 vecLeftHandBone; //0x0450 
+		char pad_0x045C[0x4]; //0x045C
+		CVector3 vecRightHandBone; //0x0460 
+		char pad_0x046C[0x4]; //0x046C
+		CVector3 vecNeckBone; //0x0470 
+		char pad_0x047C[0x4]; //0x047C
+		CVector3 vecStomachBone; //0x0480 
+		char pad_0x048C[0x4]; //0x048C
+		CVector3 vecBone9; //0x0490 
+		char pad_0x049C[0x4]; //0x049C
+		CVector3 vecHeadAboveBone1; //0x04A0 
+		char pad_0x04AC[0x4]; //0x04AC
+		CVector3 vecHeadAboveBone2; //0x04B0 
+		char pad_0x04BC[0x4]; //0x04BC
+		CVector3 vecUnknownBone1; //0x04C0 
+		char pad_0x04CC[0x4]; //0x04CC
+		CVector3 vecUnknownBone2; //0x04D0 
+		char pad_0x04DC[0x98]; //0x04DC
+		CVector3 N00000250; //0x0574 
+		char pad_0x0580[0xC0]; //0x0580
+		CVector4 vecPedPosition3; //0x0640 
+		CVector4 vecPedPosition4; //0x0650 
+		CVector4 vecPedPosition5; //0x0660 
+		CVector4 vecPedPosition6; //0x0670 
+		CVector4 vecPedPosition7; //0x0680 
+		CVector4 vecPedPosition8; //0x0690 
+		char pad_0x06A0[0x20]; //0x06A0
+		CVector3 vecPedVelocity2; //0x06C0 
+		char pad_0x06CC[0x4]; //0x06CC
+		CVector3 vecPedVelocity3; //0x06D0 
+		char pad_0x06DC[0x574]; //0x06DC
+		CVector3 vecPedPos3; //0x0C50 
+		DWORD dwUnknown11; //0x0C5C 
+		DWORD dwUnknown12; //0x0C60 
+		DWORD dwUnknown13; //0x0C64 
+		DWORD dwUnknown14; //0x0C68 
+		char pad_0x0C6C[0xAC]; //0x0C6C
+		rage::CEntity* lastVehicle; //0x0D18 
+		char pad_0x0D20[0x354]; //0x0D20
+		DWORD dwPedType; //0x1074 
+		char pad_0x1078[0x4]; //0x1078
+		float fUnknown7; //0x107C 
+		char pad_0x1080[0x4]; //0x1080
+		int32_t uiUnknown1; //0x1084 
+		float fUnknown6; //0x1088 
+		char pad_0x108C[0xC]; //0x108C
+		DWORD dwPedFlags2; //0x1098 
+		DWORD dwPedFlags3; //0x109C 
+		rage::CPedTasks* tasks; //0x10A0 
+		rage::CPlayerInfo* playerInfo; //0x10A8 
+		rage::CPedInventory* pedInventory; //0x10B0 
+		rage::CPedWeaponManager* pedWeaponManager; //0x10B8 
+		char pad_0x10C0[0x74]; //0x10C0
+		float fUnknown21; //0x1134 
+		float fUnknown22; //0x1138 
+		char pad_0x113C[0x64]; //0x113C
+		float fUnknown20; //0x11A0 
+		char pad_0x11A4[0x2FC]; //0x11A4
+		float fArmor; //0x14A0 
+		char pad_0x14A4[0x488]; //0x14A4
+
+	}; //Size=0x192C
+};

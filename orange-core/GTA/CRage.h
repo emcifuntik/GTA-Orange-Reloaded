@@ -191,7 +191,7 @@ public:
 	char pad_0x14A0[0x450]; //0x14A0
 
 	static CPed * GetFromScriptID(int Handle);
-
+	static Ped GetIDFromPtr(CPed* ped);
 }; //Size=0x18E8
 
 class grcRenderTargetDX11

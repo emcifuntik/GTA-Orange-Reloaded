@@ -84,12 +84,9 @@ LRESULT APIENTRY WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return CallWindowProc(CGlobals::Get().gtaWndProc, hwnd, uMsg, wParam, lParam);
 }
 
-void __fastcall eventHook(GTA::CTask* oldTask)
+void __fastcall eventHook(GTA::CTask* task)
 {
-	log_debug << "Old: " << oldTask->GetTree() << std::endl;
-	GTA::CTask *newTask = CWorld::Get()->CPedPtr->TasksPtr->PrimaryTasks->GetTask();
-	log_debug << "New: " << newTask->GetTree() << std::endl;
-
+	log_debug << "New: " << task->GetTree() << std::endl;
 	CLocalPlayer::Get()->updateTasks = true;
 }
 

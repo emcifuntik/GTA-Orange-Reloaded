@@ -84,6 +84,12 @@ CPed * CPed::GetFromScriptID(int Handle)
 	return (CPed*)((GetCEntity)CMemory((uintptr_t)GetModuleHandle(NULL) + 0x15013C)())(Handle);
 }
 
+Ped CPed::GetIDFromPtr(CPed * ped)
+{
+	typedef Ped(*GetHandleFromCPed_)(CPed*);
+	return GetHandleFromCPed_((uintptr_t)GetModuleHandle(NULL) + 0x14B6180)(ped);
+}
+
 CWorld *CWorld::Get()
 {
 	return *((CWorld**)CMemory((uintptr_t)GetModuleHandle(NULL) + 0x89E04D).getOffset());
