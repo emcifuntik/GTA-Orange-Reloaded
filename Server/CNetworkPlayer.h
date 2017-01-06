@@ -37,7 +37,7 @@ public:
 
 	bool bInVehicle = false;
 	RakNetGUID vehicle;
-	short sSeat;
+	char cSeat;
 
 	static void Each(void(*func)(CNetworkPlayer*));
 	static CNetworkPlayer *GetByGUID(RakNet::RakNetGUID GUID);
@@ -50,7 +50,7 @@ public:
 	unsigned int GetID() { return uiID; }
 	RakNet::RakNetGUID GetGUID() { return rnGUID; }
 	void SetOnFootData(const OnFootSyncData& data);
-	void GetOnFootData(OnFootSyncData& data);
+	void GetOnFootData(OnFootSyncData & data);
 	void HideBlip() { bBlipVisible = false; }
 	void ShowBlip() { bBlipVisible = true; }
 	bool IsBlipVisible() { return bBlipVisible; }
