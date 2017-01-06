@@ -117,6 +117,21 @@ namespace FPlayer
 		CLocalPlayer::Get()->ChangeModel(model);
 	}
 
+	void SetPlayerIntoVehicle(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNetGUID player, veh;
+		char seat;
+
+		bitStream->Read(player);
+		bitStream->Read(veh);
+		bitStream->Read(seat);
+
+		if (player == CNetworkConnection::Get()->client->GetMyGUID()) {
+			CLocalPlayer::Get()->FutureVeh = CNetworkVehicle::GetByGUID(veh)->GetHandle();
+			CLocalPlayer::Get()->FutureSeat = seat;
+		}
+	}
+
 	void CreateBlip(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 	{
 		RakNet::RakNetGUID guid;

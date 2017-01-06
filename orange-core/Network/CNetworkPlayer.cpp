@@ -187,7 +187,7 @@ void CNetworkPlayer::SetTargetRotation(const CVector3& vecRotation, unsigned lon
 		m_interp.rot.vecTarget = vecRotation;
 
 		// Calculate the relative error
-		m_interp.rot.vecError = (vecRotation - vecCurrentRotation);
+		m_interp.rot.vecError = Math::GetOffsetDegrees(vecCurrentRotation, vecRotation);
 
 		// Get the interpolation interval
 		unsigned long ulTime = timeGetTime();
@@ -255,8 +255,8 @@ void CNetworkPlayer::SetOnFootData(OnFootSyncData data, unsigned long ulDelay)
 		//m_Entering = false;
 	}
 	else {
-		m_Vehicle = data.vehicle;
-		m_FutureSeat = data.vehseat;
+		m_Vehicle = data.rnVehicle;
+		m_FutureSeat = data.cSeat;
 	}
 }
 
@@ -310,18 +310,10 @@ void CNetworkPlayer::UpdateTargetRotation()
 			m_interp.rot.ulFinishTime = 0;
 
 		// Get our position
-		CVector3 vecCurrentRotation = GetPosition();
+		CVector3 vecCurrentRotation = GetRotation();
 
 		// Calculate the new position
 		CVector3 vecNewRotation = (vecCurrentRotation + vecCompensation);
-
-		// Check if the distance to interpolate is too far
-		if ((vecCurrentRotation - m_interp.rot.vecTarget).Length() > 5)
-		{
-			// Abort all interpolation
-			m_interp.rot.ulFinishTime = 0;
-			vecNewRotation = m_interp.rot.vecTarget;
-		}
 
 		// Set our new position
 		SetRotation(vecNewRotation, false);
@@ -434,7 +426,7 @@ void CNetworkPlayer::AssignTask(GTA::CTask *task)
 
 void CNetworkPlayer::BuildTasksQueue()
 {
-	log << GetPosition().ToString() << std::endl;
+	//log << GetPosition().ToString() << std::endl;
 	if (tasksToIgnore > 0)
 	{
 		tasksToIgnore--;

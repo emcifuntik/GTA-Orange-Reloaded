@@ -36,6 +36,30 @@ CNetworkConnection::~CNetworkConnection()
 	RakNet::RakPeerInterface::DestroyInstance(server);
 }
 
+void CNetworkConnection::Send(const RakNet::BitStream * bitStream, PacketPriority priority, PacketReliability reliability, char orderingChannel, const AddressOrGUID systemIdentifier, bool broadcast, int radius = 0)
+{
+	if (broadcast && radius != 0)
+	{
+		log << "Send1" << std::endl;
+		if (systemIdentifier.rakNetGuid == UNASSIGNED_RAKNET_GUID) return;
+
+		auto player = CNetworkPlayer::GetByGUID(systemIdentifier.rakNetGuid);
+
+		if (!player) return;
+
+		for (auto pl : CNetworkPlayer::All())
+		{
+			log << "Send" << std::endl;
+			if ((player->GetPosition() - pl->GetPosition()).Length() < radius) {
+				log << "Send2" << std::endl;
+				server->Send(bitStream, priority, reliability, orderingChannel, pl->GetGUID(), false);
+			}
+		}
+
+	}
+	else server->Send(bitStream, priority, reliability, orderingChannel, systemIdentifier, broadcast);
+}
+
 bool CNetworkConnection::Start(unsigned short maxPlayers, unsigned short port)
 {
 	if (maxPlayers && port)
@@ -96,7 +120,14 @@ void CNetworkConnection::Tick()
 				log << "Incoming connection from " << packet->systemAddress.ToString(true) << std::endl;
 				bsOut.Write(UsedModels.size());
 				for (Hash m : UsedModels) bsOut.Write(m);
-				CRPCPlugin::Get()->Signal("PreloadModels", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+				CRPCPlugin::Get()->Signal("PreloadModels", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, packet->systemAddress, false, false);
+
+				CNetworkBlip::SendGlobal(packet);
+				CNetworkMarker::SendGlobal(packet);
+				CNetworkVehicle::SendGlobal(packet);
+				CNetwork3DText::SendGlobal(packet);
+				CNetworkObject::SendGlobal(packet);
+
 				break;
 			}
 			case ID_CONNECT_TO_SERVER:
@@ -108,12 +139,6 @@ void CNetworkConnection::Tick()
 
 				Plugin::PlayerConnect(player->GetID());
 				Plugin::Trigger("PlayerConnect", (unsigned long)player->GetID());
-
-				CNetworkBlip::SendGlobal(packet);
-				CNetworkMarker::SendGlobal(packet);
-				CNetworkVehicle::SendGlobal(packet);
-				CNetwork3DText::SendGlobal(packet);
-				CNetworkObject::SendGlobal(packet);
 				
 				bsOut.Write((unsigned char)ID_CONNECT_TO_SERVER);
 				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
