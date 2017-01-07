@@ -5,6 +5,11 @@ CMemory::CMemory(UINT64 address)
 	this->address = (void*)address;
 }
 
+CMemory::CMemory()
+{
+	this->address = (void*)0x0;
+}
+
 CMemory::~CMemory()
 {
 }

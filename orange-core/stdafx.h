@@ -119,15 +119,17 @@ using namespace RakNet;
 #include "rage\phInstGta.h"
 #include "rage\CPortalTracker.h"
 #include "rage\CPedTasks.h"
+#include "rage\CPlayerPedTargeting.h"
 #include "rage\CPlayerInfo.h"
 #include "rage\CEntity.h"
 #include "rage\CDynamicEntity.h"
 #include "rage\CPhysical.h"
 #include "rage\CPed.h"
 #include "rage\ioConstantLightEffect.h"
-#include "rage\CPlayerPedTargeting.h"
 #include "rage\CPedInventory.h"
 #include "rage\CPedWeaponManager.h"
+
+#include "fiDeviceRelative.h"
 #pragma endregion
 
 #pragma region Network

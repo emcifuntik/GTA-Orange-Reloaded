@@ -308,6 +308,9 @@
     <ClInclude Include="rage\CPedWeaponManager.h">
       <Filter>rage\Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="fiDeviceRelative.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -483,6 +486,12 @@
     </ClCompile>
     <ClCompile Include="FreemodeCustomize.cpp">
       <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CBuffer.cpp">
+      <Filter>rage\Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="fiDeviceRelative.cpp">
+      <Filter>rage\Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

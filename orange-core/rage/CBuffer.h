@@ -5,7 +5,7 @@ namespace rage {
 		BufferWrite = 2,
 		BufferLog = 4
 	};
-	class Buffer
+	class CBuffer
 	{
 	public:
 		unsigned char *Data; //0x0000 
@@ -15,20 +15,8 @@ namespace rage {
 		DWORD Size; //0x0014 
 		DWORD Unknown; //0x0018 
 		unsigned char Flags; //0x001C 
-		static void Allocate(Buffer * buff)
-		{
-			typedef void(*InitBuffer)(Buffer*);
-			InitBuffer((uintptr_t)GetModuleHandle(NULL) + 0x11E7920)(buff);
-		}
-		static void InitRead(Buffer * buff, unsigned char * packed, unsigned int size, int flags)
-		{
-			typedef void(*InitReadBuffer)(Buffer*, unsigned char*, int, int);
-			((InitReadBuffer)CMemory((uintptr_t)GetModuleHandle(NULL) + 0x11EBCA8)())(buff, packed, size, 0);
-		}
-		static void InitWrite(Buffer * buff, unsigned char * packed, unsigned int size, int flags)
-		{
-			typedef void(*InitWriteBuffer)(Buffer*, unsigned char*, int, int);
-			((InitWriteBuffer)CMemory((uintptr_t)GetModuleHandle(NULL) + 0x11EBCEC)())(buff, packed, size, 0);
-		}
+		static void Allocate(CBuffer * buff);
+		static void InitRead(CBuffer * buff, unsigned char * packed, unsigned int size, int flags);
+		static void InitWrite(CBuffer * buff, unsigned char * packed, unsigned int size, int flags);
 	}; //Size=0x001D
 }

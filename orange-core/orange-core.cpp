@@ -1,5 +1,10 @@
 #include "stdafx.h"
 
+typedef void(*InitialMount_)();
+InitialMount_ g_callInitialMount;
+
+CMemory unusedMem;
+
 void ForceToSingle()
 {
 	CMemory mem((uintptr_t)GetModuleHandle(NULL) + 0x2773C); //48 83 EC 28 85 D2 78 71 75 0F
@@ -186,9 +191,23 @@ static bool gameStateChange_(int gameState)
 	return g_gameStateChange();
 }
 
+static void callInitialMount_()
+{
+	g_callInitialMount();
+	rage::fiDeviceRelative::MountFolder((CGlobals::Get().orangePath + "\\userdata\\").c_str(), "user:/", (unsigned char*)((uintptr_t)GetModuleHandle(NULL) + 0x1BED140));
+	//rage::fiDeviceRelative::MountFolder((CGlobals::Get().orangePath + "\\config\\").c_str(), "orange:/");
+
+	//rage::fiDeviceRelative::MountFolder((CGlobals::Get().orangePath + "/config/").c_str(), "orange:/", (unsigned char*)((uintptr_t)GetModuleHandle(NULL) + 0x1BED140));
+	/*rage::fiDeviceRelative* device = new rage::fiDeviceRelative();
+	device->SetPath((CGlobals::Get().orangePath + "\\config\\").c_str(), false);
+	device->Mount("orange:/");
+
+	log_debug << "Mounted" << std::endl;*/
+}
+
 void HookLoop()
 {
-	auto unusedMem = CMemory((uintptr_t)GetModuleHandle(NULL) + 0x109D5D8);
+	unusedMem = CMemory((uintptr_t)GetModuleHandle(NULL) + 0x109D5D8);
 	auto callToMem = unusedMem();
 	unusedMem.farJmp(OnLookAlive);
 	auto lookFrame = (CMemory((uintptr_t)GetModuleHandle(NULL) + 0x67A7) + 7);
@@ -202,6 +221,15 @@ void HookLoop()
 	auto gameStateMem = gameStateChange();
 	g_gameStateChange = gameStateChange.get_call<GameStateChange_>();
 	(gameStateChange + 1).put(long(callToMem - gameStateMem - 5));
+
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x7B2A06).nop(37);
+
+	callToMem = unusedMem();
+	unusedMem.farJmp(callInitialMount_);
+	auto callInitialMount = CMemory((uintptr_t)GetModuleHandle(NULL) + 0x7A521A); // CallInitialMount
+	auto callInitialMountMem = callInitialMount();
+	g_callInitialMount = callInitialMount.get_call<InitialMount_>();
+	(callInitialMount + 1).put(long(callToMem - callInitialMountMem - 5));
 
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x46A1BC).farJmp(gunShotHook);
 }
@@ -269,6 +297,9 @@ void *OldCreateWindowExW = nullptr;
 
 void PreLoadPatches()
 {
+	//strcpy_s((char*)((uintptr_t)GetModuleHandle(NULL) + 0x17F9C68), 32, "orange:/pausemenu.xml\0");
+
+
 	ImGui::GetIO().IniFilename = (CGlobals::Get().orangePath + "\\imgui.ini").c_str();
 	ImGui::GetIO().LogFilename = (CGlobals::Get().orangePath + "\\imgui_log.txt").c_str();
 

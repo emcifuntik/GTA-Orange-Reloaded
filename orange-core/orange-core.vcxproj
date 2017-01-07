@@ -121,6 +121,7 @@
     <ClInclude Include="D3D11\stb_rect_pack.h" />
     <ClInclude Include="D3D11\stb_textedit.h" />
     <ClInclude Include="D3D11\stb_truetype.h" />
+    <ClInclude Include="fiDeviceRelative.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="GtaScripts.h" />
     <ClInclude Include="GTA\CGraphics.h" />
@@ -172,6 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BackScene.cpp" />
+    <ClCompile Include="CBuffer.cpp" />
     <ClCompile Include="ChatGUI.cpp" />
     <ClCompile Include="Core\Chat.cpp" />
     <ClCompile Include="Core\Commands.cpp" />
@@ -201,6 +203,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="fiDeviceRelative.cpp" />
     <ClCompile Include="FreemodeCustomize.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="GtaScripts.cpp" />

@@ -13,6 +13,7 @@ public:
 	}
 
 	CMemory(UINT64 address);
+	CMemory();
 	~CMemory();
 
 	void put(const char *value);
