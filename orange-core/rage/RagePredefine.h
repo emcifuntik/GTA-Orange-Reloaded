@@ -16,4 +16,14 @@ namespace rage {
 	class CPlayerPedTargeting;
 	class CPedInventory;
 	class CPedWeaponManager;
+	class CVehicle;
+	class CEntityDrawHandler;
+	class CCustomShaderEffectBaseType;
+	class fragDrawable;
+	class audCarAudioEntity;
+	class CWeaponInfo;
+	class CVehicleIntelligence;
+	class CVehicleTaskManager;
+	class CTaskTree;
+	class CTask;
 };

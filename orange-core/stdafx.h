@@ -128,6 +128,16 @@ using namespace RakNet;
 #include "rage\ioConstantLightEffect.h"
 #include "rage\CPedInventory.h"
 #include "rage\CPedWeaponManager.h"
+#include "rage\CVehicle.h"
+#include "rage\CEntityDrawHandler.h"
+#include "rage\CCustomShaderEffectBaseType.h"
+#include "rage\fragDrawable.h"
+#include "rage\audCarAudioEntity.h"
+#include "rage\CWeaponInfo.h"
+#include "rage\CVehicleIntelligence.h"
+#include "rage\CVehicleTaskManager.h"
+#include "rage\CTaskTree.h"
+#include "rage\CTask.h"
 
 #include "fiDeviceRelative.h"
 #pragma endregion
@@ -177,7 +187,7 @@ using namespace RakNet;
 #include "orange-core.h"
 #include "Utils.h"
 
-IMGUI_API LRESULT ImGui_ImplDX11_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT ImGui_ImplDX11_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void CreateRenderTarget();
 
 enum eGameState {

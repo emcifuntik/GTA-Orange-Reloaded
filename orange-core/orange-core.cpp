@@ -195,7 +195,7 @@ static void callInitialMount_()
 {
 	g_callInitialMount();
 	rage::fiDeviceRelative::MountFolder((CGlobals::Get().orangePath + "\\userdata\\").c_str(), "user:/", (unsigned char*)((uintptr_t)GetModuleHandle(NULL) + 0x1BED140));
-	//rage::fiDeviceRelative::MountFolder((CGlobals::Get().orangePath + "\\config\\").c_str(), "orange:/");
+	rage::fiDeviceRelative::MountFolder((CGlobals::Get().orangePath + "\\orange\\").c_str(), "orange:/");
 
 	//rage::fiDeviceRelative::MountFolder((CGlobals::Get().orangePath + "/config/").c_str(), "orange:/", (unsigned char*)((uintptr_t)GetModuleHandle(NULL) + 0x1BED140));
 	/*rage::fiDeviceRelative* device = new rage::fiDeviceRelative();

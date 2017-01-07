@@ -311,6 +311,36 @@
     <ClInclude Include="fiDeviceRelative.h">
       <Filter>rage\Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="rage\CVehicle.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CEntityDrawHandler.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CCustomShaderEffectBaseType.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\fragDrawable.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\audCarAudioEntity.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CWeaponInfo.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CVehicleIntelligence.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CVehicleTaskManager.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CTaskTree.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CTask.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

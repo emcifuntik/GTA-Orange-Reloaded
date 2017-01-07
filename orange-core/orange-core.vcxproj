@@ -148,9 +148,12 @@
     <ClInclude Include="Network\CVehicle.h" />
     <ClInclude Include="Network\Functions.h" />
     <ClInclude Include="orange-core.h" />
+    <ClInclude Include="rage\audCarAudioEntity.h" />
     <ClInclude Include="rage\CBuffer.h" />
+    <ClInclude Include="rage\CCustomShaderEffectBaseType.h" />
     <ClInclude Include="rage\CDynamicEntity.h" />
     <ClInclude Include="rage\CEntity.h" />
+    <ClInclude Include="rage\CEntityDrawHandler.h" />
     <ClInclude Include="rage\CPed.h" />
     <ClInclude Include="rage\CPedFactory.h" />
     <ClInclude Include="rage\CBaseModelInfo.h" />
@@ -161,6 +164,13 @@
     <ClInclude Include="rage\CPlayerInfo.h" />
     <ClInclude Include="rage\CPlayerPedTargeting.h" />
     <ClInclude Include="rage\CPortalTracker.h" />
+    <ClInclude Include="rage\CTask.h" />
+    <ClInclude Include="rage\CTaskTree.h" />
+    <ClInclude Include="rage\CVehicle.h" />
+    <ClInclude Include="rage\CVehicleIntelligence.h" />
+    <ClInclude Include="rage\CVehicleTaskManager.h" />
+    <ClInclude Include="rage\CWeaponInfo.h" />
+    <ClInclude Include="rage\fragDrawable.h" />
     <ClInclude Include="rage\fwWantedLightEffect.h" />
     <ClInclude Include="rage\ioConstantLightEffect.h" />
     <ClInclude Include="rage\phInstGta.h" />
