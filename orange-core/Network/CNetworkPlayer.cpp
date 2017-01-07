@@ -570,13 +570,13 @@ void CNetworkPlayer::DrawTag()
 	if (tag.bVisible) {
 		const char* _name = m_Name.c_str();
 		float font_size = 20.0f * tag.k;
-		ImVec2 textSize = CGlobals::Get().chatFont->CalcTextSizeA(font_size, 1000.f, 1000.f, _name);
+		ImVec2 textSize = CGlobals::Get().tagFont->CalcTextSizeA(font_size, 1000.f, 1000.f, _name);
 
-		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(tag.x - textSize.x / 2 - 1, tag.y - 1), ImColor(0, 0, 0, 255), _name);
-		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(tag.x - textSize.x / 2 + 1, tag.y + 1), ImColor(0, 0, 0, 255), _name);
-		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(tag.x - textSize.x / 2 + 1, tag.y - 1), ImColor(0, 0, 0, 255), _name);
-		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(tag.x - textSize.x / 2 - 1, tag.y + 1), ImColor(0, 0, 0, 255), _name);
-		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(tag.x - textSize.x / 2, tag.y), ImColor(0xFF, 0xFF, 0xFF, 0xFF), _name);
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, font_size, ImVec2(tag.x - textSize.x / 2 - 1, tag.y - 1), ImColor(0, 0, 0, 255), _name);
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, font_size, ImVec2(tag.x - textSize.x / 2 + 1, tag.y + 1), ImColor(0, 0, 0, 255), _name);
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, font_size, ImVec2(tag.x - textSize.x / 2 + 1, tag.y - 1), ImColor(0, 0, 0, 255), _name);
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, font_size, ImVec2(tag.x - textSize.x / 2 - 1, tag.y + 1), ImColor(0, 0, 0, 255), _name);
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, font_size, ImVec2(tag.x - textSize.x / 2, tag.y), ImColor(0xFF, 0xFF, 0xFF, 0xFF), _name);
 
 		color_t bgColor, fgColor;
 
