@@ -29,7 +29,8 @@ static const struct luaL_Reg mfunclib[] = {
 	{ "GivePlayerWeapon", lua_GivePlayerWeapon },
 	{ "PlayerExists", lua_PlayerExists },
 	{ "SetPlayerInfoMsg", lua_SetPlayerInfoMsg },
-
+	{ "SetPlayerIntoVehicle", lua_SetPlayerIntoVehicle },
+	
 	{ "OnTick", lua_tick },
 	{ "OnHTTPReq", lua_HTTPReq },
 	{ "OnEvent", lua_Event },

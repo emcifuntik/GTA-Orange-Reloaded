@@ -15,6 +15,7 @@ int lua_GivePlayerWeapon(lua_State *L);
 int lua_SetPlayerCoords(lua_State *L);
 int lua_SetPlayerInfoMsg(lua_State *L);
 int lua_PlayerExists(lua_State *L);
+int lua_SetPlayerIntoVehicle(lua_State *L);
 
 //Vehicle
 int lua_CreateVehicle(lua_State *L);

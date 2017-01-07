@@ -15,7 +15,7 @@ public:
 	Hash newModel = 0;
 	bool _togopassenger = false;
 	char FutureSeat = 0;
-	Vehicle FutureVeh = 0;
+	CNetworkVehicle *FutureVeh = nullptr;
 
 	short lastSendSeat;
 
@@ -32,7 +32,6 @@ public:
 	void SendTasks();
 	void SetMoney(int money);
 	~CLocalPlayer();
-	void GetAimPosition(CVector3 & aimPos);
 	void Spawn();
 };
 

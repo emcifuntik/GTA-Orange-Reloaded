@@ -147,10 +147,14 @@ void CLocalPlayer::Tick()
 		ChangeModel(newModel);
 		newModel = 0;
 	}
-	if (FutureVeh != 0)
+	if (FutureVeh)
 	{
-		PED::SET_PED_INTO_VEHICLE(Handle, FutureVeh, FutureSeat);
-		if (PED::GET_VEHICLE_PED_IS_IN(Handle, false) == FutureVeh) FutureVeh = 0;
+		if (FutureVeh->GetHandle() != 0)
+		{
+			log << "s3" << std::endl;
+			PED::SET_PED_INTO_VEHICLE(Handle, FutureVeh->GetHandle(), FutureSeat);
+			if (PED::GET_VEHICLE_PED_IS_IN(Handle, false) == FutureVeh->GetHandle()) FutureVeh = nullptr;
+		}
 	}
 	if (!Spawned) AI::CLEAR_PED_TASKS_IMMEDIATELY(Handle);
 	if (_togopassenger) CLocalPlayer::GoPassenger();

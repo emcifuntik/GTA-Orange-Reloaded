@@ -118,7 +118,6 @@ using namespace RakNet;
 #include "Network\CEntity.h"
 #include "Network\CPedestrian.h"
 #include "Network\CVehicle.h"
-#include "Network\CLocalPlayer.h"
 #include "Network\CNetworkBlip.h"
 #include "Network\CNetworkPlayer.h"
 #include "Network\CNetworkVehicle.h"
@@ -127,6 +126,7 @@ using namespace RakNet;
 #include "Network\CNetworkUI.h"
 #include "Network\CNetworkMarker.h"
 #include "Network\CNetwork3DText.h"
+#include "Network\CLocalPlayer.h"
 #include "Network\Functions.h"
 #include "Network\CRPCPlugin.h"
 #pragma endregion

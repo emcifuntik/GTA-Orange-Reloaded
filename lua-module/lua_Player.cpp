@@ -56,3 +56,9 @@ int lua_GivePlayerWeapon(lua_State *L)
 
 	return 1;
 }
+
+int lua_SetPlayerIntoVehicle(lua_State *L)
+{
+	API::Get().SetPlayerIntoVehicle(lua_tointeger(L, 1), lua_tointeger(L, 2), lua_tointeger(L, 3));
+	return 0;
+}

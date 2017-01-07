@@ -26,6 +26,7 @@ void CRPCPlugin::BindFunctions()
 	rpc.RegisterSlot("SetPlayerHealth", FPlayer::SetPlayerHealth, 0);
 	rpc.RegisterSlot("SetPlayerArmour", FPlayer::SetPlayerArmour, 0);
 	rpc.RegisterSlot("SetPlayerModel", FPlayer::SetPlayerModel, 0);
+	rpc.RegisterSlot("SetPlayerIntoVehicle", FPlayer::SetPlayerIntoVehicle, 0);
 	#pragma endregion
 
 	#pragma region Blip functions
