@@ -553,7 +553,7 @@ void CNetworkPlayer::MakeTag()
 		tag.width = 0.08f * 800;
 		tag.height = 0.012f * 600;
 
-		tag.k = 1.0f - tag.distance / 100;
+		tag.k = 1.3f - tag.distance / 100;
 
 		CVector3 screenPos;
 		CGraphics::Get()->WorldToScreen(CVector3(vecCurPos->fX, vecCurPos->fY, vecCurPos->fZ + 1.1f * tag.k + (tag.distance * 0.04f)), screenPos);
