@@ -231,6 +231,10 @@ void CChat::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, BOOL i
 		case VK_F12:
 			CGlobals::Get().displayServerBrowser = !CGlobals::Get().displayServerBrowser;
 			break;
+		case 0x54:
+			if (!Chat->bOpened)
+				Chat->Open();
+			break;
 		}
 	}
 }
