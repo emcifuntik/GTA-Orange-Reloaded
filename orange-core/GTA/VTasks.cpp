@@ -20,7 +20,6 @@ std::string VTasks::GetTaskName(int64_t id)
 
 VTasks::VTasks()
 {
-	//CTaskReactAimWeapon
 	TasksArray[424] = new std::string("CTaskReactAimWeapon");
 	TasksArray[414] = new std::string("CTaskNMSit");
 	TasksArray[170] = new std::string("CTaskMotionInAutomobile");
@@ -201,12 +200,13 @@ VTasks::VTasks()
 	TasksArray[495] = new std::string("CTaskVehiclePlayerDriveBoat");
 	TasksArray[496] = new std::string("CTaskVehiclePlayerDriveSubmarine");
 	TasksArray[497] = new std::string("CTaskVehiclePlayerDriveSubmarineCar");
-	TasksArray[498] = new std::string("CTaskVehiclePlayerDriveRotaryWingAircraft");
 	TasksArray[499] = new std::string("CTaskVehiclePlayerDriveHeli");
 	TasksArray[500] = new std::string("CTaskVehiclePlayerDriveAutogyro");
 	TasksArray[209] = new std::string("CTaskMoveFollowPointRoute");
 	TasksArray[239] = new std::string("CTaskMoveGoToPointOnRoute");
 	TasksArray[480] = new std::string("CTaskVehicleCrash");
+	TasksArray[402] = new std::string("CTaskNMDangle");
+	TasksArray[468] = new std::string("CTaskVehicleStop");
 }
 
 

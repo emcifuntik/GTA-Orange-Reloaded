@@ -385,7 +385,7 @@ void CNetworkPlayer::Interpolate()
 		SetMovementVelocity(m_vecMove);
 		PED::SET_PED_ACCURACY(Handle, 100);
 	}
-	//BuildTasksQueue();
+	BuildTasksQueue();
 }
 
 void CNetworkPlayer::SetMoveToDirection(CVector3 vecPos, CVector3 vecMove, float iMoveSpeed)
@@ -423,11 +423,11 @@ void CNetworkPlayer::AssignTask(GTA::CTask *task)
 
 void CNetworkPlayer::BuildTasksQueue()
 {
-	if (tasksToIgnore > 0)
+	/*if (tasksToIgnore > 0)
 	{
 		tasksToIgnore--;
 		return;
-	}
+	}*/
 	if (m_InVehicle)
 	{
 		if (m_Entering && !PED::IS_PED_IN_ANY_VEHICLE(Handle, false)) return;
@@ -437,14 +437,15 @@ void CNetworkPlayer::BuildTasksQueue()
 			if (veh)
 			{
 				m_Entering = true;
-				AI::CLEAR_PED_TASKS(Handle);
+				/*AI::CLEAR_PED_TASKS(Handle);
 				AI::CLEAR_PED_SECONDARY_TASK(Handle);
-				AI::CLEAR_PED_TASKS_IMMEDIATELY(Handle);
+				AI::CLEAR_PED_TASKS_IMMEDIATELY(Handle);*/
 				m_Seat = m_FutureSeat;
-				AI::TASK_ENTER_VEHICLE(Handle, veh->GetHandle(), -1, m_Seat, 2, 0, 0);
+				PED::SET_PED_INTO_VEHICLE(Handle, veh->GetHandle(), -1);
+				//AI::TASK_ENTER_VEHICLE(Handle, veh->GetHandle(), -1, m_Seat, 2, 0, 0);
 			}
 		}
-		else if (m_FutureSeat != m_Seat)
+		/*else if (m_FutureSeat != m_Seat)
 		{
 			CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(m_Vehicle);
 			if (veh)
@@ -456,13 +457,13 @@ void CNetworkPlayer::BuildTasksQueue()
 					if (!VEHICLE::IS_VEHICLE_SEAT_FREE(veh->GetHandle(), i) && VEHICLE::GET_PED_IN_VEHICLE_SEAT(veh->GetHandle(), i) == Handle) m_Seat = i;
 
 			}
-		}
+		}*/
 	}
 	/*else if (!m_Entering && !PED::IS_PED_IN_ANY_VEHICLE(Handle, false))
 	{
 
 	}*/
-	else if (m_Entering)
+	/*else if (m_Entering)
 	{
 		AI::CLEAR_PED_TASKS(Handle);
 		AI::CLEAR_PED_SECONDARY_TASK(Handle);
@@ -508,7 +509,7 @@ void CNetworkPlayer::BuildTasksQueue()
 	else
 	{
 		AI::CLEAR_PED_TASKS(Handle);
-	}
+	}*/
 }
 
 void CNetworkPlayer::MakeTag()

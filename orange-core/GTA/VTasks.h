@@ -183,12 +183,13 @@ namespace GTA
 		CTaskVehiclePlayerDriveBoat = 495,
 		CTaskVehiclePlayerDriveSubmarine = 496,
 		CTaskVehiclePlayerDriveSubmarineCar = 497,
-		CTaskVehiclePlayerDriveRotaryWingAircraft = 498,
 		CTaskVehiclePlayerDriveHeli = 499,
 		CTaskVehiclePlayerDriveAutogyro = 500,
 		CTaskMoveFollowPointRoute = 209,
 			CTaskMoveGoToPointOnRoute = 239,
 			CTaskVehicleCrash = 480,
+			CTaskNMDangle = 402,
+			CTaskVehicleStop = 468,
 	};
 	enum
 	{
