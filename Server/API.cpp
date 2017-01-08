@@ -2,6 +2,11 @@
 
 API * API::instance = nullptr;
 
+void API::LoadClientScript(std::string name, char* buffer, size_t size)
+{
+	CClientScripting::AddScript(name, buffer, size);
+}
+
 bool API::SetPlayerPosition(long playerid, float x, float y, float z)
 {
 	auto player = CNetworkPlayer::GetByID(playerid);

@@ -6,9 +6,8 @@ static const char luaJIT_BC_main[] = {
 	41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,10,112,114,105,110,116,0
 };
 
-std::ofstream file("data.luac", std::ios::out | std::ios::binary);
 std::stringbuf _code_;
-char _code[2591];
+size_t _size = 0;
 
 static int writer(lua_State *L, const void *p, size_t size, void *u) {
 
@@ -30,20 +29,21 @@ static int writer(lua_State *L, const void *p, size_t size, void *u) {
 	}*/
 
 	//printf("%c", "call");
-	file.write((char*)d, size);
 	_code_.sputn((char*)d, size);
+	_size += size;
 
 	return 0;
 }
 
 
-void compile(lua_State *L, char *file) {
+void compile(lua_State *L, const char *file) {
 	
 	if (luaL_loadfile(L, file) != 0) {
 		printf("%s\n", lua_tostring(L, -1));
 	}
 
 	lua_dump(L, writer, NULL);
+	lua_pop(L, 1);
 }
 
 SResource *SResource::singleInstance = nullptr;
@@ -77,6 +77,7 @@ static const struct luaL_Reg mfunclib[] = {
 	{ "SetPlayerInfoMsg", lua_SetPlayerInfoMsg },
 	{ "SetPlayerIntoVehicle", lua_SetPlayerIntoVehicle },
 	
+	{ "AddClientScript", lua_LoadClientScript },
 	{ "OnTick", lua_tick },
 	{ "OnHTTPReq", lua_HTTPReq },
 	{ "OnEvent", lua_Event },
@@ -136,6 +137,18 @@ bool SResource::Init()
 	return true;
 }
 
+void SResource::AddClientScript(std::string file)
+{
+	compile(m_lua, file.c_str());
+
+	char* _code = new char[_size];
+	_code_.sgetn(_code, _size);
+
+	API::Get().LoadClientScript("clientscript", _code, _size);
+
+	_size = 0;
+}
+
 bool SResource::Start(const char* name)
 {
 	char path[64];
@@ -147,10 +160,7 @@ bool SResource::Start(const char* name)
 	std::stringstream ss;
 	ss << "[LUA] Starting resource " << name;
 	API::Get().Print(ss.str().c_str());
-	
-	compile(m_lua, respath);
-	lua_pop(m_lua, 1);
-	
+		
 	/*if (luaL_loadbuffer(m_lua, ((char*)code), csize, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
 		std::stringstream ss;
 		ss << "[LUA] " << lua_tostring(m_lua, -1);
@@ -202,20 +212,19 @@ bool SResource::Start(const char* name)
 		return false;
 	}*/
 
-	file.close();
+	compile(m_lua, respath);
 
-	std::ifstream ffile("data.luac", std::ios::in | std::ios::binary);
-	//ffile.read(_code, 2591);
-	_code_.sgetn(_code, 2591);
+	char* _code = new char[_size];
+	_code_.sgetn(_code, _size);
 
-	if (luaL_loadbuffer(m_lua, _code, 2591, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
+	if (luaL_loadbuffer(m_lua, _code, _size, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
 		std::stringstream ss;
-		ss << "[LUAd] " << lua_tostring(m_lua, -1);
+		ss << "[LUA] " << lua_tostring(m_lua, -1);
 		API::Get().Print(ss.str().c_str());
 		return false;
 	}
 
-	ffile.close();
+	_size = 0;
 
 	return true;
 }

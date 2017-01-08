@@ -127,6 +127,7 @@ void CNetworkConnection::Tick()
 				CNetworkVehicle::SendGlobal(packet);
 				CNetwork3DText::SendGlobal(packet);
 				CNetworkObject::SendGlobal(packet);
+				CClientScripting::SendGlobal(packet);
 
 				break;
 			}

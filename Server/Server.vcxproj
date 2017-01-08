@@ -22,6 +22,7 @@
     <ClInclude Include="..\..\GTA-Orange\Shared\Console\CConsole.h" />
     <ClInclude Include="..\..\GTA-Orange\Shared\Console\CLog.h" />
     <ClInclude Include="API.h" />
+    <ClInclude Include="CClientScripting.h" />
     <ClInclude Include="CHTTPServer.h" />
     <ClInclude Include="CNetwork3DText.h" />
     <ClInclude Include="CNetworkObject.h" />
@@ -40,6 +41,7 @@
     <ClCompile Include="..\deps\ServerDeps\Civet\CivetServer.cpp" />
     <ClCompile Include="..\deps\ServerDeps\Civet\civetweb.c" />
     <ClCompile Include="API.cpp" />
+    <ClCompile Include="CClientScripting.cpp" />
     <ClCompile Include="CHTTPServer.cpp" />
     <ClCompile Include="CNetwokMarker.cpp" />
     <ClCompile Include="CNetwork3DText.cpp" />

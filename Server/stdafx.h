@@ -63,6 +63,7 @@ using namespace RakNet;
 // API
 #include "API.h"
 #include "Plugin.h"
+#include "CClientScripting.h"
 
 // Network objects
 #include "CNetworkPlayer.h"

@@ -57,6 +57,7 @@ private:
 
 class APIBase {
 public:
+	virtual void LoadClientScript(std::string name, char* buffer, size_t size) = 0;
 	//Player
 	virtual bool SetPlayerPosition(long playerid, float x, float y, float z) = 0;
 	virtual CVector3 GetPlayerPosition(long playerid) = 0;

@@ -251,6 +251,9 @@
     <ClInclude Include="GuiDispatcher.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="Scripting\CScriptEngine.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -423,6 +426,9 @@
     </ClCompile>
     <ClCompile Include="BackScene.cpp">
       <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripting\CScriptEngine.cpp">
+      <Filter>Scripting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -6,6 +6,7 @@ int lua_tick(lua_State *L);
 int lua_HTTPReq(lua_State * L);
 int lua_Event(lua_State *L);
 int lua_Command(lua_State *L);
+int lua_LoadClientScript(lua_State *L);
 
 //Player
 int lua_GetPlayerCoords(lua_State *L);

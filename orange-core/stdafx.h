@@ -9,6 +9,8 @@
 
 #define WIN32_LEAN_AND_MEAN
 
+#include "lua.hpp"
+
 #pragma region core
 #include <cstdint>
 #include <windows.h>
@@ -134,6 +136,10 @@ using namespace RakNet;
 #include "Game.h"
 #include "Core/Chat.h"
 #include "Core/Commands.h"
+
+#pragma region Scripting
+#include "Scripting/CScriptEngine.h"
+#pragma endregion
 
 #pragma region IMGUI
 #include "D3D11/Memory/Memory.h"

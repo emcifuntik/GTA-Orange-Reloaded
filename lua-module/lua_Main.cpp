@@ -186,3 +186,8 @@ int lua_Attach3DTextToPlayer(lua_State *L)
 	API::Get().Attach3DTextToPlayer(lua_tointeger(L, 1), lua_tointeger(L, 2), lua_tonumber(L, 3), lua_tonumber(L, 4), lua_tonumber(L, 5));
 	return 0;
 }
+
+int lua_LoadClientScript(lua_State *L)
+{
+	SResource::Get()->AddClientScript(lua_tostring(L, 1));
+}
