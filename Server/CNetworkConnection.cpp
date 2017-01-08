@@ -40,7 +40,6 @@ void CNetworkConnection::Send(const RakNet::BitStream * bitStream, PacketPriorit
 {
 	if (broadcast && radius != 0)
 	{
-		log << "Send1" << std::endl;
 		if (systemIdentifier.rakNetGuid == UNASSIGNED_RAKNET_GUID) return;
 
 		auto player = CNetworkPlayer::GetByGUID(systemIdentifier.rakNetGuid);
@@ -49,9 +48,7 @@ void CNetworkConnection::Send(const RakNet::BitStream * bitStream, PacketPriorit
 
 		for (auto pl : CNetworkPlayer::All())
 		{
-			log << "Send" << std::endl;
 			if ((player->GetPosition() - pl->GetPosition()).Length() < radius) {
-				log << "Send2" << std::endl;
 				server->Send(bitStream, priority, reliability, orderingChannel, pl->GetGUID(), false);
 			}
 		}
