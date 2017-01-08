@@ -204,6 +204,9 @@ VTasks::VTasks()
 	TasksArray[498] = new std::string("CTaskVehiclePlayerDriveRotaryWingAircraft");
 	TasksArray[499] = new std::string("CTaskVehiclePlayerDriveHeli");
 	TasksArray[500] = new std::string("CTaskVehiclePlayerDriveAutogyro");
+	TasksArray[209] = new std::string("CTaskMoveFollowPointRoute");
+	TasksArray[239] = new std::string("CTaskMoveGoToPointOnRoute");
+	TasksArray[480] = new std::string("CTaskVehicleCrash");
 }
 
 
