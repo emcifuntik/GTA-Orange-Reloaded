@@ -15,7 +15,7 @@ namespace rage {
 		virtual void Function9(); //
 
 		char pad_0x0008[0x74]; //0x0008
-		char N00000646[16]; //0x007C 
+		char playerName[16]; //0x007C 
 		char pad_0x008C[0x58]; //0x008C
 		float fSwimSpeed; //0x00E4 
 		float fRunSpeed; //0x00E8 
@@ -27,7 +27,12 @@ namespace rage {
 		rage::fwWantedLightEffect* wantedLightEffect; //0x01D8 
 		char pad_0x01E0[0x20]; //0x01E0
 		rage::CPlayerPedTargeting playerPedTargeting; //0x0200 
-		char pad_0x0380[0xBF0]; //0x0380
+		char pad_0x0380[0x880]; //0x0380
+		float fStamina; //0x0C00 
+		float fStaminaMax; //0x0C04 
+		char pad_0x0C08[0x68]; //0x0C08
+		float fNoiseLevel; //0x0C70 
+		char pad_0x0C74[0x2FC]; //0x0C74
 
 	}; //Size=0x0F70
 }

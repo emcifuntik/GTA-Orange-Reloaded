@@ -89,7 +89,7 @@ LRESULT APIENTRY WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return CallWindowProc(CGlobals::Get().gtaWndProc, hwnd, uMsg, wParam, lParam);
 }
 
-void __fastcall eventHook(GTA::CTask* task)
+void __fastcall eventHook(rage::CTask* task)
 {
 	log_debug << "New: " << task->GetTree() << std::endl;
 	CLocalPlayer::Get()->updateTasks = true;
@@ -142,18 +142,19 @@ void OnGameStateChange(int gameState)
 	switch (gameState)
 	{
 	case GameStateIntro:
+		CGlobals::Get().gtaHwnd = FindWindowA(NULL, "Grand Theft Auto V");
+		//SetWindowTextA(CGlobals::Get().gtaHwnd, "GTA:Orange");
+		/*Icon = LPARAM(LoadIconA(NULL, (CGlobals::Get().orangePath + "/Launcher.ico").c_str()));
+		SendMessage(CGlobals::Get().gtaHwnd, WM_SETICON, ICON_BIG, Icon);
+		SendMessage(CGlobals::Get().gtaHwnd, WM_SETICON, ICON_SMALL, Icon);*/
 		break;
 	case GameStateLicenseShit:
 		break;
 	case GameStatePlaying:
 	{
-		TurnOnConsole();
-		CGlobals::Get().gtaHwnd = FindWindowA(NULL, "Grand Theft Auto V");
-		/*SetWindowText(CGlobals::Get().gtaHwnd, L"GTA:Orange");
-		Icon = LPARAM(LoadIconA(NULL, (CGlobals::Get().orangePath + "/Launcher.ico").c_str()));
-		SendMessage(CGlobals::Get().gtaHwnd, WM_SETICON, ICON_BIG, Icon);
-		SendMessage(CGlobals::Get().gtaHwnd, WM_SETICON, ICON_SMALL, Icon);*/
+		
 
+		TurnOnConsole();
 		if (!ScriptEngine::Initialize())
 			log_error << "Failed to initialize ScriptEngine" << std::endl;
 		D3DHook::HookD3D11();
@@ -168,14 +169,12 @@ void OnGameStateChange(int gameState)
 		ScriptEngine::CreateThread(&g_ScriptManagerThread);
 		CScript::RunAll();
 
-		//SyncTree::Init();
-		//log_debug << "CPlayerSyncTree: 0x" << std::hex << SyncTree::GetPlayerSyncTree() << std::endl;
 
 		//typedef void(*InitNetStuff_t)();
-		//InitNetStuff_t InitNetStuff = (InitNetStuff_t)(0x140F891E0);// CMemory::Find("48 89 5C 24 08 57 48 83 EC 40 33 FF 40 38 3D ? ? ? ?")();
-		//InitNetStuff();
+		//InitNetStuff_t((uintptr_t)GetModuleHandle(NULL) + 0x1F891E0)();// CMemory::Find("48 89 5C 24 08 57 48 83 EC 40 33 FF 40 38 3D ? ? ? ?")();
+		SyncTree::Init();
 
-		//(CMemory::Find("48 89 45 D7 48 8D 45 B7 48 89 5D B7 48 89 45 DF 4C 8D 45 D7 EB ?") + 35).nop(9);
+		(CMemory((uintptr_t)GetModuleHandle(NULL) + 0x12F8862) + 35).nop(9);
 		CMemory((uintptr_t)GetModuleHandle(NULL) + 0x7FFF0C).farJmp(eventHook);
 		break;
 	}
@@ -195,7 +194,7 @@ static void callInitialMount_()
 {
 	g_callInitialMount();
 	rage::fiDeviceRelative::MountFolder((CGlobals::Get().orangePath + "\\userdata\\").c_str(), "user:/", (unsigned char*)((uintptr_t)GetModuleHandle(NULL) + 0x1BED140));
-	rage::fiDeviceRelative::MountFolder((CGlobals::Get().orangePath + "\\orange\\").c_str(), "orange:/");
+	//rage::fiDeviceRelative::MountFolder((CGlobals::Get().orangePath + "\\orange\\").c_str(), "orange:/");
 
 	//rage::fiDeviceRelative::MountFolder((CGlobals::Get().orangePath + "/config/").c_str(), "orange:/", (unsigned char*)((uintptr_t)GetModuleHandle(NULL) + 0x1BED140));
 	/*rage::fiDeviceRelative* device = new rage::fiDeviceRelative();
@@ -295,6 +294,26 @@ static HWND CreateWindowExWHook(_In_ DWORD dwExStyle,
 
 void *OldCreateWindowExW = nullptr;
 
+void EnableRageLogger()
+{
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x156C7A4).nop(5);
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x156C874).nop(5);
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x156C844).nop(5);
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x156C814).nop(5);
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x156C7E4).nop(5);
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x156CB34).nop(5);
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x156CB04).nop(5);
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x156CAD4).nop(5);
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x156CAA4).nop(5);
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x156C991).nop(5);
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x156C8AE).nop(5);
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x156C9C8).nop(5);
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x156C90E).nop(5);
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x156CB69).nop(5);
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x156CA1C).nop(5);
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x156CA7E).nop(5);
+}
+
 void PreLoadPatches()
 {
 	//strcpy_s((char*)((uintptr_t)GetModuleHandle(NULL) + 0x17F9C68), 32, "orange:/pausemenu.xml\0");
@@ -306,6 +325,7 @@ void PreLoadPatches()
 	auto mem = CMemory((uintptr_t)GetModuleHandle(NULL) + 0x14493);
 	mem.put(0xEB90909090909090);
 
+	EnableRageLogger();
 	DefineNatives();
 	ForceToSingle();
 	UnknownPatches();

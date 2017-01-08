@@ -287,9 +287,6 @@
     <ClInclude Include="rage\CPhysical.h">
       <Filter>rage\Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="rage\CPedTasks.h">
-      <Filter>rage\Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="rage\CPlayerInfo.h">
       <Filter>rage\Заголовочные файлы</Filter>
     </ClInclude>
@@ -339,6 +336,84 @@
       <Filter>rage\Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="rage\CTask.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CDefensiveArea.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CEventScanner.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CPedTaskManager.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CEventGroupPed.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CVehicleScanner.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CPedScanner.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CObjectScanner.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CDoorScanner.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CRelationshipGroup.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\bgraColor.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\netSyncTree.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CProjectSyncTree.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CProjectBaseSyncParentNode.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\netSyncDataNode.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\netSyncParentNode.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CGameScriptObjInfo.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CGameScriptId.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CDynamicEntitySyncTreeBase.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CPedSyncTreeBase.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CPedTaskSpecificItem.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CPedSyncTree.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\ICommonDataOperations.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CEntitySyncTreeBase.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CLogger.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CLoggerBase.h">
+      <Filter>rage\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\CPedIntelligence.h">
       <Filter>rage\Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
@@ -521,6 +596,9 @@
       <Filter>rage\Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="fiDeviceRelative.cpp">
+      <Filter>rage\Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="rage\CPedFactory.cpp">
       <Filter>rage\Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>

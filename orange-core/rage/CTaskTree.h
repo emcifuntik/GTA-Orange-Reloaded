@@ -19,9 +19,14 @@ namespace rage {
 		int32_t iNextTask; //0x0014 
 		int32_t iUnknown1; //0x0018 
 		int32_t iUnknown2; //0x001C 
-		int32_t iUnknown3; //0x0020 
-		int32_t iUnknown4; //0x0024 
-		rage::CTask* Tasks; //0x0028 
+		rage::CTask* Tasks; //0x0020 
 
+		rage::CTask* GetTask()
+		{
+			if (iActiveTask < 0)
+				return nullptr;
+			else
+				return (&Tasks)[iActiveTask];
+		}
 	}; //Size=0x0030
 }

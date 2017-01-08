@@ -173,7 +173,19 @@ namespace GTA
 		CTaskAggressiveRubberneck = 147,
 		CTaskAffectSecondaryBehaviour = 52,
 		CTaskAdvance = 383,
-		CTaskMotionPed = 264
+		CTaskMotionPed = 264,
+		CTaskVehicleMountedWeapon = 199,
+		CTaskVehiclePlayerDrivePlane = 498,
+		CTaskVehiclePlayerDriveAutomobile = 493,
+		CTaskVehiclePlayerDriveDiggerArm = 501,
+		CTaskVehiclePlayerDriveTrain = 502,
+		CTaskVehiclePlayerDriveBike = 494,
+		CTaskVehiclePlayerDriveBoat = 495,
+		CTaskVehiclePlayerDriveSubmarine = 496,
+		CTaskVehiclePlayerDriveSubmarineCar = 497,
+		CTaskVehiclePlayerDriveRotaryWingAircraft = 498,
+		CTaskVehiclePlayerDriveHeli = 499,
+		CTaskVehiclePlayerDriveAutogyro = 500
 	};
 	enum
 	{

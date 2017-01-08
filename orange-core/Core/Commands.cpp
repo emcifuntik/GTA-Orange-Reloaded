@@ -27,6 +27,13 @@ int CommandProcessor(std::string command)
 		ExitProcess(EXIT_SUCCESS);
 		return true;
 	}
+	if (!command.compare("/test") && CGlobals::Get().isDebug)
+	{
+		rage::CPedSyncTree *pedSyncTree = SyncTree::GetPedSyncTree();
+		rage::CLogger* logger = new rage::CLogger();
+		pedSyncTree->pedOrientationManager.Debug(logger);
+		return true;
+	}
 	if (!command.compare("/save") && CGlobals::Get().isDebug)
 	{
 		if (!params.size())

@@ -3,7 +3,9 @@ namespace rage {
 	class CPed : public rage::CPhysical
 	{
 	public:
-		char pad_0x0300[0x10]; //0x0300
+		float fUnknown30; //0x0300 
+		float fUnknown31; //0x0304 
+		char pad_0x0308[0x8]; //0x0308
 		CVector3 vecPedVelocity; //0x0310 
 		char pad_0x031C[0xC]; //0x031C
 		float fUnknown8; //0x0328 
@@ -39,9 +41,15 @@ namespace rage {
 		CVector3 vecUnknownBone1; //0x04C0 
 		char pad_0x04CC[0x4]; //0x04CC
 		CVector3 vecUnknownBone2; //0x04D0 
-		char pad_0x04DC[0x98]; //0x04DC
-		CVector3 N00000250; //0x0574 
-		char pad_0x0580[0xC0]; //0x0580
+		char pad_0x04DC[0x94]; //0x04DC
+		float N00000AB6; //0x0570 
+		float vecUnknownBone3; //0x0574 
+		float N00000AB9; //0x0578 
+		char pad_0x057C[0x1B]; //0x057C
+		char pad_0x0598[0xB]; //0x0598
+		char pad_0x05A4[0x4C]; //0x05A4
+		DWORD N00000C83; //0x05F0 
+		char pad_0x05F4[0x4C]; //0x05F4
 		CVector4 vecPedPosition3; //0x0640 
 		CVector4 vecPedPosition4; //0x0650 
 		CVector4 vecPedPosition5; //0x0660 
@@ -52,14 +60,15 @@ namespace rage {
 		CVector3 vecPedVelocity2; //0x06C0 
 		char pad_0x06CC[0x4]; //0x06CC
 		CVector3 vecPedVelocity3; //0x06D0 
-		char pad_0x06DC[0x574]; //0x06DC
+		char pad_0x06DC[0x564]; //0x06DC
+		DWORD dwIsAiming; //0x0C40 
+		char pad_0x0C44[0xC]; //0x0C44
 		CVector3 vecPedPos3; //0x0C50 
-		DWORD dwUnknown11; //0x0C5C 
-		DWORD dwUnknown12; //0x0C60 
-		DWORD dwUnknown13; //0x0C64 
-		DWORD dwUnknown14; //0x0C68 
-		char pad_0x0C6C[0xAC]; //0x0C6C
-		rage::CEntity* lastVehicle; //0x0D18 
+		CVector3 dwUnknown11; //0x0C5C 
+		float dwUnknown14; //0x0C68 
+		float N0000032F; //0x0C6C 
+		char pad_0x0C70[0xA8]; //0x0C70
+		rage::CVehicle* lastVehicle; //0x0D18 
 		char pad_0x0D20[0x354]; //0x0D20
 		DWORD dwPedType; //0x1074 
 		char pad_0x1078[0x4]; //0x1078
@@ -69,8 +78,8 @@ namespace rage {
 		float fUnknown6; //0x1088 
 		char pad_0x108C[0xC]; //0x108C
 		DWORD dwPedFlags2; //0x1098 
-		DWORD dwPedFlags3; //0x109C 
-		rage::CPedTasks* tasks; //0x10A0 
+		DWORD dwPedFlags11; //0x109C 
+		rage::CPedIntelligenceFactory* pedIntelligenceFactory; //0x10A0 
 		rage::CPlayerInfo* playerInfo; //0x10A8 
 		rage::CPedInventory* pedInventory; //0x10B0 
 		rage::CPedWeaponManager* pedWeaponManager; //0x10B8 
@@ -81,7 +90,20 @@ namespace rage {
 		float fUnknown20; //0x11A0 
 		char pad_0x11A4[0x2FC]; //0x11A4
 		float fArmor; //0x14A0 
-		char pad_0x14A4[0x488]; //0x14A4
+		char pad_0x14A4[0x20]; //0x14A4
+		float N0000043A; //0x14C4 
+		float N0000108B; //0x14C8 
+		float N0000043B; //0x14CC 
+		float N0000108E; //0x14D0 
+		char pad_0x14D4[0x16C]; //0x14D4
+		CVector3 N00001065; //0x1640 
+		char pad_0x164C[0x4]; //0x164C
+		CVector3 N00001068; //0x1650 
+		char pad_0x165C[0x174]; //0x165C
+		CVector3 N0000106B; //0x17D0 
+		char pad_0x17DC[0x4]; //0x17DC
+		CVector3 N0000106E; //0x17E0 
+		char pad_0x17EC[0x140]; //0x17EC
 
 	}; //Size=0x192C
 };

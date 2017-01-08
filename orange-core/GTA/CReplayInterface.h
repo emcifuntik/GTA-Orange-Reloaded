@@ -1,5 +1,4 @@
 #pragma once
-//TODO: Social Club pointers
 
 class CReplayInterfacePed;
 class CReplayInterfaceVeh;
@@ -66,7 +65,7 @@ class CReplayInterfacePed
 public:
 	CReplayInterfacePedVTable *virtualFunctions;
 	char pad_0x0008[0xF8]; //0x0000
-	CPool<CPed> pool;
+	CPool<rage::CPed> pool;
 	//char pad_0x0118[0x370]; //0x0118
 
 }; //Size=0x0488
@@ -75,7 +74,7 @@ class CReplayInterfaceVeh
 {
 public:
 	char pad_0x0000[0x180]; //0x0000
-	CPool<GTA::CVehicle> pool;
+	CPool<rage::CVehicle> pool;
 	char pad_0x0198[0xB0]; //0x0198
 
 }; //Size=0x0248

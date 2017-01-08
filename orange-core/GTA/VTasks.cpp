@@ -192,6 +192,18 @@ VTasks::VTasks()
 	TasksArray[52] = new std::string("CTaskAffectSecondaryBehaviour");
 	TasksArray[383] = new std::string("CTaskAdvance");
 	TasksArray[264] = new std::string("CTaskMotionPed");
+	TasksArray[199] = new std::string("CTaskVehicleMountedWeapon");
+	TasksArray[498] = new std::string("CTaskVehiclePlayerDrivePlane");
+	TasksArray[493] = new std::string("CTaskVehiclePlayerDriveAutomobile");
+	TasksArray[501] = new std::string("CTaskVehiclePlayerDriveDiggerArm");
+	TasksArray[502] = new std::string("CTaskVehiclePlayerDriveTrain");
+	TasksArray[494] = new std::string("CTaskVehiclePlayerDriveBike");
+	TasksArray[495] = new std::string("CTaskVehiclePlayerDriveBoat");
+	TasksArray[496] = new std::string("CTaskVehiclePlayerDriveSubmarine");
+	TasksArray[497] = new std::string("CTaskVehiclePlayerDriveSubmarineCar");
+	TasksArray[498] = new std::string("CTaskVehiclePlayerDriveRotaryWingAircraft");
+	TasksArray[499] = new std::string("CTaskVehiclePlayerDriveHeli");
+	TasksArray[500] = new std::string("CTaskVehiclePlayerDriveAutogyro");
 }
 
 

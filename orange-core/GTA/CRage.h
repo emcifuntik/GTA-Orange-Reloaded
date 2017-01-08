@@ -625,7 +625,6 @@ typedef void CBoatSyncTree;
 typedef void CSubmarineSyncTree;
 typedef void CHeliSyncTree;
 typedef void CObjectSyncTree;
-typedef void CPedSyncTree;
 typedef void CPickupSyncTree;
 typedef void CPickupPlacementSyncTree;
 typedef void CPlayerSyncTree;
@@ -684,10 +683,10 @@ public:
 		Init();
 		return GetSyncTree(0, 5);
 	}
-	static CPedSyncTree* GetPedSyncTree()
+	static rage::CPedSyncTree* GetPedSyncTree()
 	{
 		Init();
-		return GetSyncTree(0, 6);
+		return (rage::CPedSyncTree*)GetSyncTree(0, 6);
 	}
 	static CPickupSyncTree* GetPickupSyncTree()
 	{
@@ -724,10 +723,9 @@ public:
 	{
 		if (!initialized)
 		{
-			/*typedef void(*InitSyncTrees_)();
-			InitSyncTrees_ initSyncTrees = (InitSyncTrees_)CMemory::Find("48 83 EC 28 E8 ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? 48 83 C4 28 E9 ? ? ? ?")();
-			initSyncTrees();
-			GetSyncTree = (GetSyncTree_)CMemory::Find("0F B7 CA 83 F9 07 7F 5E  74 54 85 C9 74 48")();*/
+			typedef void(*InitSyncTrees_)();
+			InitSyncTrees_((uintptr_t)GetModuleHandle(NULL) + 0x1024298)();//(InitSyncTrees_)CMemory::Find("48 83 EC 28 E8 ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? 48 83 C4 28 E9 ? ? ? ?")();
+			GetSyncTree = GetSyncTree_((uintptr_t)GetModuleHandle(NULL) + 0x1038A80);//(GetSyncTree_)CMemory::Find("0F B7 CA 83 F9 07 7F 5E  74 54 85 C9 74 48")();
 			initialized = true;
 		}
 	}

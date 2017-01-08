@@ -11,6 +11,7 @@
 
 #pragma region core
 #include <cstdint>
+#include <cstdarg>
 #include <windows.h>
 #include <string>
 #include <sstream>
@@ -106,19 +107,15 @@ using namespace RakNet;
 #pragma endregion
 
 #pragma region RAGE Stuff
-#include "GTA\sysAllocator.h"
 #include "GTA\VTasks.h"
-#include "GTA\CRage.h"
-#include "GTA\CReplayInterface.h"
-#include "GTA\CGraphics.h"
 
+#include "rage\bgraColor.h"
 #include "rage\RagePredefine.h"
 #include "rage\CPedFactory.h"
 #include "rage\CBaseModelInfo.h"
 #include "rage\CBuffer.h"
 #include "rage\phInstGta.h"
 #include "rage\CPortalTracker.h"
-#include "rage\CPedTasks.h"
 #include "rage\CPlayerPedTargeting.h"
 #include "rage\CPlayerInfo.h"
 #include "rage\CEntity.h"
@@ -134,12 +131,42 @@ using namespace RakNet;
 #include "rage\fragDrawable.h"
 #include "rage\audCarAudioEntity.h"
 #include "rage\CWeaponInfo.h"
-#include "rage\CVehicleIntelligence.h"
-#include "rage\CVehicleTaskManager.h"
-#include "rage\CTaskTree.h"
 #include "rage\CTask.h"
+#include "rage\CTaskTree.h"
+#include "rage\CVehicleScanner.h"
+#include "rage\CPedScanner.h"
+#include "rage\CObjectScanner.h"
+#include "rage\CDoorScanner.h"
+#include "rage\CVehicleTaskManager.h"
+#include "rage\CVehicleIntelligence.h"
+#include "rage\CDefensiveArea.h"
+#include "rage\CEventScanner.h"
+#include "rage\CPedTaskManager.h"
+#include "rage\CEventGroupPed.h"
+#include "rage\CRelationshipGroup.h"
+#include "rage\CPedIntelligence.h"
 
+#include "rage\netSyncDataNode.h"
+#include "rage\ICommonDataOperations.h"
+#include "rage\netSyncParentNode.h"
+#include "rage\CProjectBaseSyncParentNode.h"
+#include "rage\CPedTaskSpecificItem.h"
+#include "rage\CGameScriptId.h"
+#include "rage\CGameScriptObjInfo.h"
+#include "rage\netSyncTree.h"
+#include "rage\CProjectSyncTree.h"
+#include "rage\CEntitySyncTreeBase.h"
+#include "rage\CDynamicEntitySyncTreeBase.h"
+#include "rage\CPedSyncTreeBase.h"
+#include "rage\CPedSyncTree.h"
+#include "rage\CLoggerBase.h"
+#include "rage\CLogger.h"
 #include "fiDeviceRelative.h"
+
+#include "GTA\sysAllocator.h"
+#include "GTA\CRage.h"
+#include "GTA\CReplayInterface.h"
+#include "GTA\CGraphics.h"
 #pragma endregion
 
 #pragma region Network

@@ -1,6 +1,6 @@
 #pragma once
 namespace rage {
-	class CVehicleTaskManager
+	class CVehicleScanner
 	{
 	public:
 		virtual void Function0(); //
@@ -14,13 +14,14 @@ namespace rage {
 		virtual void Function8(); //
 		virtual void Function9(); //
 
-		rage::CTaskTree* primaryTasksPtr; //0x0008 
-		rage::CTaskTree* secondaryTasksPtr; //0x0010 
-		char pad_0x0018[0x20]; //0x0018
-		rage::CTaskTree primaryTasks; //0x0038 
-		rage::CTaskTree secondaryTasks; //0x0088 
-		rage::CVehicle* owner; //0x00D8 
-		char pad_0x00E0[0x90]; //0x00E0
+		DWORD dwFlags; //0x0008 
+		char pad_0x000C[0x4]; //0x000C
+		rage::CVehicle* nearestArray[16]; //0x0010 
+		DWORD dwArrayCount; //0x0090 
+		char pad_0x0094[0x8]; //0x0094
+		DWORD dwArraySize; //0x009C 
+		DWORD dwLifeTime; //0x00A0 
+		char pad_0x00A4[0x4]; //0x00A4
 
-	}; //Size=0x0130
+	}; //Size=0x00A8
 }

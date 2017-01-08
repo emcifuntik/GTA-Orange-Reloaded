@@ -1,6 +1,6 @@
 #pragma once
 namespace rage {
-	class CVehicleTaskManager
+	class CDefensiveArea
 	{
 	public:
 		virtual void Function0(); //
@@ -14,13 +14,9 @@ namespace rage {
 		virtual void Function8(); //
 		virtual void Function9(); //
 
-		rage::CTaskTree* primaryTasksPtr; //0x0008 
-		rage::CTaskTree* secondaryTasksPtr; //0x0010 
-		char pad_0x0018[0x20]; //0x0018
-		rage::CTaskTree primaryTasks; //0x0038 
-		rage::CTaskTree secondaryTasks; //0x0088 
-		rage::CVehicle* owner; //0x00D8 
-		char pad_0x00E0[0x90]; //0x00E0
+		char pad_0x0008[0x70]; //0x0008
+		rage::CDefensiveArea* defensiveAreaPtr; //0x0078 
+		char pad_0x0080[0x10]; //0x0080
 
-	}; //Size=0x0130
+	}; //Size=0x0090
 }
