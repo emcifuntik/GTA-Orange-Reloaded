@@ -190,6 +190,7 @@ namespace GTA
 			CTaskVehicleCrash = 480,
 			CTaskNMDangle = 402,
 			CTaskVehicleStop = 468,
+			CTaskVehicleDeadDriver = 465
 	};
 	enum
 	{

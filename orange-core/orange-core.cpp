@@ -230,7 +230,7 @@ void HookLoop()
 	g_callInitialMount = callInitialMount.get_call<InitialMount_>();
 	(callInitialMount + 1).put(long(callToMem - callInitialMountMem - 5));
 
-	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x46A1BC).farJmp(gunShotHook);
+	//CMemory((uintptr_t)GetModuleHandle(NULL) + 0x46A1BC).farJmp(gunShotHook);
 }
 
 void GameProcessHooks()

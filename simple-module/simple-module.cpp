@@ -15,10 +15,12 @@ extern "C"
 	{
 		API::Get().Print("Simple module has been successfully loaded!");
 
-		API::Get().CreateVehicle(0x6322B39A, 46.34f, -688.664f, 43.6748f, 133.994f);
-		API::Get().CreateVehicle(0x6322B39A, 43.0207f, -695.123f, 43.662f, 159.652f);
-		API::Get().CreateVehicle(0x6322B39A, 40.2774f, -702.291f, 43.6512f, 158.812f);
-		API::Get().CreateVehicle(0x6322B39A, 38.2197f, -707.548f, 43.6416f, 158.856f);
+		API::Get().CreateVehicle(API::Get().Hash("t20"), 46.34f, -688.664f, 43.6748f, 133.994f);
+		API::Get().CreateVehicle(API::Get().Hash("t20"), 43.0207f, -695.123f, 43.662f, 159.652f);
+		API::Get().CreateVehicle(API::Get().Hash("t20"), 40.2774f, -702.291f, 43.6512f, 158.812f);
+		API::Get().CreateVehicle(API::Get().Hash("t20"), 38.2197f, -707.548f, 43.6416f, 158.856f);
+		API::Get().CreateVehicle(API::Get().Hash("buzzard"), 37.1988f, -727.416f, 44.1206f, 0.0f);
+		API::Get().CreateVehicle(API::Get().Hash("buzzard"), 67.8374f, -703.912f, 44.1497f, 328.984f);
 
 		API::Get().Print("All cars were loaded!");
 	}

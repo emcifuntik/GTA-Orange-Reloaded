@@ -49,7 +49,7 @@ VTasks::VTasks()
 	TasksArray[420] = new std::string("CTaskJumpVault");
 	TasksArray[281] = new std::string("CTaskMotionSwimming");
 	TasksArray[76] = new std::string("CTaskWitness");
-	TasksArray[527] = new std::string("CTaskVehicleTransformToSubmarine");
+	//TasksArray[527] = new std::string("CTaskVehicleTransformToSubmarine");
 	TasksArray[50] = new std::string("CTaskVault");
 	TasksArray[8] = new std::string("CTaskWeapon");
 	TasksArray[218] = new std::string("CTasksArraymartFlee");
@@ -207,6 +207,7 @@ VTasks::VTasks()
 	TasksArray[480] = new std::string("CTaskVehicleCrash");
 	TasksArray[402] = new std::string("CTaskNMDangle");
 	TasksArray[468] = new std::string("CTaskVehicleStop");
+	TasksArray[465] = new std::string("CTaskVehicleDeadDriver");
 }
 
 

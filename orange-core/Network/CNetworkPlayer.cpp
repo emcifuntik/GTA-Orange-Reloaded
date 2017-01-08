@@ -385,7 +385,7 @@ void CNetworkPlayer::Interpolate()
 		SetMovementVelocity(m_vecMove);
 		PED::SET_PED_ACCURACY(Handle, 100);
 	}
-	BuildTasksQueue();
+	//BuildTasksQueue();
 }
 
 void CNetworkPlayer::SetMoveToDirection(CVector3 vecPos, CVector3 vecMove, float iMoveSpeed)
@@ -430,7 +430,7 @@ void CNetworkPlayer::BuildTasksQueue()
 	}*/
 	if (m_InVehicle)
 	{
-		if (m_Entering && !PED::IS_PED_IN_ANY_VEHICLE(Handle, false)) return;
+		//if (m_Entering && !PED::IS_PED_IN_ANY_VEHICLE(Handle, false)) return;
 		if (!m_Entering)
 		{
 			CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(m_Vehicle);
