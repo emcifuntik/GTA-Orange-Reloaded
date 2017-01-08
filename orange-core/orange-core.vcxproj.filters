@@ -64,6 +64,9 @@
     <Filter Include="GUI">
       <UniqueIdentifier>{3cb60bbc-0b2d-4dbd-8047-37e5258211e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripting">
+      <UniqueIdentifier>{89b2c55f-f34d-4cfb-bd4e-3ddb0c034711}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

@@ -1,5 +1,51 @@
 #include "stdafx.h"
 
+#define luaJIT_BC_main_SIZE 56
+static const char luaJIT_BC_main[] = {
+	27,76,74,2,2,49,2,0,2,0,2,0,4,54,0,0,0,39,1,1,0,66,0,2,1,75,0,1,0,24,104,105,
+	41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,10,112,114,105,110,116,0
+};
+
+std::ofstream file("data.luac", std::ios::out | std::ios::binary);
+std::stringbuf _code_;
+char _code[2591];
+
+static int writer(lua_State *L, const void *p, size_t size, void *u) {
+
+	unsigned int i = 0;
+
+	unsigned char *d = (unsigned char *)p;
+
+	// Print all the bytes on the console.
+	/*while (i != size) {
+		printf("%c", d[i]);
+		++i;
+	}*/
+
+	/*if (luaL_loadbuffer(L, (char*)d, size, NULL) || lua_pcall(L, 0, 0, 0)) {
+		std::stringstream ss;
+		ss << "[LUA] " << lua_tostring(L, -1);
+		API::Get().Print(ss.str().c_str());
+		return false;
+	}*/
+
+	//printf("%c", "call");
+	file.write((char*)d, size);
+	_code_.sputn((char*)d, size);
+
+	return 0;
+}
+
+
+void compile(lua_State *L, char *file) {
+	
+	if (luaL_loadfile(L, file) != 0) {
+		printf("%s\n", lua_tostring(L, -1));
+	}
+
+	lua_dump(L, writer, NULL);
+}
+
 SResource *SResource::singleInstance = nullptr;
 
 static const struct luaL_Reg gfunclib[] = {
@@ -77,6 +123,16 @@ bool SResource::Init()
 		API::Get().Print(ss.str().c_str());
 		return false;
 	}
+
+	/*if (luaL_loadbuffer(m_lua, luaJIT_BC_main, luaJIT_BC_main_SIZE, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
+		std::stringstream ss;
+		ss << "[LUA] " << lua_tostring(m_lua, -1);
+		API::Get().Print(ss.str().c_str());
+		return false;
+	}*/
+
+	//std::cout << /*lua_dump(m_lua)*/  << std::endl;
+
 	return true;
 }
 
@@ -92,12 +148,75 @@ bool SResource::Start(const char* name)
 	ss << "[LUA] Starting resource " << name;
 	API::Get().Print(ss.str().c_str());
 	
-	if (luaL_loadfile(m_lua, respath) || lua_pcall(m_lua, 0, 0, 0)) {
+	compile(m_lua, respath);
+	lua_pop(m_lua, 1);
+	
+	/*if (luaL_loadbuffer(m_lua, ((char*)code), csize, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
 		std::stringstream ss;
-		ss << "[LUA] Could not load main.lua for resource:\n\t" << lua_tostring(m_lua, -1) << name;
+		ss << "[LUA] " << lua_tostring(m_lua, -1);
 		API::Get().Print(ss.str().c_str());
 		return false;
 	}
+	
+	csize = 0;*/
+
+	/*if (lua_pcall(m_lua, 0, 0, 0)) {
+		std::stringstream err;
+		err << "[LUA] Could not load main.lua for resource:\n\t" << lua_tostring(m_lua, -1) << name;
+		API::Get().Print(err.str().c_str());
+		return false;
+	}*/
+
+
+	/*if (luaL_loadfile(m_lua, "modules//lua-module//compiler//run.lua")) {
+		std::stringstream err;
+		err << "[LUA] " << lua_tostring(m_lua, -1);
+		API::Get().Print(err.str().c_str());
+		return false;
+	}
+
+	lua_pushstring(m_lua, "-b");
+
+	std::stringstream cpath;
+	cpath << "../../../resources/" << name << "/main" << ".lua";
+
+	lua_pushstring(m_lua, cpath.str().c_str());
+
+	cpath << "c";
+
+	lua_pushstring(m_lua, cpath.str().c_str());
+
+	if (lua_pcall(m_lua, 3, 0, 0)) {
+		std::stringstream err;
+		err << "[LUA] " << lua_tostring(m_lua, -1);
+		API::Get().Print(err.str().c_str());
+		return false;
+	}*/
+
+	
+
+	/*if (luaL_loadfile(m_lua, "data.luac") || lua_pcall(m_lua, 0, 0, 0)) {
+		std::stringstream ss;
+		ss << "[LUA] " << lua_tostring(m_lua, -1);
+		API::Get().Print(ss.str().c_str());
+		return false;
+	}*/
+
+	file.close();
+
+	std::ifstream ffile("data.luac", std::ios::in | std::ios::binary);
+	//ffile.read(_code, 2591);
+	_code_.sgetn(_code, 2591);
+
+	if (luaL_loadbuffer(m_lua, _code, 2591, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
+		std::stringstream ss;
+		ss << "[LUAd] " << lua_tostring(m_lua, -1);
+		API::Get().Print(ss.str().c_str());
+		return false;
+	}
+
+	ffile.close();
+
 	return true;
 }
 
