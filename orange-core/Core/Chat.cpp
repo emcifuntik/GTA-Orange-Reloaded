@@ -127,8 +127,6 @@ void CChat::Input()
 	{
 		UI::SET_PAUSE_MENU_ACTIVE(false);
 
-		log << "disable" << std::endl;
-
 		if (CONTROLS::_GET_LAST_INPUT_METHOD(2))
 		for (int i = 0; i < 338; i++)
 		{
