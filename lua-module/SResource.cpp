@@ -1,11 +1,5 @@
 #include "stdafx.h"
 
-#define luaJIT_BC_main_SIZE 56
-static const char luaJIT_BC_main[] = {
-	27,76,74,2,2,49,2,0,2,0,2,0,4,54,0,0,0,39,1,1,0,66,0,2,1,75,0,1,0,24,104,105,
-	41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,10,112,114,105,110,116,0
-};
-
 std::stringbuf _code_;
 size_t _size = 0;
 
@@ -16,10 +10,10 @@ static int writer(lua_State *L, const void *p, size_t size, void *u) {
 	unsigned char *d = (unsigned char *)p;
 
 	// Print all the bytes on the console.
-	/*while (i != size) {
+	while (i != size) {
 		printf("%c", d[i]);
 		++i;
-	}*/
+	}
 
 	/*if (luaL_loadbuffer(L, (char*)d, size, NULL) || lua_pcall(L, 0, 0, 0)) {
 		std::stringstream ss;
@@ -144,6 +138,14 @@ void SResource::AddClientScript(std::string file)
 	char* _code = new char[_size];
 	_code_.sgetn(_code, _size);
 
+	API::Get().Print("ADD");
+
+	if (luaL_loadbuffer(m_lua, _code, _size, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
+		std::stringstream ss;
+		ss << "[LUA] " << lua_tostring(m_lua, -1);
+		API::Get().Print(ss.str().c_str());
+	}
+
 	API::Get().LoadClientScript("clientscript", _code, _size);
 
 	_size = 0;
@@ -205,14 +207,14 @@ bool SResource::Start(const char* name)
 
 	
 
-	/*if (luaL_loadfile(m_lua, "data.luac") || lua_pcall(m_lua, 0, 0, 0)) {
+	if (luaL_loadfile(m_lua, respath) || lua_pcall(m_lua, 0, 0, 0)) {
 		std::stringstream ss;
 		ss << "[LUA] " << lua_tostring(m_lua, -1);
 		API::Get().Print(ss.str().c_str());
 		return false;
-	}*/
+	}
 
-	compile(m_lua, respath);
+	/*compile(m_lua, respath);
 
 	char* _code = new char[_size];
 	_code_.sgetn(_code, _size);
@@ -224,7 +226,7 @@ bool SResource::Start(const char* name)
 		return false;
 	}
 
-	_size = 0;
+	_size = 0;*/
 
 	return true;
 }

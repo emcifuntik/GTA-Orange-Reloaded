@@ -254,6 +254,9 @@
     <ClInclude Include="Scripting\CScriptEngine.h">
       <Filter>Scripting</Filter>
     </ClInclude>
+    <ClInclude Include="Scripting\LuaDefs.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

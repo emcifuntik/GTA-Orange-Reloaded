@@ -31,6 +31,7 @@ CNetworkVehicle::CNetworkVehicle(Hash model, float x, float y, float z, float he
 	data.Burnout = false;
 	data.steering = 0;
 	data.hasDriver = false;
+	data.bHorn = false;
 
 	bsOut.Write(data);
 
@@ -130,6 +131,7 @@ void CNetworkVehicle::SendGlobal(RakNet::Packet *packet)
 		data.Burnout = false;
 		data.steering = 0;
 		data.hasDriver = false;
+		data.bHorn = false;
 
 		bsOut.Write(data);
 

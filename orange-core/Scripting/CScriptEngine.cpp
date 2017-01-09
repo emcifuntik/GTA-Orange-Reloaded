@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "LuaDefs.h"
 
 CScriptEngine *CScriptEngine::singleInstance = nullptr;
 
@@ -9,11 +10,11 @@ CScriptEngine::CScriptEngine()
 
 	luaL_openlibs(m_lua);
 
-	/*lua_getglobal(m_lua, "_G");
+	lua_getglobal(m_lua, "_G");
 	luaL_setfuncs(m_lua, gfunclib, 0);
 	lua_pop(m_lua, 1);
 
-	lua_newtable(m_lua);
+	/*lua_newtable(m_lua);
 	luaL_setfuncs(m_lua, mfunclib, 0);
 	lua_setglobal(m_lua, "__orange__");*/
 }
