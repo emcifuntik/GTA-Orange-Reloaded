@@ -141,6 +141,7 @@ void CNetworkPlayer::Spawn(const CVector3& vecPosition)
 #endif
 		pedHandler->Flags |= 1 << 6;
 		ENTITY::SET_ENTITY_PROOFS(Handle, true, true, true, true, true, true, true, true);
+		WEAPON::SET_PED_INFINITE_AMMO_CLIP(Handle, true);
 
 		Blip blip = AddBlip();
 		UI::SET_BLIP_AS_SHORT_RANGE(blip, false);
@@ -487,13 +488,15 @@ void CNetworkPlayer::BuildTasksQueue()
 	}*/
 	else if (m_Jumping)
 	{
-		if(!IsJumping()) TaskJump();
+		TaskJump();
 	}
 	else if (m_Aiming && !m_Shooting)
 	{
 		if (m_MoveSpeed != .0f)
 		{
-			SetMoveToDirectionAndAiming(m_interp.pos.vecTarget, m_vecMove, m_vecAim, 3.0f, false);
+			TaskAimAt(m_vecAim, -1);
+			//SetMoveToDirectionAndAiming(m_interp.pos.vecTarget, m_vecMove, m_vecAim, 3.0f, false);
+			//tasksToIgnore = 5;
 		}
 		else
 		{
@@ -502,7 +505,10 @@ void CNetworkPlayer::BuildTasksQueue()
 	}
 	else if (m_Shooting && m_MoveSpeed != .0f)
 	{
-		SetMoveToDirectionAndAiming(m_interp.pos.vecTarget, m_vecMove, m_vecAim, m_MoveSpeed, true);
+		TaskAimAt(m_vecAim, -1);
+		TaskShootAt(m_vecAim, -1);
+		//if (GetMovementVelocity().Length() < m_MoveSpeed - 0.4) SetMoveToDirectionAndAiming(m_interp.pos.vecTarget, m_vecMove, m_vecAim, m_MoveSpeed, true);
+		//tasksToIgnore = 5;
 		m_Shooting = false;
 	}
 	else if (m_Shooting && !m_Aiming)
@@ -624,6 +630,7 @@ void CNetworkPlayer::SetModel(Hash model)
 #endif
 	pedHandler->Flags |= 1 << 6;
 	ENTITY::SET_ENTITY_PROOFS(Handle, true, true, true, true, true, true, true, true);
+	WEAPON::SET_PED_INFINITE_AMMO_CLIP(Handle, true);
 	
 }
 

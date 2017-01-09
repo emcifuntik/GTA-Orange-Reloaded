@@ -13,13 +13,14 @@ int main(void)
 	log << "Starting the server..." << std::endl;
 	log << "Hostname: " << color::lred << CConfig::Get()->Hostname << std::endl;
 	log << "Port: " << color::lred << CConfig::Get()->Port << std::endl;
+	log << "HTTP Server port: " << color::lred << CConfig::Get()->HTTPPort << std::endl;
 	log << "Maximum players: " << color::lred << CConfig::Get()->MaxPlayers << std::endl;
 
 	Plugin::LoadPlugins();	
 
-	CHTTPServer::Get()->Start(88);
+	CHTTPServer::Get()->Start(CConfig::Get()->HTTPPort);
 	CHTTPHandler h_a;
-	CHTTPServer::g_server.addHandler("", h_a);
+	CHTTPServer::g_server->addHandler("", h_a);
 	
 	auto netLoop = [=]()
 	{

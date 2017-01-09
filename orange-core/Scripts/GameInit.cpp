@@ -45,9 +45,9 @@ void Action()
 			CAM::RENDER_SCRIPT_CAMS(true, false, 0, true, false);
 			UI::DISPLAY_HUD(false);
 			UI::DISPLAY_RADAR(false);
+			CLocalPlayer::Get()->ChangeModel(Utils::Hash("mp_m_freemode_01"));
 			CGlobals::Get().displayServerBrowser = true;
 			teleported = true;
-			CLocalPlayer::Get()->ChangeModel(Utils::Hash("mp_m_freemode_01"));
 			CChat::Get()->AddChatMessage("Grand Theft Auto: Orange loaded");
 		}
 		scriptWait(0);
