@@ -221,7 +221,6 @@ void CNetworkPlayer::SetOnFootData(OnFootSyncData data, unsigned long ulDelay)
 		//AI::CLEAR_PED_SECONDARY_TASK(Handle);
 		//AI::CLEAR_PED_TASKS_IMMEDIATELY(Handle);
 		AI::TASK_LEAVE_VEHICLE(Handle, PED::GET_VEHICLE_PED_IS_IN(Handle, false), (CLocalPlayer::Get()->GetPosition() - GetPosition()).Length() > 50 ? 16 : 0);
-		log << "exit" << std::endl;
 		m_Entering = false;
 		m_Lefting = true;
 	}
@@ -437,17 +436,14 @@ void CNetworkPlayer::BuildTasksQueue()
 	if (m_Lefting)
 	{
 		if (PED::GET_VEHICLE_PED_IS_USING(Handle) == 0) m_Lefting = false;
-		log << "Lefting..." << std::endl;
 		return;
 	}
 	if (m_InVehicle)
 	{
 		if (m_FutureSeat == -2) m_FutureSeat = m_Seat;
-		log << "-3" << std::endl;
 		if (m_Entering && !PED::IS_PED_IN_ANY_VEHICLE(Handle, false) && PED::GET_VEHICLE_PED_IS_TRYING_TO_ENTER(Handle) != 0) return;
 		if (!m_Entering)
 		{
-			log << "-2" << std::endl;
 			CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(m_Vehicle);
 			if (veh)
 			{
@@ -463,7 +459,6 @@ void CNetworkPlayer::BuildTasksQueue()
 		{
 			if (m_FutureSeat != m_Seat)
 			{
-				log << "-1" << std::endl;
 				CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(m_Vehicle);
 				if (veh)
 				{
@@ -475,14 +470,11 @@ void CNetworkPlayer::BuildTasksQueue()
 
 				}
 			}
-			log << "2" << std::endl;
 			CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(m_Vehicle);
 			if (veh)
 			{
-				log << "0" << std::endl;
 				if (!PED::IS_PED_IN_ANY_VEHICLE(Handle, true) || PED::GET_VEHICLE_PED_IS_USING(Handle) != veh->GetHandle())
 				{
-					log << "3" << std::endl;
 					m_Seat = m_FutureSeat;
 					PED::SET_PED_INTO_VEHICLE(Handle, veh->GetHandle(), m_FutureSeat);
 				}
