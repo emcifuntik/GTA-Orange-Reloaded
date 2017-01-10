@@ -50,12 +50,19 @@ void CLocalPlayer::GetOnFootSync(OnFootSyncData& onfoot)
 {
 	onfoot.hModel = GetModel();
 	onfoot.bJumping = IsJumping();
+	onfoot.fRotationPotential = rage::CPedFactory::Get()->localPed->fRotationPotential;
 	onfoot.fForwardPotential = rage::CPedFactory::Get()->localPed->fForwardPotential;
 	onfoot.fStrafePotential = rage::CPedFactory::Get()->localPed->fStrafePotential;
 	onfoot.dwMovementFlags = rage::CPedFactory::Get()->localPed->dwMovementFlags;
+
+	/*log_debug << rage::CPedFactory::Get()->localPed->fRotationPotential << " "
+		<< rage::CPedFactory::Get()->localPed->fForwardPotential << " "
+		<< rage::CPedFactory::Get()->localPed->fStrafePotential << " "
+		<< rage::CPedFactory::Get()->localPed->dwMovementFlags << std::endl;*/
+
 	onfoot.vecPos = GetPosition();
 	onfoot.vecRot = GetRotation();
-	onfoot.fHeading = rage::CPedFactory::Get()->localPed->fRotationPotential;
+	//onfoot.fHeading = rage::CPedFactory::Get()->localPed->fRotationPotential;
 	GetMoveSpeed(onfoot.vecMoveSpeed);
 	//onfoot.vecTurnSpeed = GetRotationVelocity();
 	//onfoot.bDuckState = IsDucking();
