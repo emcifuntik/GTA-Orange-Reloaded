@@ -12,5 +12,6 @@ namespace rage {
 		virtual int Function5(int64_t a2); //
 		rage::CPed* localPed; //0x0008 
 		static rage::CPedFactory* Get();
+		static rage::CPed* Create(int pedType, unsigned int hash, Vector3 * position, int64_t heading, bool network, bool a6);
 	}; //Size=0x0010
 };

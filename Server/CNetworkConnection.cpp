@@ -171,6 +171,7 @@ void CNetworkConnection::Tick()
 
 				player->GetOnFootData(data);
 #if _DEBUG
+				//log_debug << data.ToString() << std::endl;
 				data.vecPos.fX += 1.f;
 				data.vecPos.fY += 1.f;
 

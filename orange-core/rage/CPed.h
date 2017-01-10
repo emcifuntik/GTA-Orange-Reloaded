@@ -1,19 +1,42 @@
 #pragma once
 namespace rage {
-	class CPed : public rage::CPhysical
+	class CPed: public rage::CPhysical
 	{
 	public:
 		float fUnknown30; //0x0300 
 		float fUnknown31; //0x0304 
 		char pad_0x0308[0x8]; //0x0308
 		CVector3 vecPedVelocity; //0x0310 
-		char pad_0x031C[0xC]; //0x031C
+		float N00000130; //0x031C 
+		DWORD N0000175D; //0x0320 
+		DWORD N00000131; //0x0324 
 		float fUnknown8; //0x0328 
 		char pad_0x032C[0x4]; //0x032C
 		float fUnknown9; //0x0330 
 		float fUnknown10; //0x0334 
 		float fUnknown11; //0x0338 
-		char pad_0x033C[0xC4]; //0x033C
+		char pad_0x033C[0x14]; //0x033C
+		CVector3 N0000175F; //0x0350 
+		float N0000020D; //0x035C 
+		char pad_0x0360[0x10]; //0x0360
+		CVector3 N00000540; //0x0370 
+		float N00000211; //0x037C 
+		CVector3 N00001763; //0x0380 
+		float N00000213; //0x038C 
+		char pad_0x0390[0x10]; //0x0390
+		CVector3 N00001766; //0x03A0 
+		DWORD N00000217; //0x03AC 
+		CVector3 N00001769; //0x03B0 
+		DWORD N00000219; //0x03BC 
+		char pad_0x03C0[0x8]; //0x03C0
+		float N00001587; //0x03C8 
+		char pad_0x03CC[0xC]; //0x03CC
+		float N0000158C; //0x03D8 
+		char pad_0x03DC[0xC]; //0x03DC
+		DWORD N00001590; //0x03E8 
+		char pad_0x03EC[0xC]; //0x03EC
+		float N00001594; //0x03F8 
+		char pad_0x03FC[0x4]; //0x03FC
 		CVector3 vecHeadBone; //0x0400 
 		DWORD N00000223; //0x040C 
 		CVector3 vecRightFootFrontBone; //0x0410 
@@ -42,14 +65,40 @@ namespace rage {
 		char pad_0x04CC[0x4]; //0x04CC
 		CVector3 vecUnknownBone2; //0x04D0 
 		char pad_0x04DC[0x94]; //0x04DC
-		float N00000AB6; //0x0570 
-		float vecUnknownBone3; //0x0574 
-		float N00000AB9; //0x0578 
-		char pad_0x057C[0x1B]; //0x057C
-		char pad_0x0598[0xB]; //0x0598
-		char pad_0x05A4[0x4C]; //0x05A4
-		DWORD N00000C83; //0x05F0 
-		char pad_0x05F4[0x4C]; //0x05F4
+		float fRotationReal; //0x0570 
+		float fRotationPotential; //0x0574 
+		float fUpSpeed; //0x0578 
+		float fSyncUnknown8; //0x057C 
+		float fSyncUnknown9; //0x0580 
+		char pad_0x0584[0x10]; //0x0584
+		float fStrafeReal; //0x0594 
+		float fForwardReal; //0x0598 
+		float fStrafePotential; //0x059C 
+		float fForwardPotential; //0x05A0 
+		float fSyncUnknown1; //0x05A4 
+		float fSyncUnknown2; //0x05A8 
+		float fSyncUnknown3; //0x05AC 
+		float fSyncUnknown4; //0x05B0 
+		float fSyncUnknown5; //0x05B4 
+		float fSyncUnknown6; //0x05B8 
+		float fSyncUnknown7; //0x05BC 
+		float fDelta; //0x05C0 
+		char pad_0x05C4[0xC]; //0x05C4
+		int32_t N000015A7; //0x05D0 
+		DWORD N0000025C; //0x05D4 
+		char pad_0x05D8[0xC]; //0x05D8
+		DWORD N0000025E; //0x05E4 
+		char pad_0x05E8[0x8]; //0x05E8
+		DWORD dwMovementFlags; //0x05F0 
+		float N00000260; //0x05F4 
+		float N00001508; //0x05F8 
+		float N00000261; //0x05FC 
+		float N0000150A; //0x0600 
+		char pad_0x0604[0x10]; //0x0604
+		float N00000264; //0x0614 
+		char pad_0x0618[0x18]; //0x0618
+		DWORD N00001581; //0x0630 
+		char pad_0x0634[0xC]; //0x0634
 		CVector4 vecPedPosition3; //0x0640 
 		CVector4 vecPedPosition4; //0x0650 
 		CVector4 vecPedPosition5; //0x0660 
@@ -60,42 +109,81 @@ namespace rage {
 		CVector3 vecPedVelocity2; //0x06C0 
 		char pad_0x06CC[0x4]; //0x06CC
 		CVector3 vecPedVelocity3; //0x06D0 
-		char pad_0x06DC[0x564]; //0x06DC
+		char pad_0x06DC[0x44]; //0x06DC
+		float N000015B4; //0x0720 
+		char pad_0x0724[0x4]; //0x0724
+		float N000015B6; //0x0728 
+		char pad_0x072C[0x14]; //0x072C
+		DWORD N00001583; //0x0740 
+		DWORD N0000028A; //0x0744 
+		char pad_0x0748[0x44]; //0x0748
+		float N00000293; //0x078C 
+		char pad_0x0790[0x4B0]; //0x0790
 		DWORD dwIsAiming; //0x0C40 
 		char pad_0x0C44[0xC]; //0x0C44
 		CVector3 vecPedPos3; //0x0C50 
-		CVector3 dwUnknown11; //0x0C5C 
-		float dwUnknown14; //0x0C68 
-		float N0000032F; //0x0C6C 
-		char pad_0x0C70[0xA8]; //0x0C70
+		char pad_0x0C5C[0x4]; //0x0C5C
+		CVector3 N00001514; //0x0C60 
+		char pad_0x0C6C[0xAC]; //0x0C6C
 		rage::CVehicle* lastVehicle; //0x0D18 
 		char pad_0x0D20[0x354]; //0x0D20
 		DWORD dwPedType; //0x1074 
 		char pad_0x1078[0x4]; //0x1078
 		float fUnknown7; //0x107C 
 		char pad_0x1080[0x4]; //0x1080
-		int32_t uiUnknown1; //0x1084 
+		int32_t iUnknown1; //0x1084 
 		float fUnknown6; //0x1088 
 		char pad_0x108C[0xC]; //0x108C
 		DWORD dwPedFlags2; //0x1098 
 		DWORD dwPedFlags11; //0x109C 
-		rage::CPedIntelligenceFactory* pedIntelligenceFactory; //0x10A0 
+		rage::CPedIntelligenceFactory* pedIntelligence; //0x10A0 
 		rage::CPlayerInfo* playerInfo; //0x10A8 
 		rage::CPedInventory* pedInventory; //0x10B0 
 		rage::CPedWeaponManager* pedWeaponManager; //0x10B8 
-		char pad_0x10C0[0x74]; //0x10C0
+		char pad_0x10C0[0x54]; //0x10C0
+		DWORD N000003C4; //0x1114 
+		char pad_0x1118[0x1C]; //0x1118
 		float fUnknown21; //0x1134 
 		float fUnknown22; //0x1138 
-		char pad_0x113C[0x64]; //0x113C
+		char pad_0x113C[0x28]; //0x113C
+		float N000003CE; //0x1164 
+		char pad_0x1168[0x1C]; //0x1168
+		float N000003D2; //0x1184 
+		float N0000151B; //0x1188 
+		float N0000151E; //0x118C 
+		float N00001520; //0x1190 
+		float N000003D4; //0x1194 
+		float N00001523; //0x1198 
+		char pad_0x119C[0x4]; //0x119C
 		float fUnknown20; //0x11A0 
-		char pad_0x11A4[0x2FC]; //0x11A4
+		char pad_0x11A4[0x298]; //0x11A4
+		DWORD N00000429; //0x143C 
+		char pad_0x1440[0x60]; //0x1440
 		float fArmor; //0x14A0 
 		char pad_0x14A4[0x20]; //0x14A4
 		float N0000043A; //0x14C4 
 		float N0000108B; //0x14C8 
 		float N0000043B; //0x14CC 
 		float N0000108E; //0x14D0 
-		char pad_0x14D4[0x16C]; //0x14D4
+		char pad_0x14D4[0x84]; //0x14D4
+		float N0000155F; //0x1558 
+		char pad_0x155C[0x8]; //0x155C
+		float N0000044E; //0x1564 
+		char pad_0x1568[0x4]; //0x1568
+		float N0000044F; //0x156C 
+		float N00001559; //0x1570 
+		char pad_0x1574[0x58]; //0x1574
+		float N0000045B; //0x15CC 
+		float N0000153D; //0x15D0 
+		float N0000045C; //0x15D4 
+		int32_t N0000153F; //0x15D8 
+		int32_t N0000045D; //0x15DC 
+		char pad_0x15E0[0x4]; //0x15E0
+		float N00001554; //0x15E4 
+		float N00001543; //0x15E8 
+		char pad_0x15EC[0xC]; //0x15EC
+		float N00001547; //0x15F8 
+		char pad_0x15FC[0x44]; //0x15FC
 		CVector3 N00001065; //0x1640 
 		char pad_0x164C[0x4]; //0x164C
 		CVector3 N00001068; //0x1650 
@@ -103,7 +191,18 @@ namespace rage {
 		CVector3 N0000106B; //0x17D0 
 		char pad_0x17DC[0x4]; //0x17DC
 		CVector3 N0000106E; //0x17E0 
-		char pad_0x17EC[0x140]; //0x17EC
-
+		char pad_0x17EC[0x14]; //0x17EC
+		float N00001071; //0x1800 
+		float N000004A2; //0x1804 
+		float N00001073; //0x1808 
+		DWORD N000004A3; //0x180C 
+		float N00001075; //0x1810 
+		float N000004A4; //0x1814 
+		DWORD N00001077; //0x1818 
+		DWORD N000004A5; //0x181C 
+		DWORD N00001079; //0x1820 
+		DWORD N000004A6; //0x1824 
+		DWORD N0000107B; //0x1828 
+		char pad_0x182C[0x100]; //0x182C
 	}; //Size=0x192C
 };

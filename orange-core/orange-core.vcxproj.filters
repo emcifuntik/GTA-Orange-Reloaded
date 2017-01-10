@@ -416,6 +416,9 @@
     <ClInclude Include="rage\CPedIntelligence.h">
       <Filter>rage\Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="..\shared\NetworkTypes.h">
+      <Filter>Network\Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

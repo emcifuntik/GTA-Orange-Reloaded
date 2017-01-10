@@ -32,11 +32,11 @@ void BackScene()
 				continue;
 			cnt++;
 			
-			int primaryActive = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligenceFactory->pedTaskManager.Primary->iActiveTask;
+			int primaryActive = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligence->pedTaskManager.Primary->iActiveTask;
 			if (primaryActive > -1)
 			{
 				std::stringstream ss2;
-				rage::CTask *primaryTask = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligenceFactory->pedTaskManager.Primary->GetTask();
+				rage::CTask *primaryTask = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligence->pedTaskManager.Primary->GetTask();
 				ss2 << "Primary: " << primaryTask->GetTree() << std::endl;
 
 				CVector3 screenPos;
@@ -59,11 +59,11 @@ void BackScene()
 				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2, y - textSize.y / 2), ImColor(0xFF, 0xFF, 0xFF, 0xFF), ss2.str().c_str());
 			}
 
-			int secondaryActive = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligenceFactory->pedTaskManager.Secondary->iActiveTask;
+			int secondaryActive = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligence->pedTaskManager.Secondary->iActiveTask;
 			if (secondaryActive > -1)
 			{
 				std::stringstream ss2;
-				rage::CTask *secondaryTask = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligenceFactory->pedTaskManager.Secondary->GetTask();
+				rage::CTask *secondaryTask = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligence->pedTaskManager.Secondary->GetTask();
 				ss2 << "Secondary: " << secondaryTask->GetTree() << std::endl;
 
 				CVector3 screenPos;
@@ -86,11 +86,11 @@ void BackScene()
 				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2, y - textSize.y / 2), ImColor(0xFF, 0xFF, 0xFF, 0xFF), ss2.str().c_str());
 			}
 
-			int movementActive = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligenceFactory->pedTaskManager.Movement->iActiveTask;
+			int movementActive = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligence->pedTaskManager.Movement->iActiveTask;
 			if (movementActive > -1)
 			{
 				std::stringstream ss2;
-				rage::CTask *movementTask = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligenceFactory->pedTaskManager.Movement->GetTask();
+				rage::CTask *movementTask = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligence->pedTaskManager.Movement->GetTask();
 				ss2 << "Movement: " << movementTask->GetTree() << std::endl;
 
 				CVector3 screenPos;
@@ -113,11 +113,11 @@ void BackScene()
 				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2, y - textSize.y / 2), ImColor(0xFF, 0xFF, 0xFF, 0xFF), ss2.str().c_str());
 			}
 
-			int motionActive = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligenceFactory->pedTaskManager.Motion->iActiveTask;
+			int motionActive = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligence->pedTaskManager.Motion->iActiveTask;
 			if (motionActive > -1)
 			{
 				std::stringstream ss2;
-				rage::CTask *motionTask = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligenceFactory->pedTaskManager.Motion->GetTask();
+				rage::CTask *motionTask = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligence->pedTaskManager.Motion->GetTask();
 				ss2 << "Motion: " << motionTask->GetTree() << std::endl;
 
 				CVector3 screenPos;

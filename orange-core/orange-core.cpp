@@ -235,7 +235,8 @@ void HookLoop()
 
 void GameProcessHooks()
 {
-	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x11D2E4).nop(5); //Esc freeze
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x7B2F6C).retn(); //Cheat console
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1F5BEC).nop(5); //Esc freeze
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x2413D2).nop(6); //UI Wheel slowmo
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x127C8CA).nop(4); //Show cursor
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x127C8DC).nop(4); //Show cursor
@@ -314,6 +315,12 @@ void EnableRageLogger()
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x156CA7E).nop(5);
 }
 
+void HookSetNetHandle()
+{
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x65B0F0).nop(5);
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x65B12B).nop(24);
+}
+
 void PreLoadPatches()
 {
 	//strcpy_s((char*)((uintptr_t)GetModuleHandle(NULL) + 0x17F9C68), 32, "orange:/pausemenu.xml\0");
@@ -326,6 +333,7 @@ void PreLoadPatches()
 	mem.put(0xEB90909090909090);
 
 	EnableRageLogger();
+	//HookSetNetHandle();
 	DefineNatives();
 	ForceToSingle();
 	UnknownPatches();

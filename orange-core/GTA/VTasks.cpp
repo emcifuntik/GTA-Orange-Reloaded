@@ -170,7 +170,7 @@ VTasks::VTasks()
 	TasksArray[63] = new std::string("CTaskArrestPed2");
 	TasksArray[78] = new std::string("CTaskArmy");
 	TasksArray[387] = new std::string("CTaskAnimatedHitByExplosion");
-	TasksArray[528] = new std::string("CTaskAnimatedFallback");
+	//TasksArray[528] = new std::string("CTaskAnimatedFallback");
 	TasksArray[434] = new std::string("CTaskAnimatedAttach");
 	TasksArray[68] = new std::string("CTaskAmbulancePatrol");
 	TasksArray[53] = new std::string("CTaskAmbientLookAtEvent");

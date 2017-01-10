@@ -70,7 +70,7 @@ private:
 	std::queue<std::function<void()>> taskQueue;
 	CNetworkPlayer();
 public:
-	CPed* pedHandler;
+	rage::CPed* pedHandler;
 	short m_Seat;
 	short m_FutureSeat;
 	static int ignoreTasks;

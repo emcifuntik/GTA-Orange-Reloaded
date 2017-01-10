@@ -50,13 +50,15 @@ void CLocalPlayer::GetOnFootSync(OnFootSyncData& onfoot)
 {
 	onfoot.hModel = GetModel();
 	onfoot.bJumping = IsJumping();
-	onfoot.fMoveSpeed = CWorld::Get()->CPedPtr->MoveSpeed;
+	onfoot.fForwardPotential = rage::CPedFactory::Get()->localPed->fForwardPotential;
+	onfoot.fStrafePotential = rage::CPedFactory::Get()->localPed->fStrafePotential;
+	onfoot.dwMovementFlags = rage::CPedFactory::Get()->localPed->dwMovementFlags;
 	onfoot.vecPos = GetPosition();
 	onfoot.vecRot = GetRotation();
-	onfoot.fHeading = GetHeading();
+	onfoot.fHeading = rage::CPedFactory::Get()->localPed->fRotationPotential;
 	GetMoveSpeed(onfoot.vecMoveSpeed);
-	onfoot.vecTurnSpeed = GetRotationVelocity();
-	onfoot.bDuckState = IsDucking();
+	//onfoot.vecTurnSpeed = GetRotationVelocity();
+	//onfoot.bDuckState = IsDucking();
 	onfoot.usHealth = GetHealth();
 	onfoot.usArmour = GetArmour();
 	onfoot.ulWeapon = GetCurrentWeapon();
@@ -64,6 +66,7 @@ void CLocalPlayer::GetOnFootSync(OnFootSyncData& onfoot)
 	onfoot.vecAim = *aimPosition;
 	onfoot.bAiming = (CWorld::Get()->CPedPtr->CPlayerInfoPtr->AimState == 2);
 	onfoot.bShooting = PED::IS_PED_SHOOTING(Handle) ? true : false;
+
 	if (PED::IS_PED_IN_ANY_VEHICLE(Handle, true)) {
 		onfoot.bInVehicle = true;
 		CNetworkVehicle *veh = CNetworkVehicle::GetByHandle(PED::GET_VEHICLE_PED_IS_TRYING_TO_ENTER(Handle));
@@ -106,8 +109,6 @@ void CLocalPlayer::GetVehicleSync(VehicleData& vehsync)
 
 	if (VEHICLE::IS_THIS_MODEL_A_CAR(veh->GetModel()) || VEHICLE::IS_THIS_MODEL_A_BIKE(veh->GetModel()) || VEHICLE::IS_THIS_MODEL_A_QUADBIKE(veh->GetModel()))
 		vehsync.steering = (*CMemory(veh->GetAddress()).get<float>(0x8CC)) * (180.0f / PI);
-	log << "Wheel speed: " << *CMemory(veh->GetAddress()).get<float>(0x994) << std::endl;
-	log << "Acceleration: " << *CMemory(veh->GetAddress()).get<float>(0x804) << std::endl;
 }
 
 CLocalPlayer * CLocalPlayer::Get()
@@ -269,6 +270,9 @@ void CLocalPlayer::SendTasks()
 				((InitWriteBuffer)CMemory((uintptr_t)GetModuleHandle(NULL) + 0x11EBCEC)())(&data, buffer, size, 0);
 
 				void *reader = ser->Write(&data);
+				rage::CLogger* logger = new rage::CLogger();
+				ser->Log(logger);
+				delete[] logger;
 				bsOut.WriteBits(buffer, size);
 				delete[] buffer;
 			}

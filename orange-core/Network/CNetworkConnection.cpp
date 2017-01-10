@@ -217,12 +217,17 @@ void CNetworkConnection::Tick()
 										CChat::Get()->AddChatMessage(ss.str(), { 0x00, 0xAA, 0x33, 0xFF });
 									}*/
 								}
+								else if (newTask->GetID() == GTA::CTaskMeleeActionResult)
+								{
+									*(CPed **)(newTask + 0x1E0) = CWorld::Get()->CPedPtr;
+								}
 
 								cursorTask->NextSubTask = newTask;
 								cursorTask = newTask;
 							}
 						}
 						log_debug << "Assigned: " << parentTask->GetNextTree() << std::endl;
+						scriptWait(500);
 						player->AssignTask(parentTask);
 
 						for each (auto cloned in ClonedTasks)

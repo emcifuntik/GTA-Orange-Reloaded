@@ -5,7 +5,7 @@ namespace rage {
 	public:
 		virtual void Function0(); //
 		virtual void Function1(); //
-		virtual void Function2(); //
+		virtual void AssignTask(rage::CTask *task, int taskPriority);
 		virtual void Function3(); //
 		virtual void Function4(); //
 		virtual void Function5(); //

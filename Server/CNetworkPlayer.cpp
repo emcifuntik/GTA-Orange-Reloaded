@@ -62,7 +62,13 @@ void CNetworkPlayer::SetOnFootData(const OnFootSyncData& data)
 {
 	hModel = data.hModel;
 	bJumping = data.bJumping;
-	fMoveSpeed = data.fMoveSpeed;
+//	fMoveSpeed = data.fMoveSpeed;
+
+	fForwardPotential = data.fForwardPotential;
+	fStrafePotential = data.fStrafePotential;
+	fRotationPotential = data.fRotationPotential;
+	dwMovementFlags = data.dwMovementFlags;
+
 	vecPosition = data.vecPos;
 	vecRotation = data.vecRot;
 	fHeading = data.fHeading;
@@ -95,7 +101,13 @@ void CNetworkPlayer::GetOnFootData(OnFootSyncData& data)
 {
 	data.hModel = hModel;
 	data.bJumping = bJumping;
-	data.fMoveSpeed = fMoveSpeed;
+//	data.fMoveSpeed = fMoveSpeed;
+
+	data.fForwardPotential = fForwardPotential;
+	data.fStrafePotential = fStrafePotential;
+	data.fRotationPotential = fRotationPotential;
+	data.dwMovementFlags = dwMovementFlags;
+
 	data.vecPos = vecPosition;
 	data.vecRot = vecRotation;
 	data.fHeading = fHeading;

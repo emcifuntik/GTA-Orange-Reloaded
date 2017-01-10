@@ -12,11 +12,11 @@ void NetworkAction()
 			if (CNetworkConnection::Get()->IsConnectionEstablished())
 			{
 				CLocalPlayer::Get()->SendOnFootData();
-				if (CLocalPlayer::Get()->updateTasks)
+				/*if (CLocalPlayer::Get()->updateTasks)
 				{
 					CLocalPlayer::Get()->updateTasks = false;
 					CLocalPlayer::Get()->SendTasks();
-				}
+				}*/
 			}
 		}
 		if (GetTickCount64() >= (lastSendTick + 10))

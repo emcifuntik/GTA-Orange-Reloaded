@@ -13,7 +13,10 @@ class CNetworkPlayer
 	bool bDucking = false;
 	bool bBlipVisible = true;
 	float fHeading;
-	float fMoveSpeed;
+	float fForwardPotential;
+	float fStrafePotential;
+	float fRotationPotential;
+	DWORD dwMovementFlags;
 	unsigned long ulWeapon;
 	unsigned int uAmmo;
 	unsigned short usHealth = 200;

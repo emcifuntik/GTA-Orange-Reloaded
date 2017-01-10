@@ -27,11 +27,51 @@ int CommandProcessor(std::string command)
 		ExitProcess(EXIT_SUCCESS);
 		return true;
 	}
-	if (!command.compare("/test") && CGlobals::Get().isDebug)
+	if (!command.compare("/test"))
 	{
 		rage::CPedSyncTree *pedSyncTree = SyncTree::GetPedSyncTree();
 		rage::CLogger* logger = new rage::CLogger();
-		pedSyncTree->pedOrientationManager.Debug(logger);
+		pedSyncTree->pedMovementManager.Debug(logger);
+		delete[] logger;
+
+		//CScriptInvoker::Get().Push([=]() {
+		//	auto pos = rage::CPedFactory::Get()->localPed->vecPositionEntity;
+		//	Vector3 vec;
+		//	vec.x = pos.fX;
+		//	vec.y = pos.fY;
+		//	vec.z = pos.fZ;
+		//
+		//	//rage::CPedFactory::Create(0, Utils::Hash("mp_m_freemode_01"), &vec, 0xF8418B3B87CFCC01ui64, true, true);
+		//	Ped handle = PED::CREATE_PED(0, Utils::Hash("mp_m_freemode_01"), pos.fX, pos.fY, pos.fZ, 123.456f, true, true);
+		//	std::stringstream ss;
+		//	ss << "Handle: " << handle << ", NetworkHandle: " << NETWORK::PED_TO_NET(handle);
+		//	CChat::Get()->AddChatMessage(ss.str(), { 255, 255, 255, 255 });
+		//	log_debug << ss.str() << std::endl;
+		//});
+
+		return true;
+	}
+	if (!command.compare("/mod") && CGlobals::Get().isDebug)
+	{
+		if (!params.size())
+		{
+			CChat::Get()->AddChatMessage("USAGE: /mod [type] [index]", 0xAAAAAAFF);
+			return true;
+		}
+		auto playerPed = PLAYER::PLAYER_PED_ID();
+		if (PED::IS_PED_IN_ANY_VEHICLE(playerPed, false))
+		{
+			//CScriptInvoker::Get().Push([=]() {
+				auto pedVeh = PED::GET_VEHICLE_PED_IS_IN(playerPed, false);
+				int type = std::stoi(params[0]);
+				int index = std::stoi(params[1]);
+				std::stringstream ss;
+				ss << "Type: " << type << ", index: " << index;
+				CChat::Get()->AddChatMessage(ss.str(), { 0,255,0,255 });
+				VEHICLE::SET_VEHICLE_MOD(pedVeh, type, index, false);
+			//});
+			
+		}
 		return true;
 	}
 	if (!command.compare("/save") && CGlobals::Get().isDebug)

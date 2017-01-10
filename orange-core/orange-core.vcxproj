@@ -91,6 +91,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\shared\NetworkTypes.h" />
     <ClInclude Include="Core\Chat.h" />
     <ClInclude Include="Core\Commands.h" />
     <ClInclude Include="Core\nativeCaller.h" />

@@ -13,7 +13,10 @@ class OnFootSyncData
 public:
 	//CControlState controlState;		// control state
 	Hash hModel;						// player model
-	float fMoveSpeed;
+	float fForwardPotential;
+	float fStrafePotential;
+	float fRotationPotential;
+	DWORD dwMovementFlags;
 	CVector3 vecPos;					// player position
 	CVector3 vecRot;					// player rotation
 	float fHeading;						// player heading
@@ -46,11 +49,15 @@ public:
 			"Armour: " << usArmour << std::endl <<
 			"Weapon: " << ulWeapon << std::endl <<
 			"Ammo: " << uAmmo << std::endl <<
-			"BlendRatio: " << fMoveSpeed << std::endl <<
+			"BlendRatio: " << fForwardPotential << std::endl <<
 			"Jumping: " << (bJumping ? "true" : "false") << std::endl <<
 			"Aiming: " << (bAiming ? "true" : "false") << std::endl <<
 			"Shooting: " << (bShooting ? "true" : "false") << std::endl <<
 			"Aim pos: X = " << vecAim.fX << ", Y = " << vecAim.fY << ", Z = " << vecAim.fZ << std::endl <<
+			"fForwardPotential = " << fForwardPotential << std::endl <<
+			"fStrafePotential = " << fStrafePotential << std::endl <<
+			"fRotationPotential = " << fRotationPotential << std::endl <<
+			"dwMovementFlags = " << std::hex << dwMovementFlags << std::endl <<
 			"Player model: " << hModel << std::endl;
 		return ss.str();
 	}
@@ -166,18 +173,4 @@ public:
 	virtual void sub_C2E798();
 	virtual int SetData(void *);
 	virtual char* GetStatus();
-};
-
-class CClonedGoToPointAimingInfo:
-	public CSerialisedFSMTaskInfo
-{
-public:
-	char data[0x78];
-};
-
-class CClonedAimGunOnFootInfo :
-	public CSerialisedFSMTaskInfo
-{
-public:
-	char data[0x38];
 };
