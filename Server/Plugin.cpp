@@ -6,6 +6,7 @@
 
 #ifndef _WIN32
 #include <dirent.h>
+#include <dlfcn.h>
 #endif
 
 struct stat info;
@@ -163,10 +164,14 @@ void Plugin::LoadPlugins()
     }
 }
 #else
-bool hasEnding (std::string const &fullString, std::string const &ending) {
-    if (fullString.length() >= ending.length()) {
+bool hasEnding (std::string const &fullString, std::string const &ending)
+{
+    if (fullString.length() >= ending.length())
+    {
         return (0 == fullString.compare (fullString.length() - ending.length(), ending.length(), ending));
-    } else {
+    }
+    else
+    {
         return false;
     }
 }
@@ -174,12 +179,12 @@ bool hasEnding (std::string const &fullString, std::string const &ending) {
 void Plugin::LoadPlugins()
 {
     const std::string currentFolder = GetRunningExecutableFolder();
-    const std::string pfolder = currentFolder + "\\modules";
-    const std::string searchfolder = pfolder + "\\*.so";
+    const std::string pfolder = currentFolder + "/modules";
 
     DIR *dirp = opendir(pfolder.c_str());
     if(!dirp) log << "No Modules folder found ( " << pfolder << " )" << std::endl;
-    else {
+    else
+    {
         dirent *dp = readdir(dirp);
         while (dp != NULL)
         {
@@ -190,15 +195,89 @@ void Plugin::LoadPlugins()
 
                 std::stringstream path;
                 path << pfolder
-                     << "\\" << modulename << "\\bin;" << std::getenv("PATH");
+                     << "/" << modulename << "/bin;" << std::getenv("PATH");
 
                 setenv("PATH", path.str().c_str(), 1);
 
-                log << dp->d_name << std::endl;
+                const std::string ppath = pfolder + "/" + dp->d_name;
+
+                dlerror();
+                void *module = dlopen(ppath.c_str(), RTLD_NOW);
+                if(module == NULL)
+                    log << "Failed to load \"" << dp->d_name << "\" => 0x" << std::hex << module << std::dec << ". " << dlerror() << std::endl;
+                else
+                {
+                    typedef bool(*Validate_)(API * api);
+                    Validate_ validate = (Validate_)dlsym(module, "Validate");
+                    if (!validate)
+                    {
+                        log << "Failed" << std::endl;
+                    }
+                    else
+                    {
+                        bool moduleLoaded = validate(API::Get());
+                        if (moduleLoaded)
+                        {
+                            typedef void(*onModuleInit_)();
+                            onModuleInit_ OnModuleInit = (onModuleInit_)dlsym(module, "OnModuleInit");
+                            OnModuleInit();
+
+                            OnPlayerConnect_ onPlayerConnect = (OnPlayerConnect_)			dlsym(module, "OnPlayerConnect");
+                            OnServerCommand_ onServerCommand = (OnServerCommand_)			dlsym(module, "OnServerCommand");
+                            OnPlayerDisconnect_ onPlayerDisconnect = (OnPlayerDisconnect_)	dlsym(module, "OnPlayerDisconnect");
+                            OnPlayerUpdate_ onPlayerUpdate = (OnPlayerUpdate_)				dlsym(module, "OnPlayerUpdate");
+                            OnPlayerCommand_ onPlayerCommand = (OnPlayerCommand_)			dlsym(module, "OnPlayerCommand");
+                            OnPlayerText_ onPlayerText = (OnPlayerText_)					dlsym(module, "OnPlayerText");
+                            OnTick_ onTick = (OnTick_)										dlsym(module, "OnTick");
+                            OnHTTPRequest_ onRequest = (OnHTTPRequest_)						dlsym(module, "OnHTTPRequest");
+                            OnEvent_ onEvent = (OnEvent_)									dlsym(module, "OnEvent");
+
+                            if (onPlayerConnect) playerConnects.push_back(onPlayerConnect);
+                            if (onServerCommand) serverCommands.push_back(onServerCommand);
+                            if (onPlayerDisconnect) playerDisconnects.push_back(onPlayerDisconnect);
+                            if (onPlayerUpdate) playerUpdates.push_back(onPlayerUpdate);
+                            if (onPlayerCommand) playerCommands.push_back(onPlayerCommand);
+                            if (onPlayerText) playerTexts.push_back(onPlayerText);
+                            if (onTick) ticks.push_back(onTick);
+                            if (onRequest) requests.push_back(onRequest);
+                            if (onEvent) eHandlers.push_back(onEvent);
+
+                            OnResourceTypeRegister_ onResourceTypeRegister = (OnResourceTypeRegister_)dlsym(module, "OnResourceTypeRegister");
+                            OnResourceLoad_ loadResource = (OnResourceLoad_)dlsym(module, "OnResourceLoad");
+
+                            if (onResourceTypeRegister&&loadResource) resourceTypes[std::string(onResourceTypeRegister())] = loadResource;
+                        }
+                    }
+                }
             }
             dp = readdir(dirp);
         }
         closedir(dirp);
+    }
+    for (auto resource : CConfig::Get()->Resources)
+    {
+        char path[MAX_PATH];
+        sprintf(path, "resources/%s/resource.yml", resource.c_str());
+
+        std::ifstream fin(path);
+        YAML::Parser parser(fin);
+
+        YAML::Node doc;
+        if (!parser.GetNextDocument(doc))
+        {
+            log << "Cant find resource.yml for resource " << resource << std::endl;
+        }
+        else
+        {
+            std::string type;
+            doc["type"] >> type;
+
+            if (resourceTypes[type])
+            {
+                resourceTypes[type](resource.c_str());
+            }
+            else log << "Unknown resource type: " << type << std::endl;
+        }
     }
 }
 #endif

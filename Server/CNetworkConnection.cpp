@@ -282,7 +282,7 @@ void CNetworkConnection::Tick()
 					bsOut.WriteBits(taskInfo, size);
 					delete[] taskInfo;
 				}
-#if _DEBUG
+#ifdef _DEBUG
 				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
 #else
 				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, true);

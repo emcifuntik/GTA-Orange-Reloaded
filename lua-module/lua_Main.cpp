@@ -11,7 +11,7 @@ int lua_tick(lua_State *L)
 	lua_pushvalue(L, 1);
 
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
-	
+
 	SResource::Get()->SetTick([=]()
 	{
 		lua_pushvalue(L, 1);
@@ -60,7 +60,7 @@ int lua_HTTPReq(lua_State *L)
 			return (char*)NULL;
 		}
 
-		char* res = _strdup(lua_tostring(L, -1));
+		char* res = strdup(lua_tostring(L, -1));
 		lua_pop(L, 2);
 
 		return res;

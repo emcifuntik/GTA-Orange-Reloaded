@@ -496,11 +496,12 @@
 	"stdafx.h"
 	<sys/time.h>
 
-1484239865 source:/media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/Server/Plugin.cpp
+1484251138 source:/media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/Server/Plugin.cpp
 	"stdafx.h"
 	<sys/types.h>
 	<sys/stat.h>
 	<dirent.h>
+	<dlfcn.h>
 
 1483454660 source:/media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/Server/resources.rc
 

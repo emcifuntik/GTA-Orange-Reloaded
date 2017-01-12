@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "../../Shared/CVector3.h"
+#include "CVector3.h"
 
 enum {
 	M_STRING,
@@ -14,7 +14,7 @@ class MValue
 {
 public:
 	MValue(const char* val) {
-		string_val = _strdup(val);
+		string_val = strdup(val);
 		type = M_STRING;
 	};
 	MValue(int val) {
@@ -119,7 +119,7 @@ public:
 };
 
 class API:
-	public APIBase 
+	public APIBase
 {
 public:
 	static API * instance;
