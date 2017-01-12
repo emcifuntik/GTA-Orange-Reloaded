@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#define log std::cout
 
 API * API::instance = nullptr;
 
@@ -281,7 +282,7 @@ void API::SetBlipColor(unsigned long _guid, int color)
 
 	bsOut.Write(guid);
 	bsOut.Write(color);
-	
+
 	if (blip->GetPlayerID() == -1) CRPCPlugin::Get()->Signal("SetBlipColor", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 	else CRPCPlugin::Get()->Signal("SetBlipColor", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, CNetworkPlayer::GetByID(blip->GetPlayerID())->GetGUID(), false, false);
 }
@@ -309,7 +310,7 @@ void API::SetBlipRoute(unsigned long _guid, bool route)
 
 	bsOut.Write(guid);
 	bsOut.Write(route);
-	
+
 	if (blip->GetPlayerID() == -1) CRPCPlugin::Get()->Signal("SetBlipRoute", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 	else CRPCPlugin::Get()->Signal("SetBlipRoute", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, CNetworkPlayer::GetByID(blip->GetPlayerID())->GetGUID(), false, false);
 }

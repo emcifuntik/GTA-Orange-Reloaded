@@ -1,5 +1,9 @@
 #include "stdafx.h"
 
+#ifndef _WIN32
+#include <unistd.h>
+#endif
+
 CConfig* CConfig::singleInstance = nullptr;
 
 
@@ -42,9 +46,14 @@ CConfig::CConfig()
 	}
 
 	char buffer[MAX_PATH];
+#ifdef _WIN32
 	GetModuleFileName(NULL, buffer, MAX_PATH);
 	std::string::size_type pos = std::string(buffer).find_last_of("\\/");
 	Path = std::string(buffer).substr(0, pos);
+#else
+	getcwd(buffer, MAX_PATH);
+	Path = std::string(buffer);
+#endif
 }
 
 CConfig* CConfig::Get()

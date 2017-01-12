@@ -14,8 +14,34 @@ int lua_print(lua_State *L)
 	return 0;
 }
 
+int lua_tick(lua_State *L)
+{
+	lua_pushvalue(L, 1);
+
+	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+
+	CScriptEngine::Get()->SetTick([=]()
+	{
+		lua_pushvalue(L, 1);
+
+		lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
+
+		if (lua_pcall(L, 0, 0, 0) != 0)
+		{
+			std::string err = luaL_checkstring(L, -1);
+			lua_pop(L, 1);
+			log << err.c_str() << std::endl;
+		}
+
+		lua_pop(L, 1);
+	});
+
+	return 0;
+}
+
 static const struct luaL_Reg gfunclib[] = {
 	{ "print", lua_print },
+	{ "__setTickHandler", lua_tick },
 	{ NULL, NULL }
 };
 
@@ -32,3 +58,24 @@ static void luaL_setfuncs(lua_State *L, const luaL_Reg *l, int nup)
 	}
 	lua_pop(L, nup);  /* remove upvalues */
 };
+
+static const luaL_Reg lj_libs[] = {
+	{ "",			luaopen_base },
+	{ LUA_LOADLIBNAME,	luaopen_package },
+	{ LUA_TABLIBNAME,	luaopen_table },
+	{ LUA_STRLIBNAME,	luaopen_string },
+	{ LUA_MATHLIBNAME,	luaopen_math },
+	{ LUA_DBLIBNAME,	luaopen_debug },
+	{ LUA_BITLIBNAME,	luaopen_bit },
+	{ NULL,		NULL }
+};
+
+LUALIB_API void luaL_safeopenlibs(lua_State *L)
+{
+	const luaL_Reg *lib;
+	for (lib = lj_libs; lib->func; lib++) {
+		lua_pushcfunction(L, lib->func);
+		lua_pushstring(L, lib->name);
+		lua_call(L, 1, 0);
+	}
+}

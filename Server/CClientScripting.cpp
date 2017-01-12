@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#define log std::cout
 
 std::vector<CClientScript> CClientScripting::scripts;
 
@@ -9,7 +10,7 @@ CClientScripting::CClientScripting()
 
 CClientScripting::~CClientScripting()
 {
-	
+
 }
 
 void CClientScripting::AddScript(std::string name, char* buffer, size_t size)
@@ -22,7 +23,7 @@ void CClientScripting::AddScript(std::string name, char* buffer, size_t size)
 
 void CClientScripting::SendGlobal(RakNet::Packet *packet)
 {
-	for each(auto script in scripts)
+	for (auto script : scripts)
 	{
 		RakNet::BitStream bsOut;
 		bsOut.Write(RakString(script.name.c_str()));

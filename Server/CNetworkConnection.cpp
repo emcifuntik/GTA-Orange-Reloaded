@@ -65,7 +65,7 @@ bool CNetworkConnection::Start(unsigned short maxPlayers, unsigned short port)
 		socketDescriptors[0].socketFamily = AF_INET; // Test out IPV4
 		socketDescriptors[1].port = port;
 		socketDescriptors[1].socketFamily = AF_INET6; // Test out IPV6
-		bool result = server->Startup(maxPlayers, socketDescriptors, 2) == RakNet::RAKNET_STARTED;
+		bool result = server->Startup(maxPlayers, socketDescriptors, 1) == RakNet::RAKNET_STARTED;
 		server->SetMaximumIncomingConnections(maxPlayers);
 		if (!result)
 		{
@@ -77,7 +77,7 @@ bool CNetworkConnection::Start(unsigned short maxPlayers, unsigned short port)
 			}
 			else
 				log << "Server started" << std::endl;
-		}
+		} else log << "Server started in IPV4/IPV6 mode" << std::endl;
 		server->SetTimeoutTime(15000, RakNet::UNASSIGNED_SYSTEM_ADDRESS);
 		return true;
 	}
@@ -137,7 +137,7 @@ void CNetworkConnection::Tick()
 
 				Plugin::PlayerConnect(player->GetID());
 				Plugin::Trigger("PlayerConnect", (unsigned long)player->GetID());
-				
+
 				bsOut.Write((unsigned char)ID_CONNECT_TO_SERVER);
 				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
 				break;
@@ -186,7 +186,7 @@ void CNetworkConnection::Tick()
 
 				//if(data.bInVehicle) log << "(" << player->GetID() << ") seat: " << data.vehseat << std::endl;
 				player->SetOnFootData(data);
-				
+
 				if (!Plugin::PlayerUpdate(CNetworkPlayer::GetByGUID(packet->guid)->GetID()))
 					continue;
 
@@ -196,12 +196,12 @@ void CNetworkConnection::Tick()
 				bsOut.Write(rsName);
 
 				player->GetOnFootData(data);
-#ifndef _DEBUG
+#ifdef _DEBUG
 				data.vecPos.fX += 1.f;
 				data.vecPos.fY += 1.f;
 
 				if(data.bInVehicle)
-					for each(auto *veh in CNetworkVehicle::All())
+					for (auto *veh : CNetworkVehicle::All())
 					{
 						if (veh->GetGUID() != data.rnVehicle) {
 							data.rnVehicle = veh->GetGUID();
@@ -210,7 +210,7 @@ void CNetworkConnection::Tick()
 					}
 #endif
 				bsOut.Write(data);
-#ifndef _DEBUG
+#ifdef _DEBUG
 
 				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
 #else
@@ -229,26 +229,26 @@ void CNetworkConnection::Tick()
 				if(data.hasDriver) data.driver = packet->guid;
 
 				bsOut.Write((unsigned char)ID_SEND_VEHICLE_DATA);
-#ifndef _DEBUG
+#ifdef _DEBUG
 				data.vecPos.fX += 4;
 				data.vecPos.fY += 4;
 
-				for each(auto *veh in CNetworkVehicle::All())
+				for (auto *veh : CNetworkVehicle::All())
 				{
 					if (veh->GetGUID() != data.GUID) {
 						data.GUID = veh->GetGUID();
 						break;
 					}
 				}
-#endif				
+#endif
 				CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(data.GUID);
-					
+
 				veh->SetVehicleData(data);
 				veh->GetVehicleData(data);
 
 				bsOut.Write(data);
 
-#ifndef _DEBUG
+#ifdef _DEBUG
 				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
 #else
 				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, true);

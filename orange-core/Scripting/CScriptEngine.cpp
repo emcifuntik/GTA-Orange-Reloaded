@@ -8,7 +8,7 @@ CScriptEngine::CScriptEngine()
 	m_lua = luaL_newstate();
 	luaJIT_setmode(m_lua, 0, LUAJIT_MODE_ENGINE | true);
 
-	luaL_openlibs(m_lua);
+	luaL_safeopenlibs(m_lua);
 
 	lua_getglobal(m_lua, "_G");
 	luaL_setfuncs(m_lua, gfunclib, 0);
@@ -57,7 +57,12 @@ void CScriptEngine::LoadScript(RakNet::BitStream *bsIn)
 	log << "success" << std::endl;
 }
 
+void CScriptEngine::SetTick(const std::function<void()>& f)
+{
+	tickHandler = f;
+}
+
 void CScriptEngine::Tick()
 {
-
+	tickHandler();
 }

@@ -13,7 +13,7 @@ class MValue
 {
 public:
 	MValue(const char* val) {
-		string_val = _strdup(val);
+		string_val = strdup(val);
 		type = M_STRING;
 	};
 	MValue(int val) {
@@ -158,8 +158,8 @@ public:
 	virtual bool Delete3DText(unsigned long textId) = 0;
 };
 
-class API: 
-	public APIBase 
+class API:
+	public APIBase
 {
 	static API * instance;
 public:

@@ -9,20 +9,6 @@ static int writer(lua_State *L, const void *p, size_t size, void *u) {
 
 	unsigned char *d = (unsigned char *)p;
 
-	// Print all the bytes on the console.
-	while (i != size) {
-		printf("%c", d[i]);
-		++i;
-	}
-
-	/*if (luaL_loadbuffer(L, (char*)d, size, NULL) || lua_pcall(L, 0, 0, 0)) {
-		std::stringstream ss;
-		ss << "[LUA] " << lua_tostring(L, -1);
-		API::Get().Print(ss.str().c_str());
-		return false;
-	}*/
-
-	//printf("%c", "call");
 	_code_.sputn((char*)d, size);
 	_size += size;
 
@@ -161,51 +147,7 @@ bool SResource::Start(const char* name)
 
 	std::stringstream ss;
 	ss << "[LUA] Starting resource " << name;
-	API::Get().Print(ss.str().c_str());
-		
-	/*if (luaL_loadbuffer(m_lua, ((char*)code), csize, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
-		std::stringstream ss;
-		ss << "[LUA] " << lua_tostring(m_lua, -1);
-		API::Get().Print(ss.str().c_str());
-		return false;
-	}
-	
-	csize = 0;*/
-
-	/*if (lua_pcall(m_lua, 0, 0, 0)) {
-		std::stringstream err;
-		err << "[LUA] Could not load main.lua for resource:\n\t" << lua_tostring(m_lua, -1) << name;
-		API::Get().Print(err.str().c_str());
-		return false;
-	}*/
-
-
-	/*if (luaL_loadfile(m_lua, "modules//lua-module//compiler//run.lua")) {
-		std::stringstream err;
-		err << "[LUA] " << lua_tostring(m_lua, -1);
-		API::Get().Print(err.str().c_str());
-		return false;
-	}
-
-	lua_pushstring(m_lua, "-b");
-
-	std::stringstream cpath;
-	cpath << "../../../resources/" << name << "/main" << ".lua";
-
-	lua_pushstring(m_lua, cpath.str().c_str());
-
-	cpath << "c";
-
-	lua_pushstring(m_lua, cpath.str().c_str());
-
-	if (lua_pcall(m_lua, 3, 0, 0)) {
-		std::stringstream err;
-		err << "[LUA] " << lua_tostring(m_lua, -1);
-		API::Get().Print(err.str().c_str());
-		return false;
-	}*/
-
-	
+	API::Get().Print(ss.str().c_str());	
 
 	if (luaL_loadfile(m_lua, respath) || lua_pcall(m_lua, 0, 0, 0)) {
 		std::stringstream ss;
@@ -214,36 +156,8 @@ bool SResource::Start(const char* name)
 		return false;
 	}
 
-	/*compile(m_lua, respath);
-
-	char* _code = new char[_size];
-	_code_.sgetn(_code, _size);
-
-	if (luaL_loadbuffer(m_lua, _code, _size, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
-		std::stringstream ss;
-		ss << "[LUA] " << lua_tostring(m_lua, -1);
-		API::Get().Print(ss.str().c_str());
-		return false;
-	}
-
-	_size = 0;*/
-
 	return true;
 }
-
-/*bool SResource::OnPlayerConnect(long playerid)
-{
-	lua_getglobal(m_lua, "__OnPlayerConnect");
-	lua_pushinteger(m_lua, playerid);
-
-	if (lua_pcall(m_lua, 1, 0, 0))
-	{
-		API::Get().Print("Error in OnPlayerConnect callback");
-		API::Get().Print(lua_tostring(m_lua, -1));
-	}
-
-	return true;
-}*/
 
 char* SResource::OnHTTPRequest(const char* method, const char* url, const char* query, const char* body)
 {

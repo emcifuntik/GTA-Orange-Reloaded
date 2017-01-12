@@ -12,7 +12,7 @@ CHTTPServer *CHTTPServer::Get()
 
 CHTTPServer::CHTTPServer()
 {
-	
+
 }
 
 bool CHTTPServer::Start(int port)
@@ -29,7 +29,7 @@ bool CHTTPServer::Start(int port)
 		cpp_options.push_back(options[i]);
 	}*/
 	CHTTPServer::g_server = new CivetServer(options);
-	
+
 	return true;
 }
 

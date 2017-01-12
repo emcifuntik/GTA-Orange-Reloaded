@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="HighFive_Server" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug x64">
+				<Option output="Server" prefix_auto="1" extension_auto="1" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-D_SERVER" />
+					<Add option="-D_CRT_SECURE_NO_WARNINGS" />
+					<Add option="-D_WINSOCK_DEPRECATED_NO_WARNINGS" />
+					<Add option="-DNDEBUG" />
+					<Add option="-D_CONSOLE" />
+					<Add option="-DPROJECT_NAME=HighFive_Server" />
+					<Add directory="$(IncludePath)" />
+					<Add directory="./" />
+					<Add directory="../shared/" />
+					<Add directory="../deps/RakNet" />
+					<Add directory="../deps/ServerDeps/Civet/" />
+					<Add directory="../deps/ServerDeps/yaml-cpp/include./" />
+				</Compiler>
+				<Linker>
+					<Add library="RakNet_$(Configuration)_$(Platform).lib" />
+					<Add library="tinyxml2_$(Configuration)_$(Platform).lib" />
+					<Add library="yaml_$(Configuration)_$(Platform).lib" />
+					<Add library="winmm.lib" />
+					<Add directory="../deps/bin" />
+				</Linker>
+			</Target>
+			<Target title="Release x64">
+				<Option output="Server" prefix_auto="1" extension_auto="1" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-D_SERVER" />
+					<Add option="-D_CRT_SECURE_NO_WARNINGS" />
+					<Add option="-D_WINSOCK_DEPRECATED_NO_WARNINGS" />
+					<Add option="-DNDEBUG" />
+					<Add option="-D_CONSOLE" />
+					<Add option="-DPROJECT_NAME=HighFive_Server" />
+					<Add directory="$(IncludePath)" />
+					<Add directory="./" />
+					<Add directory="../shared/" />
+					<Add directory="../deps/RakNet" />
+					<Add directory="../deps/ServerDeps/Civet/" />
+					<Add directory="../deps/ServerDeps/yaml-cpp/include./" />
+				</Compiler>
+				<Linker>
+					<Add library="RakNet_$(Configuration)_$(Platform).lib" />
+					<Add library="tinyxml2_$(Configuration)_$(Platform).lib" />
+					<Add library="yaml_$(Configuration)_$(Platform).lib" />
+					<Add library="winmm.lib" />
+					<Add directory="../deps/bin" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="../../GTA-Orange/Shared/Console/CConsole.h">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="../../GTA-Orange/Shared/Console/CLog.h">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="../deps/ServerDeps/Civet/CivetServer.cpp">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="../deps/ServerDeps/Civet/civetweb.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="API.cpp">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="API.h">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="CClientScripting.cpp">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="CClientScripting.h">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="CConfig.cpp">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="CConfig.h">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="CHTTPServer.cpp">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="CHTTPServer.h">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="CNetwokMarker.cpp">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="CNetwork3DText.cpp">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="CNetwork3DText.h">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="CNetworkBlip.cpp">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="CNetworkBlip.h">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="CNetworkConnection.cpp">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="CNetworkConnection.h">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="CNetworkMarker.h">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="CNetworkObject.cpp">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="CNetworkObject.h">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="CNetworkPlayer.cpp">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="CNetworkPlayer.h">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="CNetworkVehicle.cpp">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="CNetworkVehicle.h">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="CRPCPlugin.cpp">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="CRPCPlugin.h">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="Plugin.cpp">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="Plugin.h">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="main.cpp">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="resource.h">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="resources.rc">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="stdafx.cpp">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Unit filename="stdafx.h">
+			<Option target="Debug x64" />
+			<Option target="Debug Win32" />
+			<Option target="Release Win32" />
+			<Option target="Release x64" />
+		</Unit>
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<lib_finder disable_auto="1" />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

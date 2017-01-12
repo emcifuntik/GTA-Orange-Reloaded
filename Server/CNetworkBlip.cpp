@@ -6,7 +6,7 @@ CNetworkBlip::CNetworkBlip(float x, float y, float z, float scale, int color, in
 {
 	RakNet::BitStream bsOut;
 
-	rnGUID = RakNetGUID::RakNetGUID(createGUID());
+	rnGUID = RakNetGUID(createGUID());
 
 	bsOut.Write(rnGUID);
 	bsOut.Write(x);
@@ -48,7 +48,7 @@ CNetworkBlip::~CNetworkBlip()
 
 void CNetworkBlip::SendGlobal(RakNet::Packet *packet)
 {
-	for each(auto *blip in AllBlips)
+	for (auto *blip : AllBlips)
 	{
 		if (blip->playerid == -1)
 		{
@@ -69,7 +69,7 @@ void CNetworkBlip::SendGlobal(RakNet::Packet *packet)
 
 CNetworkBlip * CNetworkBlip::GetByGUID(RakNetGUID guid)
 {
-	for each (CNetworkBlip *blip in AllBlips)
+	for (CNetworkBlip *blip : AllBlips)
 		if (blip && blip->rnGUID == guid)
 			return blip;
 

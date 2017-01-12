@@ -5,7 +5,7 @@ std::vector<CNetworkVehicle *> CNetworkVehicle::Vehicles;
 int CNetworkVehicle::Count()
 {
 	int _count = 0;
-	for each (CNetworkVehicle *vehicle in Vehicles)
+	for (CNetworkVehicle *vehicle : Vehicles)
 	{
 		if (vehicle)
 			_count++;
@@ -15,7 +15,7 @@ int CNetworkVehicle::Count()
 
 CNetworkVehicle::CNetworkVehicle(Hash model, float x, float y, float z, float heading):hashModel(model),vecPos(x,y,z),vecRot(0, 0, heading)
 {
-	rnGUID = RakNetGUID::RakNetGUID(createGUID());
+	rnGUID = RakNetGUID(createGUID());
 	Vehicles.push_back(this);
 
 	bool e = false;
@@ -102,7 +102,7 @@ void CNetworkVehicle::GetVehicleData(VehicleData & data)
 
 CNetworkVehicle::~CNetworkVehicle()
 {
-	
+
 }
 
 std::vector<CNetworkVehicle *> CNetworkVehicle::All()
@@ -112,7 +112,7 @@ std::vector<CNetworkVehicle *> CNetworkVehicle::All()
 
 CNetworkVehicle * CNetworkVehicle::GetByGUID(RakNet::RakNetGUID GUID)
 {
-	for each (CNetworkVehicle *veh in Vehicles)
+	for (CNetworkVehicle *veh : Vehicles)
 		if (veh->rnGUID == GUID)
 			return veh;
 	return nullptr;
@@ -120,7 +120,7 @@ CNetworkVehicle * CNetworkVehicle::GetByGUID(RakNet::RakNetGUID GUID)
 
 void CNetworkVehicle::SendGlobal(RakNet::Packet *packet)
 {
-	for each(auto *veh in Vehicles)
+	for (auto *veh : Vehicles)
 	{
 		RakNet::BitStream bsOut;
 

@@ -8,20 +8,30 @@ struct pass
 int counter = 1;
 unsigned long createGUID() { return counter++; }
 
+#ifndef _WIN32
+#include <sys/time.h>
+unsigned long GetTickCount()
+{
+    struct timeval tv;
+    gettimeofday(&tv,NULL);
+    return (tv.tv_sec*1000+tv.tv_usec/1000);
+}
+#endif
+
 int main(void)
 {
 	log << "Starting the server..." << std::endl;
-	log << "Hostname: " << color::lred << CConfig::Get()->Hostname << std::endl;
-	log << "Port: " << color::lred << CConfig::Get()->Port << std::endl;
-	log << "HTTP Server port: " << color::lred << CConfig::Get()->HTTPPort << std::endl;
-	log << "Maximum players: " << color::lred << CConfig::Get()->MaxPlayers << std::endl;
+	log << "Hostname: " << /*color::lred <<*/ CConfig::Get()->Hostname << std::endl;
+	log << "Port: " << /*color::lred <<*/ CConfig::Get()->Port << std::endl;
+	log << "HTTP Server port: " << /*color::lred <<*/ CConfig::Get()->HTTPPort << std::endl;
+	log << "Maximum players: " << /*color::lred <<*/ CConfig::Get()->MaxPlayers << std::endl;
 
-	Plugin::LoadPlugins();	
+	Plugin::LoadPlugins();
 
 	CHTTPServer::Get()->Start(CConfig::Get()->HTTPPort);
 	CHTTPHandler h_a;
 	CHTTPServer::g_server->addHandler("", h_a);
-	
+
 	auto netLoop = [=]()
 	{
 		CNetworkConnection::Get()->Start(CConfig::Get()->MaxPlayers, CConfig::Get()->Port);
@@ -43,7 +53,7 @@ int main(void)
 				std::stringstream ss;
 				ss << CConfig::Get()->Hostname << ". Players online: " << CNetworkPlayer::Count() << ", "
 					<< "Packet loss: " << std::setprecision(2) << std::fixed << stat.packetlossTotal * 100 << "%";
-				SetConsoleTitle(ss.str().c_str());
+				//SetConsoleTitle(ss.str().c_str());
 				lastTick = GetTickCount();
 			}
 		}

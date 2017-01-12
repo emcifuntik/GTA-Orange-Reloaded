@@ -25,6 +25,7 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+[Cc]make[Ff]iles/
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -73,6 +74,7 @@ artifacts/
 *.svclog
 *.scc
 *.lib
+*.o
 
 # Chutzpah Test files
 _Chutzpah*
@@ -253,7 +255,7 @@ paket-files/
 *.lastbuildstate
 *.rule
 
-
+CMakeCache.txt
 
 /HighFive/Setup
 /HighFive/Launcher/memcache.xml
