@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="../x64/Debug/server/modules/liblua-module" prefix_auto="1" extension_auto="1" />
+				<Option output="../x64/Debug/server/modules/lua-module" prefix_auto="0" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="3" />
 				<Option compiler="gcc" />
@@ -18,7 +18,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="../x64/Release/server/modules/liblua-module" prefix_auto="1" extension_auto="1" />
+				<Option output="../x64/Release/server/modules/lua-module" prefix_auto="0" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="3" />
 				<Option compiler="gcc" />
@@ -33,14 +33,18 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall" />
 			<Add option="-std=c++11" />
+			<Add option="-Wall" />
 			<Add option="-fexceptions -fPIC" />
 			<Add directory="../shared" />
 			<Add directory="." />
 			<Add directory="mysql/include" />
 			<Add directory="../deps/ServerDeps/LuaJIT-2.1.0-beta2/src" />
 		</Compiler>
+		<Linker>
+			<Add option="-lluajit-5.1" />
+			<Add option="-lmysqlclient" />
+		</Linker>
 		<Unit filename="API.h" />
 		<Unit filename="SResource.cpp" />
 		<Unit filename="SResource.h" />
@@ -55,7 +59,6 @@
 		<Unit filename="lua_Vehicle.cpp" />
 		<Unit filename="luasql.cpp" />
 		<Unit filename="luasql.h" />
-		<Unit filename="main.cpp" />
 		<Unit filename="stdafx.cpp" />
 		<Unit filename="stdafx.h" />
 		<Unit filename="targetver.h" />

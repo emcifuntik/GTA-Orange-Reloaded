@@ -55,7 +55,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;ORANGECORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../deps/RakNet/;../shared/;./;../deps/tinyxml2/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../deps/ServerDeps/LuaJIT-2.1.0-beta2/src;../deps/RakNet/Source/;../shared/;./;../deps/tinyxml2/</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -75,7 +75,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;ORANGECORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\deps\ServerDeps\LuaJIT-2.1.0-beta2\src;../deps/RakNet/;../shared/;./;../deps/tinyxml2/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../deps/ServerDeps/LuaJIT-2.1.0-beta2/src;../deps/RakNet/Source/;../shared/;./;../deps/tinyxml2/</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -229,9 +229,6 @@
     <Image Include="Launcher.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\deps\RakNet\RakNet.vcxproj">
-      <Project>{d578244b-91ce-414f-8279-6e39212ff632}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\deps\tinyxml2\tinyxml2\tinyxml2.vcxproj">
       <Project>{d1c528b6-aa02-4d29-9d61-dc08e317a70d}</Project>
     </ProjectReference>

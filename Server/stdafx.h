@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <string>
 #include <locale>
-#include <codecvt>
 #include <vector>
 #include <map>
 #include <sstream>
@@ -19,6 +18,7 @@
 
 #define WIN32_LEAN_AND_MEAN
 
+#include <codecvt>
 #include <windows.h>
 #include <intrin.h>
 #include <Psapi.h>

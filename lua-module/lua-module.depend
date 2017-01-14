@@ -11,6 +11,8 @@
 	"lauxlib.h"
 	"luasql.h"
 
+1483454664 
+
 1484247436 /media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/lua-module/stdafx.h
 	"targetver.h"
 	<windows.h>
@@ -28,12 +30,18 @@
 	"lua_Main.h"
 	"SResource.h"
 
+1484247436 .h"
+
 1483454664 /media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/lua-module/targetver.h
 	<SDKDDKVer.h>
+
+1484229787 .h>
 
 1484247274 /media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/lua-module/API.h
 	<string>
 	"CVector3.h"
+
+1483454664 h"
 
 1484229787 /media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/shared/CVector3.h
 	<cmath>
@@ -54,6 +62,8 @@
 1483454664 /media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/lua-module/mysql/include/mysql_version.h
 	<custom_conf.h>
 
+1483454664 nf.h>
+
 1483454664 /media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/lua-module/mysql/include/mysql_com.h
 
 1483454664 /media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/lua-module/mysql/include/mysql_time.h
@@ -65,14 +75,20 @@
 	<stdlib.h>
 	<mysql/plugin_auth_common.h>
 
+1483454664 gin_auth_common.h>
+
 1483454664 /media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/lua-module/mysql/include/mysql/plugin_auth_common.h
 	<windows.h>
+
+1483454664 >
 
 1483454664 /media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/lua-module/mysql/include/typelib.h
 	"my_alloc.h"
 
 1483454664 /media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/lua-module/mysql/include/my_alloc.h
 	<mysql/psi/psi_memory.h>
+
+1483454664 /psi_memory.h>
 
 1483454664 /media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/lua-module/mysql/include/mysql/psi/psi_memory.h
 	"psi_base.h"
@@ -90,6 +106,8 @@
 	<stddef.h>
 	"luaconf.h"
 
+1483454663 "
+
 1483454663 /media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/deps/ServerDeps/LuaJIT-2.1.0-beta2/src/luaconf.h
 	<limits.h>
 	<stddef.h>
@@ -99,6 +117,8 @@
 	<stddef.h>
 	<stdio.h>
 	"lua.h"
+
+1483454662 
 
 1483454663 /media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/deps/ServerDeps/LuaJIT-2.1.0-beta2/src/lualib.h
 	"lua.h"
@@ -146,5 +166,152 @@
 	"stdafx.h"
 
 1483454664 source:/media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/lua-module/stdafx.cpp
+	"stdafx.h"
+
+1484398388 source:/mnt/c/Repos/GTA-Orange-Reloaded/lua-module/ls_mysql.cpp
+	"stdafx.h"
+	<assert.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<winsock2.h>
+	"lua.h"
+	"lauxlib.h"
+	"luasql.h"
+
+1484398577 /mnt/c/Repos/GTA-Orange-Reloaded/lua-module/stdafx.h
+	"targetver.h"
+	<windows.h>
+	<string>
+	<cstring>
+	<iostream>
+	<fstream>
+	<sstream>
+	<vector>
+	<map>
+	<functional>
+	"API.h"
+	"mysql.h"
+	"lua.hpp"
+	"lua_Main.h"
+	"SResource.h"
+
+1484398388 /mnt/c/Repos/GTA-Orange-Reloaded/lua-module/targetver.h
+	<SDKDDKVer.h>
+
+1484398577 /mnt/c/Repos/GTA-Orange-Reloaded/lua-module/API.h
+	<string>
+	"CVector3.h"
+
+1484398577 /mnt/c/Repos/GTA-Orange-Reloaded/shared/CVector3.h
+	<cmath>
+	<xmmintrin.h>
+
+1484398388 /mnt/c/Repos/GTA-Orange-Reloaded/lua-module/mysql/include/mysql.h
+	<sys/types.h>
+	<windows.h>
+	<winsock2.h>
+	"mysql_version.h"
+	"mysql_com.h"
+	"mysql_time.h"
+	"my_list.h"
+	"mysql/client_plugin.h"
+	"typelib.h"
+	"my_alloc.h"
+
+1484398388 /mnt/c/Repos/GTA-Orange-Reloaded/lua-module/mysql/include/mysql_version.h
+	<custom_conf.h>
+
+1484398388 /mnt/c/Repos/GTA-Orange-Reloaded/lua-module/mysql/include/mysql_com.h
+
+1484398388 /mnt/c/Repos/GTA-Orange-Reloaded/lua-module/mysql/include/mysql_time.h
+
+1484398388 /mnt/c/Repos/GTA-Orange-Reloaded/lua-module/mysql/include/my_list.h
+
+1484398388 /mnt/c/Repos/GTA-Orange-Reloaded/lua-module/mysql/include/mysql/client_plugin.h
+	<stdarg.h>
+	<stdlib.h>
+	<mysql/plugin_auth_common.h>
+
+1484398388 /mnt/c/Repos/GTA-Orange-Reloaded/lua-module/mysql/include/mysql/plugin_auth_common.h
+	<windows.h>
+
+1484398388 /mnt/c/Repos/GTA-Orange-Reloaded/lua-module/mysql/include/typelib.h
+	"my_alloc.h"
+
+1484398388 /mnt/c/Repos/GTA-Orange-Reloaded/lua-module/mysql/include/my_alloc.h
+	<mysql/psi/psi_memory.h>
+
+1484398388 /mnt/c/Repos/GTA-Orange-Reloaded/lua-module/mysql/include/mysql/psi/psi_memory.h
+	"psi_base.h"
+
+1484398388 /mnt/c/Repos/GTA-Orange-Reloaded/lua-module/mysql/include/mysql/psi/psi_base.h
+
+1484398387 /mnt/c/Repos/GTA-Orange-Reloaded/deps/ServerDeps/LuaJIT-2.1.0-beta2/src/lua.hpp
+	"lua.h"
+	"lauxlib.h"
+	"lualib.h"
+	"luajit.h"
+
+1484398387 /mnt/c/Repos/GTA-Orange-Reloaded/deps/ServerDeps/LuaJIT-2.1.0-beta2/src/lua.h
+	<stdarg.h>
+	<stddef.h>
+	"luaconf.h"
+
+1484398387 /mnt/c/Repos/GTA-Orange-Reloaded/deps/ServerDeps/LuaJIT-2.1.0-beta2/src/luaconf.h
+	<limits.h>
+	<stddef.h>
+	<assert.h>
+
+1484398387 /mnt/c/Repos/GTA-Orange-Reloaded/deps/ServerDeps/LuaJIT-2.1.0-beta2/src/lauxlib.h
+	<stddef.h>
+	<stdio.h>
+	"lua.h"
+
+1484398387 /mnt/c/Repos/GTA-Orange-Reloaded/deps/ServerDeps/LuaJIT-2.1.0-beta2/src/lualib.h
+	"lua.h"
+
+1484398387 /mnt/c/Repos/GTA-Orange-Reloaded/deps/ServerDeps/LuaJIT-2.1.0-beta2/src/luajit.h
+	"lua.h"
+
+1484398577 /mnt/c/Repos/GTA-Orange-Reloaded/lua-module/lua_Main.h
+
+1484398577 /mnt/c/Repos/GTA-Orange-Reloaded/lua-module/SResource.h
+
+1484398388 /mnt/c/Repos/GTA-Orange-Reloaded/lua-module/luasql.h
+
+1484398388 source:/mnt/c/Repos/GTA-Orange-Reloaded/lua-module/lua-module.cpp
+	"stdafx.h"
+
+1484398388 source:/mnt/c/Repos/GTA-Orange-Reloaded/lua-module/lua_Blips.cpp
+	"stdafx.h"
+
+1484398577 source:/mnt/c/Repos/GTA-Orange-Reloaded/lua-module/lua_Main.cpp
+	"stdafx.h"
+
+1484398388 source:/mnt/c/Repos/GTA-Orange-Reloaded/lua-module/lua_Markers.cpp
+	"stdafx.h"
+
+1484398388 source:/mnt/c/Repos/GTA-Orange-Reloaded/lua-module/lua_Object.cpp
+	"stdafx.h"
+
+1484398388 source:/mnt/c/Repos/GTA-Orange-Reloaded/lua-module/lua_Player.cpp
+	"stdafx.h"
+
+1484398388 source:/mnt/c/Repos/GTA-Orange-Reloaded/lua-module/lua_Vehicle.cpp
+	"stdafx.h"
+
+1484398388 source:/mnt/c/Repos/GTA-Orange-Reloaded/lua-module/luasql.cpp
+	"stdafx.h"
+	<string.h>
+	"lua.h"
+	"lauxlib.h"
+	"luasql.h"
+
+1484398577 source:/mnt/c/Repos/GTA-Orange-Reloaded/lua-module/SResource.cpp
+	"stdafx.h"
+
+1484398388 source:/mnt/c/Repos/GTA-Orange-Reloaded/lua-module/stdafx.cpp
 	"stdafx.h"
 

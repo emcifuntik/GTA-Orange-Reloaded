@@ -88,6 +88,11 @@
   <ItemGroup>
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\deps\ServerDeps\yaml-cpp\vs\yaml-cpp.vcxproj">
+      <Project>{ca9a54e4-d759-3205-837e-feed93e77484}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{11DAC5C3-DF35-4E52-BCA3-65FE3FC08884}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -245,7 +250,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_SERVER;_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;NDEBUG;_CONSOLE;PROJECT_NAME="$(ProjectName)";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./;../shared/;../deps/RakNet;../deps/ServerDeps/Civet/;../deps/ServerDeps/yaml-cpp/include./;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;../shared/;../deps/RakNet/Source;../deps/ServerDeps/Civet/;../deps/ServerDeps/yaml-cpp/include./;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -269,7 +274,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_SERVER;_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;NDEBUG;_CONSOLE;PROJECT_NAME="$(ProjectName)";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./;../shared/;../deps/RakNet;../deps/ServerDeps/Civet/;../deps/ServerDeps/yaml-cpp/include./;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;../shared/;../deps/RakNet/Source;../deps/ServerDeps/Civet/;../deps/ServerDeps/yaml-cpp/include./;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>

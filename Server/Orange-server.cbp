@@ -31,10 +31,10 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall" />
 			<Add option="-std=c++11" />
+			<Add option="-Wall" />
 			<Add option="-fexceptions" />
-			<Add directory="../deps/RakNet" />
+			<Add directory="../deps/RakNet/Source" />
 			<Add directory="../deps/ServerDeps/yaml-cpp/include" />
 			<Add directory="." />
 			<Add directory="../deps/ServerDeps/Civet" />

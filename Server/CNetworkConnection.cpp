@@ -65,7 +65,7 @@ bool CNetworkConnection::Start(unsigned short maxPlayers, unsigned short port)
 		socketDescriptors[0].socketFamily = AF_INET; // Test out IPV4
 		socketDescriptors[1].port = port;
 		socketDescriptors[1].socketFamily = AF_INET6; // Test out IPV6
-		bool result = server->Startup(maxPlayers, socketDescriptors, 1) == RakNet::RAKNET_STARTED;
+		bool result = server->Startup(maxPlayers, socketDescriptors, 2) == RakNet::RAKNET_STARTED;
 		server->SetMaximumIncomingConnections(maxPlayers);
 		if (!result)
 		{
