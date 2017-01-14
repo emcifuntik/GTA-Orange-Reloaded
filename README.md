@@ -12,8 +12,11 @@ GTA:Orange is an alternative GTA:V multiplayer modification, providing smooth ga
 changelog goes here
 
 ## How to compile:
-
-tutorial goes here
+# Linux:
+- To compile or launch server under linux you need to install libluajit-5.1-dev and libmysqlclient-dev
+```
+  apt-get install libluajit-5.1-dev libmysqlclient-dev
+```
 
 ## Libs:
 
