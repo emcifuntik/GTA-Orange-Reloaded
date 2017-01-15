@@ -90,8 +90,8 @@ LRESULT APIENTRY WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 void __fastcall eventHook(GTA::CTask* task)
 {
-	log_debug << task->GetTree() << std::endl;
-	CLocalPlayer::Get()->updateTasks = true;
+	/*log_debug << task->GetTree() << std::endl;
+	CLocalPlayer::Get()->updateTasks = true;*/
 }
 
 bool consoleShowed = false;
@@ -105,7 +105,7 @@ void OnGameStateChange(int gameState)
 		break;
 	case GameStatePlaying:
 	{
-		TurnOnConsole();
+		//TurnOnConsole();
 		CGlobals::Get().gtaHwnd = FindWindowA(NULL, "Grand Theft Auto V");
 		/*SetWindowText(CGlobals::Get().gtaHwnd, L"GTA:Orange");
 		Icon = LPARAM(LoadIconA(NULL, (CGlobals::Get().orangePath + "/Launcher.ico").c_str()));
