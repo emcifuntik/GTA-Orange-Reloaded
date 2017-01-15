@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#define log std::cout
 
 API * API::instance = nullptr;
 

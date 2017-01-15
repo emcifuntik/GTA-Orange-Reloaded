@@ -2,7 +2,12 @@
 
 int lua_print(lua_State *L)
 {
-	API::Get().Print(lua_tostring(L, 1));
+	std::stringstream ss;
+	int nargs = lua_gettop(L);
+	for (int i = 1; i <= nargs; ++i) {
+		ss << lua_tostring(L, i) << "\t";
+	}
+	API::Get().Print(ss.str().c_str());
 	return 0;
 }
 
@@ -190,4 +195,5 @@ int lua_Attach3DTextToPlayer(lua_State *L)
 int lua_LoadClientScript(lua_State *L)
 {
 	SResource::Get()->AddClientScript(lua_tostring(L, 1));
+	return 0;
 }

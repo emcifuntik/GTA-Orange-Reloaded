@@ -25,10 +25,7 @@ bool CNetworkConnection::Connect(std::string host, unsigned short port)
 	{
 		RakNet::SocketDescriptor socketDescriptor(0, 0);
 
-		if(host.find(":") != 0)
-			socketDescriptor.socketFamily = AF_INET6;
-		else
-			socketDescriptor.socketFamily = AF_INET;
+		socketDescriptor.socketFamily = AF_INET;
 
 		client->Startup(8, &socketDescriptor, 1);
 		client->SetOccasionalPing(true);
