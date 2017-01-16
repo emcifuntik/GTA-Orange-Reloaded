@@ -7,6 +7,7 @@ namespace Utils {
 	int RoundToBytes(int bits);
 	DWORD RGBAToHex(BYTE r, BYTE g, BYTE b, BYTE a);
 	void HexToRGBA(DWORD hexValue, BYTE &r, BYTE &g, BYTE &b, BYTE &a);
+	void HexToRGB(DWORD hexValue, BYTE & r, BYTE & g, BYTE & b);
 	bool ReadRegistry(HKEY hKeyLocation, const char * szLocation, const char * szRow, const char *szBuffer, DWORD dwSize);
 	bool WriteRegistry(HKEY hKeyLocation, const char * szSubKey, const char * szKey, const char * szData, DWORD dwSize);
 	CVector3 RotationToDirection(CVector3 rotation);

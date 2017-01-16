@@ -531,8 +531,11 @@ void CNetworkPlayer::MakeTag()
 	tag.bVisible = false;
 	if (ENTITY::HAS_ENTITY_CLEAR_LOS_TO_ENTITY(CLocalPlayer::Get()->GetHandle(), Handle, 17))
 	{
+		Vector3 _camPos = CAM::GET_GAMEPLAY_CAM_COORD();
+		CVector3 camPos(_camPos.x, _camPos.y, _camPos.z);
+
 		CVector3 *vecCurPos = &pedHandler->Position;
-		tag.distance = ((*vecCurPos) - CWorld::Get()->CPedPtr->Position).Length();
+		tag.distance = (((*vecCurPos) - camPos).Length() / CAM::_GET_GAMEPLAY_CAM_ZOOM());
 
 		if (tag.distance > 70.f)
 			return;

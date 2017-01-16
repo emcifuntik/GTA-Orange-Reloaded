@@ -48,7 +48,7 @@ void Action()
 			CGlobals::Get().displayServerBrowser = true;
 			teleported = true;
 			CLocalPlayer::Get()->ChangeModel(Utils::Hash("mp_m_freemode_01"));
-			CChat::Get()->AddChatMessage("Grand Theft Auto: Orange loaded");
+			CChat::Get()->AddChatMessage("Grand Theft Auto: {FF8F00}Orange {FFFFFF}loaded");
 		}
 		scriptWait(0);
 	}

@@ -73,6 +73,13 @@ namespace Utils {
 		a = ((hexValue) & 0xFF);
 	}
 
+	void HexToRGB(DWORD hexValue, BYTE & r, BYTE & g, BYTE & b)
+	{
+		r = ((hexValue >> 16) & 0xFF);
+		g = ((hexValue >> 8) & 0xFF);
+		b = ((hexValue) & 0xFF);
+	}
+
 	bool ReadRegistry(HKEY hKeyLocation, const char * szLocation, const char * szRow, const char *szBuffer, DWORD dwSize)
 	{
 		HKEY hKey = NULL;
