@@ -148,6 +148,7 @@
     <ClInclude Include="Network\Functions.h" />
     <ClInclude Include="orange-core.h" />
     <ClInclude Include="Registry.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Utils.h" />
@@ -228,6 +229,12 @@
     <ProjectReference Include="..\deps\tinyxml2\tinyxml2\tinyxml2.vcxproj">
       <Project>{d1c528b6-aa02-4d29-9d61-dc08e317a70d}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="orange-core.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Launcher\Launcher.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

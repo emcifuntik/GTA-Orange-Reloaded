@@ -158,17 +158,11 @@ static HWND CreateWindowExWHook(_In_ DWORD dwExStyle,
 	_In_opt_ HINSTANCE hInstance,
 	_In_opt_ LPVOID lpParam)
 {
-	Icon = LPARAM(LoadImageA( // returns a HANDLE so we have to cast to HICON
-		NULL,             // hInstance must be NULL when loading from a file
-		(CGlobals::Get().orangePath + "/Launcher.ico").c_str(),   // the icon file name
-		IMAGE_ICON,       // specifies that the file is an icon
-		0,                // width of the image (we'll specify default later on)
-		0,                // height of the image
-		LR_LOADFROMFILE |  // we want to load a file (as opposed to a resource)
-		LR_DEFAULTSIZE |   // default metrics based on the type (IMAGE_ICON, 32x32)
-		LR_SHARED         // let the system release the handle when it's no longer used
+	Icon = LPARAM(LoadIcon( // returns a HANDLE so we have to cast to HICON
+		CGlobals::Get().dllModule,//NULL,             // hInstance must be NULL when loading from a file
+		MAKEINTRESOURCE(IDI_ICON1)
 	));
-	HWND hWnd = CreateWindowExW(dwExStyle, lpClassName, L"GTA: Orange", dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+	HWND hWnd = CreateWindowExW(dwExStyle, lpClassName, L"GTA:Orange", dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
 	SendMessage(hWnd, WM_SETICON, ICON_BIG, Icon);
 	SendMessage(hWnd, WM_SETICON, ICON_SMALL, Icon);
 	CGlobals::Get().gtaHwnd = hWnd;

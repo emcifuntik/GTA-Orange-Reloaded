@@ -23,13 +23,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 	{
 	case DLL_PROCESS_ATTACH:
 	{
-		/*char TOrangeFolder[MAX_PATH];
-		DWORD folderNameLen = MAX_PATH;
-		if (!Registry::Get_StringRegistryValue(HKEY_CURRENT_USER, "SOFTWARE\\GTA Orange Team\\GTA Orange", "OrangeFolder", TOrangeFolder, folderNameLen))
-		{
-			TerminateProcess(GetCurrentProcess(), EXIT_SUCCESS);
-			return true;
-		}*/
+		CGlobals::Get().dllModule = hModule;
 		CGlobals::Get().orangePath = GetModuleDir();
 
 		my_ostream::SetLogFile(CGlobals::Get().orangePath + "/client.log");

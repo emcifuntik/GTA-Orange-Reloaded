@@ -45,6 +45,7 @@
 #include <intrin.h>
 #include <TlHelp32.h>
 #include "tinyxml2.h"
+#include "resource.h"
 #pragma endregion
 
 #include "Registry.h"
