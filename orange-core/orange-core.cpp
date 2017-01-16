@@ -106,12 +106,7 @@ void OnGameStateChange(int gameState)
 	case GameStatePlaying:
 	{
 		//TurnOnConsole();
-		CGlobals::Get().gtaHwnd = FindWindowA(NULL, "Grand Theft Auto V");
-		/*SetWindowText(CGlobals::Get().gtaHwnd, L"GTA:Orange");
-		Icon = LPARAM(LoadIconA(NULL, (CGlobals::Get().orangePath + "/Launcher.ico").c_str()));
-		SendMessage(CGlobals::Get().gtaHwnd, WM_SETICON, ICON_BIG, Icon);
-		SendMessage(CGlobals::Get().gtaHwnd, WM_SETICON, ICON_SMALL, Icon);*/
-
+		//SetWindowText(CGlobals::Get().gtaHwnd, L"GTA:Orange");
 		if (!ScriptEngine::Initialize())
 			log_error << "Failed to initialize ScriptEngine" << std::endl;
 		D3DHook::HookD3D11();
@@ -149,6 +144,37 @@ static bool gameStateChange_(int gameState)
 	return g_gameStateChange();
 }
 
+
+static HWND CreateWindowExWHook(_In_ DWORD dwExStyle,
+	_In_opt_ LPCWSTR lpClassName,
+	_In_opt_ LPCWSTR lpWindowName,
+	_In_ DWORD dwStyle,
+	_In_ int X,
+	_In_ int Y,
+	_In_ int nWidth,
+	_In_ int nHeight,
+	_In_opt_ HWND hWndParent,
+	_In_opt_ HMENU hMenu,
+	_In_opt_ HINSTANCE hInstance,
+	_In_opt_ LPVOID lpParam)
+{
+	Icon = LPARAM(LoadImageA( // returns a HANDLE so we have to cast to HICON
+		NULL,             // hInstance must be NULL when loading from a file
+		(CGlobals::Get().orangePath + "/Launcher.ico").c_str(),   // the icon file name
+		IMAGE_ICON,       // specifies that the file is an icon
+		0,                // width of the image (we'll specify default later on)
+		0,                // height of the image
+		LR_LOADFROMFILE |  // we want to load a file (as opposed to a resource)
+		LR_DEFAULTSIZE |   // default metrics based on the type (IMAGE_ICON, 32x32)
+		LR_SHARED         // let the system release the handle when it's no longer used
+	));
+	HWND hWnd = CreateWindowExW(dwExStyle, lpClassName, L"GTA: Orange", dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+	SendMessage(hWnd, WM_SETICON, ICON_BIG, Icon);
+	SendMessage(hWnd, WM_SETICON, ICON_SMALL, Icon);
+	CGlobals::Get().gtaHwnd = hWnd;
+	return hWnd;
+}
+
 void HookLoop()
 {
 	auto unusedMem = CMemory((uintptr_t)GetModuleHandle(NULL) + 0x109D5D8);
@@ -164,7 +190,14 @@ void HookLoop()
 	auto gameStateChange = CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1EC8FA); // GameStateChange
 	auto gameStateMem = gameStateChange();
 	g_gameStateChange = gameStateChange.get_call<GameStateChange_>();
-	(gameStateChange + 1).put(long(callToMem - gameStateMem - 5));
+	(gameStateChange + 1).put(DWORD(callToMem - gameStateMem - 5));
+
+	callToMem = unusedMem();
+	unusedMem.farJmp(CreateWindowExWHook);
+	auto windowCreate = CMemory((uintptr_t)GetModuleHandle(NULL) + 0x12416F7); // WindowCreate
+	auto windowCreateMem = windowCreate();
+	windowCreate.nearCall(DWORD(callToMem - windowCreateMem - 5));
+	windowCreate.nop(1);
 }
 
 void GameProcessHooks()
@@ -205,30 +238,6 @@ void GameProcessHooks()
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x33E78C).retn(); //ISABLE_COPS_AND_FIRE_TRUCKS_2
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x61F620).retn(); //ISABLE_COPS_AND_FIRE_TRUCKS_3
 }
-
-static HWND CreateWindowExWHook(_In_ DWORD dwExStyle,
-	_In_opt_ LPCWSTR lpClassName,
-	_In_opt_ LPCWSTR lpWindowName,
-	_In_ DWORD dwStyle,
-	_In_ int X,
-	_In_ int Y,
-	_In_ int nWidth,
-	_In_ int nHeight,
-	_In_opt_ HWND hWndParent,
-	_In_opt_ HMENU hMenu,
-	_In_opt_ HINSTANCE hInstance,
-	_In_opt_ LPVOID lpParam)
-{
-	Icon = LPARAM(LoadIconA(NULL, (CGlobals::Get().orangePath + "/Launcher.ico").c_str()));
-	HWND hWnd = CreateWindowExW(dwExStyle, lpClassName, L"GTA:Orange", dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
-	SendMessage(hWnd, WM_SETICON, ICON_BIG, Icon);
-	SendMessage(hWnd, WM_SETICON, ICON_SMALL, Icon);
-	CGlobals::Get().gtaHwnd = hWnd;
-	
-	return hWnd;
-}
-
-void *OldCreateWindowExW = nullptr;
 
 void PreLoadPatches()
 {
