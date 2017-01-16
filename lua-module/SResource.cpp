@@ -41,6 +41,7 @@ static const struct luaL_Reg mfunclib[] = {
 	{ "Set3DTextText", lua_Set3DTextText },
 	{ "Attach3DTextToVeh", lua_Attach3DTextToVeh },
 	{ "Attach3DTextToPlayer", lua_Attach3DTextToPlayer },
+	{ "Delete3DText", lua_Delete3DText },
 
 	{ NULL, NULL }
 };

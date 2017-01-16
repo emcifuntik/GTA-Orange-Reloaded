@@ -43,3 +43,4 @@ int lua_Create3DText(lua_State *L);
 int lua_Set3DTextText(lua_State *L);
 int lua_Attach3DTextToVeh(lua_State *L);
 int lua_Attach3DTextToPlayer(lua_State *L);
+int lua_Delete3DText(lua_State *L);
