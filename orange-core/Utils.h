@@ -10,4 +10,5 @@ namespace Utils {
 	bool ReadRegistry(HKEY hKeyLocation, const char * szLocation, const char * szRow, const char *szBuffer, DWORD dwSize);
 	bool WriteRegistry(HKEY hKeyLocation, const char * szSubKey, const char * szKey, const char * szData, DWORD dwSize);
 	CVector3 RotationToDirection(CVector3 rotation);
+	std::string utf8_encode(const std::wstring &wstr);
 };

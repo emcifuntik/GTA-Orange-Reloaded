@@ -124,11 +124,6 @@ void OnGameStateChange(int gameState)
 		//SyncTree::Init();
 		//log_debug << "CPlayerSyncTree: 0x" << std::hex << SyncTree::GetPlayerSyncTree() << std::endl;
 
-		//typedef void(*InitNetStuff_t)();
-		//InitNetStuff_t InitNetStuff = (InitNetStuff_t)(0x140F891E0);// CMemory::Find("48 89 5C 24 08 57 48 83 EC 40 33 FF 40 38 3D ? ? ? ?")();
-		//InitNetStuff();
-
-		//(CMemory::Find("48 89 45 D7 48 8D 45 B7 48 89 5D B7 48 89 45 DF 4C 8D 45 D7 EB ?") + 35).nop(9);
 		CMemory((uintptr_t)GetModuleHandle(NULL) + 0x7FFF0C).farJmp(eventHook);
 		break;
 	}
@@ -158,10 +153,7 @@ static HWND CreateWindowExWHook(_In_ DWORD dwExStyle,
 	_In_opt_ HINSTANCE hInstance,
 	_In_opt_ LPVOID lpParam)
 {
-	Icon = LPARAM(LoadIcon( // returns a HANDLE so we have to cast to HICON
-		CGlobals::Get().dllModule,//NULL,             // hInstance must be NULL when loading from a file
-		MAKEINTRESOURCE(IDI_ICON1)
-	));
+	Icon = (LPARAM)LoadIcon(CGlobals::Get().dllModule,MAKEINTRESOURCE(IDI_ICON1));
 	HWND hWnd = CreateWindowExW(dwExStyle, lpClassName, L"GTA:Orange", dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
 	SendMessage(hWnd, WM_SETICON, ICON_BIG, Icon);
 	SendMessage(hWnd, WM_SETICON, ICON_SMALL, Icon);
