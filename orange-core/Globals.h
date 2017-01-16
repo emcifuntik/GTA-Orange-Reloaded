@@ -50,6 +50,7 @@ public:
 	}
 	FreemodeCustomize lastCustom;
 	FreemodeCustomize custom;
+	HMODULE dllModule = 0;
 	LPVOID baseAddr = nullptr;
 	std::string orangePath;
 	bool alreadyRunned = false;
@@ -65,6 +66,7 @@ public:
 	IDXGISwapChain *d3dSwapChain = nullptr;
 	ID3D11RenderTargetView* d3dRenderTargetView = nullptr;
 	ImFont *chatFont = nullptr;
+	ImFont *tagFont = nullptr;
 	bool renderer = false;
 	bool *hudDisabled = nullptr;
 	bool displayServerBrowser = false;

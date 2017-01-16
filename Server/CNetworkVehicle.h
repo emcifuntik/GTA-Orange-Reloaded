@@ -15,6 +15,9 @@ public:
 	bool bSirenState;					// vehicle siren state
 	float iDirtLevel;					// vehicle dirt level
 
+	float fEngineHealth = 1000, fBodyHealth = 1000, fTankHealth = 1000;
+	bool bDrivable = true;
+
 	RakNetGUID driverGUID;
 	bool hasDriver;
 

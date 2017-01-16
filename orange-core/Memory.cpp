@@ -48,16 +48,36 @@ void CMemory::nop(size_t length)
 	address = (LPVOID)((uint64_t)address + length);
 }
 
+void CMemory::nearCall(DWORD offset)
+{
+	DWORD dwOldProtect, dwBkup;
+	VirtualProtect((LPVOID*)address, 5, PAGE_EXECUTE_READWRITE, &dwOldProtect);
+	*((BYTE*)address) = 0xE8;
+	*((DWORD *)(uintptr_t(address) + 1)) = offset;
+	VirtualProtect((LPVOID*)address, 5, dwOldProtect, &dwBkup);
+	address = (LPVOID)((uint64_t)address + 5);
+}
+
 void CMemory::farJmp(LPVOID func)
 {
 	DWORD dwOldProtect, dwBkup;
-	VirtualProtect((LPVOID*)address, 13, PAGE_EXECUTE_READWRITE, &dwOldProtect);
+	VirtualProtect((LPVOID*)address, 12, PAGE_EXECUTE_READWRITE, &dwOldProtect);
 	*((WORD*)address) = 0xB848;
 	*((intptr_t *)(uintptr_t(address) + 2)) = (uintptr_t)func;
 	*((WORD*)(uintptr_t(address) + 10)) = 0xE0FF;
-	*((BYTE*)(uintptr_t(address) + 12)) = 0xC3;
-	VirtualProtect((LPVOID*)address, 13, dwOldProtect, &dwBkup);
-	address = (LPVOID)((uint64_t)address + 13);
+	VirtualProtect((LPVOID*)address, 12, dwOldProtect, &dwBkup);
+	address = (LPVOID)((uint64_t)address + 12);
+}
+
+void CMemory::farCall(LPVOID func)
+{
+	DWORD dwOldProtect, dwBkup;
+	VirtualProtect((LPVOID*)address, 12, PAGE_EXECUTE_READWRITE, &dwOldProtect);
+	*((WORD*)address) = 0xB848;
+	*((intptr_t *)(uintptr_t(address) + 2)) = (uintptr_t)func;
+	*((WORD*)(uintptr_t(address) + 10)) = 0xD0FF;
+	VirtualProtect((LPVOID*)address, 12, dwOldProtect, &dwBkup);
+	address = (LPVOID)((uint64_t)address + 12);
 }
 
 CMemory& CMemory::Find(const char * pattern)

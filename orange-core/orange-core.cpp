@@ -5,6 +5,8 @@ InitialMount_ g_callInitialMount;
 
 CMemory unusedMem;
 
+bool ScriptsDisabled = false;
+
 void ForceToSingle()
 {
 	CMemory mem((uintptr_t)GetModuleHandle(NULL) + 0x2773C); //48 83 EC 28 85 D2 78 71 75 0F
@@ -62,9 +64,11 @@ static bool OnLookAlive()
 		InitHUD(CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1F358F)() - 0x23)();
 		HUDInited = true;
 	}
-	if (!IsScriptsDisabled() && IsAnyScriptLoaded())
+	if (!ScriptsDisabled && CGlobals::Get().HasScriptLoaded("startup"))
 	{
-		DisableScripts();
+		//DisableScripts();
+		CGlobals::Get().ForceCleanupForAllThreadsWithThisName("startup", 8);
+		CGlobals::Get().TerminateAllScriptsWithThisName("startup");
 		CGlobals::Get().ShutdownLoadingScreen();
 		CGlobals::Get().DoScreenFadeIn(0);
 	}
@@ -91,49 +95,8 @@ LRESULT APIENTRY WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 void __fastcall eventHook(rage::CTask* task)
 {
-	log_debug << "New: " << task->GetTree() << std::endl;
-	CLocalPlayer::Get()->updateTasks = true;
-}
-
-__int64 __fastcall gunShotHook(__int64 a1, __int64 a2, __int64 a3, __int64 a4, char a5, int a6, int a7)
-{
-	log_debug << "Shot" << std::endl;
-	__int64 v7; // rbx@1
-	__int64 v8; // rdi@1
-	__int64 v9; // rsi@1
-
-	*(__int64 *)(a1 + 8) = 0i64;
-	*(DWORD *)(a1 + 16) = 0;
-	*(unsigned char *)(a1 + 20) &= 0xF8u;
-	*(unsigned char *)(a1 + 24) &= 0xFCu;
-	*(DWORD *)(a1 + 28) = 0;
-	*(DWORD *)(a1 + 32) = -1;
-	*(DWORD *)(a1 + 36) = 0;
-	*(unsigned char *)(a1 + 41) |= 1u;
-	v7 = a1;
-	*(unsigned char *)(a1 + 40) = 0;
-	v8 = a4;
-	v9 = a3;
-	*(__int64 *)a1 = (uintptr_t)GetModuleHandle(NULL) + 0x1830EC8;
-	*(__int64 *)(a1 + 48) = a2;
-	typedef void(*func_)(__int64, LPVOID);
-	if (a2)
-		func_((uintptr_t)GetModuleHandle(NULL) + 0x5800)(a2, LPVOID(a1 + 48));
-	*(DWORD *)(v7 + 64) = *(DWORD *)v9;
-	*(DWORD *)(v7 + 68) = *(DWORD *)(v9 + 4);
-	*(DWORD *)(v7 + 72) = *(DWORD *)(v9 + 8);
-	*(DWORD *)(v7 + 76) = *(DWORD *)(v9 + 12);
-	*(DWORD *)(v7 + 80) = *(DWORD *)v8;
-	*(DWORD *)(v7 + 84) = *(DWORD *)(v8 + 4);
-	*(DWORD *)(v7 + 88) = *(DWORD *)(v8 + 8);
-	*(DWORD *)(v7 + 92) = *(DWORD *)(v8 + 12);
-	*(WORD *)(v7 + 97) = 1;
-	*(DWORD *)(v7 + 100) = a7;
-	*(unsigned char *)(v7 + 96) = a5;
-	*(unsigned char *)(v7 + 99) = 0;
-	*(unsigned char *)(v7 + 104) = a6;
-	(*(DWORD*)((uintptr_t)GetModuleHandle(NULL) + 0x1FF3598)) = (*(DWORD*)((uintptr_t)GetModuleHandle(NULL) + 0x2BFC170));
-	return v7;
+	/*log_debug << task->GetTree() << std::endl;
+	CLocalPlayer::Get()->updateTasks = true;*/
 }
 
 bool consoleShowed = false;
@@ -142,19 +105,13 @@ void OnGameStateChange(int gameState)
 	switch (gameState)
 	{
 	case GameStateIntro:
-		CGlobals::Get().gtaHwnd = FindWindowA(NULL, "Grand Theft Auto V");
-		//SetWindowTextA(CGlobals::Get().gtaHwnd, "GTA:Orange");
-		/*Icon = LPARAM(LoadIconA(NULL, (CGlobals::Get().orangePath + "/Launcher.ico").c_str()));
-		SendMessage(CGlobals::Get().gtaHwnd, WM_SETICON, ICON_BIG, Icon);
-		SendMessage(CGlobals::Get().gtaHwnd, WM_SETICON, ICON_SMALL, Icon);*/
 		break;
 	case GameStateLicenseShit:
 		break;
 	case GameStatePlaying:
 	{
-		
-
 		TurnOnConsole();
+		//SetWindowText(CGlobals::Get().gtaHwnd, L"GTA:Orange");
 		if (!ScriptEngine::Initialize())
 			log_error << "Failed to initialize ScriptEngine" << std::endl;
 		D3DHook::HookD3D11();
@@ -190,6 +147,28 @@ static bool gameStateChange_(int gameState)
 	return g_gameStateChange();
 }
 
+
+static HWND CreateWindowExWHook(_In_ DWORD dwExStyle,
+	_In_opt_ LPCWSTR lpClassName,
+	_In_opt_ LPCWSTR lpWindowName,
+	_In_ DWORD dwStyle,
+	_In_ int X,
+	_In_ int Y,
+	_In_ int nWidth,
+	_In_ int nHeight,
+	_In_opt_ HWND hWndParent,
+	_In_opt_ HMENU hMenu,
+	_In_opt_ HINSTANCE hInstance,
+	_In_opt_ LPVOID lpParam)
+{
+	Icon = (LPARAM)LoadIcon(CGlobals::Get().dllModule,MAKEINTRESOURCE(IDI_ICON1));
+	HWND hWnd = CreateWindowExW(dwExStyle, lpClassName, L"GTA:Orange", dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+	SendMessage(hWnd, WM_SETICON, ICON_BIG, Icon);
+	SendMessage(hWnd, WM_SETICON, ICON_SMALL, Icon);
+	CGlobals::Get().gtaHwnd = hWnd;
+	return hWnd;
+}
+
 static void callInitialMount_()
 {
 	g_callInitialMount();
@@ -219,6 +198,14 @@ void HookLoop()
 	auto gameStateChange = CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1EC8FA); // GameStateChange
 	auto gameStateMem = gameStateChange();
 	g_gameStateChange = gameStateChange.get_call<GameStateChange_>();
+	(gameStateChange + 1).put(DWORD(callToMem - gameStateMem - 5));
+
+	callToMem = unusedMem();
+	unusedMem.farJmp(CreateWindowExWHook);
+	auto windowCreate = CMemory((uintptr_t)GetModuleHandle(NULL) + 0x12416F7); // WindowCreate
+	auto windowCreateMem = windowCreate();
+	windowCreate.nearCall(DWORD(callToMem - windowCreateMem - 5));
+	windowCreate.nop(1);
 	(gameStateChange + 1).put(long(callToMem - gameStateMem - 5));
 
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x7B2A06).nop(37);
@@ -235,8 +222,9 @@ void HookLoop()
 
 void GameProcessHooks()
 {
-	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x7B2F6C).retn(); //Cheat console
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0xC91D39).nop(24);//Objects
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1F5BEC).nop(5); //Esc freeze
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x7B2F6C).retn(); //Cheat console
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x2413D2).nop(6); //UI Wheel slowmo
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x127C8CA).nop(4); //Show cursor
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x127C8DC).nop(4); //Show cursor

@@ -120,6 +120,7 @@ public:
 	virtual unsigned int GetPlayerColor(long playerid) = 0;
 	virtual void BroadcastClientMessage(const char * message, unsigned int color) = 0;
 	virtual bool SendClientMessage(long playerid, const char * message, unsigned int color) = 0;
+	virtual bool SetPlayerIntoVehicle(long playerid, unsigned long vehicle, char seat) = 0;
 	//World
 	virtual void Print(const char * message) = 0;
 	virtual long Hash(const char * str) = 0;
@@ -184,6 +185,7 @@ public:
 	unsigned int GetPlayerColor(long playerid);
 	void BroadcastClientMessage(const char * message, unsigned int color);
 	bool SendClientMessage(long playerid, const char * message, unsigned int color);
+	bool SetPlayerIntoVehicle(long playerid, unsigned long vehicle, char seat);
 
 	//Vehicle
 	unsigned long CreateVehicle(long hash, float x, float y, float z, float heading);

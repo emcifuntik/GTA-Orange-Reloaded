@@ -8,7 +8,40 @@ enum
 	TASK_TYPE_MOTION
 };
 
-class OnFootSyncData
+struct OnFootSyncData
+{
+public:
+	bool bAiming : 1;
+	bool bShooting : 1;
+	bool bRagdoll : 1;
+	bool bReloading : 1;
+	bool bDuckState : 1;
+	bool bJumping : 1;
+	bool bInVehicle : 1;
+
+	char cSeat;
+
+	unsigned short int usHealth : 16;
+	unsigned short int usArmour : 16;
+
+	unsigned int uAmmo;
+
+	DWORD ulWeapon;
+	DWORD hModel;
+
+	float fMoveSpeed;
+	float fHeading;
+
+	CVector3 vecPos;
+	CVector3 vecRot;
+	CVector3 vecAim;
+	CVector3 vecMoveSpeed;
+	//CVector3 vecTurnSpeed;
+
+	RakNetGUID rnVehicle;
+};
+
+/*class OnFootSyncData
 {
 public:
 	//CControlState controlState;		// control state
@@ -30,6 +63,7 @@ public:
 	unsigned int uAmmo;					// player weapon and ammo
 	bool bAiming : 1;
 	bool bShooting : 1;
+	bool bRagdoll : 1;
 	bool bReloading : 1;
 	CVector3 vecAim;
 	bool bInVehicle;
@@ -61,7 +95,7 @@ public:
 			"Player model: " << hModel << std::endl;
 		return ss.str();
 	}
-};
+};*/
 
 class VehicleData
 {
@@ -80,6 +114,10 @@ public:
 	float steering;
 	bool Burnout;
 	float RPM;
+
+	bool bHorn : 1;
+	float fEngineHealth, fBodyHealth, fTankHealth;
+	bool bDrivable : 1;
 
 	std::string ToString()
 	{

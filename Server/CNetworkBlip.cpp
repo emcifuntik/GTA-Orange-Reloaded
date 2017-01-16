@@ -50,7 +50,7 @@ void CNetworkBlip::SendGlobal(RakNet::Packet *packet)
 {
 	for each(auto *blip in AllBlips)
 	{
-		if (blip->playerid != -1)
+		if (blip->playerid == -1)
 		{
 			RakNet::BitStream bsOut;
 

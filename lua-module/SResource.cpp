@@ -26,9 +26,11 @@ static const struct luaL_Reg mfunclib[] = {
 	{ "SetPlayerCoords", lua_SetPlayerCoords },
 	{ "GetPlayerName", lua_GetPlayerName },
 	{ "GetPlayerModel", lua_GetPlayerModel },
+	{ "GivePlayerWeapon", lua_GivePlayerWeapon },
 	{ "PlayerExists", lua_PlayerExists },
 	{ "SetPlayerInfoMsg", lua_SetPlayerInfoMsg },
-
+	{ "SetPlayerIntoVehicle", lua_SetPlayerIntoVehicle },
+	
 	{ "OnTick", lua_tick },
 	{ "OnHTTPReq", lua_HTTPReq },
 	{ "OnEvent", lua_Event },
@@ -39,6 +41,7 @@ static const struct luaL_Reg mfunclib[] = {
 	{ "Set3DTextText", lua_Set3DTextText },
 	{ "Attach3DTextToVeh", lua_Attach3DTextToVeh },
 	{ "Attach3DTextToPlayer", lua_Attach3DTextToPlayer },
+	{ "Delete3DText", lua_Delete3DText },
 
 	{ NULL, NULL }
 };

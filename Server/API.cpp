@@ -216,6 +216,16 @@ bool API::SendClientMessage(long playerid, const char * message, unsigned int co
 	return true;
 }
 
+bool API::SetPlayerIntoVehicle(long playerid, unsigned long vehicle, char seat)
+{
+	RakNet::BitStream bsOut;
+	bsOut.Write(CNetworkPlayer::GetByID(playerid)->GetGUID());
+	bsOut.Write(RakNetGUID(vehicle));
+	bsOut.Write(seat);
+	CRPCPlugin::Get()->Signal("SetPlayerIntoVehicle", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	return true;
+}
+
 unsigned long API::CreateVehicle(long hash, float x, float y, float z, float heading)
 {
 	CNetworkVehicle *veh = new CNetworkVehicle(hash, x, y, z, heading);

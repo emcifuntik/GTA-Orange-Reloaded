@@ -46,6 +46,15 @@ namespace Utils {
 		return s;
 	}
 
+	std::string utf8_encode(const std::wstring &wstr)
+	{
+		if (wstr.empty()) return std::string();
+		int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), NULL, 0, NULL, NULL);
+		std::string strTo(size_needed, 0);
+		WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &strTo[0], size_needed, NULL, NULL);
+		return strTo;
+	}
+
 	int RoundToBytes(int bits)
 	{
 		return (bits % 8) ? (bits / 8 + 1) : (bits / 8);
@@ -62,6 +71,13 @@ namespace Utils {
 		g = ((hexValue >> 16) & 0xFF);
 		b = ((hexValue >> 8) & 0xFF);
 		a = ((hexValue) & 0xFF);
+	}
+
+	void HexToRGB(DWORD hexValue, BYTE & r, BYTE & g, BYTE & b)
+	{
+		r = ((hexValue >> 16) & 0xFF);
+		g = ((hexValue >> 8) & 0xFF);
+		b = ((hexValue) & 0xFF);
 	}
 
 	bool ReadRegistry(HKEY hKeyLocation, const char * szLocation, const char * szRow, const char *szBuffer, DWORD dwSize)
@@ -90,5 +106,18 @@ namespace Utils {
 			return true;
 		}
 		return false;
+	}
+
+	double DegToRad(double deg)
+	{
+		return deg * PI / 180.0;
+	}
+
+	CVector3 RotationToDirection(CVector3 rotation)
+	{
+		auto z = DegToRad(rotation.fZ);
+		auto x = DegToRad(rotation.fX);
+		auto num = std::abs(std::cos(x));
+		return CVector3((float)(-std::sin(z) * num), (float)(std::cos(z) * num), (float)std::sin(x));
 	}
 };

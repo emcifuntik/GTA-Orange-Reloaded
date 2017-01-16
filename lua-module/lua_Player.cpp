@@ -46,3 +46,19 @@ int lua_PlayerExists(lua_State *L)
 
 	return 1;
 }
+
+int lua_GivePlayerWeapon(lua_State *L)
+{
+	if (lua_type(L, 2) == LUA_TSTRING)
+		lua_pushboolean(L, API::Get().GivePlayerWeapon(lua_tointeger(L, 1), API::Get().Hash(lua_tostring(L, 2)), lua_tointeger(L, 3)));
+	else
+		lua_pushboolean(L, API::Get().GivePlayerWeapon(lua_tointeger(L, 1), lua_tointeger(L, 2), lua_tointeger(L, 3)));
+
+	return 1;
+}
+
+int lua_SetPlayerIntoVehicle(lua_State *L)
+{
+	API::Get().SetPlayerIntoVehicle(lua_tointeger(L, 1), lua_tointeger(L, 2), lua_tointeger(L, 3));
+	return 0;
+}

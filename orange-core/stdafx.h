@@ -46,6 +46,7 @@
 #include <intrin.h>
 #include <TlHelp32.h>
 #include "tinyxml2.h"
+#include "resource.h"
 #pragma endregion
 
 #include "Registry.h"
@@ -174,7 +175,6 @@ using namespace RakNet;
 #include "Network\CEntity.h"
 #include "Network\CPedestrian.h"
 #include "Network\CVehicle.h"
-#include "Network\CLocalPlayer.h"
 #include "Network\CNetworkBlip.h"
 #include "Network\CNetworkPlayer.h"
 #include "Network\CNetworkVehicle.h"
@@ -183,6 +183,7 @@ using namespace RakNet;
 #include "Network\CNetworkUI.h"
 #include "Network\CNetworkMarker.h"
 #include "Network\CNetwork3DText.h"
+#include "Network\CLocalPlayer.h"
 #include "Network\Functions.h"
 #include "Network\CRPCPlugin.h"
 #pragma endregion
@@ -259,9 +260,9 @@ static LPARAM Icon;
 public CScript\
 {\
 public:\
-	__script__##z() : CScript(__FILE__) {}\
+	__script__##z() : CScript(""__FILE__"") {}\
 protected:\
-	virtual void Run() override { scriptRegister(__FILE__, z); }\
+	virtual void Run() override { scriptRegister(""__FILE__"", z); }\
 } __script__##z;
 #pragma endregion
 // USAGE: SCRIPT(function);

@@ -2,6 +2,8 @@
 
 namespace FPlayer
 {
+	void PreloadModels(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+
 	void SendNotification(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void SendClientMessage(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void GivePlayerWeapon(RakNet::BitStream *bitStream, RakNet::Packet *packet);
@@ -15,6 +17,7 @@ namespace FPlayer
 	void SetPlayerHealth(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void SetPlayerArmour(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void SetPlayerModel(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+	void SetPlayerIntoVehicle(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 
 	void CreateBlip(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void DeleteBlip(RakNet::BitStream * bitStream, RakNet::Packet * packet);

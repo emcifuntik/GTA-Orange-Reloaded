@@ -281,15 +281,18 @@
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Launcher.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\deps\RakNet\RakNet.vcxproj">
       <Project>{d578244b-91ce-414f-8279-6e39212ff632}</Project>
     </ProjectReference>
     <ProjectReference Include="..\deps\tinyxml2\tinyxml2\tinyxml2.vcxproj">
       <Project>{d1c528b6-aa02-4d29-9d61-dc08e317a70d}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="orange-core.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Launcher\Launcher.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

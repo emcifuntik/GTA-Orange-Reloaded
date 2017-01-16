@@ -10,6 +10,8 @@ CRPCPlugin::CRPCPlugin()
 
 void CRPCPlugin::BindFunctions()
 {
+	rpc.RegisterSlot("PreloadModels", FPlayer::PreloadModels, 0);
+
 	#pragma region Player functions
 	rpc.RegisterSlot("SendNotification", FPlayer::SendNotification, 0);
 	rpc.RegisterSlot("SendClientMessage", FPlayer::SendClientMessage, 0);
@@ -24,6 +26,7 @@ void CRPCPlugin::BindFunctions()
 	rpc.RegisterSlot("SetPlayerHealth", FPlayer::SetPlayerHealth, 0);
 	rpc.RegisterSlot("SetPlayerArmour", FPlayer::SetPlayerArmour, 0);
 	rpc.RegisterSlot("SetPlayerModel", FPlayer::SetPlayerModel, 0);
+	rpc.RegisterSlot("SetPlayerIntoVehicle", FPlayer::SetPlayerIntoVehicle, 0);
 	#pragma endregion
 
 	#pragma region Blip functions

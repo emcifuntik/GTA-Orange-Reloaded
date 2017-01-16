@@ -34,6 +34,7 @@ class CChat
 
 
 public:
+	int scaleform;
 	static CChat* Get();
 	void RegisterCommandProcessor(int(*callback)(std::string));
 	bool Opened() { return bOpened; }

@@ -18,6 +18,10 @@ CNetworkVehicle::CNetworkVehicle(Hash model, float x, float y, float z, float he
 	rnGUID = RakNetGUID::RakNetGUID(createGUID());
 	Vehicles.push_back(this);
 
+	bool e = false;
+	for (Hash _model : CNetworkConnection::Get()->UsedModels) if (_model == model) e = true;
+	if (!e) CNetworkConnection::Get()->UsedModels.push_back(model);
+
 	RakNet::BitStream bsOut;
 
 	VehicleData data;
@@ -67,6 +71,10 @@ void CNetworkVehicle::SetVehicleData(const VehicleData & data)
 	vecMoveSpeed = data.vecMoveSpeed;
 	hasDriver = data.hasDriver;
 	driverGUID = data.driver;
+	fEngineHealth = data.fEngineHealth;
+	fBodyHealth = data.fBodyHealth;
+	fTankHealth = data.fTankHealth;
+	bDrivable = data.bDrivable;
 
 	if (hasDriver)
 	{
@@ -84,6 +92,10 @@ void CNetworkVehicle::GetVehicleData(VehicleData & data)
 	data.vecMoveSpeed = vecMoveSpeed;
 	data.hasDriver = hasDriver;
 	data.driver = driverGUID;
+	data.fEngineHealth = fEngineHealth;
+	data.fBodyHealth = fBodyHealth;
+	data.fTankHealth = fTankHealth;
+	data.bDrivable = bDrivable;
 }
 
 

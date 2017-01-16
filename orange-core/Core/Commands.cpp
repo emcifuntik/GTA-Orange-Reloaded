@@ -100,7 +100,7 @@ int CommandProcessor(std::string command)
 			saveFile << "{\"ped\": { \"coords\": { " << coords.x << ", " << coords.y << ", " << coords.z << "}, \"heading\": " << heading << " }}//" << comment << std::endl;
 			saveFile.close();
 		}
-		CChat::Get()->AddChatMessage("DEBUG: Your coordinates are saved.", 0xAAFFAAFF);
+		CChat::Get()->AddChatMessage("DEBUG: Your coordinates saved successfull.", 0xAAFFAAFF);
 		return true;
 	}
 	if (!command.compare("/vehicle") && CGlobals::Get().isDebug)
@@ -150,6 +150,11 @@ int CommandProcessor(std::string command)
 	{
 		CGlobals::Get().isDebug ^= 1;
 		return true;
+	}
+	if (!command.compare("/doors"))
+	{
+		CGlobals::Get().ForceCleanupForAllThreadsWithThisName("startup", 8);
+		CGlobals::Get().TerminateAllScriptsWithThisName("startup");
 	}
 	return false;
 }

@@ -7,6 +7,7 @@ CNetworkObject::CNetworkObject(ObjectData data) :CEntity(-1)
 	m_Model = data.hashModel;
 	m_futureModel = m_Model;
 	UpdateModel();
+	if ((CNetworkObject::All().size() % 75) == 0) scriptWait(15);
 	SetPosition(data.vecPos);
 	SetRotation(data.vecRot);
 	ObjectPool.push_back(this);
@@ -26,7 +27,6 @@ void CNetworkObject::UpdateModel()
 		while (!STREAMING::HAS_MODEL_LOADED(m_Model))
 			scriptWait(0);
 		Handle = OBJECT::CREATE_OBJECT(m_Model, curPos.fX, curPos.fY, curPos.fZ, false, true, false);
-		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(m_Model);
 	}
 }
 

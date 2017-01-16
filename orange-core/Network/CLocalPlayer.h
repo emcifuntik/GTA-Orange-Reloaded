@@ -12,6 +12,9 @@ public:
 	CVector3 *aimPosition = nullptr;
 	Hash newModel = 0;
 	bool _togopassenger = false;
+	char FutureSeat = 0;
+	CNetworkVehicle *FutureVeh = nullptr;
+
 	short lastSendSeat;
 
 	static CLocalPlayer *Get();

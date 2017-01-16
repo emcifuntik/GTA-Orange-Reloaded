@@ -22,6 +22,8 @@ public:
 	template <typename T> void jump(T func);
 	template <typename T> void call(T func);
 	void farJmp(LPVOID func);
+	void farCall(LPVOID func);
+	void nearCall(DWORD offset);
 	void retn();
 	template <typename T> T* get(int offset);
 	template <typename T> T get_call();

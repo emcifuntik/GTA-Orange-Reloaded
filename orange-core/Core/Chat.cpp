@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+//TODO: Экранизация символов { и }
+
 CChat *CChat::singleInstance = nullptr;
 
 void CChat::AddLine(ChatLine line)
@@ -48,7 +50,46 @@ void CChat::Render()
 	ImGui::PushFont(CGlobals::Get().chatFont);
 	access.lock();
 	for each (auto chatLine in vChatLines)
-		ImGui::TextColored(ImVec4(chatLine.structColor.red, chatLine.structColor.green, chatLine.structColor.blue, chatLine.structColor.alpha), (char*)chatLine.sLineText.c_str());
+	{
+		struct chatFragment {
+			color_t color;
+			std::string str;
+		};
+		std::vector<chatFragment> substr;
+
+		chatFragment frag;
+		frag.color = chatLine.structColor;
+		frag.str = "";
+
+		unsigned currentFrag = 0;
+		for (int i = 0; i < chatLine.sLineText.length(); ++i)
+		{
+			if (chatLine.sLineText[i] == '{' && ((i + 7) <= chatLine.sLineText.length() && chatLine.sLineText[i + 7] == '}'))
+			{
+				DWORD x = std::stoul(std::string("0x") + chatLine.sLineText.substr(i + 1, 6), nullptr, 16);
+				color_t col;
+				Utils::HexToRGB(x, col.red, col.green, col.blue);
+				frag.color = col;
+				frag.color.alpha = chatLine.structColor.alpha;
+				frag.str = "";
+				if(i != 0)
+					currentFrag++;
+				chatLine.sLineText = chatLine.sLineText.substr(i + 8);
+				i = -1;
+				continue;
+			}
+			if (currentFrag == substr.size())
+				substr.push_back(frag);
+			substr[currentFrag].str += chatLine.sLineText[i];
+		}
+
+		for (unsigned i = 0; i < substr.size(); ++i)
+		{
+			ImGui::TextColored(ImVec4(float(substr[i].color.red / 255), float(substr[i].color.green / 255), float(substr[i].color.blue / 255), float(substr[i].color.alpha / 255)), (char*)substr[i].str.c_str());
+			if(i != (substr.size() - 1))
+				ImGui::SameLine(0.f, 0.f);
+		}
+	}
 	access.unlock();
 
 
@@ -124,7 +165,21 @@ void CChat::Render()
 void CChat::Input()
 {
 	if (bOpened)
+	{
 		UI::SET_PAUSE_MENU_ACTIVE(false);
+
+		if (CONTROLS::_GET_LAST_INPUT_METHOD(2))
+		for (int i = 0; i < 338; i++)
+		{
+			if (i >= 1 && i <= 6)
+			{
+				continue;
+			}
+
+			CONTROLS::DISABLE_CONTROL_ACTION(0, i, false);
+		}
+		//CONTROLS::DISABLE_ALL_CONTROL_ACTIONS(0);
+	}
 }
 
 void CChat::AddChatMessage(std::string text, unsigned int rgba)
@@ -178,7 +233,19 @@ void CChat::Toggle()
 
 void CChat::Open()
 {
-	PLAYER::SET_PLAYER_CONTROL(PLAYER::PLAYER_ID(), false, 0);
+	//PLAYER::SET_PLAYER_CONTROL(PLAYER::PLAYER_ID(), false, 0);
+	/*GRAPHICS::_PUSH_SCALEFORM_MOVIE_FUNCTION(scaleform, "SET_FOCUS");
+	GRAPHICS::_PUSH_SCALEFORM_MOVIE_FUNCTION_PARAMETER_INT(2);
+	GRAPHICS::_PUSH_SCALEFORM_MOVIE_FUNCTION_PARAMETER_INT(2);
+	GRAPHICS::_PUSH_SCALEFORM_MOVIE_FUNCTION_PARAMETER_STRING("ALL");
+	GRAPHICS::_POP_SCALEFORM_MOVIE_FUNCTION_VOID();
+
+	GRAPHICS::_PUSH_SCALEFORM_MOVIE_FUNCTION(scaleform, "SET_FOCUS");
+	GRAPHICS::_PUSH_SCALEFORM_MOVIE_FUNCTION_PARAMETER_INT(1);
+	GRAPHICS::_PUSH_SCALEFORM_MOVIE_FUNCTION_PARAMETER_INT(2);
+	GRAPHICS::_PUSH_SCALEFORM_MOVIE_FUNCTION_PARAMETER_STRING("ALL");
+	GRAPHICS::_POP_SCALEFORM_MOVIE_FUNCTION_VOID();*/
+
 	(*CGlobals::Get().canLangChange) = true;
 	bOpened = true;
 	bJustOpened = true;
@@ -188,7 +255,7 @@ void CChat::Open()
 
 void CChat::Close()
 {
-	PLAYER::SET_PLAYER_CONTROL(PLAYER::PLAYER_ID(), true, 0);
+	//PLAYER::SET_PLAYER_CONTROL(PLAYER::PLAYER_ID(), true, 0);
 	(*CGlobals::Get().canLangChange) = false;
 	bOpened = false;
 	ShowCursor(FALSE);
@@ -230,6 +297,10 @@ void CChat::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, BOOL i
 			break;
 		case VK_F12:
 			CGlobals::Get().displayServerBrowser = !CGlobals::Get().displayServerBrowser;
+			break;
+		case 0x54:
+			if (!Chat->bOpened)
+				Chat->Open();
 			break;
 		}
 	}

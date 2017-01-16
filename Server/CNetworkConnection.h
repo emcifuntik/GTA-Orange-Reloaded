@@ -12,8 +12,11 @@ class CNetworkConnection
 	bool bConnected = false;
 public:
 	RakNet::RakPeerInterface *server;
+	std::vector<Hash> UsedModels;
 
 	static CNetworkConnection * Get();
+
+	void Send(const RakNet::BitStream * bitStream, PacketPriority priority, PacketReliability reliability, char orderingChannel, const AddressOrGUID systemIdentifier, bool broadcast, int radius);
 
 	bool Start(unsigned short maxPlayers, unsigned short port);
 	void Tick();

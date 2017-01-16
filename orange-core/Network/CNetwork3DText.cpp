@@ -112,7 +112,7 @@ void CNetwork3DText::PreRender()
 		}
 		text->IsVisible = true;
 
-		float k = 1.0f - distance / 100;
+		float k = 1.3f - distance / 100;
 		text->fontSize = text->rawFontSize * k;
 		ImVec2 textSize = CGlobals::Get().chatFont->CalcTextSizeA(text->fontSize, 1000.f, 1000.f, text->text.c_str());
 		CVector3 screenPos;

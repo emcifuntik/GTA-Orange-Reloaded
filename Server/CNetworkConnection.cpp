@@ -2,6 +2,7 @@
 
 CNetworkConnection * CNetworkConnection::singleInstance = nullptr;
 
+
 std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
 	std::stringstream ss(s);
 	std::string item;
@@ -10,7 +11,6 @@ std::vector<std::string> &split(const std::string &s, char delim, std::vector<st
 	}
 	return elems;
 }
-
 
 std::vector<std::string> split(const std::string &s, char delim) {
 	std::vector<std::string> elems;
@@ -34,6 +34,27 @@ CNetworkConnection::~CNetworkConnection()
 {
 	server->Shutdown(300);
 	RakNet::RakPeerInterface::DestroyInstance(server);
+}
+
+void CNetworkConnection::Send(const RakNet::BitStream * bitStream, PacketPriority priority, PacketReliability reliability, char orderingChannel, const AddressOrGUID systemIdentifier, bool broadcast, int radius = 0)
+{
+	if (broadcast && radius != 0)
+	{
+		if (systemIdentifier.rakNetGuid == UNASSIGNED_RAKNET_GUID) return;
+
+		auto player = CNetworkPlayer::GetByGUID(systemIdentifier.rakNetGuid);
+
+		if (!player) return;
+
+		for (auto pl : CNetworkPlayer::All())
+		{
+			if ((player->GetPosition() - pl->GetPosition()).Length() < radius) {
+				server->Send(bitStream, priority, reliability, orderingChannel, pl->GetGUID(), false);
+			}
+		}
+
+	}
+	else server->Send(bitStream, priority, reliability, orderingChannel, systemIdentifier, broadcast);
 }
 
 bool CNetworkConnection::Start(unsigned short maxPlayers, unsigned short port)
@@ -94,6 +115,16 @@ void CNetworkConnection::Tick()
 			case ID_NEW_INCOMING_CONNECTION:
 			{
 				log << "Incoming connection from " << packet->systemAddress.ToString(true) << std::endl;
+				bsOut.Write(UsedModels.size());
+				for (Hash m : UsedModels) bsOut.Write(m);
+				CRPCPlugin::Get()->Signal("PreloadModels", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, packet->systemAddress, false, false);
+
+				CNetworkBlip::SendGlobal(packet);
+				CNetworkMarker::SendGlobal(packet);
+				CNetworkVehicle::SendGlobal(packet);
+				CNetwork3DText::SendGlobal(packet);
+				CNetworkObject::SendGlobal(packet);
+
 				break;
 			}
 			case ID_CONNECT_TO_SERVER:
@@ -105,12 +136,6 @@ void CNetworkConnection::Tick()
 
 				Plugin::PlayerConnect(player->GetID());
 				Plugin::Trigger("PlayerConnect", (unsigned long)player->GetID());
-
-				CNetworkBlip::SendGlobal(packet);
-				CNetworkMarker::SendGlobal(packet);
-				CNetworkVehicle::SendGlobal(packet);
-				CNetwork3DText::SendGlobal(packet);
-				CNetworkObject::SendGlobal(packet);
 				
 				bsOut.Write((unsigned char)ID_CONNECT_TO_SERVER);
 				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
@@ -124,10 +149,10 @@ void CNetworkConnection::Tick()
 				if (Plugin::PlayerText(CNetworkPlayer::GetByGUID(packet->guid)->GetID(), playerText.C_String()))
 				{
 					std::stringstream ss;
-					ss << CNetworkPlayer::GetByGUID(packet->guid)->GetName() << ": " << playerText.C_String();
+					ss << "{7CB9E8}" << CNetworkPlayer::GetByGUID(packet->guid)->GetName() << ": {FFFFFF}" << playerText.C_String();
 					RakNet::RakString toSend(ss.str().c_str());
 					bsOut.Write(toSend);
-					color_t messageColor = { 200, 200, 255, 255 };
+					color_t messageColor = { 0x7C, 0xB9, 0xE8, 0xFF };
 					bsOut.Write(messageColor);
 					CRPCPlugin::Get()->Signal("SendClientMessage", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 				}

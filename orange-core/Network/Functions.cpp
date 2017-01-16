@@ -2,6 +2,26 @@
 
 namespace FPlayer
 {
+	void PreloadModels(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		size_t size;
+		bitStream->Read(size);
+
+		for (int i = 0; i < size; i++)
+		{
+			Hash model;
+			bitStream->Read(model);
+			if (STREAMING::IS_MODEL_IN_CDIMAGE(model) && STREAMING::IS_MODEL_VALID(model))
+			{
+				STREAMING::REQUEST_MODEL(model);
+				while (!STREAMING::HAS_MODEL_LOADED(model))
+					scriptWait(0);
+			}
+		}
+
+		CChat::Get()->AddChatMessage("Models loaded!", {255, 255, 255, 255});
+	}
+
 	void SendNotification(RakNet::BitStream *bitStream, RakNet::Packet *packet) // string message
 	{
 		RakNet::RakString message;
@@ -95,6 +115,32 @@ namespace FPlayer
 		Hash model;
 		bitStream->Read(model);
 		CLocalPlayer::Get()->ChangeModel(model);
+	}
+
+	void SetPlayerIntoVehicle(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNetGUID player, veh;
+		char seat;
+
+		bitStream->Read(player);
+		bitStream->Read(veh);
+		bitStream->Read(seat);
+		log << "s1" << std::endl;
+		if (player == CNetworkConnection::Get()->client->GetMyGUID()) {
+			log << "s2" << std::endl;
+			log << CNetworkVehicle::GetByGUID(veh)->GetHandle() << std::endl;
+			CLocalPlayer::Get()->FutureVeh = CNetworkVehicle::GetByGUID(veh);
+			CLocalPlayer::Get()->FutureSeat = seat;
+		}
+		else
+		{
+			CNetworkPlayer *pl = CNetworkPlayer::GetByGUID(player, false);
+			CNetworkVehicle *v = CNetworkVehicle::GetByGUID(veh);
+			if (pl && v) {
+				log << "Ped: " << pl->GetHandle() << " Veh: " << v->GetHandle() << std::endl;
+				PED::SET_PED_INTO_VEHICLE(pl->GetHandle(), v->GetHandle(), seat);
+			}
+		}
 	}
 
 	void CreateBlip(RakNet::BitStream *bitStream, RakNet::Packet *packet)
