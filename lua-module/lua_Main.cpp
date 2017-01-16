@@ -186,3 +186,9 @@ int lua_Attach3DTextToPlayer(lua_State *L)
 	API::Get().Attach3DTextToPlayer(lua_tointeger(L, 1), lua_tointeger(L, 2), lua_tonumber(L, 3), lua_tonumber(L, 4), lua_tonumber(L, 5));
 	return 0;
 }
+
+int lua_Delete3DTextToPlayer(lua_State *L)
+{
+	API::Get().Delete3DText(lua_tointeger(L, 1));
+	return 0;
+}

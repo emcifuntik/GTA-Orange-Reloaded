@@ -72,7 +72,8 @@ void CChat::Render()
 				frag.color = col;
 				frag.color.alpha = chatLine.structColor.alpha;
 				frag.str = "";
-				currentFrag++;
+				if(i != 0)
+					currentFrag++;
 				chatLine.sLineText = chatLine.sLineText.substr(i + 8);
 				i = -1;
 				continue;
