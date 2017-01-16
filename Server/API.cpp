@@ -272,7 +272,7 @@ void API::SetBlipColor(unsigned long _guid, int color)
 	RakNet::BitStream bsOut;
 	RakNetGUID guid = RakNetGUID(_guid);
 	CNetworkBlip *blip = CNetworkBlip::GetByGUID(guid);
-	//blip->SetColor(color);
+	blip->SetColor(color);
 
 	bsOut.Write(guid);
 	bsOut.Write(color);

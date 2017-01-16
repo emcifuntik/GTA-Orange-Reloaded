@@ -31,6 +31,16 @@ void CNetworkBlip::SetScale(float _scale)
 	scale = _scale;
 }
 
+void CNetworkBlip::SetColor(int _color)
+{
+	color = _color;
+}
+
+void CNetworkBlip::SetSprite(int _sprite)
+{
+	sprite = _sprite;
+}
+
 void CNetworkBlip::Delete()
 {
 }
