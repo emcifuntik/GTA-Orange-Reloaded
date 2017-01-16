@@ -194,6 +194,7 @@
     <ClCompile Include="GTA\sysAllocator.cpp" />
     <ClCompile Include="GTA\VTasks.cpp" />
     <ClCompile Include="GuiDispatcher.cpp" />
+    <ClCompile Include="LuaNativeEngine.cpp" />
     <ClCompile Include="Memory.cpp" />
     <ClCompile Include="MemoryCache.cpp" />
     <ClCompile Include="Network\CConfig.cpp" />
@@ -214,6 +215,7 @@
     <ClCompile Include="orange-core.cpp" />
     <ClCompile Include="Registry.cpp" />
     <ClCompile Include="Scripting\CScriptEngine.cpp" />
+    <ClCompile Include="Scripting\LuaMainDefs.cpp" />
     <ClCompile Include="Scripts\ChatScript.cpp" />
     <ClCompile Include="Scripts\GameInit.cpp" />
     <ClCompile Include="Scripts\NetworkScript.cpp" />

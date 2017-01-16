@@ -3,6 +3,12 @@
 
 CScriptEngine *CScriptEngine::singleInstance = nullptr;
 
+static const struct luaL_Reg gfunclib[] = {
+	{ "print", lua_print },
+	{ "__setTickHandler", lua_tick },
+	{ NULL, NULL }
+};
+
 CScriptEngine::CScriptEngine()
 {
 	m_lua = luaL_newstate();
@@ -14,9 +20,7 @@ CScriptEngine::CScriptEngine()
 	luaL_setfuncs(m_lua, gfunclib, 0);
 	lua_pop(m_lua, 1);
 
-	/*lua_newtable(m_lua);
-	luaL_setfuncs(m_lua, mfunclib, 0);
-	lua_setglobal(m_lua, "__orange__");*/
+	register_native_funcs(m_lua);
 }
 
 CScriptEngine::~CScriptEngine()

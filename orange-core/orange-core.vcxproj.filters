@@ -433,6 +433,12 @@
     <ClCompile Include="Scripting\CScriptEngine.cpp">
       <Filter>Scripting</Filter>
     </ClCompile>
+    <ClCompile Include="LuaNativeEngine.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripting\LuaMainDefs.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Launcher.ico">
