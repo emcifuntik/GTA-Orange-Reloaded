@@ -105,8 +105,7 @@ void OnGameStateChange(int gameState)
 		break;
 	case GameStatePlaying:
 	{
-		TurnOnConsole();
-		//SetWindowText(CGlobals::Get().gtaHwnd, L"GTA:Orange");
+		//TurnOnConsole();
 		if (!ScriptEngine::Initialize())
 			log_error << "Failed to initialize ScriptEngine" << std::endl;
 		D3DHook::HookD3D11();
