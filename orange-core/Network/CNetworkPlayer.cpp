@@ -146,9 +146,9 @@ void CNetworkPlayer::Spawn(const CVector3& vecPosition)
 	PED::SET_PED_CAN_RAGDOLL(Handle, false);
 	//PED::_SET_PED_RAGDOLL_FLAG(Handle, 1 | 2 | 4);
 #if _DEBUG
-	pedHandler->Flags |= 1 << 30;
+	//pedHandler->Flags |= 1 << 30;
 #endif
-	pedHandler->Flags |= 1 << 6;
+	//pedHandler->Flags |= 1 << 6;
 	ENTITY::SET_ENTITY_PROOFS(Handle, true, true, true, true, true, true, true, true);
 
 		Blip blip = AddBlip();
@@ -539,8 +539,8 @@ void CNetworkPlayer::MakeTag()
 		Vector3 _camPos = CAM::GET_GAMEPLAY_CAM_COORD();
 		CVector3 camPos(_camPos.x, _camPos.y, _camPos.z);
 
-		CVector3 *vecCurPos = &pedHandler->Position;
-		tag.distance = (((*vecCurPos) - camPos).Length() / CAM::_GET_GAMEPLAY_CAM_ZOOM());
+		CVector3 *vecCurPos = &pedHandler->vecPositionEntity;
+		tag.distance = (((*vecCurPos) - camPos).Length() / std::powf(CAM::_GET_GAMEPLAY_CAM_ZOOM(), 1.1f));
 
 		if (tag.distance > 70.f)
 			return;

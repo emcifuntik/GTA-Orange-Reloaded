@@ -25,7 +25,7 @@ void UnknownPatches()
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x11CD8C4).retn();
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x11D03D0).retn();
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1C220E).nop(9);
-	CMemory((uintptr_t)GetModuleHandle(NULL) + 0xF8A528).retn();
+	//CMemory((uintptr_t)GetModuleHandle(NULL) + 0xF8A528).retn();//Network init retn
 	(CMemory((uintptr_t)GetModuleHandle(NULL) + 0x11D986C) - 4).retn();
 
 	mem = CMemory((uintptr_t)GetModuleHandle(NULL) + 0x23AD9C); //HECK_MULTIPLAYER_BYTE_DRAW_MAP_FRAME
@@ -100,6 +100,7 @@ void __fastcall eventHook(rage::CTask* task)
 }
 
 bool consoleShowed = false;
+static bool inited = false;
 void OnGameStateChange(int gameState)
 {
 	switch (gameState)
@@ -110,7 +111,10 @@ void OnGameStateChange(int gameState)
 		break;
 	case GameStatePlaying:
 	{
-		TurnOnConsole();
+		if (inited)
+			break;
+		inited = true;
+		//TurnOnConsole();
 		//SetWindowText(CGlobals::Get().gtaHwnd, L"GTA:Orange");
 		if (!ScriptEngine::Initialize())
 			log_error << "Failed to initialize ScriptEngine" << std::endl;
@@ -127,11 +131,12 @@ void OnGameStateChange(int gameState)
 		CScript::RunAll();
 
 
-		//typedef void(*InitNetStuff_t)();
-		//InitNetStuff_t((uintptr_t)GetModuleHandle(NULL) + 0x1F891E0)();// CMemory::Find("48 89 5C 24 08 57 48 83 EC 40 33 FF 40 38 3D ? ? ? ?")();
+		typedef void(*InitNetStuff_t)();
+		InitNetStuff_t((uintptr_t)GetModuleHandle(NULL) + 0xF983A8)();
+
 		SyncTree::Init();
 
-		(CMemory((uintptr_t)GetModuleHandle(NULL) + 0x12F8862) + 35).nop(9);
+		//(CMemory((uintptr_t)GetModuleHandle(NULL) + 0x12F8862) + 35).nop(9);
 		CMemory((uintptr_t)GetModuleHandle(NULL) + 0x7FFF0C).farJmp(eventHook);
 		break;
 	}
@@ -206,16 +211,14 @@ void HookLoop()
 	auto windowCreateMem = windowCreate();
 	windowCreate.nearCall(DWORD(callToMem - windowCreateMem - 5));
 	windowCreate.nop(1);
-	(gameStateChange + 1).put(long(callToMem - gameStateMem - 5));
-
-	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x7B2A06).nop(37);
 
 	callToMem = unusedMem();
 	unusedMem.farJmp(callInitialMount_);
 	auto callInitialMount = CMemory((uintptr_t)GetModuleHandle(NULL) + 0x7A521A); // CallInitialMount
 	auto callInitialMountMem = callInitialMount();
 	g_callInitialMount = callInitialMount.get_call<InitialMount_>();
-	(callInitialMount + 1).put(long(callToMem - callInitialMountMem - 5));
+	(callInitialMount + 1).put(DWORD(callToMem - callInitialMountMem - 5));
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x7B2A06).nop(37);
 
 	//CMemory((uintptr_t)GetModuleHandle(NULL) + 0x46A1BC).farJmp(gunShotHook);
 }
@@ -259,28 +262,6 @@ void GameProcessHooks()
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x61F620).retn(); //ISABLE_COPS_AND_FIRE_TRUCKS_3
 }
 
-static HWND CreateWindowExWHook(_In_ DWORD dwExStyle,
-	_In_opt_ LPCWSTR lpClassName,
-	_In_opt_ LPCWSTR lpWindowName,
-	_In_ DWORD dwStyle,
-	_In_ int X,
-	_In_ int Y,
-	_In_ int nWidth,
-	_In_ int nHeight,
-	_In_opt_ HWND hWndParent,
-	_In_opt_ HMENU hMenu,
-	_In_opt_ HINSTANCE hInstance,
-	_In_opt_ LPVOID lpParam)
-{
-	Icon = LPARAM(LoadIconA(NULL, (CGlobals::Get().orangePath + "/Launcher.ico").c_str()));
-	HWND hWnd = CreateWindowExW(dwExStyle, lpClassName, L"GTA:Orange", dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
-	SendMessage(hWnd, WM_SETICON, ICON_BIG, Icon);
-	SendMessage(hWnd, WM_SETICON, ICON_SMALL, Icon);
-	CGlobals::Get().gtaHwnd = hWnd;
-	
-	return hWnd;
-}
-
 void *OldCreateWindowExW = nullptr;
 
 void EnableRageLogger()
@@ -309,17 +290,23 @@ void HookSetNetHandle()
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x65B12B).nop(24);
 }
 
+void DisablePedControl()
+{
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x789E9C).nop(9);
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x789EB7).nop(6);
+	//CMemory((uintptr_t)GetModuleHandle(NULL) + 0x6B9EEC).nop(5);
+
+}
+
 void PreLoadPatches()
 {
-	//strcpy_s((char*)((uintptr_t)GetModuleHandle(NULL) + 0x17F9C68), 32, "orange:/pausemenu.xml\0");
-
-
 	ImGui::GetIO().IniFilename = (CGlobals::Get().orangePath + "\\imgui.ini").c_str();
 	ImGui::GetIO().LogFilename = (CGlobals::Get().orangePath + "\\imgui_log.txt").c_str();
 
 	auto mem = CMemory((uintptr_t)GetModuleHandle(NULL) + 0x14493);
 	mem.put(0xEB90909090909090);
 
+	DisablePedControl();
 	EnableRageLogger();
 	//HookSetNetHandle();
 	DefineNatives();

@@ -17,7 +17,7 @@ int main(void)
 
 	Plugin::LoadPlugins();	
 
-	CHTTPServer::Get()->Start(88);
+	CHTTPServer::Get()->Start(CConfig::Get()->Port + 1000);
 	CHTTPHandler h_a;
 	CHTTPServer::g_server.addHandler("", h_a);
 	

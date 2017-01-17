@@ -31,6 +31,10 @@ public:
 
 	float fMoveSpeed;
 	float fHeading;
+	float fForwardPotential;
+	float fStrafePotential;
+	float fRotationPotential;
+	DWORD dwMovementFlags;
 
 	CVector3 vecPos;
 	CVector3 vecRot;

@@ -32,118 +32,65 @@ void BackScene()
 				continue;
 			cnt++;
 			
+			std::stringstream ss2;
 			int primaryActive = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligence->pedTaskManager.Primary->iActiveTask;
 			if (primaryActive > -1)
 			{
-				std::stringstream ss2;
 				rage::CTask *primaryTask = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligence->pedTaskManager.Primary->GetTask();
 				ss2 << "Primary: " << primaryTask->GetTree() << std::endl;
-
-				CVector3 screenPos;
-				CGraphics::Get()->WorldToScreen(CVector3(
-					ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->vecPositionEntity.fX,
-					ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->vecPositionEntity.fY,
-					ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->vecPositionEntity.fZ + 1.f),
-					screenPos);
-				auto viewPortGame = GTA::CViewportGame::Get();
-				float x = screenPos.fX * viewPortGame->Width;
-				float y = screenPos.fY * viewPortGame->Height;
-
-				float font_size = 18.0f;
-				ImVec2 textSize = CGlobals::Get().chatFont->CalcTextSizeA(font_size, 1000.f, 1000.f, ss2.str().c_str());
-
-				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2 - 1, y - textSize.y / 2 - 1), ImColor(0, 0, 0, 255), ss2.str().c_str());
-				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2 + 1, y - textSize.y / 2 + 1), ImColor(0, 0, 0, 255), ss2.str().c_str());
-				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2 + 1, y - textSize.y / 2 - 1), ImColor(0, 0, 0, 255), ss2.str().c_str());
-				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2 - 1, y - textSize.y / 2 + 1), ImColor(0, 0, 0, 255), ss2.str().c_str());
-				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2, y - textSize.y / 2), ImColor(0xFF, 0xFF, 0xFF, 0xFF), ss2.str().c_str());
 			}
 
 			int secondaryActive = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligence->pedTaskManager.Secondary->iActiveTask;
 			if (secondaryActive > -1)
 			{
-				std::stringstream ss2;
 				rage::CTask *secondaryTask = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligence->pedTaskManager.Secondary->GetTask();
 				ss2 << "Secondary: " << secondaryTask->GetTree() << std::endl;
-
-				CVector3 screenPos;
-				CGraphics::Get()->WorldToScreen(CVector3(
-					ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->vecPositionEntity.fX,
-					ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->vecPositionEntity.fY,
-					ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->vecPositionEntity.fZ + 0.5f),
-					screenPos);
-				auto viewPortGame = GTA::CViewportGame::Get();
-				float x = screenPos.fX * viewPortGame->Width;
-				float y = screenPos.fY * viewPortGame->Height;
-
-				float font_size = 18.0f;
-				ImVec2 textSize = CGlobals::Get().chatFont->CalcTextSizeA(font_size, 1000.f, 1000.f, ss2.str().c_str());
-
-				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2 - 1, y - textSize.y / 2 - 1), ImColor(0, 0, 0, 255), ss2.str().c_str());
-				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2 + 1, y - textSize.y / 2 + 1), ImColor(0, 0, 0, 255), ss2.str().c_str());
-				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2 + 1, y - textSize.y / 2 - 1), ImColor(0, 0, 0, 255), ss2.str().c_str());
-				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2 - 1, y - textSize.y / 2 + 1), ImColor(0, 0, 0, 255), ss2.str().c_str());
-				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2, y - textSize.y / 2), ImColor(0xFF, 0xFF, 0xFF, 0xFF), ss2.str().c_str());
 			}
 
 			int movementActive = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligence->pedTaskManager.Movement->iActiveTask;
 			if (movementActive > -1)
 			{
-				std::stringstream ss2;
 				rage::CTask *movementTask = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligence->pedTaskManager.Movement->GetTask();
 				ss2 << "Movement: " << movementTask->GetTree() << std::endl;
-
-				CVector3 screenPos;
-				CGraphics::Get()->WorldToScreen(CVector3(
-					ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->vecPositionEntity.fX,
-					ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->vecPositionEntity.fY,
-					ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->vecPositionEntity.fZ),
-					screenPos);
-				auto viewPortGame = GTA::CViewportGame::Get();
-				float x = screenPos.fX * viewPortGame->Width;
-				float y = screenPos.fY * viewPortGame->Height;
-
-				float font_size = 18.0f;
-				ImVec2 textSize = CGlobals::Get().chatFont->CalcTextSizeA(font_size, 1000.f, 1000.f, ss2.str().c_str());
-
-				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2 - 1, y - textSize.y / 2 - 1), ImColor(0, 0, 0, 255), ss2.str().c_str());
-				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2 + 1, y - textSize.y / 2 + 1), ImColor(0, 0, 0, 255), ss2.str().c_str());
-				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2 + 1, y - textSize.y / 2 - 1), ImColor(0, 0, 0, 255), ss2.str().c_str());
-				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2 - 1, y - textSize.y / 2 + 1), ImColor(0, 0, 0, 255), ss2.str().c_str());
-				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2, y - textSize.y / 2), ImColor(0xFF, 0xFF, 0xFF, 0xFF), ss2.str().c_str());
 			}
 
 			int motionActive = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligence->pedTaskManager.Motion->iActiveTask;
 			if (motionActive > -1)
 			{
-				std::stringstream ss2;
 				rage::CTask *motionTask = ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->pedIntelligence->pedTaskManager.Motion->GetTask();
 				ss2 << "Motion: " << motionTask->GetTree() << std::endl;
-
-				CVector3 screenPos;
-				CGraphics::Get()->WorldToScreen(CVector3(
-					ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->vecPositionEntity.fX,
-					ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->vecPositionEntity.fY,
-					ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->vecPositionEntity.fZ - 0.5f),
-					screenPos);
-				auto viewPortGame = GTA::CViewportGame::Get();
-				float x = screenPos.fX * viewPortGame->Width;
-				float y = screenPos.fY * viewPortGame->Height;
-
-				float font_size = 18.0f;
-				ImVec2 textSize = CGlobals::Get().chatFont->CalcTextSizeA(font_size, 1000.f, 1000.f, ss2.str().c_str());
-
-				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2 - 1, y - textSize.y / 2 - 1), ImColor(0, 0, 0, 255), ss2.str().c_str());
-				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2 + 1, y - textSize.y / 2 + 1), ImColor(0, 0, 0, 255), ss2.str().c_str());
-				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2 + 1, y - textSize.y / 2 - 1), ImColor(0, 0, 0, 255), ss2.str().c_str());
-				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2 - 1, y - textSize.y / 2 + 1), ImColor(0, 0, 0, 255), ss2.str().c_str());
-				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2, y - textSize.y / 2), ImColor(0xFF, 0xFF, 0xFF, 0xFF), ss2.str().c_str());
 			}
+
+
 			/*ss << "Handle: " << ReplayInterfaces::Get()->ReplayInterfacePed->pool.GetHandle(i) << std::endl <<
 			"Position: " << ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->Position.ToString() << std::endl <<
 			"Health: " << ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->Health << std::endl <<
 			"Model: 0x" << std::hex << ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->PedModelInfo->ModelHash << std::endl <<
 			ss2.str();*/
+
+			ss2 << "RotationPotential: " << ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->fRotationPotential << std::endl;
+			ss2 << "ForwardPotential: " << ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->fForwardPotential << std::endl;
+			ss2 << "StrafePotential: " << ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->fStrafePotential << std::endl;
+			ss2 << "rage::CPed = 0x" << std::hex << ReplayInterfaces::Get()->ReplayInterfacePed->pool[i] << std::dec << std::endl;
+
+			CVector3 screenPos;
+			CGraphics::Get()->WorldToScreen(CVector3(
+				ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->vecPositionEntity.fX,
+				ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->vecPositionEntity.fY,
+				ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->vecPositionEntity.fZ + 2.f),
+				screenPos);
+			auto viewPortGame = GTA::CViewportGame::Get();
+			float x = screenPos.fX * viewPortGame->Width;
+			float y = screenPos.fY * viewPortGame->Height;
+
+			float font_size = 18.0f;
+			ImVec2 textSize = CGlobals::Get().chatFont->CalcTextSizeA(font_size, 1000.f, 1000.f, ss2.str().c_str());
+
+			ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2 - 1, y - textSize.y / 2 - 1), ImColor(0, 0, 0, 255), ss2.str().c_str());
+			ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2 + 1, y - textSize.y / 2 + 1), ImColor(0, 0, 0, 255), ss2.str().c_str());
+			ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2 + 1, y - textSize.y / 2 - 1), ImColor(0, 0, 0, 255), ss2.str().c_str());
+			ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2 - 1, y - textSize.y / 2 + 1), ImColor(0, 0, 0, 255), ss2.str().c_str());
+			ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2, y - textSize.y / 2), ImColor(0xFF, 0xFF, 0xFF, 0xFF), ss2.str().c_str());
 			if (cnt >= ReplayInterfaces::Get()->ReplayInterfacePed->pool.Count())
 				break;
 		}

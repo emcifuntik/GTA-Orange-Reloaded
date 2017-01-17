@@ -265,3 +265,9 @@ paket-files/
 /HighFive/Launcher/libcef.dll
 /HighFive/Launcher/d3dcompiler_47.dll
 /HighFive/Launcher/d3dcompiler_43.dll
+/deps/RakNet
+/deps/ServerDeps/yaml-cpp/CMakeFiles/2.8.12.2
+/deps/ServerDeps/yaml-cpp/CMakeFiles/debuggable.dir
+/deps/ServerDeps/yaml-cpp/CMakeFiles/releasable.dir
+/deps/ServerDeps/yaml-cpp/CMakeFiles/yaml-cpp.dir
+/deps/ServerDeps/yaml-cpp/CMakeFiles
