@@ -27,6 +27,7 @@ int CommandProcessor(std::string command)
 		ExitProcess(EXIT_SUCCESS);
 		return true;
 	}
+	
 	if (!command.compare("/save") && CGlobals::Get().isDebug)
 	{
 		if (!params.size())
@@ -54,6 +55,32 @@ int CommandProcessor(std::string command)
 			saveFile.close();
 		}
 		CChat::Get()->AddChatMessage("DEBUG: Your coordinates saved successfull.", 0xAAFFAAFF);
+		return true;
+	}
+	if (!command.compare("/time") && CGlobals::Get().isDebug)
+	{
+		if (!params.size())
+		{
+			CChat::Get()->AddChatMessage("USAGE: /time [hour]", 0xAAAAAAFF);
+			return true;
+		}
+		unsigned hour = std::stoi(params[0]);
+		CScriptInvoker::Get().Push([=]() {
+			TIME::SET_CLOCK_TIME(hour, 0, 0);
+		});
+		return true;
+	}
+	if (!command.compare("/weather") && CGlobals::Get().isDebug)
+	{
+		if (!params.size())
+		{
+			CChat::Get()->AddChatMessage("USAGE: /weather [weatherType]", 0xAAAAAAFF);
+			return true;
+		}
+		std::string weather = params[0];
+		CScriptInvoker::Get().Push([=]() {
+			GAMEPLAY::SET_WEATHER_TYPE_NOW((char*)weather.c_str());
+		});
 		return true;
 	}
 	if (!command.compare("/vehicle") && CGlobals::Get().isDebug)

@@ -12,7 +12,7 @@ CLocalPlayer::CLocalPlayer() :CPedestrian(PLAYER::PLAYER_PED_ID())
 		GAMEPLAY::DELETE_STUNT_JUMP(i);
 	}
 
-	TIME::SET_CLOCK_TIME(0, 0, 0);
+	TIME::SET_CLOCK_TIME(10, 0, 0);
 
 	CEntity::InitOffsetFunc();
 
