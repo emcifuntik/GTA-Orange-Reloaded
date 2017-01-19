@@ -15,6 +15,7 @@ public:
 	bool Render();
 	bool SetScreenInfo(const char* msg);
 	bool UnsetScreenInfo();
+	bool SendNotification(char * msg);
 	~CNetworkUI();
 	static void ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, BOOL isExtended, BOOL isWithAlt, BOOL wasDownBefore, BOOL isUpNow);
 	static CNetworkUI* Get();

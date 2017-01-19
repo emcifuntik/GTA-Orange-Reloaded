@@ -257,6 +257,12 @@
     <ClInclude Include="Scripting\LuaDefs.h">
       <Filter>Scripting</Filter>
     </ClInclude>
+    <ClInclude Include="Scripting\NativesLua.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\ClientsideAPILua.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

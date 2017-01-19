@@ -147,6 +147,7 @@ public:
 	virtual unsigned long CreateMarkerForPlayer(long playerid, float x, float y, float z, float height, float radius) = 0;
 	virtual void DeleteMarker(unsigned long guid) = 0;
 
+	virtual bool SendNotification(long playerid, const char * msg) = 0;
 	virtual bool SetInfoMsg(long playerid, const char * msg) = 0;
 	virtual bool UnsetInfoMsg(long playerid) = 0;
 
@@ -209,6 +210,7 @@ public:
 
 	unsigned long CreateObject(long model, float x, float y, float z, float pitch, float yaw, float roll);
 
+	bool SendNotification(long playerid, const char * msg);
 	bool SetInfoMsg(long playerid, const char * msg);
 	bool UnsetInfoMsg(long playerid);
 

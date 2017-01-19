@@ -39,9 +39,9 @@ int lua_tick(lua_State *L)
 
 		if (lua_pcall(L, 0, 0, 0) != 0)
 		{
-			std::string err = luaL_checkstring(L, -1);
-			lua_pop(L, 1);
-			log << err.c_str() << std::endl;
+			std::string err = luaL_checkstring(L, -1); TRACE();
+			lua_pop(L, 1); TRACE();
+			log << err.c_str() << std::endl; TRACE();
 		}
 
 		lua_pop(L, 1);

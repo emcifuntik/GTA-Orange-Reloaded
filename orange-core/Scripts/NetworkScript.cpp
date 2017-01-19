@@ -5,6 +5,7 @@ ULONGLONG lastSendTick = 0;
 void NetworkAction()
 {
 	keyboardHandlerRegister(CNetworkUI::ScriptKeyboardMessage);
+	CScriptEngine::Get()->Init();
 	for (;;)
 	{
 		CLocalPlayer::Get()->Tick();
@@ -31,6 +32,7 @@ void NetworkAction()
 		CNetworkPlayer::PreRender();
 		CNetwork3DText::PreRender();
 		CNetworkUI::Get()->Render();
+		CScriptEngine::Get()->Tick();
 		scriptWait(0);
 	}
 }

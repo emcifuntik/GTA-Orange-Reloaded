@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "LuaDefs.h"
+#include "NativesLua.h"
+#include "ClientsideAPILua.h"
 
 CScriptEngine *CScriptEngine::singleInstance = nullptr;
 
@@ -23,6 +25,20 @@ CScriptEngine::CScriptEngine()
 	register_native_funcs(m_lua);
 }
 
+void CScriptEngine::Init()
+{
+	if (initialized) return;
+	initialized = true;
+
+	if (luaL_loadbuffer(m_lua, luaJIT_BC_natives, luaJIT_BC_natives_SIZE, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
+		log << "Failed to load Native definition file: " << lua_tostring(m_lua, -1) << std::endl;
+	}
+
+	if (luaL_loadbuffer(m_lua, luaJIT_BC_ClientsideAPI, luaJIT_BC_ClientsideAPI_SIZE, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
+		log << "Failed to load API definition file: " << lua_tostring(m_lua, -1) << std::endl;
+	} TRACE();
+}
+
 CScriptEngine::~CScriptEngine()
 {
 
@@ -31,7 +47,9 @@ CScriptEngine::~CScriptEngine()
 CScriptEngine * CScriptEngine::Get()
 {
 	if (!singleInstance)
+	{
 		singleInstance = new CScriptEngine();
+	}
 	return singleInstance;
 }
 
@@ -68,5 +86,6 @@ void CScriptEngine::SetTick(const std::function<void()>& f)
 
 void CScriptEngine::Tick()
 {
-	tickHandler();
+	if (!initialized) return;
+	if(tickHandler) tickHandler();
 }

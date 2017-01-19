@@ -18,8 +18,19 @@ void BackScene()
 			"Ped pos: " << CLocalPlayer::Get()->GetPosition().ToString() << std::endl <<
 			"Ped heading: " << CLocalPlayer::Get()->GetHeading() << std::endl <<
 			"FPS: " << ImGui::GetIO().Framerate;
-		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, 14.f, ImVec2(0.23f * viewPortGame->Width, 0.85f * viewPortGame->Height),
-			ImColor(0x21, 0x96, 0xF3, 0xFF), ss.str().c_str());
+
+		const char* text = ss.str().c_str();
+		float x = 0.23f * viewPortGame->Width;
+		float y = 0.85f * viewPortGame->Height;
+		ImColor color = ImColor(0x21, 0x96, 0xF3, 0xFF);
+
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, 14.f, ImVec2(x - 1, y - 1), ImColor(0, 0, 0, 255), text);
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, 14.f, ImVec2(x + 1, y + 1), ImColor(0, 0, 0, 255), text);
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, 14.f, ImVec2(x + 1, y - 1), ImColor(0, 0, 0, 255), text);
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, 14.f, ImVec2(x - 1, y + 1), ImColor(0, 0, 0, 255), text);
+		//ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, font_size, ImVec2(tag.x - textSize.x / 2, tag.y), ImColor(0xFF, 0xFF, 0xFF, 0xFF), _name);
+
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, 14.f, ImVec2(x, y), color, text);
 	}
 #if _DEBUG
 

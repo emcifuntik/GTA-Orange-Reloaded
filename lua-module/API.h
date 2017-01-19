@@ -107,6 +107,7 @@ public:
 	virtual unsigned long CreateMarkerForPlayer(long playerid, float x, float y, float z, float height, float radius) = 0;
 	virtual void DeleteMarker(unsigned long guid) = 0;
 
+	virtual bool SendNotification(long playerid, const char * msg) = 0;
 	virtual bool SetInfoMsg(long playerid, const char * msg) = 0;
 	virtual bool UnsetInfoMsg(long playerid) = 0;
 

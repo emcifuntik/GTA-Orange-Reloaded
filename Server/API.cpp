@@ -205,6 +205,7 @@ void API::BroadcastClientMessage(const char * message, unsigned int color)
 
 bool API::SendClientMessage(long playerid, const char * message, unsigned int color)
 {
+	log << "Msg1: " << message << std::endl;
 	auto player = CNetworkPlayer::GetByID(playerid);
 	if (!player)
 		return false;
@@ -217,7 +218,8 @@ bool API::SendClientMessage(long playerid, const char * message, unsigned int co
 	col.blue = (BYTE)((color >> 8) & 0xFF);   // Extract the GG byte
 	col.alpha = (BYTE)((color) & 0xFF);        // Extract the BB byte
 	bsOut.Write(col);
-	CRPCPlugin::Get()->Signal("SendClientMessage", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, player->GetGUID(), true, false);
+	log << "Msg2: " << message << std::endl;
+	CRPCPlugin::Get()->Signal("SendClientMessage", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, player->GetGUID(), false, false);
 	return true;
 }
 
@@ -335,6 +337,19 @@ unsigned long API::CreateObject(long model, float x, float y, float z, float pit
 {
 	CNetworkObject *obj = new CNetworkObject(model, x, y, z, pitch, yaw, roll);
 	return RakNetGUID::ToUint32(obj->rnGUID);
+}
+
+bool API::SendNotification(long playerid, const char * msg)
+{
+	auto player = CNetworkPlayer::GetByID(playerid);
+	if (!player)
+		return false;
+
+	RakNet::BitStream bsOut;
+	bsOut.Write(RakNet::RakString(msg));
+
+	CRPCPlugin::Get()->Signal("SendNotification", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, player->GetGUID(), false, false);
+	return false;
 }
 
 bool API::SetInfoMsg(long playerid, const char* msg)

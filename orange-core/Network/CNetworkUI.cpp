@@ -35,6 +35,13 @@ bool CNetworkUI::UnsetScreenInfo()
 	return true;
 }
 
+bool CNetworkUI::SendNotification(char* msg)
+{
+	UI::_SET_NOTIFICATION_TEXT_ENTRY("STRING");
+	UI::_ADD_TEXT_COMPONENT_STRING(msg);
+	UI::_DRAW_NOTIFICATION(0, 1);
+}
+
 CNetworkUI::~CNetworkUI()
 {
 

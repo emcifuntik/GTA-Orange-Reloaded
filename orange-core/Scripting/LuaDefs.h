@@ -4,6 +4,8 @@ struct Type {
 	enum NType {
 		N_VOID,
 
+		N_BOOL,
+
 		N_INT,
 		N_INTPOINTER,
 		N_INTARRAYPOINTER,
@@ -17,6 +19,8 @@ struct Type {
 		N_VECTOR3POINTER,
 
 		N_DWORD,
+		N_DWORDPOINTER,
+
 		N_SIZE
 	};
 };

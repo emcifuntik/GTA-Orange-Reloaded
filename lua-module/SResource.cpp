@@ -57,7 +57,9 @@ static const struct luaL_Reg mfunclib[] = {
 	{ "GetPlayerModel", lua_GetPlayerModel },
 	{ "GivePlayerWeapon", lua_GivePlayerWeapon },
 	{ "PlayerExists", lua_PlayerExists },
+	{ "SendPlayerNotification", lua_SendPlayerNotification },
 	{ "SetPlayerInfoMsg", lua_SetPlayerInfoMsg },
+	{ "SendPlayerMessage", lua_SendPlayerMessage },
 	{ "SetPlayerIntoVehicle", lua_SetPlayerIntoVehicle },
 	
 	{ "AddClientScript", lua_LoadClientScript },
@@ -129,13 +131,13 @@ void SResource::AddClientScript(std::string file)
 
 	API::Get().Print("ADD");
 
-	if (luaL_loadbuffer(m_lua, _code, _size, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
+	/*if (luaL_loadbuffer(m_lua, _code, _size, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
 		std::stringstream ss;
 		ss << "[LUA] " << lua_tostring(m_lua, -1);
 		API::Get().Print(ss.str().c_str());
-	}
+	}*/
 
-	API::Get().LoadClientScript("clientscript", _code, _size);
+	API::Get().LoadClientScript(file.c_str(), _code, _size);
 
 	_size = 0;
 }
