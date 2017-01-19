@@ -236,9 +236,6 @@
     <ClInclude Include="D3D11\Memory\minhook\src\trampoline.h">
       <Filter>UI\MemoryHook\Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="Registry.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
@@ -447,7 +444,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Launcher.ico">
+    <ResourceCompile Include="orange-core.rc">
+      <Filter>Файлы ресурсов</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Launcher\Launcher.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
   </ItemGroup>

@@ -19,6 +19,7 @@ public:
 			singleInstance = new CGlobals();
 		return *singleInstance;
 	}
+	HMODULE dllModule = 0;
 	LPVOID baseAddr = nullptr;
 	std::string orangePath;
 	bool alreadyRunned = false;

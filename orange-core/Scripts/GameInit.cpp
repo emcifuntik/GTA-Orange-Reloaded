@@ -27,8 +27,6 @@ void Action()
 
 			scriptWait(0);
 
-			MOBILE::DESTROY_MOBILE_PHONE();
-
 			//CGlobals::Get().InitializeOnline();
 
 			ENTITY::SET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), 363.871f, 621.555f, 78.44f, true, false, false, false);
@@ -42,8 +40,9 @@ void Action()
 			CLocalPlayer::Get()->ChangeModel(Utils::Hash("mp_m_freemode_01"));
 			CGlobals::Get().displayServerBrowser = true;
 			teleported = true;
-			CChat::Get()->AddChatMessage("Grand Theft Auto: Orange loaded");
+			CChat::Get()->AddChatMessage("Grand Theft Auto: {FF8F00}Orange {FFFFFF}loaded");
 		}
+		MOBILE::DESTROY_MOBILE_PHONE();
 		scriptWait(0);
 	}
 }

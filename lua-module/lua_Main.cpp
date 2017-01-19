@@ -197,3 +197,9 @@ int lua_LoadClientScript(lua_State *L)
 	SResource::Get()->AddClientScript(lua_tostring(L, 1));
 	return 0;
 }
+
+int lua_Delete3DTextToPlayer(lua_State *L)
+{
+	API::Get().Delete3DText(lua_tointeger(L, 1));
+	return 0;
+}

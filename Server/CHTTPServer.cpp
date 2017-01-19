@@ -17,12 +17,9 @@ CHTTPServer::CHTTPServer()
 
 bool CHTTPServer::Start(int port)
 {
-	std::stringstream _port;
-	_port << port;
-
-	log << _port.str() << std::endl;
+	std::string portStr = std::to_string(port);
 	const char *options[] = {
-		"document_root", ".", "listening_ports", _port.str().c_str(), 0 };
+		"document_root", ".", "listening_ports", portStr.c_str(), 0 };
 
 	/*std::vector<std::string> cpp_options;
 	for (int i = 0; i<(sizeof(options) / sizeof(options[0]) - 1); i++) {

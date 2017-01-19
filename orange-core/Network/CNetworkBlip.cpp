@@ -13,8 +13,8 @@ CNetworkBlip::CNetworkBlip(RakNetGUID guid, float x, float y, float z, float sca
 	Handle = UI::ADD_BLIP_FOR_COORD(x, y, z);
 
 	SetScale(scale);
-	SetColor(color);
 	SetSprite(sprite);
+	SetColor(color);
 	SetAsShortRange(false);
 
 	BlipPool.push_back(this);

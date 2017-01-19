@@ -12,7 +12,7 @@ CLocalPlayer::CLocalPlayer() :CPedestrian(PLAYER::PLAYER_PED_ID())
 		GAMEPLAY::DELETE_STUNT_JUMP(i);
 	}
 
-	TIME::SET_CLOCK_TIME(0, 0, 0);
+	TIME::SET_CLOCK_TIME(10, 0, 0);
 
 	CEntity::InitOffsetFunc();
 
@@ -81,7 +81,7 @@ void CLocalPlayer::GetOnFootSync(OnFootSyncData& onfoot)
 			veh = CNetworkVehicle::GetByHandle(PED::GET_VEHICLE_PED_IS_IN(Handle, false));
 			if (veh) {
 				onfoot.rnVehicle = veh->m_GUID;
-				onfoot.cSeat = GetSeat();
+				onfoot.cSeat = (char)GetSeat();
 			}
 		}
 	}
@@ -117,7 +117,7 @@ void CLocalPlayer::GetVehicleSync(VehicleData& vehsync)
 	vehsync.bDrivable = VEHICLE::IS_VEHICLE_DRIVEABLE(veh->GetHandle(), 0) == 1;
 
 	vehsync.bHorn = AUDIO::IS_HORN_ACTIVE(veh->GetHandle()) == 1;
-	vehsync.bSirenState = VEHICLE::IS_VEHICLE_SIREN_ON(veh->GetHandle());
+	vehsync.bSirenState = VEHICLE::IS_VEHICLE_SIREN_ON(veh->GetHandle()) == 1;
 
 	//log << "Vehicle: 0x" << std::hex << veh->GetAddress() << std::endl;
 	//log << "Horn: " << AUDIO::IS_HORN_ACTIVE(veh->GetHandle()) << std::endl;

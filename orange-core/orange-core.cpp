@@ -90,8 +90,8 @@ LRESULT APIENTRY WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 void __fastcall eventHook(GTA::CTask* task)
 {
-	log_debug << task->GetTree() << std::endl;
-	CLocalPlayer::Get()->updateTasks = true;
+	/*log_debug << task->GetTree() << std::endl;
+	CLocalPlayer::Get()->updateTasks = true;*/
 }
 
 bool consoleShowed = false;
@@ -106,12 +106,7 @@ void OnGameStateChange(int gameState)
 	case GameStatePlaying:
 	{
 		TurnOnConsole();
-		CGlobals::Get().gtaHwnd = FindWindowA(NULL, "Grand Theft Auto V");
-		/*SetWindowText(CGlobals::Get().gtaHwnd, L"GTA:Orange");
-		Icon = LPARAM(LoadIconA(NULL, (CGlobals::Get().orangePath + "/Launcher.ico").c_str()));
-		SendMessage(CGlobals::Get().gtaHwnd, WM_SETICON, ICON_BIG, Icon);
-		SendMessage(CGlobals::Get().gtaHwnd, WM_SETICON, ICON_SMALL, Icon);*/
-
+		//SetWindowText(CGlobals::Get().gtaHwnd, L"GTA:Orange");
 		if (!ScriptEngine::Initialize())
 			log_error << "Failed to initialize ScriptEngine" << std::endl;
 		D3DHook::HookD3D11();
@@ -129,11 +124,6 @@ void OnGameStateChange(int gameState)
 		//SyncTree::Init();
 		//log_debug << "CPlayerSyncTree: 0x" << std::hex << SyncTree::GetPlayerSyncTree() << std::endl;
 
-		//typedef void(*InitNetStuff_t)();
-		//InitNetStuff_t InitNetStuff = (InitNetStuff_t)(0x140F891E0);// CMemory::Find("48 89 5C 24 08 57 48 83 EC 40 33 FF 40 38 3D ? ? ? ?")();
-		//InitNetStuff();
-
-		//(CMemory::Find("48 89 45 D7 48 8D 45 B7 48 89 5D B7 48 89 45 DF 4C 8D 45 D7 EB ?") + 35).nop(9);
 		CMemory((uintptr_t)GetModuleHandle(NULL) + 0x7FFF0C).farJmp(eventHook);
 		break;
 	}
@@ -147,6 +137,28 @@ static bool gameStateChange_(int gameState)
 	OnGameStateChange(gameState);
 	CGlobals::Get().currentGameState = gameState;
 	return g_gameStateChange();
+}
+
+
+static HWND CreateWindowExWHook(_In_ DWORD dwExStyle,
+	_In_opt_ LPCWSTR lpClassName,
+	_In_opt_ LPCWSTR lpWindowName,
+	_In_ DWORD dwStyle,
+	_In_ int X,
+	_In_ int Y,
+	_In_ int nWidth,
+	_In_ int nHeight,
+	_In_opt_ HWND hWndParent,
+	_In_opt_ HMENU hMenu,
+	_In_opt_ HINSTANCE hInstance,
+	_In_opt_ LPVOID lpParam)
+{
+	Icon = (LPARAM)LoadIcon(CGlobals::Get().dllModule,MAKEINTRESOURCE(IDI_ICON1));
+	HWND hWnd = CreateWindowExW(dwExStyle, lpClassName, L"GTA:Orange", dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+	SendMessage(hWnd, WM_SETICON, ICON_BIG, Icon);
+	SendMessage(hWnd, WM_SETICON, ICON_SMALL, Icon);
+	CGlobals::Get().gtaHwnd = hWnd;
+	return hWnd;
 }
 
 void HookLoop()
@@ -164,14 +176,21 @@ void HookLoop()
 	auto gameStateChange = CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1EC8FA); // GameStateChange
 	auto gameStateMem = gameStateChange();
 	g_gameStateChange = gameStateChange.get_call<GameStateChange_>();
-	(gameStateChange + 1).put(long(callToMem - gameStateMem - 5));
+	(gameStateChange + 1).put(DWORD(callToMem - gameStateMem - 5));
+
+	callToMem = unusedMem();
+	unusedMem.farJmp(CreateWindowExWHook);
+	auto windowCreate = CMemory((uintptr_t)GetModuleHandle(NULL) + 0x12416F7); // WindowCreate
+	auto windowCreateMem = windowCreate();
+	windowCreate.nearCall(DWORD(callToMem - windowCreateMem - 5));
+	windowCreate.nop(1);
 }
 
 void GameProcessHooks()
 {
-	auto allobj = CMemory((uintptr_t)GetModuleHandle(NULL) + 0xC91D39);
-	memset((void*)allobj(), 0x90, 24);
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0xC91D39).nop(24);//Objects
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1F5BEC).nop(5); //Esc freeze
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x7B2F6C).retn(); //Cheat console
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x2413D2).nop(6); //UI Wheel slowmo
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x127C8CA).nop(4); //Show cursor
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x127C8DC).nop(4); //Show cursor
@@ -205,30 +224,6 @@ void GameProcessHooks()
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x33E78C).retn(); //ISABLE_COPS_AND_FIRE_TRUCKS_2
 	CMemory((uintptr_t)GetModuleHandle(NULL) + 0x61F620).retn(); //ISABLE_COPS_AND_FIRE_TRUCKS_3
 }
-
-static HWND CreateWindowExWHook(_In_ DWORD dwExStyle,
-	_In_opt_ LPCWSTR lpClassName,
-	_In_opt_ LPCWSTR lpWindowName,
-	_In_ DWORD dwStyle,
-	_In_ int X,
-	_In_ int Y,
-	_In_ int nWidth,
-	_In_ int nHeight,
-	_In_opt_ HWND hWndParent,
-	_In_opt_ HMENU hMenu,
-	_In_opt_ HINSTANCE hInstance,
-	_In_opt_ LPVOID lpParam)
-{
-	Icon = LPARAM(LoadIconA(NULL, (CGlobals::Get().orangePath + "/Launcher.ico").c_str()));
-	HWND hWnd = CreateWindowExW(dwExStyle, lpClassName, L"GTA:Orange", dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
-	SendMessage(hWnd, WM_SETICON, ICON_BIG, Icon);
-	SendMessage(hWnd, WM_SETICON, ICON_SMALL, Icon);
-	CGlobals::Get().gtaHwnd = hWnd;
-	
-	return hWnd;
-}
-
-void *OldCreateWindowExW = nullptr;
 
 void PreLoadPatches()
 {
