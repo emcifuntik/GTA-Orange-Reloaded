@@ -19,6 +19,7 @@ public:
 			singleInstance = new CGlobals();
 		return *singleInstance;
 	}
+	char chatBuffer[256];
 	HMODULE dllModule = 0;
 	LPVOID baseAddr = nullptr;
 	std::string orangePath;

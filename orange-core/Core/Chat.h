@@ -26,6 +26,7 @@ class CChat
 	int iOffset = 0;
 	std::wstring wsCurrentMessage;
 	std::mutex access;
+	unsigned long ulLastUpdate = 0;
 
 	unsigned int uiCarretPos = 0;
 

@@ -10,6 +10,7 @@ void CChat::AddLine(ChatLine line)
 	if (vChatLines.size() >= cuChatHistorySize)
 		vChatLines.erase(vChatLines.begin());
 	vChatLines.push_back(line);
+	ulLastUpdate = timeGetTime();
 	access.unlock();
 	bScrollBottom = true;
 }
@@ -43,9 +44,25 @@ void CChat::Render()
 		return;
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.f);
 	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1));
+	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImColor(0.f, 0.f, 0.f, 0.5f));
+
+	float fOpacity = 0.f;
+	if (!bOpened)
+	{
+		unsigned long ulCurTime = timeGetTime();
+		unsigned long timeSinceUpdate = ulCurTime - ulLastUpdate;
+		if (timeSinceUpdate < 4500)
+			fOpacity = 0.5f;
+		else if (timeSinceUpdate >= 4500 && timeSinceUpdate <= 5000)
+			fOpacity = 0.5f - ((float)(timeSinceUpdate - 4500) / 1000);
+		else
+			fOpacity = 0.f;
+	}
+	else
+		fOpacity = 0.5f;
 
 	ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiSetCond_Always);
-	ImGui::Begin("Chat", &bEnabled, ImVec2(400, 190), .0f, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+	ImGui::Begin("Chat", &bEnabled, ImVec2(400, 190), fOpacity, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
 
 	ImGui::PushFont(CGlobals::Get().chatFont);
 	access.lock();
@@ -82,10 +99,9 @@ void CChat::Render()
 				substr.push_back(frag);
 			substr[currentFrag].str += chatLine.sLineText[i];
 		}
-
 		for (unsigned i = 0; i < substr.size(); ++i)
 		{
-			ImGui::TextColored(ImVec4(float(substr[i].color.red / 255), float(substr[i].color.green / 255), float(substr[i].color.blue / 255), float(substr[i].color.alpha / 255)), (char*)substr[i].str.c_str());
+			ImGui::TextColoredOutline(ImColor(substr[i].color.red, substr[i].color.green, substr[i].color.blue, substr[i].color.alpha), ImColor(0x000000FF), (char*)substr[i].str.c_str());
 			if(i != (substr.size() - 1))
 				ImGui::SameLine(0.f, 0.f);
 		}
@@ -101,6 +117,7 @@ void CChat::Render()
 	ImGui::PopFont();
 	ImGui::End();
 	ImGui::PopStyleVar(2);
+	ImGui::PopStyleColor(1);
 
 	if (bOpened)
 	{
@@ -115,21 +132,21 @@ void CChat::Render()
 		ImGui::SetNextWindowPos(ImVec2(0, 190), ImGuiSetCond_Always);
 		ImGui::Begin("ChatInput", &bOpened, ImVec2(450, 50), .0f, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
 
-		char buffer[256] = "";
 		ImGui::PushItemWidth(400);
 		ImGui::PushFont(CGlobals::Get().chatFont);
-		if (ImGui::InputText("", buffer, 256, ImGuiInputTextFlags_EnterReturnsTrue/* | ImGuiInputTextFlags_CallbackHistory*/))
+		ImGui::PushStyleColor(ImGuiCol_FrameBg, ImColor(0.f, 0.f, 0.f, 0.5f));
+		if (ImGui::InputText("", CGlobals::Get().chatBuffer, 256, ImGuiInputTextFlags_EnterReturnsTrue/* | ImGuiInputTextFlags_CallbackHistory*/))
 		{
-			if (strlen(buffer))
+			if (strlen(CGlobals::Get().chatBuffer))
 			{
-				if (buffer[0] == '/')
+				if (CGlobals::Get().chatBuffer[0] == '/')
 				{
 					if (_commandProcess != nullptr)
 					{
-						if (_commandProcess(buffer) != 1)
+						if (_commandProcess(CGlobals::Get().chatBuffer) != 1)
 						{
 							RakNet::BitStream sendmessage;
-							RakNet::RakString outStr(buffer);
+							RakNet::RakString outStr(CGlobals::Get().chatBuffer);
 
 							sendmessage.Write((MessageID)ID_COMMAND_MESSAGE);
 							sendmessage.Write(outStr);
@@ -140,13 +157,13 @@ void CChat::Render()
 				else
 				{
 					RakNet::BitStream sendmessage;
-					RakNet::RakString outStr(buffer);
+					RakNet::RakString outStr(CGlobals::Get().chatBuffer);
 					sendmessage.Write((MessageID)ID_CHAT_MESSAGE);
 					sendmessage.Write(outStr);
 					CNetworkConnection::Get()->client->Send(&sendmessage, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
 				}
 				bScrollBottom = true;
-				strcpy_s(buffer, 256, "");
+				strcpy_s(CGlobals::Get().chatBuffer, 256, "");
 			}
 			Close();
 		}
@@ -157,6 +174,7 @@ void CChat::Render()
 			ImGui::SetKeyboardFocusHere(0);
 		}
 		ImGui::PopItemWidth();
+		ImGui::PopStyleColor(1);
 		ImGui::End();
 		ImGui::PopStyleVar(5);
 	}
@@ -259,6 +277,7 @@ void CChat::Close()
 	(*CGlobals::Get().canLangChange) = false;
 	bOpened = false;
 	ShowCursor(FALSE);
+	ulLastUpdate = timeGetTime() - 4500;
 }
 
 void CChat::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, BOOL isExtended, BOOL isWithAlt, BOOL wasDownBefore, BOOL isUpNow)
