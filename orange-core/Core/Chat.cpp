@@ -101,7 +101,7 @@ void CChat::Render()
 		}
 		for (unsigned i = 0; i < substr.size(); ++i)
 		{
-			ImGui::TextColoredOutline(ImColor(substr[i].color.red, substr[i].color.green, substr[i].color.blue, substr[i].color.alpha), ImColor(0x000000FF), (char*)substr[i].str.c_str());
+			ImGui::TextColored(ImColor(substr[i].color.red, substr[i].color.green, substr[i].color.blue, substr[i].color.alpha), (char*)substr[i].str.c_str());
 			if(i != (substr.size() - 1))
 				ImGui::SameLine(0.f, 0.f);
 		}
@@ -277,7 +277,7 @@ void CChat::Close()
 	(*CGlobals::Get().canLangChange) = false;
 	bOpened = false;
 	ShowCursor(FALSE);
-	ulLastUpdate = timeGetTime() - 4500;
+	ulLastUpdate = timeGetTime() - 4000;
 }
 
 void CChat::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, BOOL isExtended, BOOL isWithAlt, BOOL wasDownBefore, BOOL isUpNow)
