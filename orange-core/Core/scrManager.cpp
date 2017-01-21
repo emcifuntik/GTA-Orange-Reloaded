@@ -1,10 +1,6 @@
 #include "stdafx.h"
 
-#include "DbgHelp.h"
-#include <WinBase.h>
-
 #pragma comment(lib, "winmm.lib")
-#pragma comment(lib, "Dbghelp.lib")
 
 ScriptManagerThread g_ScriptManagerThread;
 
