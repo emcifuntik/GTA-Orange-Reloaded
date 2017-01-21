@@ -72,7 +72,9 @@ bool binary_to_compressed_c(const char* filename, const char* symbol, bool use_b
 		memset(compressed + compressed_sz, 0, maxlen - compressed_sz);
 
 	// Output as Base85 encoded
+
 	FILE* out = stdout;
+	fopen_s(&out, "font.h", "w+");
 	fprintf(out, "// File: '%s' (%d bytes)\n", filename, (int)data_sz);
 	fprintf(out, "// Exported using binary_to_compressed_c.cpp\n");
 	const char* compressed_str = use_compression ? "compressed_" : "";
@@ -103,6 +105,7 @@ bool binary_to_compressed_c(const char* filename, const char* symbol, bool use_b
 		}
 		fprintf(out, "\n};\n\n");
 	}
+	fclose(out);
 
 	// Cleanup
 	delete[] data;

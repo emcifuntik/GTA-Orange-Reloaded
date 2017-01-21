@@ -3,6 +3,7 @@
 #include "chatfont.h"
 #include "fontawesome.h"
 #include "tagfont.h"
+#include "icofont.h"
 //this disables broken typedef
 #define __dxgitype_h__
 
@@ -305,8 +306,10 @@ bool D3DHook::HookD3D11()
 	ImFontConfig config;
 	config.MergeMode = false;
 	static ImWchar ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
+	static ImWchar icoranges[] = { 0xE901, 0xEFFF, 0 };
 	io.Fonts->AddFontFromMemoryCompressedTTF(chatfont_compressed_data, chatfont_compressed_size, 16.0f, &config, io.Fonts->GetGlyphRangesCyrillic());
 	config.MergeMode = true;
+	io.Fonts->AddFontFromMemoryCompressedTTF(icofont_compressed_data, icofont_compressed_size, 16.0f, &config, icoranges);
 	CGlobals::Get().chatFont = io.Fonts->AddFontFromMemoryCompressedTTF(fontawesome_compressed_data, fontawesome_compressed_size, 16.0f, &config, ranges);
 	
 	ImFontConfig tagConfig;

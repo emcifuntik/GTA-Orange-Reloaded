@@ -260,6 +260,9 @@
     <ClInclude Include="font_awesome.h">
       <Filter>UI\Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="icofont.h">
+      <Filter>UI\Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

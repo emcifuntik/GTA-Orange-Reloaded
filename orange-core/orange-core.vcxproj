@@ -132,6 +132,7 @@
     <ClInclude Include="GTA\sysAllocator.h" />
     <ClInclude Include="GTA\VTasks.h" />
     <ClInclude Include="GuiDispatcher.h" />
+    <ClInclude Include="icofont.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="MemoryCache.h" />
     <ClInclude Include="Network\CConfig.h" />
