@@ -141,7 +141,7 @@ int lua_trigger(lua_State *L)
 	bsOut.Write(name);
 	bsOut.Write(nargs-1);
 
-	log << "Event: " << name << " " << nargs - 1 << std::endl;
+	//log << "Event: " << name << " " << nargs - 1 << std::endl;
 
 	for (int i = 2; i <= nargs; ++i) {
 		switch (lua_type(L, i))

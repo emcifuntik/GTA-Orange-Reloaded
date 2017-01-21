@@ -221,10 +221,22 @@ void CNetworkPlayer::SetOnFootData(OnFootSyncData data, unsigned long ulDelay)
 		//AI::CLEAR_PED_TASKS(Handle);
 		//AI::CLEAR_PED_SECONDARY_TASK(Handle);
 		//AI::CLEAR_PED_TASKS_IMMEDIATELY(Handle);
+		if (!timeLeaveVehicle)
+			timeLeaveVehicle = timeGetTime();
+		
 		AI::TASK_LEAVE_VEHICLE(Handle, PED::GET_VEHICLE_PED_IS_IN(Handle, false), (CLocalPlayer::Get()->GetPosition() - GetPosition()).Length() > 50 ? 16 : 0);
+		
 		m_Entering = false;
 		m_Lefting = true;
 	}
+	/*if (m_Lefting)
+	{
+		if ((timeGetTime() - timeLeaveVehicle) > 3000 && PED::IS_PED_IN_ANY_VEHICLE(Handle, false))
+		{
+			PED::KNOCK_PED_OFF_VEHICLE(Handle);
+			timeLeaveVehicle = 0;
+		}
+	}*/
 
 	m_InVehicle = data.bInVehicle;
 
@@ -453,9 +465,17 @@ void CNetworkPlayer::BuildTasksQueue()
 				AI::CLEAR_PED_SECONDARY_TASK(Handle);
 				AI::CLEAR_PED_TASKS_IMMEDIATELY(Handle);
 				m_Seat = m_FutureSeat;
+				timeLeaveVehicle = 0;
+				timeEnterVehicle = timeGetTime();
 				AI::TASK_ENTER_VEHICLE(Handle, veh->GetHandle(), -1, m_Seat, 2, 0, 0);
 			}
 		}
+		/*else if ((timeGetTime() - timeEnterVehicle) > 3000 && !PED::IS_PED_IN_ANY_VEHICLE(Handle, false))
+		{
+			CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(m_Vehicle);
+			if (veh)
+				PED::SET_PED_INTO_VEHICLE(Handle, veh->GetHandle(), m_Seat);
+		}*/
 		else
 		{
 			if (m_FutureSeat != m_Seat)

@@ -5,11 +5,12 @@ void ServerBrowser()
 	if (CGlobals::Get().displayServerBrowser)
 	{
 		ShowCursor(TRUE);
+		(*CGlobals::Get().canLangChange) = true;
 		CConfig::Get();
 		ImGui::SetNextWindowSize(ImVec2(600, 400), ImGuiSetCond_Always);
 		ImGui::SetNextWindowPosCenter(ImGuiSetCond_Always);
 		ImGui::PushFont(CGlobals::Get().chatFont);
-		ImGui::Begin("Server browser", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+		ImGui::Begin("Server browser", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize);
 		ImGui::Text("Nickname");
 		ImGui::InputText("  ", CGlobals::Get().nickName, 32);
 		ImGui::Text("Direct connect");
@@ -34,6 +35,7 @@ void ServerBrowser()
 			CConfig::Get()->uiPort = CGlobals::Get().serverPort;
 			CConfig::Get()->Save();
 			ShowCursor(FALSE);
+			(*CGlobals::Get().canLangChange) = false;
 		}
 		ImGui::End();
 		ImGui::PopFont();

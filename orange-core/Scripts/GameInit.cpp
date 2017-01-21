@@ -41,7 +41,10 @@ void Action()
 			CLocalPlayer::Get()->ChangeModel(Utils::Hash("mp_m_freemode_01"));
 			CGlobals::Get().displayServerBrowser = true;
 			teleported = true;
-			CChat::Get()->AddChatMessage("Grand Theft Auto: {FF8F00}Orange {FFFFFF}loaded");
+			CLocalPlayer::Get()->ChangeModel(Utils::Hash("mp_m_freemode_01"));
+			std::stringstream ss;
+			ss << "{E30022}" << u8"\ueffb" << "{FFFFFF} Grand Theft Auto: {FF8F00}Orange {FFFFFF}loaded";
+			CChat::Get()->AddChatMessage(ss.str());
 		}
 
 		if (!mobiledisabled && CGlobals::Get().HasScriptLoaded("cellphone_controller"))

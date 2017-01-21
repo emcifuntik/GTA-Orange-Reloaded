@@ -251,6 +251,19 @@ CVector3 API::GetVehiclePosition(int vehicleid)
 	return CVector3(0, 0, 0);
 }
 
+bool API::DeleteVehicle(unsigned long guid)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		delete veh;
+	}
+	BitStream bsOut;
+	bsOut.Write(_guid);
+	CRPCPlugin::Get()->Signal("DeleteVehicle", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	return true;
+}
+
 bool API::CreatePickup(int type, float x, float y, float z, float scale)
 {
 	log << "Not implemented" << std::endl;

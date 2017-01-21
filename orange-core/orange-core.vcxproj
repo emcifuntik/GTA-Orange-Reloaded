@@ -55,7 +55,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;ORANGECORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../deps/ServerDeps/LuaJIT-2.1.0-beta2/src;../deps/RakNet/Source/;../shared/;./;../deps/tinyxml2/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\deps\RakNet\DependentExtensions\portaudio_v18_1\pa_win_wmme;..\deps\RakNet\DependentExtensions\portaudio_v18_1\pa_common;../deps/RakNet/DependentExtensions/;../deps/ServerDeps/LuaJIT-2.1.0-beta2/src;../deps/RakNet/Source/;../shared/;./;../deps/tinyxml2/</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -75,7 +75,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;ORANGECORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../deps/ServerDeps/LuaJIT-2.1.0-beta2/src;../deps/RakNet/Source/;../shared/;./;../deps/tinyxml2/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\deps\RakNet\DependentExtensions\portaudio_v18_1\pa_win_wmme;..\deps\RakNet\DependentExtensions\portaudio_v18_1\pa_common;../deps/RakNet/DependentExtensions/;../deps/ServerDeps/LuaJIT-2.1.0-beta2/src;../deps/RakNet/Source/;../shared/;./;../deps/tinyxml2/</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -91,6 +91,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="chatfont.h" />
     <ClInclude Include="Core\Chat.h" />
     <ClInclude Include="Core\Commands.h" />
     <ClInclude Include="Core\nativeCaller.h" />
@@ -121,6 +122,8 @@
     <ClInclude Include="D3D11\stb_rect_pack.h" />
     <ClInclude Include="D3D11\stb_textedit.h" />
     <ClInclude Include="D3D11\stb_truetype.h" />
+    <ClInclude Include="fontawesome.h" />
+    <ClInclude Include="font_awesome.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="GtaScripts.h" />
     <ClInclude Include="GTA\CGraphics.h" />
@@ -129,6 +132,7 @@
     <ClInclude Include="GTA\sysAllocator.h" />
     <ClInclude Include="GTA\VTasks.h" />
     <ClInclude Include="GuiDispatcher.h" />
+    <ClInclude Include="icofont.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="MemoryCache.h" />
     <ClInclude Include="Network\CConfig.h" />
@@ -153,6 +157,7 @@
     <ClInclude Include="Scripting\LuaDefs.h" />
     <ClInclude Include="Scripting\NativesLua.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="tagfont.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>

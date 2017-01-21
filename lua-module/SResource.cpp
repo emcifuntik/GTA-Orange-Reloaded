@@ -48,6 +48,7 @@ static const struct luaL_Reg mfunclib[] = {
 	{ "DeleteMarker", lua_DeleteMarker },
 
 	{ "CreateVehicle", lua_CreateVehicle },
+	{ "DeleteVehicle", lua_DeleteVehicle },
 
 	{ "CreateObject", lua_CreateObject },
 

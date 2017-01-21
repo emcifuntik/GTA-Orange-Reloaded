@@ -260,6 +260,21 @@
     <ClInclude Include="Scripting\ClientsideAPILua.h">
       <Filter>Scripting</Filter>
     </ClInclude>
+    <ClInclude Include="chatfont.h">
+      <Filter>UI\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="fontawesome.h">
+      <Filter>UI\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="tagfont.h">
+      <Filter>UI\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="font_awesome.h">
+      <Filter>UI\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="icofont.h">
+      <Filter>UI\Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

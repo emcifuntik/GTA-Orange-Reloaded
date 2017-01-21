@@ -52,6 +52,7 @@ void CRPCPlugin::BindFunctions()
 
 	#pragma region Vehicle functions
 	rpc.RegisterSlot("CreateVehicle", FPlayer::CreateVehicle, 0);
+	rpc.RegisterSlot("DeleteVehicle", FPlayer::DeleteVehicle, 0);
 	#pragma endregion
 
 	#pragma region 3DText functions

@@ -10,6 +10,12 @@ int lua_CreateVehicle(lua_State *L)
 	return 1;
 }
 
+int lua_DeleteVehicle(lua_State *L)
+{
+	API::Get().DeleteVehicle(lua_tointeger(L, 1));
+	return 0;
+}
+
 int lua_GetVehicleCoords(lua_State *L)
 {
 	return 0;

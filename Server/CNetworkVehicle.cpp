@@ -102,7 +102,8 @@ void CNetworkVehicle::GetVehicleData(VehicleData & data)
 
 CNetworkVehicle::~CNetworkVehicle()
 {
-
+	for (int i = 0; i < Vehicles.size(); i++)
+		if (Vehicles[i]->rnGUID == rnGUID) Vehicles.erase(Vehicles.begin() + i, Vehicles.begin() + i + 1);
 }
 
 std::vector<CNetworkVehicle *> CNetworkVehicle::All()

@@ -1,5 +1,9 @@
 #include "stdafx.h"
 
+#include "chatfont.h"
+#include "fontawesome.h"
+#include "tagfont.h"
+#include "icofont.h"
 //this disables broken typedef
 #define __dxgitype_h__
 
@@ -299,8 +303,20 @@ bool D3DHook::HookD3D11()
 	io.Fonts->AddFontDefault();
 	/*char windowsPath[MAX_PATH];
 	GetWindowsDirectoryA(windowsPath, MAX_PATH);*/
-	CGlobals::Get().chatFont = io.Fonts->AddFontFromFileTTF((CGlobals::Get().orangePath + "\\fonts\\chatfont.ttf").c_str(), 16.0f, 0, io.Fonts->GetGlyphRangesCyrillic());
-	CGlobals::Get().tagFont = io.Fonts->AddFontFromFileTTF((CGlobals::Get().orangePath + "\\fonts\\tagfont.ttf").c_str(), 48.0f, 0, io.Fonts->GetGlyphRangesCyrillic());
+
+	ImFontConfig config;
+	config.MergeMode = false;
+	static ImWchar ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
+	static ImWchar icoranges[] = { 0xE901, 0xEFFF, 0 };
+	io.Fonts->AddFontFromMemoryCompressedTTF(chatfont_compressed_data, chatfont_compressed_size, 16.0f, &config, io.Fonts->GetGlyphRangesCyrillic());
+	config.MergeMode = true;
+	io.Fonts->AddFontFromMemoryCompressedTTF(icofont_compressed_data, icofont_compressed_size, 16.0f, &config, icoranges);
+	CGlobals::Get().chatFont = io.Fonts->AddFontFromMemoryCompressedTTF(fontawesome_compressed_data, fontawesome_compressed_size, 16.0f, &config, ranges);
+	
+	ImFontConfig tagConfig;
+	config.OversampleH = 3;
+	config.OversampleV = 1;
+	CGlobals::Get().tagFont = io.Fonts->AddFontFromMemoryCompressedTTF(tagfont_compressed_data, tagfont_compressed_size, 48.0f, &tagConfig, io.Fonts->GetGlyphRangesCyrillic());
 
 	for (int i = 0; i < 256; ++i)
 		CGlobals::Get().chatFont->AddRemapChar(charTable[i].old_, charTable[i].new_);

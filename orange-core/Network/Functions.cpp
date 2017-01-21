@@ -168,6 +168,8 @@ namespace FPlayer
 		RakNet::RakNetGUID guid;
 		bitStream->Read(guid);
 
+		log << "deleting: " << guid.ToString() << std::endl;
+
 		CNetworkBlip::GetByGUID(guid)->~CNetworkBlip();
 	}
 
@@ -250,6 +252,14 @@ namespace FPlayer
 		CNetworkVehicle *veh = new CNetworkVehicle();
 		veh->m_GUID = data.GUID;
 		veh->SetVehicleData(data, 0);
+	}
+
+	void DeleteVehicle(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNetGUID veh;
+		bitStream->Read(veh);
+		auto _veh = CNetworkVehicle::GetByGUID(veh);
+		if (_veh) delete _veh;
 	}
 
 	void CreateMarker(RakNet::BitStream *bitStream, RakNet::Packet *packet)

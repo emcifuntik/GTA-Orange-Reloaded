@@ -29,6 +29,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simple-module", "simple-mod
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RakNet", "deps\RakNet\Source\RakNet.vcxproj", "{D578244B-91CE-414F-8279-6E39212FF632}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "font-converter", "font-converter\font-converter.vcxproj", "{AE292023-17DF-4BDB-9777-70E6BA4A6992}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -97,6 +99,14 @@ Global
 		{D578244B-91CE-414F-8279-6E39212FF632}.Release|x64.ActiveCfg = Release|x64
 		{D578244B-91CE-414F-8279-6E39212FF632}.Release|x64.Build.0 = Release|x64
 		{D578244B-91CE-414F-8279-6E39212FF632}.Release|x86.ActiveCfg = Release|x64
+		{AE292023-17DF-4BDB-9777-70E6BA4A6992}.Debug|x64.ActiveCfg = Debug|x64
+		{AE292023-17DF-4BDB-9777-70E6BA4A6992}.Debug|x64.Build.0 = Debug|x64
+		{AE292023-17DF-4BDB-9777-70E6BA4A6992}.Debug|x86.ActiveCfg = Debug|Win32
+		{AE292023-17DF-4BDB-9777-70E6BA4A6992}.Debug|x86.Build.0 = Debug|Win32
+		{AE292023-17DF-4BDB-9777-70E6BA4A6992}.Release|x64.ActiveCfg = Release|x64
+		{AE292023-17DF-4BDB-9777-70E6BA4A6992}.Release|x64.Build.0 = Release|x64
+		{AE292023-17DF-4BDB-9777-70E6BA4A6992}.Release|x86.ActiveCfg = Release|Win32
+		{AE292023-17DF-4BDB-9777-70E6BA4A6992}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -110,5 +120,6 @@ Global
 		{EF3508BB-D71E-488D-8CAA-19B0FEAADFB8} = {83580430-2C1D-47CF-8154-46ED82319C70}
 		{4740EEB7-B7EA-47F0-81DF-BF2F770DBA14} = {83580430-2C1D-47CF-8154-46ED82319C70}
 		{D578244B-91CE-414F-8279-6E39212FF632} = {2B1C54CE-B78F-4E1A-853E-DCC6A8ACC8BD}
+		{AE292023-17DF-4BDB-9777-70E6BA4A6992} = {2B1C54CE-B78F-4E1A-853E-DCC6A8ACC8BD}
 	EndGlobalSection
 EndGlobal

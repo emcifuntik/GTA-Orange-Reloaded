@@ -390,7 +390,7 @@ void Plugin::ServerEvent(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 	bitStream->Read(nargs);
 	args.push_back(name.C_String());
 
-	log << "Event: Name(" << nargs << "): " << name << std::endl;
+	//log << "Event: Name(" << nargs << "): " << name << std::endl;
 
 	for (int i = 0; i < nargs; i++)
 	{
@@ -402,7 +402,7 @@ void Plugin::ServerEvent(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 		{
 			bool val;
 			bitStream->Read(val);
-			log << "\tBool: " << val << std::endl;
+			//log << "\tBool: " << val << std::endl;
 			args.push_back(val);
 			break;
 		}
@@ -410,7 +410,7 @@ void Plugin::ServerEvent(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 		{
 			double val;
 			bitStream->Read(val);
-			log << "\tInt: " << val << std::endl;
+			//log << "\tInt: " << val << std::endl;
 			args.push_back(val);
 			break;
 		}
@@ -418,7 +418,7 @@ void Plugin::ServerEvent(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 		{
 			RakString val;
 			bitStream->Read(val);
-			log << "\tString: " << val.C_String() << std::endl;
+			//log << "\tString: " << val.C_String() << std::endl;
 			args.push_back(val.C_String());
 			break;
 		}

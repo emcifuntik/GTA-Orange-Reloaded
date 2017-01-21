@@ -48,6 +48,7 @@
 #include <TlHelp32.h>
 #include "tinyxml2.h"
 #include "resource.h"
+#include "font_awesome.h"
 #pragma endregion
 
 #include "Registry.h"
@@ -135,8 +136,7 @@ using namespace RakNet;
 #pragma endregion
 
 #include "Game.h"
-#include "Core/Chat.h"
-#include "Core/Commands.h"
+
 
 #pragma region Scripting
 #include "Scripting/CScriptEngine.h"
@@ -155,6 +155,8 @@ using namespace RakNet;
 #include "GuiDispatcher.h"
 #pragma endregion
 
+#include "Core/Chat.h"
+#include "Core/Commands.h"
 
 #include "Core/ScriptInvoker.h"
 #include "Core/Natives.h"
