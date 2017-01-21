@@ -158,9 +158,9 @@ namespace FPlayer
 
 		bitStream->Read(scale);
 		bitStream->Read(color);
-		bitStream->Read(sprite);
+		bitStream->Read(sprite); TRACE();
 		
-		new CNetworkBlip(guid, x, y, z, scale, color, sprite);
+		new CNetworkBlip(guid, x, y, z, scale, color, sprite); TRACE();
 	}
 
 	void DeleteBlip(RakNet::BitStream *bitStream, RakNet::Packet *packet)

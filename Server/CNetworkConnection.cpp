@@ -98,7 +98,7 @@ void CNetworkConnection::Tick()
 		{
 			case ID_DISCONNECTION_NOTIFICATION:
 			{
-				log << "Player disconnected " << packet->systemAddress.ToString(true) << std::endl;
+				log << "Player disconnected " << packet->systemAddress.ToString(true) << std::endl; TRACE();
 
 				CNetworkPlayer *player = CNetworkPlayer::GetByGUID(packet->guid);
 				UINT playerID = player->GetID();
@@ -132,7 +132,7 @@ void CNetworkConnection::Tick()
 			}
 			case ID_CONNECT_TO_SERVER:
 			{
-				RakNet::RakString playerName;
+				RakNet::RakString playerName; TRACE();
 				bsIn.Read(playerName);
 				CNetworkPlayer *player = new CNetworkPlayer(packet->guid);
 				player->SetName(playerName.C_String());
@@ -146,7 +146,7 @@ void CNetworkConnection::Tick()
 			}
 			case ID_CHAT_MESSAGE:
 			{
-				RakNet::RakString playerText;
+				RakNet::RakString playerText; TRACE();
 				bsIn.Read(playerText);
 
 				if (Plugin::PlayerText(CNetworkPlayer::GetByGUID(packet->guid)->GetID(), playerText.C_String()))
@@ -163,7 +163,7 @@ void CNetworkConnection::Tick()
 			}
 			case ID_COMMAND_MESSAGE:
 			{
-				RakNet::RakString playerText;
+				RakNet::RakString playerText; TRACE();
 				bsIn.Read(playerText);
 
 				/*std::vector<std::string> cmdArgs = split(playerText.C_String(), ' ');
@@ -182,7 +182,7 @@ void CNetworkConnection::Tick()
 			}
 			case ID_SEND_PLAYER_DATA:
 			{
-				CNetworkPlayer *player = CNetworkPlayer::GetByGUID(packet->guid);
+				CNetworkPlayer *player = CNetworkPlayer::GetByGUID(packet->guid); TRACE();
 				OnFootSyncData data;
 				bsIn.Read(data);
 
@@ -223,7 +223,7 @@ void CNetworkConnection::Tick()
 			}
 			case ID_SEND_VEHICLE_DATA:
 			{
-				VehicleData data;
+				VehicleData data; TRACE();
 				bsIn.Read(data);
 
 				if (data.GUID == UNASSIGNED_RAKNET_GUID) continue;
@@ -245,6 +245,7 @@ void CNetworkConnection::Tick()
 #endif
 				CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(data.GUID);
 
+				if (!veh) break;
 				veh->SetVehicleData(data); TRACE();
 				veh->GetVehicleData(data); TRACE();
 
@@ -260,7 +261,7 @@ void CNetworkConnection::Tick()
 			}
 			case ID_SEND_TASKS:
 			{
-				int tasks = 0;
+				int tasks = 0; TRACE();
 				bsIn.Read(tasks);
 				bsOut.Write((unsigned char)ID_SEND_TASKS);
 				bsOut.Write(packet->guid);

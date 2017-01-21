@@ -6,41 +6,6 @@
 #pragma comment(lib, "winmm.lib")
 #pragma comment(lib, "Dbghelp.lib")
 
-void printStack(std::fstream& out)
-{
-	typedef USHORT(WINAPI *CaptureStackBackTraceType)(__in ULONG, __in ULONG, __out PVOID*, __out_opt PULONG); TRACE();
-	CaptureStackBackTraceType func = (CaptureStackBackTraceType)(GetProcAddress(LoadLibrary(L"kernel32.dll"), "RtlCaptureStackBackTrace")); TRACE();
-
-	if (func == NULL)
-		return; // WOE 29.SEP.2010
-	TRACE();
-				// Quote from Microsoft Documentation:
-				// ## Windows Server 2003 and Windows XP:  
-				// ## The sum of the FramesToSkip and FramesToCapture parameters must be less than 63.
-	const int kMaxCallers = 62; TRACE();
-
-	void         * callers_stack[kMaxCallers];
-	unsigned short frames;
-	SYMBOL_INFO  * symbol;
-	HANDLE         process;
-	process = GetCurrentProcess(); TRACE();
-	SymInitialize(process, NULL, TRUE); TRACE();
-	frames = (func)(0, kMaxCallers, callers_stack, NULL); TRACE();
-	symbol = (SYMBOL_INFO *)calloc(sizeof(SYMBOL_INFO) + 256 * sizeof(char), 1); TRACE();
-	symbol->MaxNameLen = 255; TRACE();
-	symbol->SizeOfStruct = sizeof(SYMBOL_INFO); TRACE();
-
-	const unsigned short  MAX_CALLERS_SHOWN = 6; TRACE();
-	frames = frames < MAX_CALLERS_SHOWN ? frames : MAX_CALLERS_SHOWN; TRACE();
-	for (unsigned int i = 0; i < frames; i++)
-	{
-		SymFromAddr(process, (DWORD64)(callers_stack[i]), 0, symbol); TRACE();
-		out << "*** " << i << ": " << callers_stack[i] << " " << symbol->Name << " - 0x" << symbol->Address << std::endl; TRACE();
-	}
-	TRACE();
-	free(symbol); TRACE();
-}
-
 ScriptManagerThread g_ScriptManagerThread;
 
 static HANDLE		mainFiber;
@@ -64,15 +29,13 @@ void Script::Tick()
 	else
 	{
 		scriptFiber = CreateFiber(NULL, [](LPVOID handler) {
-			try {
+			//__try {
 				reinterpret_cast<Script*>(handler)->Run();
-			}
-			catch (...) {
-				std::string fname = DateTimeA() + ".call_stack.txt";
-				std::ofstream callStackFile(fname);
-				printStack(*(std::fstream*)&callStackFile);
-				log_error << "Error in script->Run. Callstack was written to " << fname << std::endl;
-			}
+			/*}
+			__except (EXCEPTION_EXECUTE_HANDLER) {
+				printStack(std::cout);
+				log_error << "Error in script->Run. Callstack was written to " << std::endl;
+			}*/
 		}, this);
 	}
 }
