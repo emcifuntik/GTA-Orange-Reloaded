@@ -195,9 +195,10 @@ void CNetworkVehicle::BuildTasksQueue()
 		tasksToIgnore--;
 		return;
 	}
+	if (Handle == 0) return;
+	ENTITY::SET_ENTITY_VELOCITY(Handle, m_vecMove.fX, m_vecMove.fY, m_vecMove.fZ);
 	if (m_MoveSpeed != .0f)
 	{
-		ENTITY::SET_ENTITY_VELOCITY(Handle, m_vecMove.fX, m_vecMove.fY, m_vecMove.fZ);
 		if (m_hasDriver)
 		{
 			if (VEHICLE::IS_THIS_MODEL_A_CAR(m_Model) || VEHICLE::IS_THIS_MODEL_A_BIKE(m_Model))
@@ -232,6 +233,7 @@ void CNetworkVehicle::BuildTasksQueue()
 	VEHICLE::SET_VEHICLE_ENGINE_HEALTH(Handle, m_EngineHealth);
 	VEHICLE::SET_VEHICLE_PETROL_TANK_HEALTH(Handle, m_TankHealth);
 
+	if (!ENTITY::DOES_ENTITY_EXIST(Handle)) return;
 	*CMemory(GetAddress()).get<float>(0x8CC) = m_steering / 180 * PI;
 	*CMemory(GetAddress()).get<float>(0x7F4) = m_RPM;
 }
