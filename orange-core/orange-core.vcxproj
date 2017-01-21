@@ -57,7 +57,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\deps\RakNet\DependentExtensions\portaudio_v18_1\pa_win_wmme;..\deps\RakNet\DependentExtensions\portaudio_v18_1\pa_common;../deps/RakNet/DependentExtensions/;../deps/ServerDeps/LuaJIT-2.1.0-beta2/src;../deps/RakNet/Source/;../shared/;./;../deps/tinyxml2/</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

@@ -103,15 +103,15 @@ void CNetworkConnection::Tick()
 				CNetworkPlayer *player = CNetworkPlayer::GetByGUID(packet->guid);
 				UINT playerID = player->GetID();
 
-				Plugin::PlayerDisconnect(playerID, 1);
-				Plugin::Trigger("PlayerDisconnect", (unsigned long)playerID, 1);
+				Plugin::PlayerDisconnect(playerID, 1); TRACE();
+				Plugin::Trigger("PlayerDisconnect", (unsigned long)playerID, 1); TRACE();
 
-				CNetworkPlayer::Remove(playerID);
+				CNetworkPlayer::Remove(playerID); TRACE();
 
-				bsOut.Write((unsigned char)ID_PLAYER_LEFT);
-				bsOut.Write(packet->guid);
+				bsOut.Write((unsigned char)ID_PLAYER_LEFT); TRACE();
+				bsOut.Write(packet->guid); TRACE();
 
-				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->guid, true);
+				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->guid, true); TRACE();
 				break;
 			}
 			case ID_NEW_INCOMING_CONNECTION:
@@ -301,18 +301,18 @@ void CNetworkConnection::Tick()
 			case ID_CONNECTION_LOST:
 			{
 				log << "Connection with " << packet->systemAddress.ToString(true) << " lost" << std::endl;
-				CNetworkPlayer *player = CNetworkPlayer::GetByGUID(packet->guid);
-				UINT playerID = player->GetID();
+				CNetworkPlayer *player = CNetworkPlayer::GetByGUID(packet->guid); TRACE();
+				UINT playerID = player->GetID(); TRACE();
 
-				Plugin::PlayerDisconnect(playerID, 2);
-				Plugin::Trigger("PlayerDisconnect", (unsigned long)playerID, 2);
+				Plugin::PlayerDisconnect(playerID, 2); TRACE();
+				Plugin::Trigger("PlayerDisconnect", (unsigned long)playerID, 2); TRACE();
 
-				CNetworkPlayer::Remove(playerID);
+				CNetworkPlayer::Remove(playerID); TRACE();
 
-				bsOut.Write((unsigned char)ID_PLAYER_LEFT);
-				bsOut.Write(packet->guid);
+				bsOut.Write((unsigned char)ID_PLAYER_LEFT); TRACE();
+				bsOut.Write(packet->guid); TRACE();
 
-				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
+				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true); TRACE();
 				break;
 			}
 			default:
