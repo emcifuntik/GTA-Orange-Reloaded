@@ -88,7 +88,6 @@ void CNetworkConnection::Tick()
 {
 	for (packet = server->Receive(); packet; server->DeallocatePacket(packet), packet = server->Receive())
 	{
-		TRACE();
 		unsigned char packetIdentifier = packet->data[0];
 		RakNet::BitStream bsIn(packet->data, packet->length, false);
 		bsIn.IgnoreBytes(sizeof(unsigned char));
@@ -98,20 +97,20 @@ void CNetworkConnection::Tick()
 		{
 			case ID_DISCONNECTION_NOTIFICATION:
 			{
-				log << "Player disconnected " << packet->systemAddress.ToString(true) << std::endl; TRACE();
+				log << "Player disconnected " << packet->systemAddress.ToString(true) << std::endl;
 
 				CNetworkPlayer *player = CNetworkPlayer::GetByGUID(packet->guid);
 				UINT playerID = player->GetID();
 
-				Plugin::PlayerDisconnect(playerID, 1); TRACE();
-				Plugin::Trigger("PlayerDisconnect", (unsigned long)playerID, 1); TRACE();
+				Plugin::PlayerDisconnect(playerID, 1);
+				Plugin::Trigger("PlayerDisconnect", (unsigned long)playerID, 1);
 
-				CNetworkPlayer::Remove(playerID); TRACE();
+				CNetworkPlayer::Remove(playerID);
 
-				bsOut.Write((unsigned char)ID_PLAYER_LEFT); TRACE();
-				bsOut.Write(packet->guid); TRACE();
+				bsOut.Write((unsigned char)ID_PLAYER_LEFT);
+				bsOut.Write(packet->guid);
 
-				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->guid, true); TRACE();
+				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->guid, true);
 				break;
 			}
 			case ID_NEW_INCOMING_CONNECTION:
@@ -132,7 +131,7 @@ void CNetworkConnection::Tick()
 			}
 			case ID_CONNECT_TO_SERVER:
 			{
-				RakNet::RakString playerName; TRACE();
+				RakNet::RakString playerName;
 				bsIn.Read(playerName);
 				CNetworkPlayer *player = new CNetworkPlayer(packet->guid);
 				player->SetName(playerName.C_String());
@@ -146,7 +145,7 @@ void CNetworkConnection::Tick()
 			}
 			case ID_CHAT_MESSAGE:
 			{
-				RakNet::RakString playerText; TRACE();
+				RakNet::RakString playerText;
 				bsIn.Read(playerText);
 
 				if (Plugin::PlayerText(CNetworkPlayer::GetByGUID(packet->guid)->GetID(), playerText.C_String()))
@@ -163,7 +162,7 @@ void CNetworkConnection::Tick()
 			}
 			case ID_COMMAND_MESSAGE:
 			{
-				RakNet::RakString playerText; TRACE();
+				RakNet::RakString playerText;
 				bsIn.Read(playerText);
 
 				/*std::vector<std::string> cmdArgs = split(playerText.C_String(), ' ');
@@ -182,7 +181,7 @@ void CNetworkConnection::Tick()
 			}
 			case ID_SEND_PLAYER_DATA:
 			{
-				CNetworkPlayer *player = CNetworkPlayer::GetByGUID(packet->guid); TRACE();
+				CNetworkPlayer *player = CNetworkPlayer::GetByGUID(packet->guid);
 				OnFootSyncData data;
 				bsIn.Read(data);
 
@@ -223,7 +222,7 @@ void CNetworkConnection::Tick()
 			}
 			case ID_SEND_VEHICLE_DATA:
 			{
-				VehicleData data; TRACE();
+				VehicleData data;
 				bsIn.Read(data);
 
 				if (data.GUID == UNASSIGNED_RAKNET_GUID) continue;
@@ -246,10 +245,10 @@ void CNetworkConnection::Tick()
 				CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(data.GUID);
 
 				if (!veh) break;
-				veh->SetVehicleData(data); TRACE();
-				veh->GetVehicleData(data); TRACE();
+				veh->SetVehicleData(data);
+				veh->GetVehicleData(data);
 
-				bsOut.Write(data); TRACE();
+				bsOut.Write(data);
 
 #ifdef _DEBUG
 				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
@@ -261,7 +260,7 @@ void CNetworkConnection::Tick()
 			}
 			case ID_SEND_TASKS:
 			{
-				int tasks = 0; TRACE();
+				int tasks = 0;
 				bsIn.Read(tasks);
 				bsOut.Write((unsigned char)ID_SEND_TASKS);
 				bsOut.Write(packet->guid);
@@ -302,18 +301,18 @@ void CNetworkConnection::Tick()
 			case ID_CONNECTION_LOST:
 			{
 				log << "Connection with " << packet->systemAddress.ToString(true) << " lost" << std::endl;
-				CNetworkPlayer *player = CNetworkPlayer::GetByGUID(packet->guid); TRACE();
-				UINT playerID = player->GetID(); TRACE();
+				CNetworkPlayer *player = CNetworkPlayer::GetByGUID(packet->guid);
+				UINT playerID = player->GetID();
 
-				Plugin::PlayerDisconnect(playerID, 2); TRACE();
-				Plugin::Trigger("PlayerDisconnect", (unsigned long)playerID, 2); TRACE();
+				Plugin::PlayerDisconnect(playerID, 2);
+				Plugin::Trigger("PlayerDisconnect", (unsigned long)playerID, 2);
 
-				CNetworkPlayer::Remove(playerID); TRACE();
+				CNetworkPlayer::Remove(playerID);
 
-				bsOut.Write((unsigned char)ID_PLAYER_LEFT); TRACE();
-				bsOut.Write(packet->guid); TRACE();
+				bsOut.Write((unsigned char)ID_PLAYER_LEFT);
+				bsOut.Write(packet->guid);
 
-				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true); TRACE();
+				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
 				break;
 			}
 			default:
