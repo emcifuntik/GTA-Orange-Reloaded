@@ -105,3 +105,5 @@ typedef unsigned long ULONG;
 #include "CHTTPServer.h"
 
 unsigned long createGUID();
+
+#define TRACE() log_debug << __FILE__ << " -> Line " << std::dec << __LINE__ << std::endl

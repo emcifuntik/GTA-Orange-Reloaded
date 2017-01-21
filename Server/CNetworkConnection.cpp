@@ -88,6 +88,7 @@ void CNetworkConnection::Tick()
 {
 	for (packet = server->Receive(); packet; server->DeallocatePacket(packet), packet = server->Receive())
 	{
+		TRACE();
 		unsigned char packetIdentifier = packet->data[0];
 		RakNet::BitStream bsIn(packet->data, packet->length, false);
 		bsIn.IgnoreBytes(sizeof(unsigned char));
@@ -244,10 +245,10 @@ void CNetworkConnection::Tick()
 #endif
 				CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(data.GUID);
 
-				veh->SetVehicleData(data);
-				veh->GetVehicleData(data);
+				veh->SetVehicleData(data); TRACE();
+				veh->GetVehicleData(data); TRACE();
 
-				bsOut.Write(data);
+				bsOut.Write(data); TRACE();
 
 #ifdef _DEBUG
 				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
