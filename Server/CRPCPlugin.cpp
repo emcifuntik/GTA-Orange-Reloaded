@@ -7,6 +7,7 @@ CRPCPlugin::CRPCPlugin()
 	CNetworkConnection::Get()->server->AttachPlugin(this);
 
 	RegisterSlot("KeyEvent", Plugin::KeyEvent, 0);
+	RegisterSlot("ServerEvent", Plugin::ServerEvent, 0);
 }
 
 CRPCPlugin *CRPCPlugin::Get()

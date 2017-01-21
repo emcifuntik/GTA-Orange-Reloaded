@@ -40,6 +40,20 @@ int lua_SetPlayerInfoMsg(lua_State *L)
 	return 0;
 }
 
+int lua_SendPlayerNotification(lua_State *L)
+{
+	API::Get().SendNotification(lua_tointeger(L, 1), lua_tostring(L, 2));
+
+	return 0;
+}
+
+int lua_SendPlayerMessage(lua_State *L)
+{
+	API::Get().SendClientMessage(lua_tointeger(L, 1), lua_tostring(L, 2), 0xFFFFFFFF);
+
+	return 0;
+}
+
 int lua_PlayerExists(lua_State *L)
 {
 	lua_pushboolean(L, players[lua_tointeger(L, 1)].exists);

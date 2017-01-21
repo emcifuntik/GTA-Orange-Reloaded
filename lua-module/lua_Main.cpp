@@ -2,7 +2,12 @@
 
 int lua_print(lua_State *L)
 {
-	API::Get().Print(lua_tostring(L, 1));
+	std::stringstream ss;
+	int nargs = lua_gettop(L);
+	for (int i = 1; i <= nargs; ++i) {
+		ss << lua_tostring(L, i) << "\t";
+	}
+	API::Get().Print(ss.str().c_str());
 	return 0;
 }
 
@@ -11,7 +16,7 @@ int lua_tick(lua_State *L)
 	lua_pushvalue(L, 1);
 
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
-	
+
 	SResource::Get()->SetTick([=]()
 	{
 		lua_pushvalue(L, 1);
@@ -60,7 +65,7 @@ int lua_HTTPReq(lua_State *L)
 			return (char*)NULL;
 		}
 
-		char* res = _strdup(lua_tostring(L, -1));
+		char* res = strdup(lua_tostring(L, -1));
 		lua_pop(L, 2);
 
 		return res;
@@ -184,6 +189,12 @@ int lua_Attach3DTextToVeh(lua_State *L)
 int lua_Attach3DTextToPlayer(lua_State *L)
 {
 	API::Get().Attach3DTextToPlayer(lua_tointeger(L, 1), lua_tointeger(L, 2), lua_tonumber(L, 3), lua_tonumber(L, 4), lua_tonumber(L, 5));
+	return 0;
+}
+
+int lua_LoadClientScript(lua_State *L)
+{
+	SResource::Get()->AddClientScript(lua_tostring(L, 1));
 	return 0;
 }
 

@@ -64,6 +64,7 @@ static bool OnLookAlive()
 		//DisableScripts();
 		CGlobals::Get().ForceCleanupForAllThreadsWithThisName("startup", 8);
 		CGlobals::Get().TerminateAllScriptsWithThisName("startup");
+
 		CGlobals::Get().ShutdownLoadingScreen();
 		CGlobals::Get().DoScreenFadeIn(0);
 	}
@@ -105,7 +106,7 @@ void OnGameStateChange(int gameState)
 		break;
 	case GameStatePlaying:
 	{
-		//TurnOnConsole();
+		TurnOnConsole();
 		if (!ScriptEngine::Initialize())
 			log_error << "Failed to initialize ScriptEngine" << std::endl;
 		D3DHook::HookD3D11();

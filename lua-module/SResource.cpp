@@ -1,9 +1,38 @@
 #include "stdafx.h"
 
+std::stringbuf _code_;
+size_t _size = 0;
+
+static int writer(lua_State *L, const void *p, size_t size, void *u) {
+
+	unsigned int i = 0;
+
+	unsigned char *d = (unsigned char *)p;
+
+	_code_.sputn((char*)d, size);
+	_size += size;
+
+	return 0;
+}
+
+
+void compile(lua_State *L, const char *file) {
+	
+	if (luaL_loadfile(L, file) != 0) {
+		printf("%s\n", lua_tostring(L, -1));
+	}
+
+	lua_dump(L, writer, NULL);
+	lua_pop(L, 1);
+}
+
 SResource *SResource::singleInstance = nullptr;
 
 static const struct luaL_Reg gfunclib[] = {
 	{ "print", lua_print },
+	/*{ "__invoke", lua_invoke },
+	{ "_i", lua_getvalue<Type::N_INT> },
+	{ "_ip", lua_getvalue<Type::N_INTPOINTER> },*/
 	{ NULL, NULL }
 };
 
@@ -19,6 +48,7 @@ static const struct luaL_Reg mfunclib[] = {
 	{ "DeleteMarker", lua_DeleteMarker },
 
 	{ "CreateVehicle", lua_CreateVehicle },
+	{ "DeleteVehicle", lua_DeleteVehicle },
 
 	{ "CreateObject", lua_CreateObject },
 
@@ -28,9 +58,12 @@ static const struct luaL_Reg mfunclib[] = {
 	{ "GetPlayerModel", lua_GetPlayerModel },
 	{ "GivePlayerWeapon", lua_GivePlayerWeapon },
 	{ "PlayerExists", lua_PlayerExists },
+	{ "SendPlayerNotification", lua_SendPlayerNotification },
 	{ "SetPlayerInfoMsg", lua_SetPlayerInfoMsg },
+	{ "SendPlayerMessage", lua_SendPlayerMessage },
 	{ "SetPlayerIntoVehicle", lua_SetPlayerIntoVehicle },
 	
+	{ "AddClientScript", lua_LoadClientScript },
 	{ "OnTick", lua_tick },
 	{ "OnHTTPReq", lua_HTTPReq },
 	{ "OnEvent", lua_Event },
@@ -78,7 +111,37 @@ bool SResource::Init()
 		API::Get().Print(ss.str().c_str());
 		return false;
 	}
+
+	/*if (luaL_loadbuffer(m_lua, luaJIT_BC_main, luaJIT_BC_main_SIZE, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
+		std::stringstream ss;
+		ss << "[LUA] " << lua_tostring(m_lua, -1);
+		API::Get().Print(ss.str().c_str());
+		return false;
+	}*/
+
+	//std::cout << /*lua_dump(m_lua)*/  << std::endl;
+
 	return true;
+}
+
+void SResource::AddClientScript(std::string file)
+{
+	compile(m_lua, file.c_str());
+
+	char* _code = new char[_size];
+	_code_.sgetn(_code, _size);
+
+	API::Get().Print("ADD");
+
+	/*if (luaL_loadbuffer(m_lua, _code, _size, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
+		std::stringstream ss;
+		ss << "[LUA] " << lua_tostring(m_lua, -1);
+		API::Get().Print(ss.str().c_str());
+	}*/
+
+	API::Get().LoadClientScript(file.c_str(), _code, _size);
+
+	_size = 0;
 }
 
 bool SResource::Start(const char* name)
@@ -91,30 +154,17 @@ bool SResource::Start(const char* name)
 
 	std::stringstream ss;
 	ss << "[LUA] Starting resource " << name;
-	API::Get().Print(ss.str().c_str());
-	
+	API::Get().Print(ss.str().c_str());	
+
 	if (luaL_loadfile(m_lua, respath) || lua_pcall(m_lua, 0, 0, 0)) {
 		std::stringstream ss;
-		ss << "[LUA] Could not load main.lua for resource:\n\t" << lua_tostring(m_lua, -1) << name;
+		ss << "[LUA] " << lua_tostring(m_lua, -1);
 		API::Get().Print(ss.str().c_str());
 		return false;
 	}
+
 	return true;
 }
-
-/*bool SResource::OnPlayerConnect(long playerid)
-{
-	lua_getglobal(m_lua, "__OnPlayerConnect");
-	lua_pushinteger(m_lua, playerid);
-
-	if (lua_pcall(m_lua, 1, 0, 0))
-	{
-		API::Get().Print("Error in OnPlayerConnect callback");
-		API::Get().Print(lua_tostring(m_lua, -1));
-	}
-
-	return true;
-}*/
 
 char* SResource::OnHTTPRequest(const char* method, const char* url, const char* query, const char* body)
 {

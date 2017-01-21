@@ -6,7 +6,7 @@ CNetwork3DText::CNetwork3DText(float x, float y, float z, int color, int outColo
 {
 	RakNet::BitStream bsOut;
 
-	rnGUID = RakNetGUID::RakNetGUID(createGUID());
+	rnGUID = RakNetGUID(createGUID());
 
 	bsOut.Write(rnGUID);
 	bsOut.Write(x);
@@ -121,7 +121,7 @@ CNetwork3DText::~CNetwork3DText()
 
 void CNetwork3DText::SendGlobal(RakNet::Packet *packet)
 {
-	for each(auto *text in AllTexts)
+	for (auto *text : AllTexts)
 	{
 		if (text->playerid != -1)
 			continue;
@@ -145,7 +145,7 @@ void CNetwork3DText::SendGlobal(RakNet::Packet *packet)
 
 CNetwork3DText * CNetwork3DText::GetByGUID(RakNetGUID guid)
 {
-	for each (CNetwork3DText *text in AllTexts)
+	for (CNetwork3DText *text : AllTexts)
 		if (text && text->rnGUID == guid)
 			return text;
 	return nullptr;

@@ -10,7 +10,7 @@ CNetworkMarker::CNetworkMarker(float x, float y, float z, float height, float ra
 {
 	RakNet::BitStream bsOut;
 
-	rnGUID = RakNetGUID::RakNetGUID(createGUID());
+	rnGUID = RakNetGUID(createGUID());
 
 	bsOut.Write(rnGUID);
 	bsOut.Write(x);
@@ -56,7 +56,7 @@ CNetworkMarker::~CNetworkMarker()
 
 void CNetworkMarker::SendGlobal(RakNet::Packet *packet)
 {
-	for each(auto *Marker in GlobalMarkers)
+	for(auto *Marker : GlobalMarkers)
 	{
 		RakNet::BitStream bsOut;
 
@@ -74,11 +74,11 @@ void CNetworkMarker::SendGlobal(RakNet::Packet *packet)
 
 CNetworkMarker * CNetworkMarker::GetByGUID(RakNetGUID guid)
 {
-	for each (CNetworkMarker *Marker in GlobalMarkers)
+	for (CNetworkMarker *Marker : GlobalMarkers)
 		if (Marker && Marker->rnGUID == guid)
 			return Marker;
 
-	for each (CNetworkMarker *Marker in PlayerMarkers)
+	for (CNetworkMarker *Marker : PlayerMarkers)
 		if (Marker && Marker->rnGUID == guid)
 			return Marker;
 

@@ -55,7 +55,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;ORANGECORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../deps/RakNet/;../shared/;./;../deps/tinyxml2/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\deps\RakNet\DependentExtensions\portaudio_v18_1\pa_win_wmme;..\deps\RakNet\DependentExtensions\portaudio_v18_1\pa_common;../deps/RakNet/DependentExtensions/;../deps/ServerDeps/LuaJIT-2.1.0-beta2/src;../deps/RakNet/Source/;../shared/;./;../deps/tinyxml2/</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
@@ -75,7 +75,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;ORANGECORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../deps/RakNet/;../shared/;./;../deps/tinyxml2/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\deps\RakNet\DependentExtensions\portaudio_v18_1\pa_win_wmme;..\deps\RakNet\DependentExtensions\portaudio_v18_1\pa_common;../deps/RakNet/DependentExtensions/;../deps/ServerDeps/LuaJIT-2.1.0-beta2/src;../deps/RakNet/Source/;../shared/;./;../deps/tinyxml2/</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -84,7 +84,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\deps\bin\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>RakNet_$(Configuration)_$(Platform).lib;tinyxml2_$(Configuration)_$(Platform).lib;d3dcompiler.lib;winmm.lib;Mincore.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>RakNet_$(Configuration)_$(Platform).lib;tinyxml2_$(Configuration)_$(Platform).lib;d3dcompiler.lib;winmm.lib;Mincore.lib;version.lib;lua51.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -152,7 +152,10 @@
     <ClInclude Include="Network\Functions.h" />
     <ClInclude Include="orange-core.h" />
     <ClInclude Include="Registry.h" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="Scripting\ClientsideAPILua.h" />
+    <ClInclude Include="Scripting\CScriptEngine.h" />
+    <ClInclude Include="Scripting\LuaDefs.h" />
+    <ClInclude Include="Scripting\NativesLua.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="tagfont.h" />
     <ClInclude Include="targetver.h" />
@@ -197,6 +200,7 @@
     <ClCompile Include="GTA\sysAllocator.cpp" />
     <ClCompile Include="GTA\VTasks.cpp" />
     <ClCompile Include="GuiDispatcher.cpp" />
+    <ClCompile Include="LuaNativeEngine.cpp" />
     <ClCompile Include="Memory.cpp" />
     <ClCompile Include="MemoryCache.cpp" />
     <ClCompile Include="Network\CConfig.cpp" />
@@ -216,6 +220,9 @@
     <ClCompile Include="Network\Functions.cpp" />
     <ClCompile Include="orange-core.cpp" />
     <ClCompile Include="Registry.cpp" />
+    <ClCompile Include="ScriptingScene.cpp" />
+    <ClCompile Include="Scripting\CScriptEngine.cpp" />
+    <ClCompile Include="Scripting\LuaMainDefs.cpp" />
     <ClCompile Include="Scripts\ChatScript.cpp" />
     <ClCompile Include="Scripts\GameInit.cpp" />
     <ClCompile Include="Scripts\NetworkScript.cpp" />
@@ -228,9 +235,9 @@
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\deps\RakNet\RakNet.vcxproj">
-      <Project>{d578244b-91ce-414f-8279-6e39212ff632}</Project>
-    </ProjectReference>
+    <Image Include="Launcher.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\deps\tinyxml2\tinyxml2\tinyxml2.vcxproj">
       <Project>{d1c528b6-aa02-4d29-9d61-dc08e317a70d}</Project>
     </ProjectReference>

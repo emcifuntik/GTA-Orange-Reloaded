@@ -1,36 +1,45 @@
 #pragma once
 
-#define WIN32_LEAN_AND_MEAN
-
-// Windows Header Files:
-#include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <intrin.h>
 #include <string>
 #include <locale>
-#include <codecvt>
 #include <vector>
 #include <map>
 #include <sstream>
-#include <Psapi.h>
 #include <iostream>
 #include <fstream>
 #include <time.h>
-#include <direct.h>
 #include <thread>
 #include <iomanip>
+
+// Windows Header Files:
+#ifdef _WIN32
+
+#define WIN32_LEAN_AND_MEAN
+
+#include <codecvt>
+#include <windows.h>
+#include <intrin.h>
+#include <Psapi.h>
+#include <direct.h>
 #include <TimeAPI.h>
 
+#endif
+
 // YAML
-#include "yaml-cpp\yaml.h"
+#include "yaml-cpp/yaml.h"
 
 // Config
 #include "CConfig.h"
 
+#ifdef _WIN32
+
 // Logging
-#include <CConsole.h>
+#include <Console/CConsole.h>
 #include <CLog.h>
+
+#endif
 
 // RakNet
 #include <MessageIdentifiers.h>
@@ -46,8 +55,19 @@
 #include <RPC4Plugin.h>
 using namespace RakNet;
 
+
+#ifndef _WIN32
+
+typedef unsigned long DWORD;
+typedef unsigned char BYTE;
+typedef unsigned int UINT;
+typedef unsigned long ULONG;
+#define MAX_PATH 260
+
+#endif
+
 // Scripthook types
-#include <../orange-core/core/Types.h>
+#include <types.h>
 
 // Network manager
 #include "CNetworkConnection.h"
@@ -57,12 +77,20 @@ using namespace RakNet;
 #include "CVector3.h"
 #include "NetworkTypes.h"
 
+#ifndef _WIN32
+#define log std::cout
+#define log_debug std::cout
+#define log_info std::cout
+#define log_error std::cout
+#endif
+
 // RPC
 #include "CRPCPlugin.h"
 
 // API
 #include "API.h"
 #include "Plugin.h"
+#include "CClientScripting.h"
 
 // Network objects
 #include "CNetworkPlayer.h"
@@ -77,3 +105,5 @@ using namespace RakNet;
 #include "CHTTPServer.h"
 
 unsigned long createGUID();
+
+#define TRACE() log_debug << __FILE__ << " -> Line " << std::dec << __LINE__ << std::endl

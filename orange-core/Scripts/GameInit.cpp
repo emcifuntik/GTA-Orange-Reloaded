@@ -15,6 +15,7 @@ void StartScript(const char* name)
 void Action()
 {
 	bool teleported = false;
+	bool mobiledisabled = false;
 	while (true)
 	{
 		if (!teleported)
@@ -27,14 +28,6 @@ void Action()
 
 			scriptWait(0);
 
-			for (int i = 0; i < 5; i++)
-				GAMEPLAY::DISABLE_HOSPITAL_RESTART(i, true);
-
-			for (int i = 0; i < 50; i++) {
-				GAMEPLAY::DISABLE_STUNT_JUMP_SET(i);
-				GAMEPLAY::DELETE_STUNT_JUMP(i);
-			}
-
 			//CGlobals::Get().InitializeOnline();
 
 			ENTITY::SET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), 363.871f, 621.555f, 78.44f, true, false, false, false);
@@ -45,6 +38,7 @@ void Action()
 			CAM::RENDER_SCRIPT_CAMS(true, false, 0, true, false);
 			UI::DISPLAY_HUD(false);
 			UI::DISPLAY_RADAR(false);
+			CLocalPlayer::Get()->ChangeModel(Utils::Hash("mp_m_freemode_01"));
 			CGlobals::Get().displayServerBrowser = true;
 			teleported = true;
 			CLocalPlayer::Get()->ChangeModel(Utils::Hash("mp_m_freemode_01"));
@@ -52,6 +46,15 @@ void Action()
 			ss << "{E30022}" << u8"\ueffb" << "{FFFFFF} Grand Theft Auto: {FF8F00}Orange {FFFFFF}loaded";
 			CChat::Get()->AddChatMessage(ss.str());
 		}
+
+		if (!mobiledisabled && CGlobals::Get().HasScriptLoaded("cellphone_controller"))
+		{
+			MOBILE::DESTROY_MOBILE_PHONE();
+			CGlobals::Get().TerminateAllScriptsWithThisName("cellphone_controller");
+			mobiledisabled = true;
+		}
+		//CGlobals::Get().TerminateAllScriptsWithThisName("cellphone_flashhandr");
+		//MOBILE::DESTROY_MOBILE_PHONE();
 		scriptWait(0);
 	}
 }

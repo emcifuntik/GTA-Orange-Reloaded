@@ -49,6 +49,9 @@
     <ClInclude Include="CNetworkObject.h">
       <Filter>Header Files\Network</Filter>
     </ClInclude>
+    <ClInclude Include="CClientScripting.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -98,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="CNetworkObject.cpp">
       <Filter>Source Files\Net</Filter>
+    </ClCompile>
+    <ClCompile Include="CClientScripting.cpp">
+      <Filter>Source Files\Plugins</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

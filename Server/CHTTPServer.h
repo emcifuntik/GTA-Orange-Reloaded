@@ -38,7 +38,7 @@ public:
 class CHTTPServer
 {
 public:
-	static CivetServer g_server;
+	static CivetServer *g_server;
 	static CHTTPServer * Get();
 	CHTTPServer();
 	bool Start(int port);

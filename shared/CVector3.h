@@ -79,27 +79,27 @@ public:
 		return ss.str();
 	}
 
-	static CVector3 CVector3::Add(CVector3 left, CVector3 right)
+	static CVector3 Add(CVector3 left, CVector3 right)
 	{
 		vadd_sse((float*)&left, (float*)&right, (float*)&left);
 		return left;
 	}
-	static CVector3 CVector3::Subtract(CVector3 left, CVector3 right)
+	static CVector3 Subtract(CVector3 left, CVector3 right)
 	{
 		vadd_sse((float*)&left, (float*)&right, (float*)&left);
 		return left;
 	}
-	static CVector3 CVector3::Modulate(CVector3 left, CVector3 right)
+	static CVector3 Modulate(CVector3 left, CVector3 right)
 	{
 		vadd_sse((float*)&left, (float*)&right, (float*)&left);
 		return left;
 	}
-	static CVector3 CVector3::Multiply(CVector3 value, float scale)
+	static CVector3 Multiply(CVector3 value, float scale)
 	{
 		vdiv_sse((float*)&value, scale, (float*)&value);
 		return value;
 	}
-	static CVector3 CVector3::Divide(CVector3 value, float scale)
+	static CVector3 Divide(CVector3 value, float scale)
 	{
 		vdiv_sse((float*)&value, scale, (float*)&value);
 		return value;

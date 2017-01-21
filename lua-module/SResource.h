@@ -4,10 +4,10 @@ class SResource
 public:
 	SResource();
 	bool Init();
+	void AddClientScript(std::string file);
 	bool Start(const char * name);
 	static SResource *singleInstance;
 	static SResource *Get();
-	bool OnPlayerConnect(long playerid);
 	bool OnTick();
 	bool OnPlayerCommand(long playerid, const char * cmd);
 	void SetHTTP(const std::function<char*(const char* method, const char* url, const char* query, const char* body)>& t);
