@@ -90,14 +90,14 @@ int lua_menu(lua_State *L)
 		lua_pop(L, 1);
 
 		child->name = _strdup(capture);
-		child->type = type; TRACE();
+		child->type = type;
 	
 		if (type == 1)
 		{
-			lua_rawgeti(L, -1, 3); TRACE();
+			lua_rawgeti(L, -1, 3);
 
 			if (lua_isnil(L, -1)) {
-				lua_pop(L, 1); TRACE();
+				lua_pop(L, 1);
 				child->cb = []() {};
 			}
 			else {

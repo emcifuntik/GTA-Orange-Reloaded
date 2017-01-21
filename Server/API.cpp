@@ -205,7 +205,6 @@ void API::BroadcastClientMessage(const char * message, unsigned int color)
 
 bool API::SendClientMessage(long playerid, const char * message, unsigned int color)
 {
-	log << "Msg1: " << message << std::endl;
 	auto player = CNetworkPlayer::GetByID(playerid);
 	if (!player)
 		return false;
@@ -218,7 +217,6 @@ bool API::SendClientMessage(long playerid, const char * message, unsigned int co
 	col.blue = (BYTE)((color >> 8) & 0xFF);   // Extract the GG byte
 	col.alpha = (BYTE)((color) & 0xFF);        // Extract the BB byte
 	bsOut.Write(col);
-	log << "Msg2: " << message << std::endl;
 	CRPCPlugin::Get()->Signal("SendClientMessage", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, player->GetGUID(), false, false);
 	return true;
 }
