@@ -48,7 +48,9 @@ void Action()
 			CGlobals::Get().displayServerBrowser = true;
 			teleported = true;
 			CLocalPlayer::Get()->ChangeModel(Utils::Hash("mp_m_freemode_01"));
-			CChat::Get()->AddChatMessage(ICON_FA_STAR" Grand Theft Auto: {FF8F00}Orange {FFFFFF}loaded");
+			std::stringstream ss;
+			ss << "{8A2BE2}" << ICON_FA_STAR << "{FFFFFF} Grand Theft Auto: {FF8F00}Orange {FFFFFF}loaded";
+			CChat::Get()->AddChatMessage(ss.str());
 		}
 		scriptWait(0);
 	}
