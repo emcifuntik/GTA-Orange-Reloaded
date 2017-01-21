@@ -61,6 +61,11 @@ void CChat::Render()
 	else
 		fOpacity = 0.5f;
 
+	ImGui::PushStyleColor(ImGuiCol_ScrollbarBg, ImColor(0.f, 0.f, 0.f, 0.0f));
+	ImGui::PushStyleColor(ImGuiCol_ScrollbarGrab, ImColor(0.7f, 0.7f, 0.7f, fOpacity));
+	ImGui::PushStyleColor(ImGuiCol_ScrollbarGrabActive, ImColor(0.8f, 0.8f, 0.8f, fOpacity));
+	ImGui::PushStyleColor(ImGuiCol_ScrollbarGrabHovered, ImColor(0.75f, 0.75f, 0.75f, fOpacity));
+
 	ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiSetCond_Always);
 	ImGui::Begin("Chat", &bEnabled, ImVec2(400, 190), fOpacity, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
 
@@ -117,7 +122,7 @@ void CChat::Render()
 	ImGui::PopFont();
 	ImGui::End();
 	ImGui::PopStyleVar(2);
-	ImGui::PopStyleColor(1);
+	ImGui::PopStyleColor(4);
 
 	if (bOpened)
 	{
