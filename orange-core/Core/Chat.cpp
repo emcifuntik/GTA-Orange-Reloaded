@@ -165,10 +165,14 @@ void CChat::Render()
 					ImVector<const char*> candidates;
 					auto players = CNetworkPlayer::All();
 					for (int i = 0; i < players.size(); i++)
-						if (_strnicmp(players[i]->GetName().c_str(), word_start, (int)(word_end - word_start)) == 0)
-							candidates.push_back(players[i]->GetName().c_str());
-					if (_strnicmp(CConfig::Get()->sNickName.c_str(), word_start, (int)(word_end - word_start)) == 0)
-						candidates.push_back(CConfig::Get()->sNickName.c_str());
+					{
+						char *chr = _strdup(players[i]->GetName().c_str());
+						if (strncmp(chr, word_start, (int)(word_end - word_start)) == 0)
+							candidates.push_back(chr);
+					}
+						
+					if (strncmp(CConfig::Get()->sNickName.c_str(), word_start, (int)(word_end - word_start)) == 0)
+						candidates.push_back(_strdup(CConfig::Get()->sNickName.c_str()));
 
 					if (candidates.Size == 0)
 					{
@@ -178,7 +182,7 @@ void CChat::Render()
 						// Single match. Delete the beginning of the word and replace it entirely so we've got nice casing
 						data->DeleteChars((int)(word_start - data->Buf), (int)(word_end - word_start));
 						data->InsertChars(data->CursorPos, candidates[0]);
-						data->InsertChars(data->CursorPos, " ");
+						//data->InsertChars(data->CursorPos, " ");
 					}
 					else
 					{
