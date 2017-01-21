@@ -57,7 +57,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>../deps/RakNet/;../shared/;./;../deps/tinyxml2/</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

@@ -8,37 +8,37 @@
 
 void printStack(std::fstream& out)
 {
-	typedef USHORT(WINAPI *CaptureStackBackTraceType)(__in ULONG, __in ULONG, __out PVOID*, __out_opt PULONG);
-	CaptureStackBackTraceType func = (CaptureStackBackTraceType)(GetProcAddress(LoadLibrary(L"kernel32.dll"), "RtlCaptureStackBackTrace"));
+	typedef USHORT(WINAPI *CaptureStackBackTraceType)(__in ULONG, __in ULONG, __out PVOID*, __out_opt PULONG); TRACE();
+	CaptureStackBackTraceType func = (CaptureStackBackTraceType)(GetProcAddress(LoadLibrary(L"kernel32.dll"), "RtlCaptureStackBackTrace")); TRACE();
 
 	if (func == NULL)
 		return; // WOE 29.SEP.2010
-
+	TRACE();
 				// Quote from Microsoft Documentation:
 				// ## Windows Server 2003 and Windows XP:  
 				// ## The sum of the FramesToSkip and FramesToCapture parameters must be less than 63.
-	const int kMaxCallers = 62;
+	const int kMaxCallers = 62; TRACE();
 
 	void         * callers_stack[kMaxCallers];
 	unsigned short frames;
 	SYMBOL_INFO  * symbol;
 	HANDLE         process;
-	process = GetCurrentProcess();
-	SymInitialize(process, NULL, TRUE);
-	frames = (func)(0, kMaxCallers, callers_stack, NULL);
-	symbol = (SYMBOL_INFO *)calloc(sizeof(SYMBOL_INFO) + 256 * sizeof(char), 1);
-	symbol->MaxNameLen = 255;
-	symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+	process = GetCurrentProcess(); TRACE();
+	SymInitialize(process, NULL, TRUE); TRACE();
+	frames = (func)(0, kMaxCallers, callers_stack, NULL); TRACE();
+	symbol = (SYMBOL_INFO *)calloc(sizeof(SYMBOL_INFO) + 256 * sizeof(char), 1); TRACE();
+	symbol->MaxNameLen = 255; TRACE();
+	symbol->SizeOfStruct = sizeof(SYMBOL_INFO); TRACE();
 
-	const unsigned short  MAX_CALLERS_SHOWN = 6;
-	frames = frames < MAX_CALLERS_SHOWN ? frames : MAX_CALLERS_SHOWN;
+	const unsigned short  MAX_CALLERS_SHOWN = 6; TRACE();
+	frames = frames < MAX_CALLERS_SHOWN ? frames : MAX_CALLERS_SHOWN; TRACE();
 	for (unsigned int i = 0; i < frames; i++)
 	{
-		SymFromAddr(process, (DWORD64)(callers_stack[i]), 0, symbol);
-		out << "*** " << i << ": " << callers_stack[i] << " " << symbol->Name << " - 0x" << symbol->Address << std::endl;
+		SymFromAddr(process, (DWORD64)(callers_stack[i]), 0, symbol); TRACE();
+		out << "*** " << i << ": " << callers_stack[i] << " " << symbol->Name << " - 0x" << symbol->Address << std::endl; TRACE();
 	}
-
-	free(symbol);
+	TRACE();
+	free(symbol); TRACE();
 }
 
 ScriptManagerThread g_ScriptManagerThread;
@@ -69,8 +69,8 @@ void Script::Tick()
 			}
 			catch (...) {
 				std::string fname = DateTimeA() + ".call_stack.txt";
-				std::fstream callStackFile(fname, std::iostream::out);
-				printStack(callStackFile);
+				std::ofstream callStackFile(fname);
+				printStack(*(std::fstream*)&callStackFile);
 				log_error << "Error in script->Run. Callstack was written to " << fname << std::endl;
 			}
 		}, this);
