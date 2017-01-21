@@ -3,6 +3,8 @@
 //TODO: Экранизация символов { и }
 
 CChat *CChat::singleInstance = nullptr;
+ImVector<char*> CChat::History;
+int CChat::HistoryPos;
 
 void CChat::AddLine(ChatLine line)
 {
@@ -17,7 +19,7 @@ void CChat::AddLine(ChatLine line)
 
 CChat::CChat() :uiCarretPos(0)
 {
-
+	HistoryPos = -1;
 }
 
 CChat* CChat::Get()
@@ -35,7 +37,8 @@ void CChat::RegisterCommandProcessor(int(*callback)(std::string))
 
 CChat::~CChat()
 {
-
+	for (int i = 0; i < History.Size; i++)
+		free(History[i]);
 }
 
 void CChat::Render()
@@ -140,10 +143,50 @@ void CChat::Render()
 		ImGui::PushItemWidth(400);
 		ImGui::PushFont(CGlobals::Get().chatFont);
 		ImGui::PushStyleColor(ImGuiCol_FrameBg, ImColor(0.f, 0.f, 0.f, 0.5f));
-		if (ImGui::InputText("", CGlobals::Get().chatBuffer, 256, ImGuiInputTextFlags_EnterReturnsTrue/* | ImGuiInputTextFlags_CallbackHistory*/))
+		auto callback = [](ImGuiTextEditCallbackData* data) {
+			switch (data->EventFlag)
+			{
+				case ImGuiInputTextFlags_CallbackHistory:
+				{
+					const int prev_history_pos = HistoryPos;
+					if (data->EventKey == ImGuiKey_UpArrow)
+					{
+						if (HistoryPos == -1)
+							HistoryPos = History.Size - 1;
+						else if (HistoryPos > 0)
+							HistoryPos--;
+					}
+					else if (data->EventKey == ImGuiKey_DownArrow)
+					{
+						if (HistoryPos != -1)
+							if (++HistoryPos >= History.Size)
+								HistoryPos = -1;
+					}
+
+					if (prev_history_pos != HistoryPos)
+					{
+						data->CursorPos = data->SelectionStart = data->SelectionEnd = data->BufTextLen = (int)snprintf(data->Buf, (size_t)data->BufSize, "%s", (HistoryPos >= 0) ? History[HistoryPos] : "");
+						data->BufDirty = true;
+					}
+					break;
+				}
+			}
+			return 0;
+		};
+		if (ImGui::InputText("", CGlobals::Get().chatBuffer, 256, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackHistory, callback))
 		{
 			if (strlen(CGlobals::Get().chatBuffer))
 			{
+				HistoryPos = -1;
+				for (int i = History.Size - 1; i >= 0; i--)
+				if (_stricmp(History[i], CGlobals::Get().chatBuffer) == 0)
+				{
+					free(History[i]);
+					History.erase(History.begin() + i);
+					break;
+				}
+				History.push_back(_strdup(CGlobals::Get().chatBuffer));
+
 				if (CGlobals::Get().chatBuffer[0] == '/')
 				{
 					if (_commandProcess != nullptr)

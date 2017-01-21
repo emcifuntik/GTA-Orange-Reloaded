@@ -27,7 +27,8 @@ class CChat
 	std::wstring wsCurrentMessage;
 	std::mutex access;
 	unsigned long ulLastUpdate = 0;
-
+	static ImVector<char*> History;
+	static int HistoryPos;    // -1: new line, 0..History.Size-1 browsing history.
 	unsigned int uiCarretPos = 0;
 
 	const unsigned cuChatHistorySize = 100;

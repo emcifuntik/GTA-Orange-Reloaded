@@ -134,8 +134,7 @@ using namespace RakNet;
 #pragma endregion
 
 #include "Game.h"
-#include "Core/Chat.h"
-#include "Core/Commands.h"
+
 
 #pragma region IMGUI
 #include "D3D11/Memory/Memory.h"
@@ -150,6 +149,8 @@ using namespace RakNet;
 #include "GuiDispatcher.h"
 #pragma endregion
 
+#include "Core/Chat.h"
+#include "Core/Commands.h"
 
 #include "Core/ScriptInvoker.h"
 #include "Core/Natives.h"
