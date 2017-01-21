@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Launcher", "Launcher\Launcher.vcxproj", "{5C2C1A17-49F8-4349-975D-99D5D54907A7}"
 EndProject
@@ -28,6 +28,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lua-module", "lua-module\lua-module.vcxproj", "{EF3508BB-D71E-488D-8CAA-19B0FEAADFB8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simple-module", "simple-module\python-module.vcxproj", "{4740EEB7-B7EA-47F0-81DF-BF2F770DBA14}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "font-converter", "font-converter\font-converter.vcxproj", "{AE292023-17DF-4BDB-9777-70E6BA4A6992}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -96,6 +98,14 @@ Global
 		{4740EEB7-B7EA-47F0-81DF-BF2F770DBA14}.Release|x64.Build.0 = Release|x64
 		{4740EEB7-B7EA-47F0-81DF-BF2F770DBA14}.Release|x86.ActiveCfg = Release|Win32
 		{4740EEB7-B7EA-47F0-81DF-BF2F770DBA14}.Release|x86.Build.0 = Release|Win32
+		{AE292023-17DF-4BDB-9777-70E6BA4A6992}.Debug|x64.ActiveCfg = Debug|x64
+		{AE292023-17DF-4BDB-9777-70E6BA4A6992}.Debug|x64.Build.0 = Debug|x64
+		{AE292023-17DF-4BDB-9777-70E6BA4A6992}.Debug|x86.ActiveCfg = Debug|Win32
+		{AE292023-17DF-4BDB-9777-70E6BA4A6992}.Debug|x86.Build.0 = Debug|Win32
+		{AE292023-17DF-4BDB-9777-70E6BA4A6992}.Release|x64.ActiveCfg = Release|x64
+		{AE292023-17DF-4BDB-9777-70E6BA4A6992}.Release|x64.Build.0 = Release|x64
+		{AE292023-17DF-4BDB-9777-70E6BA4A6992}.Release|x86.ActiveCfg = Release|Win32
+		{AE292023-17DF-4BDB-9777-70E6BA4A6992}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,5 +119,6 @@ Global
 		{CA9A54E4-D759-3205-837E-FEED93E77484} = {9ABE0DD4-807D-4364-9309-EEDE28C00A54}
 		{EF3508BB-D71E-488D-8CAA-19B0FEAADFB8} = {83580430-2C1D-47CF-8154-46ED82319C70}
 		{4740EEB7-B7EA-47F0-81DF-BF2F770DBA14} = {83580430-2C1D-47CF-8154-46ED82319C70}
+		{AE292023-17DF-4BDB-9777-70E6BA4A6992} = {2B1C54CE-B78F-4E1A-853E-DCC6A8ACC8BD}
 	EndGlobalSection
 EndGlobal
