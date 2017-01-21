@@ -21,6 +21,7 @@ int CommandProcessor(std::string command)
 	std::string fullCmd = command;
 	std::vector<std::string> params = split(command, ' ');
 	command = params[0];
+	std::transform(command.begin(), command.end(), command.begin(), ::tolower);
 	params.erase(params.begin());
 	if (!command.compare("/quit") || !command.compare("/q"))
 	{
