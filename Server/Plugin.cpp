@@ -380,6 +380,53 @@ void Plugin::KeyEvent(RakNet::BitStream *bitStream, RakNet::Packet *packet)
     Plugin::Trigger("keyPress", (ULONG)CNetworkPlayer::GetByGUID(packet->guid)->GetID(), keycode);
 }
 
+void Plugin::ServerEvent(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	RakString name;
+	int nargs;
+	std::vector<MValue> args;
+
+	bitStream->Read(name);
+	bitStream->Read(nargs);
+	args.push_back(name.C_String());
+
+	log << "Event: Name(" << nargs << "): " << name << std::endl;
+
+	for (int i = 0; i < nargs; i++)
+	{
+		int type;
+		bitStream->Read(type);
+		switch (type)
+		{
+		case 0:
+		{
+			bool val;
+			bitStream->Read(val);
+			log << "\tBool: " << val << std::endl;
+			args.push_back(val);
+			break;
+		}
+		case 1:
+		{
+			double val;
+			bitStream->Read(val);
+			log << "\tInt: " << val << std::endl;
+			args.push_back(val);
+			break;
+		}
+		case 2:
+		{
+			RakString val;
+			bitStream->Read(val);
+			log << "\tString: " << val.C_String() << std::endl;
+			args.push_back(val.C_String());
+			break;
+		}
+		}
+	}
+	Plugin::Trigger("serverEvent", args);
+}
+
 void Plugin::Trigger(const char* e, std::vector<MValue> args)
 {
     for (auto func : eHandlers)

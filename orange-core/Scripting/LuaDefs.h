@@ -36,3 +36,4 @@ void register_native_funcs(lua_State *L);
 
 //UI
 int lua_menu(lua_State *L);
+int lua_trigger(lua_State *L);

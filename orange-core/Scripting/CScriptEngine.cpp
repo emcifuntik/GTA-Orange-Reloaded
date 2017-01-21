@@ -9,6 +9,7 @@ static const struct luaL_Reg gfunclib[] = {
 	{ "print", lua_print },
 	{ "__setTickHandler", lua_tick },
 	{ "__menu", lua_menu },
+	{ "__trigger", lua_trigger },
 	{ NULL, NULL }
 };
 

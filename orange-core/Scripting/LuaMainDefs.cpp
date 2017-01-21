@@ -134,18 +134,45 @@ int lua_menu(lua_State *L)
 
 int lua_trigger(lua_State *L)
 {
+	BitStream bsOut;
 	int nargs = lua_gettop(L);
-	for (int i = 1; i <= nargs; ++i) {
+
+	RakString name(lua_tostring(L, 1));
+	bsOut.Write(name);
+	bsOut.Write(nargs-1);
+
+	log << "Event: " << name << " " << nargs - 1 << std::endl;
+
+	for (int i = 2; i <= nargs; ++i) {
 		switch (lua_type(L, i))
 		{
 		case LUA_TBOOLEAN:
+		{
+			bool val = lua_toboolean(L, i);
+			bsOut.Write(0);
+			bsOut.Write(val);
 			break;
+		}
 		case LUA_TNUMBER:
+		{
+			bsOut.Write(1);
+			bsOut.Write((double)lua_tonumber(L, i));
 			break;
+		}
 		case LUA_TSTRING:
+		{
+			RakString str(lua_tostring(L, i));
+			bsOut.Write(2);
+			bsOut.Write(str);
+			break;
+		}
+		default:
+			log << "You can only pass bools, numbers and strings" << std::endl;
 			break;
 		}
 	}
+	CRPCPlugin::Get()->rpc.Signal("ServerEvent", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	return 0;
 }
 
 void luaL_setfuncs(lua_State *L, const luaL_Reg *l, int nup)
