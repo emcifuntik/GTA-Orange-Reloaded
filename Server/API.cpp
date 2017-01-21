@@ -131,7 +131,7 @@ std::string API::GetPlayerName(long playerid)
 {
 	auto player = CNetworkPlayer::GetByID(playerid);
 	if (!player)
-		return nullptr;
+		return "wtf?";
 	return player->GetName();
 }
 
