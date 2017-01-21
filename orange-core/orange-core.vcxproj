@@ -215,6 +215,7 @@
     <ClCompile Include="Network\Functions.cpp" />
     <ClCompile Include="orange-core.cpp" />
     <ClCompile Include="Registry.cpp" />
+    <ClCompile Include="ScriptingScene.cpp" />
     <ClCompile Include="Scripting\CScriptEngine.cpp" />
     <ClCompile Include="Scripting\LuaMainDefs.cpp" />
     <ClCompile Include="Scripts\ChatScript.cpp" />

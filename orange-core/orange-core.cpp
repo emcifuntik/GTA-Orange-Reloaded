@@ -64,6 +64,7 @@ static bool OnLookAlive()
 		//DisableScripts();
 		CGlobals::Get().ForceCleanupForAllThreadsWithThisName("startup", 8);
 		CGlobals::Get().TerminateAllScriptsWithThisName("startup");
+
 		CGlobals::Get().ShutdownLoadingScreen();
 		CGlobals::Get().DoScreenFadeIn(0);
 	}

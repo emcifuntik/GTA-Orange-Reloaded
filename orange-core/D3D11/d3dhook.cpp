@@ -300,7 +300,7 @@ bool D3DHook::HookD3D11()
 	/*char windowsPath[MAX_PATH];
 	GetWindowsDirectoryA(windowsPath, MAX_PATH);*/
 	CGlobals::Get().chatFont = io.Fonts->AddFontFromFileTTF((CGlobals::Get().orangePath + "\\fonts\\chatfont.ttf").c_str(), 16.0f, 0, io.Fonts->GetGlyphRangesCyrillic());
-	CGlobals::Get().tagFont = io.Fonts->AddFontFromFileTTF((CGlobals::Get().orangePath + "\\fonts\\tagfont.ttf").c_str(), 16.0f, 0, io.Fonts->GetGlyphRangesCyrillic());
+	CGlobals::Get().tagFont = io.Fonts->AddFontFromFileTTF((CGlobals::Get().orangePath + "\\fonts\\tagfont.ttf").c_str(), 48.0f, 0, io.Fonts->GetGlyphRangesCyrillic());
 
 	for (int i = 0; i < 256; ++i)
 		CGlobals::Get().chatFont->AddRemapChar(charTable[i].old_, charTable[i].new_);

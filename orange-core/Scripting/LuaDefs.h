@@ -33,3 +33,6 @@ void luaL_setfuncs(lua_State *L, const luaL_Reg *l, int nup);
 
 //Natives
 void register_native_funcs(lua_State *L);
+
+//UI
+int lua_menu(lua_State *L);

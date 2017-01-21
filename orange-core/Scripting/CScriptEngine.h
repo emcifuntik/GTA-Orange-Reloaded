@@ -15,5 +15,6 @@ public:
 	static void LoadScript(RakNet::BitStream * bitStream, RakNet::Packet * packet);
 	void LoadScript(RakNet::BitStream * bitStream);
 	void SetTick(const std::function<void()>& f);
+	lua_State *GetState() { return m_lua; };
 	void Tick();
 };

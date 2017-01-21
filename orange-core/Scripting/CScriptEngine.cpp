@@ -8,6 +8,7 @@ CScriptEngine *CScriptEngine::singleInstance = nullptr;
 static const struct luaL_Reg gfunclib[] = {
 	{ "print", lua_print },
 	{ "__setTickHandler", lua_tick },
+	{ "__menu", lua_menu },
 	{ NULL, NULL }
 };
 
@@ -36,7 +37,7 @@ void CScriptEngine::Init()
 
 	if (luaL_loadbuffer(m_lua, luaJIT_BC_ClientsideAPI, luaJIT_BC_ClientsideAPI_SIZE, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
 		log << "Failed to load API definition file: " << lua_tostring(m_lua, -1) << std::endl;
-	} TRACE();
+	}
 }
 
 CScriptEngine::~CScriptEngine()

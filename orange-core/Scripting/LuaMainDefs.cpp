@@ -14,7 +14,6 @@ static const luaL_Reg lj_libs[] = {
 
 int lua_print(lua_State *L)
 {
-	log << "print used!" << std::endl;
 	int nargs = lua_gettop(L);
 	my_ostream& ss = my_ostream::_log();
 	for (int i = 1; i <= nargs; ++i) {
@@ -39,15 +38,114 @@ int lua_tick(lua_State *L)
 
 		if (lua_pcall(L, 0, 0, 0) != 0)
 		{
-			std::string err = luaL_checkstring(L, -1); TRACE();
-			lua_pop(L, 1); TRACE();
-			log << err.c_str() << std::endl; TRACE();
+			std::string err = luaL_checkstring(L, -1);
+			lua_pop(L, 1);
+			log << err.c_str() << std::endl;
 		}
 
 		lua_pop(L, 1);
 	});
 
 	return 0;
+}
+
+int lua_menu(lua_State *L)
+{
+
+	lua_pushvalue(L, 4);
+	luaL_checktype(L, -1, LUA_TTABLE);
+
+	lua_rawgeti(L, -1, 1);
+	if (lua_isnil(L, -1)) {
+		lua_pop(L, 1);
+		log << "Menu cant be emprty" << std::endl;
+		return 0;
+	}
+	lua_pop(L, 1);
+
+	auto menu = new CMenu();
+
+	menu->name = _strdup(lua_tostring(L, 1));
+	menu->pos.fX = lua_tonumber(L, 2);
+	menu->pos.fY = lua_tonumber(L, 3);
+
+	menu->shown = true;
+
+	for (int i = 1; ; i++) {
+		lua_rawgeti(L, -1, i);
+		if (lua_isnil(L, -1)) {
+			lua_pop(L, 1);
+			break;
+		}
+		luaL_checktype(L, -1, LUA_TTABLE);
+
+		auto child = new CMenuElement;
+
+		lua_rawgeti(L, -1, 1);
+		int type = lua_tointeger(L, -1);
+		lua_pop(L, 1);
+
+		lua_rawgeti(L, -1, 2);
+		const char* capture = lua_tostring(L, -1);
+		lua_pop(L, 1);
+
+		child->name = _strdup(capture);
+		child->type = type; TRACE();
+	
+		if (type == 1)
+		{
+			lua_rawgeti(L, -1, 3); TRACE();
+
+			if (lua_isnil(L, -1)) {
+				lua_pop(L, 1); TRACE();
+				child->cb = []() {};
+			}
+			else {
+				int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+				child->cb = [=]()
+				{
+					lua_pushvalue(L, 1);
+
+					lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
+
+					if (lua_pcall(L, 0, 0, 0) != 0)
+					{
+						std::string err = luaL_checkstring(L, -1);
+						lua_pop(L, 1);
+						log << err.c_str() << std::endl;
+					}
+
+					lua_pop(L, 1);
+				};
+			}
+		}
+		//lua_pop(L, 1);
+
+		menu->children.push_back(child);
+
+		log << "Table entry(" << type << "): " << capture << std::endl;
+
+		lua_pop(L, 1);
+	}
+
+	CNetworkUI::Get()->AddMenu(menu);
+	return 0;
+}
+
+int lua_trigger(lua_State *L)
+{
+	int nargs = lua_gettop(L);
+	for (int i = 1; i <= nargs; ++i) {
+		switch (lua_type(L, i))
+		{
+		case LUA_TBOOLEAN:
+			break;
+		case LUA_TNUMBER:
+			break;
+		case LUA_TSTRING:
+			break;
+		}
+	}
 }
 
 void luaL_setfuncs(lua_State *L, const luaL_Reg *l, int nup)

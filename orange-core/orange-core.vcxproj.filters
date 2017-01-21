@@ -442,6 +442,9 @@
     <ClCompile Include="Scripting\LuaMainDefs.cpp">
       <Filter>Scripting</Filter>
     </ClCompile>
+    <ClCompile Include="ScriptingScene.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="orange-core.rc">
@@ -450,6 +453,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Launcher\Launcher.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="Launcher.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
   </ItemGroup>

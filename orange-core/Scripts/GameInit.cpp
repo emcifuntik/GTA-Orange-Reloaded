@@ -15,6 +15,7 @@ void StartScript(const char* name)
 void Action()
 {
 	bool teleported = false;
+	bool mobiledisabled = false;
 	while (true)
 	{
 		if (!teleported)
@@ -42,7 +43,15 @@ void Action()
 			teleported = true;
 			CChat::Get()->AddChatMessage("Grand Theft Auto: {FF8F00}Orange {FFFFFF}loaded");
 		}
-		MOBILE::DESTROY_MOBILE_PHONE();
+
+		if (!mobiledisabled && CGlobals::Get().HasScriptLoaded("cellphone_controller"))
+		{
+			MOBILE::DESTROY_MOBILE_PHONE();
+			CGlobals::Get().TerminateAllScriptsWithThisName("cellphone_controller");
+			mobiledisabled = true;
+		}
+		//CGlobals::Get().TerminateAllScriptsWithThisName("cellphone_flashhandr");
+		//MOBILE::DESTROY_MOBILE_PHONE();
 		scriptWait(0);
 	}
 }

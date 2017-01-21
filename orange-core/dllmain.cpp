@@ -26,6 +26,11 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		CGlobals::Get().dllModule = hModule;
 		CGlobals::Get().orangePath = GetModuleDir();
 
+		//std::stringstream path;
+		//path << CGlobals::Get().orangePath << "\\bin;" << std::getenv("PATH");
+
+		//_putenv_s("PATH", path.str().c_str());
+
 		my_ostream::SetLogFile(CGlobals::Get().orangePath + "/client.log");
 		PreLoadPatches();
 		break;
