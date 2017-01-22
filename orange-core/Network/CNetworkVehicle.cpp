@@ -312,7 +312,6 @@ void CNetworkVehicle::Clear()
 {
 	for each(CNetworkVehicle* veh in VehiclePool)
 	{
-		veh->~CNetworkVehicle();
 		delete veh;
 	}
 	VehiclePool.erase(VehiclePool.begin(), VehiclePool.end());
@@ -336,6 +335,24 @@ CNetworkVehicle * CNetworkVehicle::GetByGUID(RakNet::RakNetGUID GUID)
 			return _vehicle;
 	}
 	return nullptr;
+}
+
+void CNetworkVehicle::Delete(RakNet::RakNetGUID GUID)
+{
+	int number = -1;
+	for(int i = 0; i < VehiclePool.size(); ++i)
+	{
+		if (VehiclePool[i]->m_GUID == GUID)
+		{
+			number = i;
+			break;
+		}
+	}
+	if (number == -1)
+		return;
+
+	delete VehiclePool[number];
+	VehiclePool.erase(VehiclePool.begin() + number);
 }
 
 void CNetworkVehicle::Tick()

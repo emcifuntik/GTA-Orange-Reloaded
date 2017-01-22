@@ -94,6 +94,7 @@ public:
 	static void Clear();
 	static CNetworkVehicle * GetByHandle(Vehicle veh);
 	static CNetworkVehicle * GetByGUID(RakNet::RakNetGUID GUID);
+	static void Delete(RakNet::RakNetGUID GUID);
 
 	static void Tick();
 

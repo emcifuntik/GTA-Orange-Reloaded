@@ -258,8 +258,7 @@ namespace FPlayer
 	{
 		RakNetGUID veh;
 		bitStream->Read(veh);
-		auto _veh = CNetworkVehicle::GetByGUID(veh);
-		if (_veh) delete _veh;
+		CNetworkVehicle::Delete(veh);
 	}
 
 	void CreateMarker(RakNet::BitStream *bitStream, RakNet::Packet *packet)
