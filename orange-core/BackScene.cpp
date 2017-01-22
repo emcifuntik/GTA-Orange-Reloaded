@@ -6,6 +6,9 @@ void BackScene()
 	ImGui::SetNextWindowPos(ImVec2(0.f, 0.f), ImGuiSetCond_Always);
 	ImGui::Begin("Background", 0, ImVec2((float)viewPortGame->Width, (float)viewPortGame->Height), 0.f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.f, 0.f));
+	ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, 0.f);
+	ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, ImVec2(0.f, 0.f));
+	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.f, 0.f));
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.f);
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.f, 0.f));
 	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.f);
@@ -18,8 +21,19 @@ void BackScene()
 			"Ped pos: " << CLocalPlayer::Get()->GetPosition().ToString() << std::endl <<
 			"Ped heading: " << CLocalPlayer::Get()->GetHeading() << std::endl <<
 			"FPS: " << ImGui::GetIO().Framerate;
-		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, 14.f, ImVec2(0.23f * viewPortGame->Width, 0.85f * viewPortGame->Height),
-			ImColor(0x21, 0x96, 0xF3, 0xFF), ss.str().c_str());
+
+		const char* text = ss.str().c_str();
+		float x = 0.23f * viewPortGame->Width;
+		float y = 0.85f * viewPortGame->Height;
+		ImColor color = ImColor(0x21, 0x96, 0xF3, 0xFF);
+
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, 14.f, ImVec2(x - 1, y - 1), ImColor(0, 0, 0, 255), text);
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, 14.f, ImVec2(x + 1, y + 1), ImColor(0, 0, 0, 255), text);
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, 14.f, ImVec2(x + 1, y - 1), ImColor(0, 0, 0, 255), text);
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, 14.f, ImVec2(x - 1, y + 1), ImColor(0, 0, 0, 255), text);
+		//ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, font_size, ImVec2(tag.x - textSize.x / 2, tag.y), ImColor(0xFF, 0xFF, 0xFF, 0xFF), _name);
+
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, 14.f, ImVec2(x, y), color, text);
 	}
 
 	if (CGlobals::Get().isDebug)
@@ -176,10 +190,7 @@ void BackScene()
 
 	CNetworkPlayer::Render();
 	CNetwork3DText::Render();
-	ImGui::PopStyleVar();
-	ImGui::PopStyleVar();
-	ImGui::PopStyleVar();
-	ImGui::PopStyleVar();
+	ImGui::PopStyleVar(7);
 	ImGui::End();
 }
 

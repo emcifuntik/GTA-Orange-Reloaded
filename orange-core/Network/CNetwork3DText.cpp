@@ -90,6 +90,7 @@ void CNetwork3DText::PreRender()
 					text->IsVisible = false;
 					continue;
 				}
+				break;
 			}
 			case TextAttachedTo::VEHICLE_ATTACHED:
 			{
@@ -101,6 +102,7 @@ void CNetwork3DText::PreRender()
 					text->IsVisible = false;
 					continue;
 				}
+				break;
 			}
 		}
 
@@ -114,7 +116,7 @@ void CNetwork3DText::PreRender()
 
 		float k = 1.3f - distance / 100;
 		text->fontSize = text->rawFontSize * k;
-		ImVec2 textSize = CGlobals::Get().chatFont->CalcTextSizeA(text->fontSize, 1000.f, 1000.f, text->text.c_str());
+		ImVec2 textSize = CGlobals::Get().chatFont->CalcTextSizeA(text->fontSize, 1000.f, 0.f, text->text.c_str());
 		CVector3 screenPos;
 		CGraphics::Get()->WorldToScreen(CVector3(text->vecPos.fX, text->vecPos.fY, text->vecPos.fZ), screenPos);
 		auto viewPortGame = GTA::CViewportGame::Get();

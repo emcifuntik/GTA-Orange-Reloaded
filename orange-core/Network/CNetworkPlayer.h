@@ -67,6 +67,8 @@ private:
 	DWORD				lastTick = 0;
 	int					tasksToIgnore = 0;
 	DWORD				lastUpdate = 9999;
+	DWORD				timeEnterVehicle = 0;
+	DWORD				timeLeaveVehicle = 0;
 	unsigned short		m_Health = 200;
 	tag_t				tag;
 	std::queue<std::function<void()>> taskQueue;

@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "../../Shared/CVector3.h"
+#include "CVector3.h"
 
 enum {
 	M_STRING,
@@ -14,7 +14,7 @@ class MValue
 {
 public:
 	MValue(const char* val) {
-		string_val = _strdup(val);
+		string_val = strdup(val);
 		type = M_STRING;
 	};
 	MValue(int val) {
@@ -57,6 +57,7 @@ private:
 
 class APIBase {
 public:
+	virtual void LoadClientScript(std::string name, char* buffer, size_t size) = 0;
 	//Player
 	virtual bool SetPlayerPosition(long playerid, float x, float y, float z) = 0;
 	virtual CVector3 GetPlayerPosition(long playerid) = 0;
@@ -89,6 +90,7 @@ public:
 	//virtual bool PlayerExists(long playerid) = 0;
 	//virtual bool VehicleExists(long playerid) = 0;
 	virtual unsigned long CreateVehicle(long hash, float x, float y, float z, float heading) = 0;
+	virtual bool DeleteVehicle(unsigned long guid) = 0;
 	virtual bool SetVehiclePosition(int vehicleid, float x, float y, float z) = 0;
 	virtual CVector3 GetVehiclePosition(int vehicleid) = 0;
 
@@ -106,6 +108,7 @@ public:
 	virtual unsigned long CreateMarkerForPlayer(long playerid, float x, float y, float z, float height, float radius) = 0;
 	virtual void DeleteMarker(unsigned long guid) = 0;
 
+	virtual bool SendNotification(long playerid, const char * msg) = 0;
 	virtual bool SetInfoMsg(long playerid, const char * msg) = 0;
 	virtual bool UnsetInfoMsg(long playerid) = 0;
 
@@ -118,7 +121,7 @@ public:
 };
 
 class API:
-	public APIBase 
+	public APIBase
 {
 public:
 	static API * instance;

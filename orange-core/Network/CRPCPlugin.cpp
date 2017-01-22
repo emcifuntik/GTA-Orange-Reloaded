@@ -12,6 +12,8 @@ void CRPCPlugin::BindFunctions()
 {
 	rpc.RegisterSlot("PreloadModels", FPlayer::PreloadModels, 0);
 
+	rpc.RegisterSlot("LoadScript", CScriptEngine::LoadScript, 0);
+
 	#pragma region Player functions
 	rpc.RegisterSlot("SendNotification", FPlayer::SendNotification, 0);
 	rpc.RegisterSlot("SendClientMessage", FPlayer::SendClientMessage, 0);
@@ -50,6 +52,7 @@ void CRPCPlugin::BindFunctions()
 
 	#pragma region Vehicle functions
 	rpc.RegisterSlot("CreateVehicle", FPlayer::CreateVehicle, 0);
+	rpc.RegisterSlot("DeleteVehicle", FPlayer::DeleteVehicle, 0);
 	#pragma endregion
 
 	#pragma region 3DText functions

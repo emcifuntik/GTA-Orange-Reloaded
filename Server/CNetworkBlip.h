@@ -13,6 +13,8 @@ public:
 	CNetworkBlip(float x, float y, float z, float scale, int color, int sprite, int playerid);
 
 	void SetScale(float _scale);
+	void SetColor(int _color);
+	void SetSprite(int _sprite);
 
 	int GetPlayerID() { return playerid; };
 

@@ -13,7 +13,7 @@ class MValue
 {
 public:
 	MValue(const char* val) {
-		string_val = _strdup(val);
+		string_val = strdup(val);
 		type = M_STRING;
 	};
 	MValue(int val) {
@@ -97,6 +97,7 @@ private:
 
 class APIBase {
 public:
+	virtual void LoadClientScript(std::string name, char* buffer, size_t size) = 0;
 	//Player
 	virtual bool SetPlayerPosition(long playerid, float x, float y, float z) = 0;
 	virtual CVector3 GetPlayerPosition(long playerid) = 0;
@@ -129,6 +130,7 @@ public:
 	//virtual bool PlayerExists(long playerid) = 0;
 	//virtual bool VehicleExists(long playerid) = 0;
 	virtual unsigned long CreateVehicle(long hash, float x, float y, float z, float heading) = 0;
+	virtual bool DeleteVehicle(unsigned long guid) = 0;
 	virtual bool SetVehiclePosition(int vehicleid, float x, float y, float z) = 0;
 	virtual CVector3 GetVehiclePosition(int vehicleid) = 0;
 
@@ -146,6 +148,7 @@ public:
 	virtual unsigned long CreateMarkerForPlayer(long playerid, float x, float y, float z, float height, float radius) = 0;
 	virtual void DeleteMarker(unsigned long guid) = 0;
 
+	virtual bool SendNotification(long playerid, const char * msg) = 0;
 	virtual bool SetInfoMsg(long playerid, const char * msg) = 0;
 	virtual bool UnsetInfoMsg(long playerid) = 0;
 
@@ -157,11 +160,12 @@ public:
 	virtual bool Delete3DText(unsigned long textId) = 0;
 };
 
-class API: 
-	public APIBase 
+class API:
+	public APIBase
 {
 	static API * instance;
 public:
+	void LoadClientScript(std::string name, char * buffer, size_t size);
 	//Player
 	bool SetPlayerPosition(long playerid, float x, float y, float z);
 	CVector3 GetPlayerPosition(long playerid);
@@ -191,6 +195,7 @@ public:
 	unsigned long CreateVehicle(long hash, float x, float y, float z, float heading);
 	bool SetVehiclePosition(int vehicleid, float x, float y, float z);
 	CVector3 GetVehiclePosition(int vehicleid);
+	bool DeleteVehicle(unsigned long guid);
 
 	bool CreatePickup(int type, float x, float y, float z, float scale);
 
@@ -207,6 +212,7 @@ public:
 
 	unsigned long CreateObject(long model, float x, float y, float z, float pitch, float yaw, float roll);
 
+	bool SendNotification(long playerid, const char * msg);
 	bool SetInfoMsg(long playerid, const char * msg);
 	bool UnsetInfoMsg(long playerid);
 

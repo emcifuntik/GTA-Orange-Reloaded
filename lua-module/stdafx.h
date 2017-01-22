@@ -14,26 +14,19 @@
 #include <string>
 #include <cstring>
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <vector>
 #include <map>
 #include <functional>
 #include "API.h"
 
-#ifdef _WINDOWS
 #include "mysql.h"
-#else
-#include "orange/mysql/include/mysql.h"
-#endif
 
 #include "lua.hpp"
 #include "lua_Main.h"
 
 #include "SResource.h"
-
-#ifdef __linux__
-char *_strdup(const char *str);
-#endif
 
 static void luaL_setfuncs(lua_State *L, const luaL_Reg *l, int nup)
 {
@@ -47,12 +40,6 @@ static void luaL_setfuncs(lua_State *L, const luaL_Reg *l, int nup)
 		lua_settable(L, -(nup + 3));
 	}
 	lua_pop(L, nup);  /* remove upvalues */
-};
-
-struct Meta
-{
-	int ref;
-	lua_State *m_lua;
 };
 
 struct Player

@@ -7,6 +7,7 @@ class CLocalPlayer: public CPedestrian
 	static CLocalPlayer* Instance;
 	CLocalPlayer();
 public:
+	bool dead = false;
 	bool Spawned = false;
 	bool updateTasks = false;
 	CVector3 *aimPosition = nullptr;

@@ -148,8 +148,9 @@ void CNetworkPlayer::Spawn(const CVector3& vecPosition)
 #if _DEBUG
 	//pedHandler->Flags |= 1 << 30;
 #endif
-	//pedHandler->Flags |= 1 << 6;
-	ENTITY::SET_ENTITY_PROOFS(Handle, true, true, true, true, true, true, true, true);
+		pedHandler->Flags |= 1 << 6;
+		ENTITY::SET_ENTITY_PROOFS(Handle, true, true, true, true, true, true, true, true);
+		WEAPON::SET_PED_INFINITE_AMMO_CLIP(Handle, true);
 
 		Blip blip = AddBlip();
 		UI::SET_BLIP_AS_SHORT_RANGE(blip, false);
@@ -229,10 +230,28 @@ void CNetworkPlayer::SetOnFootData(OnFootSyncData data, unsigned long ulDelay)
 		//AI::CLEAR_PED_TASKS(Handle);
 		//AI::CLEAR_PED_SECONDARY_TASK(Handle);
 		//AI::CLEAR_PED_TASKS_IMMEDIATELY(Handle);
-		AI::TASK_LEAVE_VEHICLE(Handle, PED::GET_VEHICLE_PED_IS_IN(Handle, false), (CLocalPlayer::Get()->GetPosition() - GetPosition()).Length() > 50 ? 16 : 0);
+		//if (!timeLeaveVehicle)
+		//	timeLeaveVehicle = timeGetTime();
+		
+		//AI::TASK_LEAVE_VEHICLE(Handle, PED::GET_VEHICLE_PED_IS_IN(Handle, false), (CLocalPlayer::Get()->GetPosition() - GetPosition()).Length() > 50 ? 16 : 0);
+		//AI::CLEAR_PED_TASKS(Handle);
+		//ENTITY::SET_ENTITY_VELOCITY(Handle, 0.f, 0.f, 0.f);
+		//ENTITY::SET_ENTITY_VELOCITY(PED::GET_VEHICLE_PED_IS_IN(Handle, false), 0.f, 0.f, 0.f);
+		//AI::TASK_LEAVE_VEHICLE(Handle, PED::GET_VEHICLE_PED_IS_IN(Handle, false), 16);
+		log_debug << "Trying to throw out" << std::endl;
+		ENTITY::SET_ENTITY_HEALTH(Handle, 0);
+		
 		m_Entering = false;
 		m_Lefting = true;
 	}
+	/*if (m_Lefting)
+	{
+		if ((timeGetTime() - timeLeaveVehicle) > 3000 && PED::IS_PED_IN_ANY_VEHICLE(Handle, false))
+		{
+			PED::KNOCK_PED_OFF_VEHICLE(Handle);
+			timeLeaveVehicle = 0;
+		}
+	}*/
 
 	m_InVehicle = data.bInVehicle;
 
@@ -392,7 +411,15 @@ void CNetworkPlayer::Interpolate()
 	if (PED::IS_PED_DEAD_OR_DYING(Handle, true) && !pedJustDead)
 	{
 		pedJustDead = true;
-		ENTITY::DELETE_ENTITY(&Handle);
+		ResetInterpolation();
+		//ENTITY::DELETE_ENTITY(&Handle);
+		return;
+	}
+	else if (!PED::IS_PED_DEAD_OR_DYING(Handle, true))
+		pedJustDead = false;
+	else if (PED::IS_PED_DEAD_OR_DYING(Handle, true))
+	{
+		ResetInterpolation();
 		return;
 	}
 		
@@ -492,13 +519,15 @@ void CNetworkPlayer::BuildTasksQueue()
 	}
 	else if (m_Jumping)
 	{
-		if(!IsJumping()) TaskJump();
+		TaskJump();
 	}
 	else if (m_Aiming && !m_Shooting)
 	{
 		if (m_MoveSpeed != .0f)
 		{
-			SetMoveToDirectionAndAiming(m_interp.pos.vecTarget, m_vecMove, m_vecAim, 3.0f, false);
+			TaskAimAt(m_vecAim, -1);
+			//SetMoveToDirectionAndAiming(m_interp.pos.vecTarget, m_vecMove, m_vecAim, 3.0f, false);
+			//tasksToIgnore = 5;
 		}
 		else
 		{
@@ -507,7 +536,10 @@ void CNetworkPlayer::BuildTasksQueue()
 	}
 	else if (m_Shooting && m_MoveSpeed != .0f)
 	{
-		SetMoveToDirectionAndAiming(m_interp.pos.vecTarget, m_vecMove, m_vecAim, m_MoveSpeed, true);
+		TaskAimAt(m_vecAim, -1);
+		TaskShootAt(m_vecAim, -1);
+		//if (GetMovementVelocity().Length() < m_MoveSpeed - 0.4) SetMoveToDirectionAndAiming(m_interp.pos.vecTarget, m_vecMove, m_vecAim, m_MoveSpeed, true);
+		//tasksToIgnore = 5;
 		m_Shooting = false;
 	}
 	else if (m_Shooting && !m_Aiming)
@@ -549,6 +581,8 @@ void CNetworkPlayer::MakeTag()
 		
 		if (tag.health > 1.f)
 			tag.health = 1.f;
+		else if (tag.health < 0.f)
+			tag.health = 0.f;
 
 		tag.width = 0.08f * 800;
 		tag.height = 0.012f * 600;
@@ -612,8 +646,10 @@ void CNetworkPlayer::SetModel(Hash model)
 	m_Model = model;
 	CVector3 pos = GetPosition();
 	float heading = GetHeading();
-	ENTITY::DELETE_ENTITY(&Handle);
+
 	if (STREAMING::IS_MODEL_IN_CDIMAGE(model) && STREAMING::IS_MODEL_VALID(model))
+	{
+		ENTITY::DELETE_ENTITY(&Handle);
 		STREAMING::REQUEST_MODEL(model);
 	while (!STREAMING::HAS_MODEL_LOADED(model))
 		scriptWait(0);

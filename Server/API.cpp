@@ -2,6 +2,11 @@
 
 API * API::instance = nullptr;
 
+void API::LoadClientScript(std::string name, char* buffer, size_t size)
+{
+	CClientScripting::AddScript(name, buffer, size);
+}
+
 bool API::SetPlayerPosition(long playerid, float x, float y, float z)
 {
 	auto player = CNetworkPlayer::GetByID(playerid);
@@ -126,7 +131,7 @@ std::string API::GetPlayerName(long playerid)
 {
 	auto player = CNetworkPlayer::GetByID(playerid);
 	if (!player)
-		return nullptr;
+		return "wtf?";
 	return player->GetName();
 }
 
@@ -212,7 +217,7 @@ bool API::SendClientMessage(long playerid, const char * message, unsigned int co
 	col.blue = (BYTE)((color >> 8) & 0xFF);   // Extract the GG byte
 	col.alpha = (BYTE)((color) & 0xFF);        // Extract the BB byte
 	bsOut.Write(col);
-	CRPCPlugin::Get()->Signal("SendClientMessage", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, player->GetGUID(), true, false);
+	CRPCPlugin::Get()->Signal("SendClientMessage", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, player->GetGUID(), false, false);
 	return true;
 }
 
@@ -244,6 +249,19 @@ CVector3 API::GetVehiclePosition(int vehicleid)
 	return CVector3(0, 0, 0);
 }
 
+bool API::DeleteVehicle(unsigned long guid)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		delete veh;
+	}
+	BitStream bsOut;
+	bsOut.Write(_guid);
+	CRPCPlugin::Get()->Signal("DeleteVehicle", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	return true;
+}
+
 bool API::CreatePickup(int type, float x, float y, float z, float scale)
 {
 	log << "Not implemented" << std::endl;
@@ -272,11 +290,11 @@ void API::SetBlipColor(unsigned long _guid, int color)
 	RakNet::BitStream bsOut;
 	RakNetGUID guid = RakNetGUID(_guid);
 	CNetworkBlip *blip = CNetworkBlip::GetByGUID(guid);
-	//blip->SetColor(color);
+	blip->SetColor(color);
 
 	bsOut.Write(guid);
 	bsOut.Write(color);
-	
+
 	if (blip->GetPlayerID() == -1) CRPCPlugin::Get()->Signal("SetBlipColor", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 	else CRPCPlugin::Get()->Signal("SetBlipColor", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, CNetworkPlayer::GetByID(blip->GetPlayerID())->GetGUID(), false, false);
 }
@@ -304,7 +322,7 @@ void API::SetBlipRoute(unsigned long _guid, bool route)
 
 	bsOut.Write(guid);
 	bsOut.Write(route);
-	
+
 	if (blip->GetPlayerID() == -1) CRPCPlugin::Get()->Signal("SetBlipRoute", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 	else CRPCPlugin::Get()->Signal("SetBlipRoute", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, CNetworkPlayer::GetByID(blip->GetPlayerID())->GetGUID(), false, false);
 }
@@ -330,6 +348,19 @@ unsigned long API::CreateObject(long model, float x, float y, float z, float pit
 {
 	CNetworkObject *obj = new CNetworkObject(model, x, y, z, pitch, yaw, roll);
 	return RakNetGUID::ToUint32(obj->rnGUID);
+}
+
+bool API::SendNotification(long playerid, const char * msg)
+{
+	auto player = CNetworkPlayer::GetByID(playerid);
+	if (!player)
+		return false;
+
+	RakNet::BitStream bsOut;
+	bsOut.Write(RakNet::RakString(msg));
+
+	CRPCPlugin::Get()->Signal("SendNotification", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, player->GetGUID(), false, false);
+	return false;
 }
 
 bool API::SetInfoMsg(long playerid, const char* msg)

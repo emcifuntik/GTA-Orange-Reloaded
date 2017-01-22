@@ -26,6 +26,7 @@ namespace FPlayer
 	{
 		RakNet::RakString message;
 		bitStream->Read(message);
+		CNetworkUI::Get()->SendNotification(_strdup(message.C_String()));
 	}
 
 	void SendClientMessage(RakNet::BitStream *bitStream, RakNet::Packet *packet) // string message, color_t color
@@ -167,6 +168,8 @@ namespace FPlayer
 		RakNet::RakNetGUID guid;
 		bitStream->Read(guid);
 
+		log << "deleting: " << guid.ToString() << std::endl;
+
 		CNetworkBlip::GetByGUID(guid)->~CNetworkBlip();
 	}
 
@@ -249,6 +252,13 @@ namespace FPlayer
 		CNetworkVehicle *veh = new CNetworkVehicle();
 		veh->m_GUID = data.GUID;
 		veh->SetVehicleData(data, 0);
+	}
+
+	void DeleteVehicle(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNetGUID veh;
+		bitStream->Read(veh);
+		CNetworkVehicle::Delete(veh);
 	}
 
 	void CreateMarker(RakNet::BitStream *bitStream, RakNet::Packet *packet)

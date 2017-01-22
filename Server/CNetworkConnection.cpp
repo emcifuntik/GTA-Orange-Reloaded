@@ -77,7 +77,7 @@ bool CNetworkConnection::Start(unsigned short maxPlayers, unsigned short port)
 			}
 			else
 				log << "Server started" << std::endl;
-		}
+		} else log << "Server started in IPV4/IPV6 mode" << std::endl;
 		server->SetTimeoutTime(15000, RakNet::UNASSIGNED_SYSTEM_ADDRESS);
 		return true;
 	}
@@ -103,6 +103,7 @@ void CNetworkConnection::Tick()
 				UINT playerID = player->GetID();
 
 				Plugin::PlayerDisconnect(playerID, 1);
+				Plugin::Trigger("PlayerDisconnect", (unsigned long)playerID, 1);
 
 				CNetworkPlayer::Remove(playerID);
 
@@ -124,6 +125,7 @@ void CNetworkConnection::Tick()
 				CNetworkVehicle::SendGlobal(packet);
 				CNetwork3DText::SendGlobal(packet);
 				CNetworkObject::SendGlobal(packet);
+				CClientScripting::SendGlobal(packet);
 
 				break;
 			}
@@ -136,7 +138,7 @@ void CNetworkConnection::Tick()
 
 				Plugin::PlayerConnect(player->GetID());
 				Plugin::Trigger("PlayerConnect", (unsigned long)player->GetID());
-				
+
 				bsOut.Write((unsigned char)ID_CONNECT_TO_SERVER);
 				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
 				break;
@@ -149,7 +151,7 @@ void CNetworkConnection::Tick()
 				if (Plugin::PlayerText(CNetworkPlayer::GetByGUID(packet->guid)->GetID(), playerText.C_String()))
 				{
 					std::stringstream ss;
-					ss << "{7CB9E8}" << CNetworkPlayer::GetByGUID(packet->guid)->GetName() << ": {FFFFFF}" << playerText.C_String();
+					ss << CNetworkPlayer::GetByGUID(packet->guid)->GetName() << " " << u8"\uefaa" << " {FFFFFF}" << playerText.C_String();
 					RakNet::RakString toSend(ss.str().c_str());
 					bsOut.Write(toSend);
 					color_t messageColor = { 0x7C, 0xB9, 0xE8, 0xFF };
@@ -185,7 +187,7 @@ void CNetworkConnection::Tick()
 
 				//if(data.bInVehicle) log << "(" << player->GetID() << ") seat: " << data.vehseat << std::endl;
 				player->SetOnFootData(data);
-				
+
 				if (!Plugin::PlayerUpdate(CNetworkPlayer::GetByGUID(packet->guid)->GetID()))
 					continue;
 
@@ -203,8 +205,8 @@ void CNetworkConnection::Tick()
 				/*if(data.bInVehicle)
 					for each(auto *veh in CNetworkVehicle::All())
 					{
-						if (veh->GetGUID() != data.vehicle) {
-							data.vehicle = veh->GetGUID();
+						if (veh->GetGUID() != data.rnVehicle) {
+							data.rnVehicle = veh->GetGUID();
 							break;
 						}
 					}*/
@@ -233,16 +235,17 @@ void CNetworkConnection::Tick()
 				data.vecPos.fX += 4;
 				data.vecPos.fY += 4;
 
-				for each(auto *veh in CNetworkVehicle::All())
+				for (auto *veh : CNetworkVehicle::All())
 				{
 					if (veh->GetGUID() != data.GUID) {
 						data.GUID = veh->GetGUID();
 						break;
 					}
 				}
-#endif				
+#endif
 				CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(data.GUID);
-					
+
+				if (!veh) break;
 				veh->SetVehicleData(data);
 				veh->GetVehicleData(data);
 

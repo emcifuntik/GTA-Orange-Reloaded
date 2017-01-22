@@ -25,12 +25,13 @@ void Script::Tick()
 	else
 	{
 		scriptFiber = CreateFiber(NULL, [](LPVOID handler) {
-			__try {
+			//__try {
 				reinterpret_cast<Script*>(handler)->Run();
-			}
+			/*}
 			__except (EXCEPTION_EXECUTE_HANDLER) {
-				log_error << "Error in script->Run" << std::endl;
-			}
+				printStack(std::cout);
+				log_error << "Error in script->Run. Callstack was written to " << std::endl;
+			}*/
 		}, this);
 	}
 }
@@ -128,7 +129,7 @@ uint64_t * nativeCall()
 			fn(&g_context);
 		}
 		__except (EXCEPTION_EXECUTE_HANDLER) {
-			log_error << "Error in nativeCall" << std::endl;
+			log_error << "Error in nativeCall. 0x" << g_hash << std::endl;
 		}
 	}
 	return reinterpret_cast<uint64_t*>(g_context.GetResultPointer());

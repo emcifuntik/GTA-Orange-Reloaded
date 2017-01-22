@@ -5,7 +5,7 @@ std::vector<CNetworkObject *> CNetworkObject::Objects;
 int CNetworkObject::Count()
 {
 	int _count = 0;
-	for each (CNetworkObject *Object in Objects)
+	for (CNetworkObject *Object : Objects)
 	{
 		if (Object)
 			_count++;
@@ -15,7 +15,7 @@ int CNetworkObject::Count()
 
 CNetworkObject::CNetworkObject(Hash model, float x, float y, float z, float pitch, float yaw, float roll) :hashModel(model), vecPos(x, y, z), vecRot(pitch, yaw, roll), usHealth(100)
 {
-	rnGUID = RakNetGUID::RakNetGUID(createGUID());
+	rnGUID = RakNetGUID(createGUID());
 	Objects.push_back(this);
 
 	bool e = false;
@@ -90,7 +90,7 @@ std::vector<CNetworkObject *> CNetworkObject::All()
 
 CNetworkObject * CNetworkObject::GetByGUID(RakNet::RakNetGUID GUID)
 {
-	for each (CNetworkObject *veh in Objects)
+	for (CNetworkObject *veh : Objects)
 		if (veh->rnGUID == GUID)
 			return veh;
 	return nullptr;
@@ -98,7 +98,7 @@ CNetworkObject * CNetworkObject::GetByGUID(RakNet::RakNetGUID GUID)
 
 void CNetworkObject::SendGlobal(RakNet::Packet *packet)
 {
-	for each(auto *obj in Objects)
+	for (auto *obj : Objects)
 	{
 		RakNet::BitStream bsOut;
 

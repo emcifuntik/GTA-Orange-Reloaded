@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Orange-server" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../x64/Debug/server/Orange-server" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="../deps/RakNet" />
+					<Add directory="../deps/ServerDeps/yaml-cpp/include/yaml-cpp" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="../x64/Release/server/Orange-server" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-std=c++11" />
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add directory="../deps/RakNet/Source" />
+			<Add directory="../deps/ServerDeps/yaml-cpp/include" />
+			<Add directory="." />
+			<Add directory="../deps/ServerDeps/Civet" />
+			<Add directory="../shared" />
+		</Compiler>
+		<Linker>
+			<Add option="-pthread" />
+			<Add option="-ldl" />
+			<Add library="../deps/bin/libRakNetLibStatic.a" />
+			<Add library="../deps/bin/libyaml-cpp.a" />
+		</Linker>
+		<Unit filename="../deps/ServerDeps/Civet/CivetServer.cpp" />
+		<Unit filename="../deps/ServerDeps/Civet/civetweb.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="API.cpp" />
+		<Unit filename="API.h" />
+		<Unit filename="CClientScripting.cpp" />
+		<Unit filename="CClientScripting.h" />
+		<Unit filename="CConfig.cpp" />
+		<Unit filename="CConfig.h" />
+		<Unit filename="CConsole.h" />
+		<Unit filename="CHTTPServer.cpp" />
+		<Unit filename="CHTTPServer.h" />
+		<Unit filename="CLog.h" />
+		<Unit filename="CNetwokMarker.cpp" />
+		<Unit filename="CNetwork3DText.cpp" />
+		<Unit filename="CNetwork3DText.h" />
+		<Unit filename="CNetworkBlip.cpp" />
+		<Unit filename="CNetworkBlip.h" />
+		<Unit filename="CNetworkConnection.cpp" />
+		<Unit filename="CNetworkConnection.h" />
+		<Unit filename="CNetworkMarker.h" />
+		<Unit filename="CNetworkObject.cpp" />
+		<Unit filename="CNetworkObject.h" />
+		<Unit filename="CNetworkPlayer.cpp" />
+		<Unit filename="CNetworkPlayer.h" />
+		<Unit filename="CNetworkVehicle.cpp" />
+		<Unit filename="CNetworkVehicle.h" />
+		<Unit filename="CRPCPlugin.cpp" />
+		<Unit filename="CRPCPlugin.h" />
+		<Unit filename="Player.h" />
+		<Unit filename="Plugin.cpp" />
+		<Unit filename="Plugin.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="resource.h" />
+		<Unit filename="stdafx.cpp" />
+		<Unit filename="stdafx.h" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<lib_finder disable_auto="1" />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -64,6 +64,12 @@
     <Filter Include="GUI">
       <UniqueIdentifier>{3cb60bbc-0b2d-4dbd-8047-37e5258211e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripting">
+      <UniqueIdentifier>{89b2c55f-f34d-4cfb-bd4e-3ddb0c034711}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HWID">
+      <UniqueIdentifier>{34a6b72f-145a-46b5-8f8c-bb63d21ff96b}</UniqueIdentifier>
+    </Filter>
     <Filter Include="rage">
       <UniqueIdentifier>{4b695db5-412b-4982-aac0-2a6c1f2607c3}</UniqueIdentifier>
     </Filter>
@@ -415,6 +421,35 @@
     </ClInclude>
     <ClInclude Include="..\shared\NetworkTypes.h">
       <Filter>Network\Заголовочные файлы</Filter>
+    <ClInclude Include="Scripting\CScriptEngine.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\LuaDefs.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\NativesLua.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\ClientsideAPILua.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="chatfont.h">
+      <Filter>UI\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="fontawesome.h">
+      <Filter>UI\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="tagfont.h">
+      <Filter>UI\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="font_awesome.h">
+      <Filter>UI\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="icofont.h">
+      <Filter>UI\Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="md5.h">
+      <Filter>HWID</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -592,6 +627,24 @@
     <ClCompile Include="FreemodeCustomize.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
+    <ClCompile Include="Scripting\CScriptEngine.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaNativeEngine.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripting\LuaMainDefs.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptingScene.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="HWID.cpp">
+      <Filter>HWID</Filter>
+    </ClCompile>
+    <ClCompile Include="md5.cpp">
+      <Filter>HWID</Filter>
+    </ClCompile>
     <ClCompile Include="CBuffer.cpp">
       <Filter>rage\Файлы исходного кода</Filter>
     </ClCompile>
@@ -609,6 +662,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Launcher\Launcher.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="Launcher.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
   </ItemGroup>

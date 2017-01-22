@@ -37,7 +37,7 @@ class CNetworkVehicle : public CVehicle
 	Hash				m_Model;
 	Hash				m_futureModel;
 	bool				m_hasDriver;
-	bool				m_ShouldHasDriver;
+	bool				m_ShouldHasDriver = false;
 	Ped					m_Driver;
 	RakNetGUID			m_DriverGUID;
 
@@ -94,6 +94,7 @@ public:
 	static void Clear();
 	static CNetworkVehicle * GetByHandle(Vehicle veh);
 	static CNetworkVehicle * GetByGUID(RakNet::RakNetGUID GUID);
+	static void Delete(RakNet::RakNetGUID GUID);
 
 	static void Tick();
 

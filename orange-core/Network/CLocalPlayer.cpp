@@ -12,7 +12,7 @@ CLocalPlayer::CLocalPlayer() :CPedestrian(PLAYER::PLAYER_PED_ID())
 		GAMEPLAY::DELETE_STUNT_JUMP(i);
 	}
 
-	TIME::SET_CLOCK_TIME(0, 0, 0);
+	TIME::SET_CLOCK_TIME(10, 0, 0);
 
 	CEntity::InitOffsetFunc();
 
@@ -146,11 +146,26 @@ CLocalPlayer * CLocalPlayer::Get()
 
 void CLocalPlayer::Tick()
 {
-	if (PED::IS_PED_DEAD_OR_DYING(Handle, 1))
+	if (!dead && ENTITY::IS_ENTITY_DEAD(Handle) && ENTITY::DOES_ENTITY_EXIST(Handle))
 	{
+		Entity killer = PED::_GET_PED_KILLER(Handle);
+		if(killer != 0)
+		{
+			dead = true;
+			if (killer != Handle) {
+				auto killer_ = CNetworkPlayer::GetByHandler(PED::_GET_PED_KILLER(Handle));
+				if (killer_) log << "You was killed by " << killer_->GetName() << " heath: " << GetHealth() << std::endl;
+				else log << "killer: " << killer << " killed: " << Handle << std::endl;
+			}
+			else {
+				log << "You commited suicide" << std::endl;
+			}
+		}
+		
 		//CVector3 pos = GetPosition();
 		//ChangeModel(GetModel());
 	}
+	if (dead && GetHealth() > 100) dead = false;
 	if (newModel != 0)
 	{
 		ChangeModel(newModel);

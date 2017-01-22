@@ -1,0 +1,83 @@
+# depslib dependency file v1.0
+1483454662 source:/media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/deps/ServerDeps/Civet/CivetServer.cpp
+	"CivetServer.h"
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	<stdexcept>
+
+1483454662 /media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/deps/ServerDeps/Civet/CivetServer.h
+	"civetweb.h"
+	<map>
+	<string>
+	<vector>
+	<stdexcept>
+
+1483454662 /media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/deps/ServerDeps/Civet/civetweb.h
+	<stdio.h>
+	<stddef.h>
+	<sal.h>
+
+1483454662 source:/media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/deps/ServerDeps/Civet/civetweb.c
+	"civetweb.h"
+	<sys/types.h>
+	<sys/stat.h>
+	<errno.h>
+	<signal.h>
+	<fcntl.h>
+	<sys/time.h>
+	<mach/clock.h>
+	<mach/mach.h>
+	<mach/mach_time.h>
+	<assert.h>
+	<time.h>
+	<stdlib.h>
+	<stdarg.h>
+	<assert.h>
+	<string.h>
+	<ctype.h>
+	<limits.h>
+	<stddef.h>
+	<stdio.h>
+	<windows.h>
+	<winsock2.h>
+	<ws2tcpip.h>
+	<process.h>
+	<direct.h>
+	<io.h>
+	<stdint.h>
+	<sys/wait.h>
+	<sys/socket.h>
+	<sys/poll.h>
+	<netinet/in.h>
+	<arpa/inet.h>
+	<sys/time.h>
+	<sys/utsname.h>
+	<stdint.h>
+	<inttypes.h>
+	<netdb.h>
+	<netinet/tcp.h>
+	<pwd.h>
+	<unistd.h>
+	<grp.h>
+	<dirent.h>
+	<dlfcn.h>
+	<pthread.h>
+	"md5.inl"
+	<openssl/ssl.h>
+	<openssl/err.h>
+	<openssl/crypto.h>
+	<openssl/x509.h>
+	<openssl/pem.h>
+	<sys/prctl.h>
+	<sys/sendfile.h>
+	"timer.inl"
+	"mod_lua.inl"
+	"mod_duktape.inl"
+	"handle_form.inl"
+
+1483454662 /media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/deps/ServerDeps/Civet/md5.inl
+	<string.h>
+
+1483454662 /media/vadzz/201E1E701E1E3EEA/Users/VadZz/Documents/GitHub/GTA-Orange-Reloaded/deps/ServerDeps/Civet/handle_form.inl
+

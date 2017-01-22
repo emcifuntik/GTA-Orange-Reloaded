@@ -21,6 +21,7 @@ int CommandProcessor(std::string command)
 	std::string fullCmd = command;
 	std::vector<std::string> params = split(command, ' ');
 	command = params[0];
+	std::transform(command.begin(), command.end(), command.begin(), ::tolower);
 	params.erase(params.begin());
 	if (!command.compare("/quit") || !command.compare("/q"))
 	{
@@ -103,6 +104,32 @@ int CommandProcessor(std::string command)
 		CChat::Get()->AddChatMessage("DEBUG: Your coordinates saved successfull.", 0xAAFFAAFF);
 		return true;
 	}
+	if (!command.compare("/time") && CGlobals::Get().isDebug)
+	{
+		if (!params.size())
+		{
+			CChat::Get()->AddChatMessage("USAGE: /time [hour]", 0xAAAAAAFF);
+			return true;
+		}
+		unsigned hour = std::stoi(params[0]);
+		CScriptInvoker::Get().Push([=]() {
+			TIME::SET_CLOCK_TIME(hour, 0, 0);
+		});
+		return true;
+	}
+	if (!command.compare("/weather") && CGlobals::Get().isDebug)
+	{
+		if (!params.size())
+		{
+			CChat::Get()->AddChatMessage("USAGE: /weather [weatherType]", 0xAAAAAAFF);
+			return true;
+		}
+		std::string weather = params[0];
+		CScriptInvoker::Get().Push([=]() {
+			GAMEPLAY::SET_WEATHER_TYPE_NOW((char*)weather.c_str());
+		});
+		return true;
+	}
 	if (!command.compare("/vehicle") && CGlobals::Get().isDebug)
 	{
 		if (!params.size())
@@ -146,15 +173,10 @@ int CommandProcessor(std::string command)
 		CLocalPlayer::Get()->newModel = GAMEPLAY::GET_HASH_KEY((char*)(models[std::atoi(params[0].c_str())]));
 		return true;
 	}	
-	if (!command.compare("/debug"))
+	if (!command.compare("/debug") && CGlobals::Get().isDeveloper)
 	{
 		CGlobals::Get().isDebug ^= 1;
 		return true;
-	}
-	if (!command.compare("/doors"))
-	{
-		CGlobals::Get().ForceCleanupForAllThreadsWithThisName("startup", 8);
-		CGlobals::Get().TerminateAllScriptsWithThisName("startup");
 	}
 	return false;
 }

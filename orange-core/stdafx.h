@@ -9,6 +9,8 @@
 
 #define WIN32_LEAN_AND_MEAN
 
+#include "lua.hpp"
+
 #pragma region core
 #include <cstdint>
 #include <cstdarg>
@@ -47,6 +49,7 @@
 #include <TlHelp32.h>
 #include "tinyxml2.h"
 #include "resource.h"
+#include "font_awesome.h"
 #pragma endregion
 
 #include "Registry.h"
@@ -189,8 +192,11 @@ using namespace RakNet;
 #pragma endregion
 
 #include "Game.h"
-#include "Core/Chat.h"
-#include "Core/Commands.h"
+
+
+#pragma region Scripting
+#include "Scripting/CScriptEngine.h"
+#pragma endregion
 
 #pragma region IMGUI
 #include "D3D11/Memory/Memory.h"
@@ -205,6 +211,8 @@ using namespace RakNet;
 #include "GuiDispatcher.h"
 #pragma endregion
 
+#include "Core/Chat.h"
+#include "Core/Commands.h"
 
 #include "Core/ScriptInvoker.h"
 #include "Core/Natives.h"
@@ -217,6 +225,7 @@ using namespace RakNet;
 
 LRESULT ImGui_ImplDX11_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void CreateRenderTarget();
+std::string getHWID();
 
 enum eGameState {
 	GameStatePlaying,

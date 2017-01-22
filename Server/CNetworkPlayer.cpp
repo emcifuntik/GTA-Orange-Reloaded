@@ -4,14 +4,14 @@ std::vector<CNetworkPlayer*> CNetworkPlayer::_players;
 
 void CNetworkPlayer::Each(void(*func)(CNetworkPlayer *))
 {
-	for each (CNetworkPlayer *player in _players)
+	for (CNetworkPlayer *player : _players)
 		if (player)
 			func(player);
 }
 
 CNetworkPlayer * CNetworkPlayer::GetByGUID(RakNet::RakNetGUID GUID)
 {
-	for each (CNetworkPlayer *player in _players)
+	for (CNetworkPlayer *player : _players)
 		if (player && player->rnGUID == GUID)
 			return player;
 	CNetworkPlayer *player = new CNetworkPlayer(GUID);
@@ -203,7 +203,7 @@ void CNetworkPlayer::SetColor(unsigned int color)
 
 void CNetworkPlayer::Tick()
 {
-	for each (CNetworkPlayer *player in _players)
+	for (CNetworkPlayer *player : _players)
 	{
 		if (!player)
 			continue;
@@ -223,7 +223,7 @@ void CNetworkPlayer::Tick()
 UINT CNetworkPlayer::Count()
 {
 	UINT count = 0;
-	for each (CNetworkPlayer *player in _players)
+	for (CNetworkPlayer *player : _players)
 	{
 		if (player)
 			count++;

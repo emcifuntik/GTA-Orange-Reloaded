@@ -43,14 +43,14 @@ void CNetworkVehicle::UpdateModel()
 		STREAMING::REQUEST_MODEL(m_Model);
 		while (!STREAMING::HAS_MODEL_LOADED(m_Model))
 			scriptWait(0);
-		Handle = VEHICLE::CREATE_VEHICLE(m_Model, curPos.fX, curPos.fY, curPos.fZ, curHead, false, true);
-
+		Handle = VEHICLE::CREATE_VEHICLE(m_Model, curPos.fX, curPos.fY, curPos.fZ, curHead, true, true);
 		VEHICLE::SET_VEHICLE_EXPLODES_ON_HIGH_EXPLOSION_DAMAGE(Handle, false);
 
 		Blip blip = AddBlip();
-		UI::SET_BLIP_AS_SHORT_RANGE(blip, false);
-		UI::SET_BLIP_COLOUR(blip, 0);
 		UI::SET_BLIP_SPRITE(blip, 225);
+		UI::SET_BLIP_AS_SHORT_RANGE(blip, true);
+		UI::SET_BLIP_COLOUR(blip, 0);
+		UI::SET_BLIP_SCALE(blip, 0.75f);
 	}
 }
 
@@ -195,9 +195,10 @@ void CNetworkVehicle::BuildTasksQueue()
 		tasksToIgnore--;
 		return;
 	}
+	if (Handle == 0) return;
+	ENTITY::SET_ENTITY_VELOCITY(Handle, m_vecMove.fX, m_vecMove.fY, m_vecMove.fZ);
 	if (m_MoveSpeed != .0f)
 	{
-		ENTITY::SET_ENTITY_VELOCITY(Handle, m_vecMove.fX, m_vecMove.fY, m_vecMove.fZ);
 		if (m_hasDriver)
 		{
 			if (VEHICLE::IS_THIS_MODEL_A_CAR(m_Model) || VEHICLE::IS_THIS_MODEL_A_BIKE(m_Model))
@@ -232,6 +233,7 @@ void CNetworkVehicle::BuildTasksQueue()
 	VEHICLE::SET_VEHICLE_ENGINE_HEALTH(Handle, m_EngineHealth);
 	VEHICLE::SET_VEHICLE_PETROL_TANK_HEALTH(Handle, m_TankHealth);
 
+	if (!ENTITY::DOES_ENTITY_EXIST(Handle)) return;
 	*CMemory(GetAddress()).get<float>(0x8CC) = m_steering / 180 * PI;
 	*CMemory(GetAddress()).get<float>(0x7F4) = m_RPM;
 }
@@ -310,7 +312,6 @@ void CNetworkVehicle::Clear()
 {
 	for each(CNetworkVehicle* veh in VehiclePool)
 	{
-		veh->~CNetworkVehicle();
 		delete veh;
 	}
 	VehiclePool.erase(VehiclePool.begin(), VehiclePool.end());
@@ -334,6 +335,24 @@ CNetworkVehicle * CNetworkVehicle::GetByGUID(RakNet::RakNetGUID GUID)
 			return _vehicle;
 	}
 	return nullptr;
+}
+
+void CNetworkVehicle::Delete(RakNet::RakNetGUID GUID)
+{
+	int number = -1;
+	for(int i = 0; i < VehiclePool.size(); ++i)
+	{
+		if (VehiclePool[i]->m_GUID == GUID)
+		{
+			number = i;
+			break;
+		}
+	}
+	if (number == -1)
+		return;
+
+	delete VehiclePool[number];
+	VehiclePool.erase(VehiclePool.begin() + number);
 }
 
 void CNetworkVehicle::Tick()

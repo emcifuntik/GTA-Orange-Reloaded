@@ -4,7 +4,7 @@ class CNetworkPlayer
 	// Static
 	static std::vector<CNetworkPlayer*> _players;
 	static void AddPlayer(CNetworkPlayer*);
-	
+
 	// Non-static
 	unsigned int uiID;
 	RakNet::RakNetGUID rnGUID;
@@ -47,7 +47,7 @@ public:
 	static CNetworkPlayer *GetByID(UINT playerID);
 	static void Tick();
 	static UINT Count();
-	static std::vector<CNetworkPlayer *> CNetworkPlayer::All();
+	static std::vector<CNetworkPlayer *> All();
 	static void Remove(int playerid);
 
 	unsigned int GetID() { return uiID; }
