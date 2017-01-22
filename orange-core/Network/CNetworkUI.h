@@ -15,6 +15,7 @@ struct CMenuElement {
 
 struct CMenu {
 	std::string name;
+	unsigned char button;
 	bool shown;
 	unsigned char active;
 	CVector2 pos;
