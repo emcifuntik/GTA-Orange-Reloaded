@@ -134,21 +134,21 @@ void CNetworkPlayer::Spawn(const CVector3& vecPosition)
 	if (STREAMING::IS_MODEL_IN_CDIMAGE(m_Model) && STREAMING::IS_MODEL_VALID(m_Model))
 	{
 		STREAMING::REQUEST_MODEL(m_Model);
-	while (!STREAMING::HAS_MODEL_LOADED(m_Model))
-		scriptWait(0);
-	Handle = PED::CREATE_PED(1, m_Model, vecPosition.fX, vecPosition.fY, vecPosition.fZ, .0f, true, true);
-	pedHandler = (rage::CPed*)CPed::GetFromScriptID(Handle);
-	STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(m_Model);
-	AI::TASK_SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Handle, true);
-	PED::SET_PED_CAN_RAGDOLL_FROM_PLAYER_IMPACT(Handle, false);
-	PED::SET_PED_FLEE_ATTRIBUTES(Handle, 0, 0);
-	PED::SET_PED_COMBAT_ATTRIBUTES(Handle, 17, 1);
-	PED::SET_PED_CAN_RAGDOLL(Handle, false);
-	//PED::_SET_PED_RAGDOLL_FLAG(Handle, 1 | 2 | 4);
+		while (!STREAMING::HAS_MODEL_LOADED(m_Model))
+			scriptWait(0);
+		Handle = PED::CREATE_PED(1, m_Model, vecPosition.fX, vecPosition.fY, vecPosition.fZ, .0f, true, true);
+		pedHandler = (rage::CPed*)CPed::GetFromScriptID(Handle);
+		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(m_Model);
+		AI::TASK_SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Handle, true);
+		PED::SET_PED_CAN_RAGDOLL_FROM_PLAYER_IMPACT(Handle, false);
+		PED::SET_PED_FLEE_ATTRIBUTES(Handle, 0, 0);
+		PED::SET_PED_COMBAT_ATTRIBUTES(Handle, 17, 1);
+		PED::SET_PED_CAN_RAGDOLL(Handle, false);
+		//PED::_SET_PED_RAGDOLL_FLAG(Handle, 1 | 2 | 4);
 #if _DEBUG
-	//pedHandler->Flags |= 1 << 30;
+		//pedHandler->Flags |= 1 << 30;
 #endif
-		pedHandler->Flags |= 1 << 6;
+		//pedHandler->Flags |= 1 << 6;
 		ENTITY::SET_ENTITY_PROOFS(Handle, true, true, true, true, true, true, true, true);
 		WEAPON::SET_PED_INFINITE_AMMO_CLIP(Handle, true);
 
@@ -651,24 +651,24 @@ void CNetworkPlayer::SetModel(Hash model)
 	{
 		ENTITY::DELETE_ENTITY(&Handle);
 		STREAMING::REQUEST_MODEL(model);
-	while (!STREAMING::HAS_MODEL_LOADED(model))
-		scriptWait(0);
-	Handle = PED::CREATE_PED(1, model, pos.fX, pos.fY, pos.fZ, heading, true, true);
-	pedHandler = (rage::CPed*)CPed::GetFromScriptID(Handle);
-	PED::SET_PED_DEFAULT_COMPONENT_VARIATION(Handle);
-	STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
-	AI::TASK_SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Handle, true);
-	PED::SET_PED_CAN_RAGDOLL_FROM_PLAYER_IMPACT(Handle, false);
-	PED::SET_PED_FLEE_ATTRIBUTES(Handle, 0, 0);
-	PED::SET_PED_COMBAT_ATTRIBUTES(Handle, 17, 1);
-	PED::SET_PED_CAN_RAGDOLL(Handle, m_Ragdoll);
-	//PED::_SET_PED_RAGDOLL_FLAG(Handle, 1 | 2 | 4);
+		while (!STREAMING::HAS_MODEL_LOADED(model))
+			scriptWait(0);
+		Handle = PED::CREATE_PED(1, model, pos.fX, pos.fY, pos.fZ, heading, true, true);
+		pedHandler = (rage::CPed*)CPed::GetFromScriptID(Handle);
+		PED::SET_PED_DEFAULT_COMPONENT_VARIATION(Handle);
+		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
+		AI::TASK_SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Handle, true);
+		PED::SET_PED_CAN_RAGDOLL_FROM_PLAYER_IMPACT(Handle, false);
+		PED::SET_PED_FLEE_ATTRIBUTES(Handle, 0, 0);
+		PED::SET_PED_COMBAT_ATTRIBUTES(Handle, 17, 1);
+		PED::SET_PED_CAN_RAGDOLL(Handle, m_Ragdoll);
+		//PED::_SET_PED_RAGDOLL_FLAG(Handle, 1 | 2 | 4);
 #if _DEBUG
 	//pedHandler->Flags |= 1 << 30;
 #endif
 	//pedHandler->Flags |= 1 << 6;
-	ENTITY::SET_ENTITY_PROOFS(Handle, true, true, true, true, true, true, true, true);
-	
+		ENTITY::SET_ENTITY_PROOFS(Handle, true, true, true, true, true, true, true, true);
+	}
 }
 
 void CNetworkPlayer::RemoveTargetPosition()
