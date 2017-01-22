@@ -85,6 +85,8 @@ void CNetworkUI::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, B
 	//if (isUpNow && wasDownBefore) log << "down: " << std::hex << key << std::endl;
 	//else if (!isUpNow && !wasDownBefore) log << "up: " << std::hex << key << std::endl;
 
+	if (!CChat::Get()->Opened()) return;
+
 	if (!isUpNow)
 	{
 		if (key == VK_DOWN)
