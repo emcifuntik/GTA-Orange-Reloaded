@@ -44,7 +44,7 @@ public:
 	bool showChat = false;
 	bool blockquickswitch = true;
 	int currentGameState = -1;
-	char serverIP[32] = "";
+	char serverIP[32] = "194.87.239.79";
 	char nickName[32] = "";
 	int serverPort = 7788;
 	bool isDebug = false;

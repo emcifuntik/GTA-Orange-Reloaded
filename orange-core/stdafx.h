@@ -169,6 +169,7 @@ using namespace RakNet;
 
 IMGUI_API LRESULT ImGui_ImplDX11_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void CreateRenderTarget();
+std::string getHWID();
 
 enum eGameState {
 	GameStatePlaying,

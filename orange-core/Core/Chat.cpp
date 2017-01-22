@@ -109,7 +109,7 @@ void CChat::Render()
 		}
 		for (unsigned i = 0; i < substr.size(); ++i)
 		{
-			ImGui::TextColored(ImColor(substr[i].color.red, substr[i].color.green, substr[i].color.blue, substr[i].color.alpha), (char*)substr[i].str.c_str());
+			ImGui::TextColored(ImColor(substr[i].color.red, substr[i].color.green, substr[i].color.blue, BYTE(std::roundf(substr[i].color.alpha * (fOpacity * 2)))), (char*)substr[i].str.c_str());
 			if(i != (substr.size() - 1))
 				ImGui::SameLine(0.f, 0.f);
 		}

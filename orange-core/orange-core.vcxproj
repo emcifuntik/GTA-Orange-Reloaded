@@ -133,6 +133,7 @@
     <ClInclude Include="GTA\VTasks.h" />
     <ClInclude Include="GuiDispatcher.h" />
     <ClInclude Include="icofont.h" />
+    <ClInclude Include="md5.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="MemoryCache.h" />
     <ClInclude Include="Network\CConfig.h" />
@@ -200,7 +201,9 @@
     <ClCompile Include="GTA\sysAllocator.cpp" />
     <ClCompile Include="GTA\VTasks.cpp" />
     <ClCompile Include="GuiDispatcher.cpp" />
+    <ClCompile Include="HWID.cpp" />
     <ClCompile Include="LuaNativeEngine.cpp" />
+    <ClCompile Include="md5.cpp" />
     <ClCompile Include="Memory.cpp" />
     <ClCompile Include="MemoryCache.cpp" />
     <ClCompile Include="Network\CConfig.cpp" />
