@@ -17,17 +17,17 @@ CConfig::CConfig()
 			InitConfig();
 			return;
 		}
-		/*tinyxml2::XMLElement * serverNode = root->FirstChildElement("server");
+		tinyxml2::XMLElement * serverNode = root->FirstChildElement("server");
 		if (!serverNode)
 		{
 			InitConfig();
 			return;
-		}*/
-		//uiPort = serverNode->IntAttribute("port");
-		//sIP = std::string(serverNode->GetText());
+		}
+		uiPort = serverNode->IntAttribute("port");
+		sIP = std::string(serverNode->GetText());
 		sNickName = std::string(root->FirstChildElement("player")->GetText());
-		//CGlobals::Get().serverPort = uiPort;
-		//strcpy_s(CGlobals::Get().serverIP, 32, sIP.c_str());
+		CGlobals::Get().serverPort = uiPort;
+		strcpy_s(CGlobals::Get().serverIP, 32, sIP.c_str());
 		strcpy_s(CGlobals::Get().nickName, 32, sNickName.c_str());
 	}
 	catch (...)
@@ -38,11 +38,11 @@ CConfig::CConfig()
 
 void CConfig::InitConfig()
 {
-	//uiPort = 7788;
-	//sIP = "127.0.0.1";
+	uiPort = 7788;
+	sIP = "127.0.0.1";
 	sNickName = std::string("Player");
-	//CGlobals::Get().serverPort = uiPort;
-	//strcpy_s(CGlobals::Get().serverIP, 32, sIP.c_str());
+	CGlobals::Get().serverPort = uiPort;
+	strcpy_s(CGlobals::Get().serverIP, 32, sIP.c_str());
 	strcpy_s(CGlobals::Get().nickName, 32, sNickName.c_str());
 	Save();
 }
@@ -53,10 +53,10 @@ void CConfig::Save()
 	tinyxml2::XMLNode * pRoot = doc.NewElement("config");
 	doc.InsertFirstChild(pRoot);
 
-	/*tinyxml2::XMLElement * pServer = doc.NewElement("server");
+	tinyxml2::XMLElement * pServer = doc.NewElement("server");
 	pServer->SetText(sIP.c_str());
 	pServer->SetAttribute("port", (int64_t)uiPort);
-	pRoot->InsertEndChild(pServer);*/
+	pRoot->InsertEndChild(pServer);
 
 	tinyxml2::XMLElement * pPlayer = doc.NewElement("player");
 	pPlayer->SetText(sNickName.c_str());

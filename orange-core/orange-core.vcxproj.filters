@@ -421,6 +421,7 @@
     </ClInclude>
     <ClInclude Include="..\shared\NetworkTypes.h">
       <Filter>Network\Заголовочные файлы</Filter>
+    </ClInclude>
     <ClInclude Include="Scripting\CScriptEngine.h">
       <Filter>Scripting</Filter>
     </ClInclude>

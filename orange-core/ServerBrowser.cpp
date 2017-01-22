@@ -27,7 +27,7 @@ void ServerBrowser()
 			CNetworkObject::Clear();
 			if (CNetworkConnection::Get()->IsConnected()) CNetworkConnection::Get()->Disconnect();
 			std::stringstream ss;
-			ss << "Connecting to beta-test server"; //<< CGlobals::Get().serverIP << ":" << CGlobals::Get().serverPort;
+			ss << "Connecting to " << CGlobals::Get().serverIP << ":" << CGlobals::Get().serverPort;
 			CChat::Get()->AddChatMessage(ss.str());
 			if (!CNetworkConnection::Get()->Connect(CGlobals::Get().serverIP, CGlobals::Get().serverPort))
 				CChat::Get()->AddChatMessage("Can't connect to the server", { 255, 0, 0, 255 });
