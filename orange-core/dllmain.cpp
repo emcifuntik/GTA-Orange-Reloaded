@@ -26,7 +26,8 @@ const char * hwids[] = {
 	"75bb89ad01bb780b30b05f460e71f41d", //FunnyMan
 	"867c8f56e502449b177d97c6285598cf", //Genius
 	"20fc780ef02401f7e30431fa2e8464eb", //Xinerki
-	"7ef5adfb8d6bbb1b3c7d575c15b11ae2" //Theglobalfive
+	"7ef5adfb8d6bbb1b3c7d575c15b11ae2", //Theglobalfive
+	"1872d951994962b6e40053aeae0b13f2" //Kiwi
 };
 
 std::string GetModuleDir()
