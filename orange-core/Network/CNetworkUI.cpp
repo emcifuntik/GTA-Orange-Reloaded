@@ -85,7 +85,7 @@ void CNetworkUI::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, B
 	//if (isUpNow && wasDownBefore) log << "down: " << std::hex << key << std::endl;
 	//else if (!isUpNow && !wasDownBefore) log << "up: " << std::hex << key << std::endl;
 
-	if (!CChat::Get()->Opened()) return;
+	if (CChat::Get()->Opened()) return;
 
 	if (!isUpNow)
 	{
@@ -108,6 +108,11 @@ void CNetworkUI::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, B
 				if (menu->shown) {
 					CNetworkUI::Get()->Call(menu);
 				}
+		
+		for each(auto menu in menus)
+			if (menu->shown) {
+				if (key == menu->button) menu->shown ^= 1;
+			}
 	}
 
 	if (isUpNow && wasDownBefore)

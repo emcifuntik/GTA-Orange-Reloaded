@@ -66,8 +66,9 @@ int lua_menu(lua_State *L)
 	auto menu = new CMenu();
 
 	menu->name = _strdup(lua_tostring(L, 1));
-	menu->pos.fX = lua_tonumber(L, 2);
-	menu->pos.fY = lua_tonumber(L, 3);
+	menu->button = lua_tointeger(L, 2);
+	menu->pos.fX = lua_tonumber(L, 3);
+	menu->pos.fY = lua_tonumber(L, 4);
 
 	menu->shown = true;
 
