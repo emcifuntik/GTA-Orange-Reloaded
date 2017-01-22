@@ -221,10 +221,16 @@ void CNetworkPlayer::SetOnFootData(OnFootSyncData data, unsigned long ulDelay)
 		//AI::CLEAR_PED_TASKS(Handle);
 		//AI::CLEAR_PED_SECONDARY_TASK(Handle);
 		//AI::CLEAR_PED_TASKS_IMMEDIATELY(Handle);
-		if (!timeLeaveVehicle)
-			timeLeaveVehicle = timeGetTime();
+		//if (!timeLeaveVehicle)
+		//	timeLeaveVehicle = timeGetTime();
 		
-		AI::TASK_LEAVE_VEHICLE(Handle, PED::GET_VEHICLE_PED_IS_IN(Handle, false), (CLocalPlayer::Get()->GetPosition() - GetPosition()).Length() > 50 ? 16 : 0);
+		//AI::TASK_LEAVE_VEHICLE(Handle, PED::GET_VEHICLE_PED_IS_IN(Handle, false), (CLocalPlayer::Get()->GetPosition() - GetPosition()).Length() > 50 ? 16 : 0);
+		//AI::CLEAR_PED_TASKS(Handle);
+		//ENTITY::SET_ENTITY_VELOCITY(Handle, 0.f, 0.f, 0.f);
+		//ENTITY::SET_ENTITY_VELOCITY(PED::GET_VEHICLE_PED_IS_IN(Handle, false), 0.f, 0.f, 0.f);
+		//AI::TASK_LEAVE_VEHICLE(Handle, PED::GET_VEHICLE_PED_IS_IN(Handle, false), 16);
+		log_debug << "Trying to throw out" << std::endl;
+		ENTITY::SET_ENTITY_HEALTH(Handle, 0);
 		
 		m_Entering = false;
 		m_Lefting = true;
@@ -390,7 +396,15 @@ void CNetworkPlayer::Interpolate()
 	if (PED::IS_PED_DEAD_OR_DYING(Handle, true) && !pedJustDead)
 	{
 		pedJustDead = true;
-		ENTITY::DELETE_ENTITY(&Handle);
+		ResetInterpolation();
+		//ENTITY::DELETE_ENTITY(&Handle);
+		return;
+	}
+	else if (!PED::IS_PED_DEAD_OR_DYING(Handle, true))
+		pedJustDead = false;
+	else if (PED::IS_PED_DEAD_OR_DYING(Handle, true))
+	{
+		ResetInterpolation();
 		return;
 	}
 		
@@ -454,7 +468,17 @@ void CNetworkPlayer::BuildTasksQueue()
 	if (m_InVehicle)
 	{
 		if (m_FutureSeat == -2) m_FutureSeat = m_Seat;
-		if (m_Entering && !PED::IS_PED_IN_ANY_VEHICLE(Handle, false) && PED::GET_VEHICLE_PED_IS_TRYING_TO_ENTER(Handle) != 0) return;
+		if (m_Entering && !PED::IS_PED_IN_ANY_VEHICLE(Handle, false) && PED::GET_VEHICLE_PED_IS_TRYING_TO_ENTER(Handle) != 0)
+		{
+			if ((timeGetTime() - timeEnterVehicle) > 3000)
+			{
+				CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(m_Vehicle);
+				if (veh && VEHICLE::_GET_VEHICLE_SPEED(veh->GetHandle()) > 0.1f)
+					PED::SET_PED_INTO_VEHICLE(Handle, veh->GetHandle(), m_Seat);
+			}
+			else 
+				return;
+		}
 		if (!m_Entering)
 		{
 			CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(m_Vehicle);
@@ -470,12 +494,6 @@ void CNetworkPlayer::BuildTasksQueue()
 				AI::TASK_ENTER_VEHICLE(Handle, veh->GetHandle(), -1, m_Seat, 2, 0, 0);
 			}
 		}
-		/*else if ((timeGetTime() - timeEnterVehicle) > 3000 && !PED::IS_PED_IN_ANY_VEHICLE(Handle, false))
-		{
-			CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(m_Vehicle);
-			if (veh)
-				PED::SET_PED_INTO_VEHICLE(Handle, veh->GetHandle(), m_Seat);
-		}*/
 		else
 		{
 			if (m_FutureSeat != m_Seat)
@@ -570,6 +588,8 @@ void CNetworkPlayer::MakeTag()
 		
 		if (tag.health > 1.f)
 			tag.health = 1.f;
+		else if (tag.health < 0.f)
+			tag.health = 0.f;
 
 		tag.width = 0.08f * 800;
 		tag.height = 0.012f * 600;

@@ -20,15 +20,13 @@ void Action()
 	{
 		if (!teleported)
 		{
-			StartScript("mp_registration");
-			StartScript("title_update_registration");
-
-			StartScript("standard_global_init");
-			StartScript("standard_global_reg");
+			//StartScript("mp_registration");
+			//StartScript("title_update_registration");
+			SCRIPT::_REQUEST_STREAMED_SCRIPT(Utils::Hash("standard_global_init"));
+			//StartScript("standard_global_init");
+			//StartScript("standard_global_reg");
 
 			scriptWait(0);
-
-			//CGlobals::Get().InitializeOnline();
 
 			ENTITY::SET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), 363.871f, 621.555f, 78.44f, true, false, false, false);
 			CGlobals::Get().currentcam = CAM::CREATE_CAM("DEFAULT_SCRIPTED_CAMERA", false);
@@ -46,15 +44,6 @@ void Action()
 			ss << "{E30022}" << u8"\ueffb" << "{FFFFFF} Grand Theft Auto: {FF8F00}Orange {FFFFFF}loaded";
 			CChat::Get()->AddChatMessage(ss.str());
 		}
-
-		if (!mobiledisabled && CGlobals::Get().HasScriptLoaded("cellphone_controller"))
-		{
-			MOBILE::DESTROY_MOBILE_PHONE();
-			CGlobals::Get().TerminateAllScriptsWithThisName("cellphone_controller");
-			mobiledisabled = true;
-		}
-		//CGlobals::Get().TerminateAllScriptsWithThisName("cellphone_flashhandr");
-		//MOBILE::DESTROY_MOBILE_PHONE();
 		scriptWait(0);
 	}
 }

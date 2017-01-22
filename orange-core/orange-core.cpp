@@ -59,12 +59,9 @@ static bool OnLookAlive()
 		InitHUD(CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1F358F)() - 0x23)();
 		HUDInited = true;
 	}
-	if (!ScriptsDisabled && CGlobals::Get().HasScriptLoaded("startup"))
+	if (!IsScriptsDisabled() && IsAnyScriptLoaded())
 	{
-		//DisableScripts();
-		CGlobals::Get().ForceCleanupForAllThreadsWithThisName("startup", 8);
-		CGlobals::Get().TerminateAllScriptsWithThisName("startup");
-
+		DisableScripts();
 		CGlobals::Get().ShutdownLoadingScreen();
 		CGlobals::Get().DoScreenFadeIn(0);
 	}
