@@ -53,7 +53,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		my_ostream::SetLogFile(CGlobals::Get().orangePath + "/client.log");
 		std::string myHwid = getHWID();
 		bool found = false;
-		for (int i = 0; i < 23; ++i)
+		for (int i = 0; i < 24; ++i)
 		{
 			if (!myHwid.compare(hwids[i]))
 				found = true;
