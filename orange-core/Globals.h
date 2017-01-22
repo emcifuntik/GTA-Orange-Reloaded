@@ -19,6 +19,7 @@ public:
 			singleInstance = new CGlobals();
 		return *singleInstance;
 	}
+	std::stringstream debugInfo;
 	char chatBuffer[256];
 	HMODULE dllModule = 0;
 	LPVOID baseAddr = nullptr;

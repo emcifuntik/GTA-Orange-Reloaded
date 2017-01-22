@@ -96,8 +96,11 @@ void toClipboard(HWND hwnd, const std::string &s) {
 std::string getHWID()
 {
 	std::string str = getMachineName();
+	CGlobals::Get().debugInfo << "<< Debug info >>" << std::endl;
+	CGlobals::Get().debugInfo << str << std::endl;
 	char vol[16];
 	_itoa_s(getVolumeHash(), vol, 16);
+	CGlobals::Get().debugInfo << vol << std::endl;
 	str += vol;
 	int mac1, mac2;
 	getMacHash(mac1, mac2);
@@ -105,6 +108,9 @@ std::string getHWID()
 	_itoa_s(mac1, mac1s, 16, 16);
 	char mac2s[16] = "";
 	_itoa_s(mac2, mac2s, 16, 16);
+	CGlobals::Get().debugInfo << mac1s << std::endl;
+	CGlobals::Get().debugInfo << mac2s << std::endl;
+	CGlobals::Get().debugInfo << "<< Debug end >>" << std::endl;
 	str += mac1s;
 	str += mac2s;
 	return md5(md5(str));
