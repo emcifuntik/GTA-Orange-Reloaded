@@ -50,7 +50,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 	{
 		std::string myHwid = getHWID();
 		bool found = false;
-		for (int i = 0; i < 18; ++i)
+		for (int i = 0; i < 22; ++i)
 		{
 			if (!myHwid.compare(hwids[i]))
 				found = true;

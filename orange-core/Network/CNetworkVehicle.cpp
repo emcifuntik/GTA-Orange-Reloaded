@@ -43,14 +43,14 @@ void CNetworkVehicle::UpdateModel()
 		STREAMING::REQUEST_MODEL(m_Model);
 		while (!STREAMING::HAS_MODEL_LOADED(m_Model))
 			scriptWait(0);
-		Handle = VEHICLE::CREATE_VEHICLE(m_Model, curPos.fX, curPos.fY, curPos.fZ, curHead, false, true);
-
+		Handle = VEHICLE::CREATE_VEHICLE(m_Model, curPos.fX, curPos.fY, curPos.fZ, curHead, true, true);
 		VEHICLE::SET_VEHICLE_EXPLODES_ON_HIGH_EXPLOSION_DAMAGE(Handle, false);
 
 		Blip blip = AddBlip();
-		UI::SET_BLIP_AS_SHORT_RANGE(blip, false);
-		UI::SET_BLIP_COLOUR(blip, 0);
 		UI::SET_BLIP_SPRITE(blip, 225);
+		UI::SET_BLIP_AS_SHORT_RANGE(blip, true);
+		UI::SET_BLIP_COLOUR(blip, 0);
+		UI::SET_BLIP_SCALE(blip, 0.75f);
 	}
 }
 

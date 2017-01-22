@@ -132,10 +132,5 @@ int CommandProcessor(std::string command)
 		CGlobals::Get().isDebug ^= 1;
 		return true;
 	}
-	if (!command.compare("/doors"))
-	{
-		CGlobals::Get().ForceCleanupForAllThreadsWithThisName("startup", 8);
-		CGlobals::Get().TerminateAllScriptsWithThisName("startup");
-	}
 	return false;
 }
