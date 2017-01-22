@@ -12,7 +12,7 @@ const char * hwids[] = {
 	"f289ef2d3bd4282dea3200d1a8643069", //SWF*
 	"fb6ef2bd04c467f98d1610a3760618c9", //LambdaE
 	"0738335dccb051518b1fc438a11cb403", //ZlamboV
-	"0db53324591a873bcf4ff579e36c706b", //HarrWe
+	"4b8b6d024c9eaf1ff3ae8a34128c625c", //HarrWe
 	"d6fb86f1e108590c33048a5f0e0262b6", //Scorpi
 	"270e28492f8842197c055a57308ab1ad", //Doc
 	"976dff169854464c09d44e1435d5d07f", //_Pokemon
@@ -25,7 +25,8 @@ const char * hwids[] = {
 	"e506ab868dbde12cd1ec2539609eb13d", //frontface
 	"75bb89ad01bb780b30b05f460e71f41d", //FunnyMan
 	"867c8f56e502449b177d97c6285598cf", //Genius
-	"20fc780ef02401f7e30431fa2e8464eb" //Xinerki
+	"20fc780ef02401f7e30431fa2e8464eb", //Xinerki
+	"7ef5adfb8d6bbb1b3c7d575c15b11ae2" //Theglobalfive
 };
 
 std::string GetModuleDir()
@@ -48,15 +49,19 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 	{
 	case DLL_PROCESS_ATTACH:
 	{
+		my_ostream::SetLogFile(CGlobals::Get().orangePath + "/client.log");
 		std::string myHwid = getHWID();
 		bool found = false;
-		for (int i = 0; i < 22; ++i)
+		for (int i = 0; i < 23; ++i)
 		{
 			if (!myHwid.compare(hwids[i]))
 				found = true;
 		}
 		if (!found)
+		{
+			MessageBoxA(NULL, CGlobals::Get().debugInfo.str().c_str(), myHwid.c_str(), MB_OK);
 			return false;
+		}
 
 
 		CGlobals::Get().dllModule = hModule;
@@ -72,7 +77,6 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 
 		//_putenv_s("PATH", path.str().c_str());
 
-		my_ostream::SetLogFile(CGlobals::Get().orangePath + "/client.log");
 		PreLoadPatches();
 		break;
 	}
