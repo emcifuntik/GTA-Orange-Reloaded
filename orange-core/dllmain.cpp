@@ -26,7 +26,11 @@ const char * hwids[] = {
 	"75bb89ad01bb780b30b05f460e71f41d", //FunnyMan
 	"867c8f56e502449b177d97c6285598cf", //Genius
 	"20fc780ef02401f7e30431fa2e8464eb", //Xinerki
-	"7ef5adfb8d6bbb1b3c7d575c15b11ae2" //Theglobalfive
+	"41fa3c9e0a19afaa8ad794109da9d3c9", //Theglobalfive
+	"1872d951994962b6e40053aeae0b13f2", //Kiwi
+	"d2fd5d9df2ae83066ea086c597cf8845", //Forces
+	"8568e7ee13cad430d8c8a1100f041af7", //McNasty
+	"b9563ce9442d0b5f1f25eaee02e1392d" //Soap
 };
 
 std::string GetModuleDir()
@@ -52,7 +56,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		my_ostream::SetLogFile(CGlobals::Get().orangePath + "/client.log");
 		std::string myHwid = getHWID();
 		bool found = false;
-		for (int i = 0; i < 23; ++i)
+		for (int i = 0; i < sizeof(hwids)/8; ++i)
 		{
 			if (!myHwid.compare(hwids[i]))
 				found = true;
