@@ -30,7 +30,12 @@ const char * hwids[] = {
 	"1872d951994962b6e40053aeae0b13f2", //Kiwi
 	"d2fd5d9df2ae83066ea086c597cf8845", //Forces
 	"8568e7ee13cad430d8c8a1100f041af7", //McNasty
-	"b9563ce9442d0b5f1f25eaee02e1392d" //Soap
+	"b9563ce9442d0b5f1f25eaee02e1392d", //Soap
+	"852ea45965c13b4924387b566067325b" //Hexaflexagon
+};
+
+const char * hwidsWO[] = {
+	"lol"
 };
 
 std::string GetModuleDir()
@@ -53,7 +58,6 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 	{
 	case DLL_PROCESS_ATTACH:
 	{
-		my_ostream::SetLogFile(CGlobals::Get().orangePath + "/client.log");
 		std::string myHwid = getHWID();
 		bool found = false;
 		for (int i = 0; i < sizeof(hwids)/8; ++i)
@@ -63,8 +67,22 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		}
 		if (!found)
 		{
+<<<<<<< HEAD
 			//MessageBoxA(NULL, CGlobals::Get().debugInfo.str().c_str(), myHwid.c_str(), MB_OK);
 			//return false;
+=======
+			std::string myHwidWO = getHWIDClear();
+			bool found = false;
+			for (int i = 0; i < sizeof(hwidsWO) / 8; ++i)
+			{
+				if (!myHwidWO.compare(hwidsWO[i]))
+					found = true;
+			}
+
+			CGlobals::Get().debugInfo << std::endl << myHwid << std::endl << myHwidWO;
+			MessageBoxA(NULL, CGlobals::Get().debugInfo.str().c_str(), "Debug info", MB_OK);
+			return false;
+>>>>>>> abe44517c56c466b92922efc0e71377768f9393c
 		}
 
 
@@ -80,7 +98,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		//path << CGlobals::Get().orangePath << "\\bin;" << std::getenv("PATH");
 
 		//_putenv_s("PATH", path.str().c_str());
-
+		my_ostream::SetLogFile(CGlobals::Get().orangePath + "/client.log");
 		PreLoadPatches();
 		break;
 	}
