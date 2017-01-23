@@ -63,8 +63,8 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		}
 		if (!found)
 		{
-			MessageBoxA(NULL, CGlobals::Get().debugInfo.str().c_str(), myHwid.c_str(), MB_OK);
-			return false;
+			//MessageBoxA(NULL, CGlobals::Get().debugInfo.str().c_str(), myHwid.c_str(), MB_OK);
+			//return false;
 		}
 
 
