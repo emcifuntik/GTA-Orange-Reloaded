@@ -281,8 +281,8 @@ void CLocalPlayer::GoPassenger()
 	{
 		if (VEHICLE::IS_VEHICLE_SEAT_FREE(veh, seat))
 		{
-			PED::SET_PED_INTO_VEHICLE(Handle, veh, seat);
-			//AI::TASK_ENTER_VEHICLE(Handle, veh, -1, seat, 2.f, 0, 0);
+			//PED::SET_PED_INTO_VEHICLE(Handle, veh, seat);
+			AI::TASK_ENTER_VEHICLE(Handle, veh, 1500, seat, 2.f, 0, 0);
 			return;
 		}
 	}
