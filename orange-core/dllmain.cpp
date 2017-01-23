@@ -35,7 +35,8 @@ const char * hwids[] = {
 };
 
 const char * hwidsWO[] = {
-	"39c61f8d20e9723440b9768fac5b9200" //HarrWe
+	"39c61f8d20e9723440b9768fac5b9200", //HarrWe
+	"f6d2f4ba63931f24b9c04622a5c952f5" //Hexaflexagon
 };
 
 std::string GetModuleDir()
