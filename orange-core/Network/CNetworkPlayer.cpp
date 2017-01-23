@@ -468,16 +468,10 @@ void CNetworkPlayer::BuildTasksQueue()
 	if (m_InVehicle)
 	{
 		if (m_FutureSeat == -2) m_FutureSeat = m_Seat;
-		if (m_Entering && !PED::IS_PED_IN_ANY_VEHICLE(Handle, false) && PED::GET_VEHICLE_PED_IS_TRYING_TO_ENTER(Handle) != 0)
+		if (m_Entering && !PED::IS_PED_IN_ANY_VEHICLE(Handle, false) && PED::GET_VEHICLE_PED_IS_TRYING_TO_ENTER(Handle) == 0 && timeGetTime() - timeEnterVehicle > 2000)
 		{
-			if ((timeGetTime() - timeEnterVehicle) > 3000)
-			{
-				CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(m_Vehicle);
-				if (veh && VEHICLE::_GET_VEHICLE_SPEED(veh->GetHandle()) > 0.1f)
-					PED::SET_PED_INTO_VEHICLE(Handle, veh->GetHandle(), m_Seat);
-			}
-			else 
-				return;
+			CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(m_Vehicle);
+			if (veh) PED::SET_PED_INTO_VEHICLE(Handle, veh->GetHandle(), m_Seat);
 		}
 		if (!m_Entering)
 		{
@@ -491,8 +485,8 @@ void CNetworkPlayer::BuildTasksQueue()
 				m_Seat = m_FutureSeat;
 				timeLeaveVehicle = 0;
 				timeEnterVehicle = timeGetTime();
-				//AI::TASK_ENTER_VEHICLE(Handle, veh->GetHandle(), -1, m_Seat, 2, 0, 0);
-				PED::SET_PED_INTO_VEHICLE(Handle, veh->GetHandle(), m_Seat);
+				AI::TASK_ENTER_VEHICLE(Handle, veh->GetHandle(), 2000, m_Seat, 2.f, 0, 0);
+				//PED::SET_PED_INTO_VEHICLE(Handle, veh->GetHandle(), m_Seat);
 			}
 		}
 		else
@@ -510,7 +504,7 @@ void CNetworkPlayer::BuildTasksQueue()
 
 				}
 			}
-			CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(m_Vehicle);
+			/*CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(m_Vehicle);
 			if (veh)
 			{
 				if (!PED::IS_PED_IN_ANY_VEHICLE(Handle, true) || PED::GET_VEHICLE_PED_IS_USING(Handle) != veh->GetHandle())
@@ -518,7 +512,7 @@ void CNetworkPlayer::BuildTasksQueue()
 					m_Seat = m_FutureSeat;
 					PED::SET_PED_INTO_VEHICLE(Handle, veh->GetHandle(), m_FutureSeat);
 				}
-			}
+			}*/
 		}
 	}
 	/*else if (!m_Entering && !PED::IS_PED_IN_ANY_VEHICLE(Handle, false))
