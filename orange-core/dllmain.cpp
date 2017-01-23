@@ -34,6 +34,10 @@ const char * hwids[] = {
 	"852ea45965c13b4924387b566067325b" //Hexaflexagon
 };
 
+const char * hwidsWO[] = {
+	"lol"
+};
+
 std::string GetModuleDir()
 {
 	HMODULE hModule;
@@ -56,14 +60,23 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 	{
 		std::string myHwid = getHWID();
 		bool found = false;
-		for (int i = 0; i < 28; ++i)
+		for (int i = 0; i < sizeof(hwids)/8; ++i)
 		{
 			if (!myHwid.compare(hwids[i]))
 				found = true;
 		}
 		if (!found)
 		{
-			MessageBoxA(NULL, CGlobals::Get().debugInfo.str().c_str(), myHwid.c_str(), MB_OK);
+			std::string myHwidWO = getHWIDClear();
+			bool found = false;
+			for (int i = 0; i < sizeof(hwidsWO) / 8; ++i)
+			{
+				if (!myHwidWO.compare(hwidsWO[i]))
+					found = true;
+			}
+
+			CGlobals::Get().debugInfo << std::endl << myHwid << std::endl << myHwidWO;
+			MessageBoxA(NULL, CGlobals::Get().debugInfo.str().c_str(), "Debug info", MB_OK);
 			return false;
 		}
 
