@@ -491,7 +491,8 @@ void CNetworkPlayer::BuildTasksQueue()
 				m_Seat = m_FutureSeat;
 				timeLeaveVehicle = 0;
 				timeEnterVehicle = timeGetTime();
-				AI::TASK_ENTER_VEHICLE(Handle, veh->GetHandle(), -1, m_Seat, 2, 0, 0);
+				//AI::TASK_ENTER_VEHICLE(Handle, veh->GetHandle(), -1, m_Seat, 2, 0, 0);
+				PED::SET_PED_INTO_VEHICLE(Handle, veh->GetHandle(), m_Seat);
 			}
 		}
 		else
