@@ -197,7 +197,7 @@ void CNetworkConnection::Tick()
 				bsOut.Write(rsName);
 
 				player->GetOnFootData(data);
-#if 0
+#if 1
 				//log_debug << data.ToString() << std::endl;
 				data.vecPos.fX += 1.f;
 				data.vecPos.fY += 1.f;
@@ -212,7 +212,7 @@ void CNetworkConnection::Tick()
 					}*/
 #endif
 				bsOut.Write(data);
-#if 0
+#if 1
 
 				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
 #else
@@ -231,7 +231,7 @@ void CNetworkConnection::Tick()
 				if(data.hasDriver) data.driver = packet->guid;
 
 				bsOut.Write((unsigned char)ID_SEND_VEHICLE_DATA);
-#if 0
+#if 1
 				data.vecPos.fX += 4;
 				data.vecPos.fY += 4;
 
@@ -251,7 +251,7 @@ void CNetworkConnection::Tick()
 
 				bsOut.Write(data);
 
-#if 0
+#if 1
 				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
 #else
 				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, true);
@@ -285,7 +285,7 @@ void CNetworkConnection::Tick()
 					bsOut.WriteBits(taskInfo, size);
 					delete[] taskInfo;
 				}
-#if 0
+#if 1
 				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
 #else
 				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, true);

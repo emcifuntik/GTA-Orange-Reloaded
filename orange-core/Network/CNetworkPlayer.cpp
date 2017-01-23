@@ -281,10 +281,10 @@ void CNetworkPlayer::SetOnFootData(OnFootSyncData data, unsigned long ulDelay)
 		m_Ducking = data.bDuckState;
 		//SetMovementVelocity(data.vecMoveSpeed);
 
-		pedHandler->fForwardPotential = data.fForwardPotential;
+		/*pedHandler->fForwardPotential = data.fForwardPotential;
 		pedHandler->fStrafePotential = data.fStrafePotential;
 		pedHandler->fRotationPotential = data.fRotationPotential;
-		pedHandler->dwMovementFlags = data.dwMovementFlags;
+		pedHandler->dwMovementFlags = data.dwMovementFlags;*/
 
 
 		m_Entering = false;
