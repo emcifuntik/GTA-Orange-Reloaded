@@ -67,10 +67,8 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		}
 		if (!found)
 		{
-<<<<<<< HEAD
 			//MessageBoxA(NULL, CGlobals::Get().debugInfo.str().c_str(), myHwid.c_str(), MB_OK);
 			//return false;
-=======
 			std::string myHwidWO = getHWIDClear();
 			bool found = false;
 			for (int i = 0; i < sizeof(hwidsWO) / 8; ++i)
@@ -81,8 +79,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 
 			CGlobals::Get().debugInfo << std::endl << myHwid << std::endl << myHwidWO;
 			MessageBoxA(NULL, CGlobals::Get().debugInfo.str().c_str(), "Debug info", MB_OK);
-			return false;
->>>>>>> abe44517c56c466b92922efc0e71377768f9393c
+			//return false;
 		}
 
 
