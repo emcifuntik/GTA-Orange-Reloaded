@@ -30,7 +30,8 @@ const char * hwids[] = {
 	"1872d951994962b6e40053aeae0b13f2", //Kiwi
 	"d2fd5d9df2ae83066ea086c597cf8845", //Forces
 	"8568e7ee13cad430d8c8a1100f041af7", //McNasty
-	"b9563ce9442d0b5f1f25eaee02e1392d" //Soap
+	"b9563ce9442d0b5f1f25eaee02e1392d", //Soap
+	"852ea45965c13b4924387b566067325b" //Hexaflexagon
 };
 
 std::string GetModuleDir()
@@ -53,10 +54,9 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 	{
 	case DLL_PROCESS_ATTACH:
 	{
-		my_ostream::SetLogFile(CGlobals::Get().orangePath + "/client.log");
 		std::string myHwid = getHWID();
 		bool found = false;
-		for (int i = 0; i < sizeof(hwids)/8; ++i)
+		for (int i = 0; i < 28; ++i)
 		{
 			if (!myHwid.compare(hwids[i]))
 				found = true;
@@ -80,7 +80,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		//path << CGlobals::Get().orangePath << "\\bin;" << std::getenv("PATH");
 
 		//_putenv_s("PATH", path.str().c_str());
-
+		my_ostream::SetLogFile(CGlobals::Get().orangePath + "/client.log");
 		PreLoadPatches();
 		break;
 	}

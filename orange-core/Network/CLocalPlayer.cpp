@@ -156,6 +156,16 @@ void CLocalPlayer::Tick()
 		//CVector3 pos = GetPosition();
 		//ChangeModel(GetModel());
 	}
+	if (PED::IS_PED_GETTING_INTO_A_VEHICLE(Handle))
+	{
+		Vehicle veh = PED::GET_VEHICLE_PED_IS_USING(Handle);
+		log_debug << "Veh: " << veh << ", seatFree: " << VEHICLE::IS_VEHICLE_SEAT_FREE(veh, -1) << std::endl;
+		if (!VEHICLE::IS_VEHICLE_SEAT_FREE(veh, -1) && VEHICLE::GET_PED_IN_VEHICLE_SEAT(veh, -1) != PLAYER::PLAYER_PED_ID())
+		{
+			AI::CLEAR_PED_TASKS(Handle);
+			AI::CLEAR_PED_TASKS_IMMEDIATELY(Handle);
+		}
+	}
 	if (dead && GetHealth() > 100) dead = false;
 	if (newModel != 0)
 	{
