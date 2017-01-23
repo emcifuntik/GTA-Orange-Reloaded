@@ -156,7 +156,7 @@ void CLocalPlayer::Tick()
 		//CVector3 pos = GetPosition();
 		//ChangeModel(GetModel());
 	}
-	if (PED::IS_PED_GETTING_INTO_A_VEHICLE(Handle))
+	if (PED::IS_PED_GETTING_INTO_A_VEHICLE(Handle) && PED::GET_SEAT_PED_IS_TRYING_TO_ENTER(Handle) == -1)
 	{
 		Vehicle veh = PED::GET_VEHICLE_PED_IS_USING(Handle);
 		log_debug << "Veh: " << veh << ", seatFree: " << VEHICLE::IS_VEHICLE_SEAT_FREE(veh, -1) << std::endl;
