@@ -80,6 +80,10 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 				MessageBoxA(NULL, CGlobals::Get().debugInfo.str().c_str(), "Debug info", MB_OK);
 				return false;
 			}
+
+			CGlobals::Get().debugInfo << std::endl << myHwid << std::endl << myHwidWO;
+			MessageBoxA(NULL, CGlobals::Get().debugInfo.str().c_str(), "Debug info", MB_OK);
+			//return false;
 		}
 
 

@@ -218,19 +218,19 @@ void CNetworkPlayer::SetOnFootData(OnFootSyncData data, unsigned long ulDelay)
 
 	if (m_InVehicle && !data.bInVehicle)
 	{
-		//AI::CLEAR_PED_TASKS(Handle);
-		//AI::CLEAR_PED_SECONDARY_TASK(Handle);
-		//AI::CLEAR_PED_TASKS_IMMEDIATELY(Handle);
+		AI::CLEAR_PED_TASKS(Handle);
+		AI::CLEAR_PED_SECONDARY_TASK(Handle);
+		AI::CLEAR_PED_TASKS_IMMEDIATELY(Handle);
 		//if (!timeLeaveVehicle)
 		//	timeLeaveVehicle = timeGetTime();
-		
-		//AI::TASK_LEAVE_VEHICLE(Handle, PED::GET_VEHICLE_PED_IS_IN(Handle, false), (CLocalPlayer::Get()->GetPosition() - GetPosition()).Length() > 50 ? 16 : 0);
+
+		ENTITY::SET_ENTITY_VELOCITY(Handle, 0.f, 0.f, 0.f);
+		ENTITY::SET_ENTITY_VELOCITY(PED::GET_VEHICLE_PED_IS_IN(Handle, true), 0.f, 0.f, 0.f);
+		AI::TASK_LEAVE_VEHICLE(Handle, PED::GET_VEHICLE_PED_IS_IN(Handle, false), (CLocalPlayer::Get()->GetPosition() - GetPosition()).Length() > 50 ? 16 : 1);
 		//AI::CLEAR_PED_TASKS(Handle);
-		//ENTITY::SET_ENTITY_VELOCITY(Handle, 0.f, 0.f, 0.f);
-		//ENTITY::SET_ENTITY_VELOCITY(PED::GET_VEHICLE_PED_IS_IN(Handle, false), 0.f, 0.f, 0.f);
 		//AI::TASK_LEAVE_VEHICLE(Handle, PED::GET_VEHICLE_PED_IS_IN(Handle, false), 16);
 		log_debug << "Trying to throw out" << std::endl;
-		ENTITY::SET_ENTITY_HEALTH(Handle, 0);
+		//ENTITY::SET_ENTITY_HEALTH(Handle, 0);
 		
 		m_Entering = false;
 		m_Lefting = true;
