@@ -52,7 +52,7 @@ int lua_tick(lua_State *L)
 int lua_menu(lua_State *L)
 {
 
-	lua_pushvalue(L, 4);
+	lua_pushvalue(L, 5);
 	luaL_checktype(L, -1, LUA_TTABLE);
 
 	lua_rawgeti(L, -1, 1);
@@ -70,7 +70,7 @@ int lua_menu(lua_State *L)
 	menu->pos.fX = lua_tonumber(L, 3);
 	menu->pos.fY = lua_tonumber(L, 4);
 
-	menu->shown = true;
+	menu->shown = false;
 
 	for (int i = 1; ; i++) {
 		lua_rawgeti(L, -1, i);

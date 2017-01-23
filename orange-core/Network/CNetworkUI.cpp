@@ -110,9 +110,10 @@ void CNetworkUI::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, B
 				}
 		
 		for each(auto menu in menus)
-			if (menu->shown) {
-				if (key == menu->button) menu->shown ^= 1;
-			}
+		{
+			if (key == menu->button) menu->shown ^= 1;
+			//else log << "Pressed: 0x" << std::hex << key << " trigger: 0x" << std::hex << menu->button << std::endl;
+		}
 	}
 
 	if (isUpNow && wasDownBefore)
