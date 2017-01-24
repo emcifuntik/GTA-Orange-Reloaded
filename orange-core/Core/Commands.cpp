@@ -30,10 +30,20 @@ int CommandProcessor(std::string command)
 	}
 	if (!command.compare("/test"))
 	{
-		rage::CPedSyncTree *pedSyncTree = SyncTree::GetPedSyncTree();
+		auto pos = rage::CPedFactory::Get()->localPed->vecPositionEntity;
+		Vector3 vec;
+		vec.x = pos.fX;
+		vec.y = pos.fY;
+		vec.z = pos.fZ;
+		Ped handle = PED::CREATE_PED(0, Utils::Hash("CSB_Stripper_01"), pos.fX, pos.fY, pos.fZ, 123.456f, true, true);
+		PED::SET_PED_DEFAULT_COMPONENT_VARIATION(handle);
+		std::stringstream ss;
+		ss << "Handle: " << handle << ", NetworkHandle: " << NETWORK::PED_TO_NET(handle);
+		CChat::Get()->AddChatMessage(ss.str(), { 255, 255, 255, 255 });
+		/*rage::CPedSyncTree *pedSyncTree = SyncTree::GetPedSyncTree();
 		rage::CLogger* logger = new rage::CLogger();
 		pedSyncTree->pedMovementManager.Debug(logger);
-		delete[] logger;
+		delete[] logger;*/
 
 		//CScriptInvoker::Get().Push([=]() {
 		//	auto pos = rage::CPedFactory::Get()->localPed->vecPositionEntity;
@@ -42,7 +52,7 @@ int CommandProcessor(std::string command)
 		//	vec.y = pos.fY;
 		//	vec.z = pos.fZ;
 		//
-		//	//rage::CPedFactory::Create(0, Utils::Hash("mp_m_freemode_01"), &vec, 0xF8418B3B87CFCC01ui64, true, true);
+		//	rage::CPedFactory::Create(0, Utils::Hash("mp_m_freemode_01"), &vec, 0xF8418B3B87CFCC01ui64, true, true);
 		//	Ped handle = PED::CREATE_PED(0, Utils::Hash("mp_m_freemode_01"), pos.fX, pos.fY, pos.fZ, 123.456f, true, true);
 		//	std::stringstream ss;
 		//	ss << "Handle: " << handle << ", NetworkHandle: " << NETWORK::PED_TO_NET(handle);
@@ -173,7 +183,7 @@ int CommandProcessor(std::string command)
 		CLocalPlayer::Get()->newModel = GAMEPLAY::GET_HASH_KEY((char*)(models[std::atoi(params[0].c_str())]));
 		return true;
 	}	
-	if (!command.compare("/debug") && CGlobals::Get().isDeveloper)
+	if (!command.compare("/debug"))
 	{
 		CGlobals::Get().isDebug ^= 1;
 		return true;

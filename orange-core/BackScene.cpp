@@ -86,18 +86,19 @@ void BackScene()
 			ss2 << "ForwardPotential: " << ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->fForwardPotential << std::endl;
 			ss2 << "StrafePotential: " << ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->fStrafePotential << std::endl;
 			ss2 << "rage::CPed = 0x" << std::hex << ReplayInterfaces::Get()->ReplayInterfacePed->pool[i] << std::dec << std::endl;
+			ss2 << "NetworkID = " << NETWORK::PED_TO_NET(ReplayInterfaces::Get()->ReplayInterfacePed->pool.GetHandle(i)) << std::endl;
 
 			CVector3 screenPos;
 			CGraphics::Get()->WorldToScreen(CVector3(
 				ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->vecPositionEntity.fX,
 				ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->vecPositionEntity.fY,
-				ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->vecPositionEntity.fZ + 2.f),
+				ReplayInterfaces::Get()->ReplayInterfacePed->pool[i]->vecPositionEntity.fZ + 0.5f),
 				screenPos);
 			auto viewPortGame = GTA::CViewportGame::Get();
 			float x = screenPos.fX * viewPortGame->Width;
 			float y = screenPos.fY * viewPortGame->Height;
 
-			float font_size = 18.0f;
+			float font_size = 14.0f;
 			ImVec2 textSize = CGlobals::Get().chatFont->CalcTextSizeA(font_size, 1000.f, 1000.f, ss2.str().c_str());
 
 			ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, font_size, ImVec2(x - textSize.x / 2 - 1, y - textSize.y / 2 - 1), ImColor(0, 0, 0, 255), ss2.str().c_str());

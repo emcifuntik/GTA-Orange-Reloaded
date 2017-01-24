@@ -136,7 +136,7 @@ void CNetworkPlayer::Spawn(const CVector3& vecPosition)
 		STREAMING::REQUEST_MODEL(m_Model);
 		while (!STREAMING::HAS_MODEL_LOADED(m_Model))
 			scriptWait(0);
-		Handle = PED::CREATE_PED(1, m_Model, vecPosition.fX, vecPosition.fY, vecPosition.fZ, .0f, true, true);
+		Handle = PED::CREATE_PED(1, m_Model, vecPosition.fX, vecPosition.fY, vecPosition.fZ, .0f, true, false);
 		pedHandler = (rage::CPed*)CPed::GetFromScriptID(Handle);
 		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(m_Model);
 		AI::TASK_SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Handle, true);
@@ -281,10 +281,10 @@ void CNetworkPlayer::SetOnFootData(OnFootSyncData data, unsigned long ulDelay)
 		m_Ducking = data.bDuckState;
 		//SetMovementVelocity(data.vecMoveSpeed);
 
-		/*pedHandler->fForwardPotential = data.fForwardPotential;
+		pedHandler->fForwardPotential = data.fForwardPotential;
 		pedHandler->fStrafePotential = data.fStrafePotential;
 		pedHandler->fRotationPotential = data.fRotationPotential;
-		pedHandler->dwMovementFlags = data.dwMovementFlags;*/
+		pedHandler->dwMovementFlags = data.dwMovementFlags;
 
 
 		m_Entering = false;
@@ -653,7 +653,7 @@ void CNetworkPlayer::SetModel(Hash model)
 		STREAMING::REQUEST_MODEL(model);
 		while (!STREAMING::HAS_MODEL_LOADED(model))
 			scriptWait(0);
-		Handle = PED::CREATE_PED(1, model, pos.fX, pos.fY, pos.fZ, heading, true, true);
+		Handle = PED::CREATE_PED(1, model, pos.fX, pos.fY, pos.fZ, heading, true, false);
 		pedHandler = (rage::CPed*)CPed::GetFromScriptID(Handle);
 		PED::SET_PED_DEFAULT_COMPONENT_VARIATION(Handle);
 		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);

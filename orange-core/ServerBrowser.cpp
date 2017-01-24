@@ -13,13 +13,10 @@ void ServerBrowser()
 		ImGui::Begin("Server browser", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize);
 		ImGui::Text("Nickname");
 		ImGui::InputText("  ", CGlobals::Get().nickName, 32);
-		if (CGlobals::Get().isDeveloper)
-		{
-			ImGui::Text("Direct connect");
-			ImGui::InputText(":", CGlobals::Get().serverIP, 32);
-			ImGui::SameLine();
-			ImGui::InputInt("Port", &CGlobals::Get().serverPort, 1, 100);
-		}
+		ImGui::Text("Direct connect");
+		ImGui::InputText(":", CGlobals::Get().serverIP, 32);
+		ImGui::SameLine();
+		ImGui::InputInt("Port", &CGlobals::Get().serverPort, 1, 100);
 		if (ImGui::Button("Connect"))
 		{
 			CNetworkPlayer::Clear();

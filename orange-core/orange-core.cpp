@@ -296,6 +296,11 @@ void DisablePedControl()
 
 }
 
+void DisableNativeBlocker()
+{
+	CMemory((uintptr_t)GetModuleHandle(NULL) + 0xC6DDEF).nop(14);
+}
+
 void PreLoadPatches()
 {
 	ImGui::GetIO().IniFilename = (CGlobals::Get().orangePath + "\\imgui.ini").c_str();
@@ -304,6 +309,7 @@ void PreLoadPatches()
 	auto mem = CMemory((uintptr_t)GetModuleHandle(NULL) + 0x14493);
 	mem.put(0xEB90909090909090);
 
+	DisableNativeBlocker();
 	DisablePedControl();
 	EnableRageLogger();
 	//HookSetNetHandle();
