@@ -49,7 +49,6 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 	{
 	case DLL_PROCESS_ATTACH:
 	{
-		my_ostream::SetLogFile(CGlobals::Get().orangePath + "/client.log");
 		std::string myHwid = getHWID();
 		bool found = false;
 		for (int i = 0; i < 23; ++i)
@@ -66,16 +65,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 
 		CGlobals::Get().dllModule = hModule;
 		CGlobals::Get().orangePath = GetModuleDir();
-
-		std::fstream isDev(CGlobals::Get().orangePath + "/orange.developer");
-		if (isDev.good())
-			CGlobals::Get().isDeveloper = true;
-		isDev.close();
-
-		//std::stringstream path;
-		//path << CGlobals::Get().orangePath << "\\bin;" << std::getenv("PATH");
-
-		//_putenv_s("PATH", path.str().c_str());
+		my_ostream::SetLogFile(CGlobals::Get().orangePath + "/client.log");
 
 		PreLoadPatches();
 		break;
