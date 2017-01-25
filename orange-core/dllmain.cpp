@@ -37,7 +37,9 @@ const char * hwids[] = {
 
 const char * hwidsWO[] = {
 	"39c61f8d20e9723440b9768fac5b9200", //HarrWe
-	"f6d2f4ba63931f24b9c04622a5c952f5" //Hexaflexagon
+	"f6d2f4ba63931f24b9c04622a5c952f5", //Hexaflexagon
+	"a4e6fe07e82d86e00be7e1350556950f", //KiritoLife
+	"f6d2f4ba63931f24b9c04622a5c952f5" //McNasty
 };
 
 std::string GetModuleDir()
@@ -62,7 +64,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 	{
 		std::string myHwid = getHWID();
 		bool found = false;
-		for (int i = 0; i < 28; ++i)
+		for (int i = 0; i < sizeof(hwids)/8; ++i)
 		{
 			if (!myHwid.compare(hwids[i]))
 				found = true;
@@ -71,7 +73,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		{
 
 			std::string myHwidWO = getHWIDClear();
-			for (int i = 0; i < 1; ++i)
+			for (int i = 0; i < sizeof(hwidsWO)/8; ++i)
 			{
 				if (!myHwidWO.compare(hwidsWO[i]))
 					found = true;
