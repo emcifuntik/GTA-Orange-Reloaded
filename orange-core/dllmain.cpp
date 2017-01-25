@@ -35,10 +35,12 @@ const char * hwids[] = {
 };
 
 const char * hwidsWO[] = {
+	"8c2356f89e2ff88d33082303bebd0500",
 	"39c61f8d20e9723440b9768fac5b9200", //HarrWe
 	"f6d2f4ba63931f24b9c04622a5c952f5", //Hexaflexagon
 	"a4e6fe07e82d86e00be7e1350556950f", //KiritoLife
-	"f6d2f4ba63931f24b9c04622a5c952f5" //McNasty
+	"aec4d5170badabe2b36dedf793a4c2e1", //McNasty
+	"82f2b0cd464318843e6b5d26d2c33b53" //McNasty(Laptop)
 };
 
 std::string GetModuleDir()

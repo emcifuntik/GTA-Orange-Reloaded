@@ -40,7 +40,7 @@ int lua_tick(lua_State *L)
 		{
 			std::string err = luaL_checkstring(L, -1);
 			lua_pop(L, 1);
-			log << err.c_str() << std::endl;
+			_MY_log << err.c_str() << std::endl;
 		}
 
 		lua_pop(L, 1);
@@ -58,7 +58,7 @@ int lua_menu(lua_State *L)
 	lua_rawgeti(L, -1, 1);
 	if (lua_isnil(L, -1)) {
 		lua_pop(L, 1);
-		log << "Menu cant be emprty" << std::endl;
+		_MY_log << "Menu cant be empty" << std::endl;
 		return 0;
 	}
 	lua_pop(L, 1);
@@ -113,7 +113,7 @@ int lua_menu(lua_State *L)
 					{
 						std::string err = luaL_checkstring(L, -1);
 						lua_pop(L, 1);
-						log << err.c_str() << std::endl;
+						_MY_log << err.c_str() << std::endl;
 					}
 
 					lua_pop(L, 1);
@@ -124,7 +124,7 @@ int lua_menu(lua_State *L)
 
 		menu->children.push_back(child);
 
-		log << "Table entry(" << type << "): " << capture << std::endl;
+		_MY_log << "Table entry(" << type << "): " << capture << std::endl;
 
 		lua_pop(L, 1);
 	}
@@ -168,7 +168,7 @@ int lua_trigger(lua_State *L)
 			break;
 		}
 		default:
-			log << "You can only pass bools, numbers and strings" << std::endl;
+			_MY_log << "You can only pass bools, numbers and strings" << std::endl;
 			break;
 		}
 	}

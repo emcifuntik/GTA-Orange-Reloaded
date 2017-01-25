@@ -145,11 +145,11 @@ void CLocalPlayer::Tick()
 			dead = true;
 			if (killer != Handle) {
 				auto killer_ = CNetworkPlayer::GetByHandler(PED::_GET_PED_KILLER(Handle));
-				if (killer_) log << "You was killed by " << killer_->GetName() << " heath: " << GetHealth() << std::endl;
-				else log << "killer: " << killer << " killed: " << Handle << std::endl;
+				if (killer_) _MY_log << "You was killed by " << killer_->GetName() << " heath: " << GetHealth() << std::endl;
+				else _MY_log << "killer: " << killer << " killed: " << Handle << std::endl;
 			}
 			else {
-				log << "You commited suicide" << std::endl;
+				_MY_log << "You commited suicide" << std::endl;
 			}
 		}
 		
@@ -176,7 +176,7 @@ void CLocalPlayer::Tick()
 	{
 		if (FutureVeh->GetHandle() != 0)
 		{
-			log << "s3" << std::endl;
+			_MY_log << "s3" << std::endl;
 			PED::SET_PED_INTO_VEHICLE(Handle, FutureVeh->GetHandle(), FutureSeat);
 			if (PED::GET_VEHICLE_PED_IS_IN(Handle, false) == FutureVeh->GetHandle()) FutureVeh = nullptr;
 		}

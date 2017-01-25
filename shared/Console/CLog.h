@@ -102,7 +102,7 @@ static std::wstring DateTimeW()
 	return wide;
 }
 
-#define log my_ostream::_log()
+#define _MY_log my_ostream::_log()
 #define log_info my_ostream::_log().info()
 #define log_debug my_ostream::_log().debug()
 #define log_error my_ostream::_log().error()
