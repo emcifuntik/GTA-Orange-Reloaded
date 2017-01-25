@@ -6,3 +6,6 @@
 // задайте для макроса _WIN32_WINNT значение поддерживаемой платформы перед включением SDKDDKVer.h.
 
 #include <SDKDDKVer.h>
+
+#define WINVER 0x0601  
+#define _WIN32_WINNT 0x0601
