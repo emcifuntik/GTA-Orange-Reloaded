@@ -160,6 +160,16 @@ static HWND CreateWindowExWHook(_In_ DWORD dwExStyle,
 	return hWnd;
 }
 
+typedef void(*DrawTextManager__BeginDisplay_)(int64_t, int64_t);
+DrawTextManager__BeginDisplay_ DrawTextManager__BeginDisplay;
+
+static void BeginDisplayEx(int64_t textMgr, int64_t vp)
+{
+	DrawTextManager__BeginDisplay(textMgr, vp);
+
+	//Тут рендери
+}
+
 void HookLoop()
 {
 	auto unusedMem = CMemory((uintptr_t)GetModuleHandle(NULL) + 0x109D5D8);
@@ -183,6 +193,12 @@ void HookLoop()
 	auto windowCreateMem = windowCreate();
 	windowCreate.nearCall(DWORD(callToMem - windowCreateMem - 5));
 	windowCreate.nop(1);
+
+	callToMem = unusedMem();
+	unusedMem.farJmp(BeginDisplayEx);
+	auto beginDisplay = CMemory((uintptr_t)GetModuleHandle(NULL) + 0xCF31CB); // BeginDisplay
+	auto beginDisplayMem = beginDisplay();
+	beginDisplay.nearCall(DWORD(callToMem - beginDisplayMem - 5));
 }
 
 void GameProcessHooks()
