@@ -55,7 +55,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;ORANGECORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\deps\RakNet\DependentExtensions\portaudio_v18_1\pa_win_wmme;..\deps\RakNet\DependentExtensions\portaudio_v18_1\pa_common;../deps/RakNet/DependentExtensions/;../deps/ServerDeps/LuaJIT-2.1.0-beta2/src;../deps/RakNet/Source/;../shared/;./;../deps/tinyxml2/;../deps/ClientDeps/Scaleform/Src/;../deps/ClientDeps/Scaleform/Include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\deps\RakNet\DependentExtensions\portaudio_v18_1\pa_win_wmme;..\deps\RakNet\DependentExtensions\portaudio_v18_1\pa_common;../deps/RakNet/DependentExtensions/;../deps/ServerDeps/LuaJIT-2.1.0-beta2/src;../deps/RakNet/Source/;../shared/;./;../deps/tinyxml2/;c:\Program Files (x86)\Scaleform\GFx SDK 4.0\Include\;c:\Program Files (x86)\Scaleform\GFx SDK 4.0\Src\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
@@ -75,7 +75,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;ORANGECORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\deps\RakNet\DependentExtensions\portaudio_v18_1\pa_win_wmme;..\deps\RakNet\DependentExtensions\portaudio_v18_1\pa_common;../deps/RakNet/DependentExtensions/;../deps/ServerDeps/LuaJIT-2.1.0-beta2/src;../deps/RakNet/Source/;../shared/;./;../deps/tinyxml2/;../deps/ClientDeps/Scaleform/Src/;../deps/ClientDeps/Scaleform/Include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\deps\RakNet\DependentExtensions\portaudio_v18_1\pa_win_wmme;..\deps\RakNet\DependentExtensions\portaudio_v18_1\pa_common;../deps/RakNet/DependentExtensions/;../deps/ServerDeps/LuaJIT-2.1.0-beta2/src;../deps/RakNet/Source/;../shared/;./;../deps/tinyxml2/;c:\Program Files (x86)\Scaleform\GFx SDK 4.0\Include\;c:\Program Files (x86)\Scaleform\GFx SDK 4.0\Src\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -83,8 +83,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\deps\bin\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>RakNet_$(Configuration)_$(Platform).lib;tinyxml2_$(Configuration)_$(Platform).lib;d3dcompiler.lib;winmm.lib;Mincore.lib;version.lib;lua51.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\deps\bin\;c:\Program Files (x86)\Scaleform\GFx SDK 4.0\Lib\x64\Msvc90\Release\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>RakNet_$(Configuration)_$(Platform).lib;tinyxml2_$(Configuration)_$(Platform).lib;d3dcompiler.lib;winmm.lib;Mincore.lib;version.lib;lua51.lib;libgfx.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
