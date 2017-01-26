@@ -26,20 +26,24 @@ const char * hwids[] = {
 	"75bb89ad01bb780b30b05f460e71f41d", //FunnyMan
 	"867c8f56e502449b177d97c6285598cf", //Genius
 	"20fc780ef02401f7e30431fa2e8464eb", //Xinerki
-	"41fa3c9e0a19afaa8ad794109da9d3c9", //Theglobalfive
+	"4174cedcd4eea146dbefb37034b1f954", //Theglobalfive
 	"1872d951994962b6e40053aeae0b13f2", //Kiwi
 	"d2fd5d9df2ae83066ea086c597cf8845", //Forces
 	"8568e7ee13cad430d8c8a1100f041af7", //McNasty
 	"b9563ce9442d0b5f1f25eaee02e1392d", //Soap
 	"b1f7320cfcd2e29eeae89b2d3ac2edbc", //VadZz
+	"6c865311de3409781693682ed860b327", //Xenusoida brother
 	"852ea45965c13b4924387b566067325b" //Hexaflexagon
 };
 
 const char * hwidsWO[] = {
 	"8c2356f89e2ff88d33082303bebd0500",
-	"39c61f8d20e9723440b9768fac5b9200", //HarrWe
+	"bfecea4018283f4b7657966b78450abf", //HarrWe
 	"f6d2f4ba63931f24b9c04622a5c952f5", //Hexaflexagon
 	"a4e6fe07e82d86e00be7e1350556950f", //KiritoLife
+	"af380ad6e22d82678ac474c9515bf449", //FunnyMan
+	"c259ba19d1f64c9ff22a1a44bae43f43", //Jesus
+	"f6d2f4ba63931f24b9c04622a5c952f5", //McNasty
 	"aec4d5170badabe2b36dedf793a4c2e1", //McNasty
 	"82f2b0cd464318843e6b5d26d2c33b53" //McNasty(Laptop)
 };
