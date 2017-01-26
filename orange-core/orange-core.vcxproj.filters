@@ -70,6 +70,15 @@
     <Filter Include="HWID">
       <UniqueIdentifier>{34a6b72f-145a-46b5-8f8c-bb63d21ff96b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scaleforms">
+      <UniqueIdentifier>{a12bf7a7-6f60-4208-98e3-adcafbf71220}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scaleforms\Заголовочные файлы">
+      <UniqueIdentifier>{47778537-a498-45af-b793-7bb6c28d6fb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scaleforms\Файлы исходного кода">
+      <UniqueIdentifier>{1e388037-5932-40a6-9c15-c43a0318a4a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -280,6 +289,9 @@
     </ClInclude>
     <ClInclude Include="md5.h">
       <Filter>HWID</Filter>
+    </ClInclude>
+    <ClInclude Include="ScaleformManager.h">
+      <Filter>Scaleforms\Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

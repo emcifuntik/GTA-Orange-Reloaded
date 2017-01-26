@@ -15,15 +15,15 @@ void CNetworkVehicle::Init()
 	m_Inited = true;
 	//log << " ShouldHaveDriver: " << m_ShouldHasDriver << std::endl;
 	if (m_ShouldHasDriver) {
-		log << "DGUID: " << m_DriverGUID.ToString() << std::endl;
+		_MY_log << "DGUID: " << m_DriverGUID.ToString() << std::endl;
 		CNetworkPlayer *pl = CNetworkPlayer::GetByGUID(m_DriverGUID, false);
 		if (pl)
 		{
-			log << "Handle: " << pl->GetHandle() << " Seat: " << pl->m_FutureSeat << " Player: 0x" << std::hex << pl << " GUID: " << m_DriverGUID.ToString() << std::endl;
+			_MY_log << "Handle: " << pl->GetHandle() << " Seat: " << pl->m_FutureSeat << " Player: 0x" << std::hex << pl << " GUID: " << m_DriverGUID.ToString() << std::endl;
 			PED::SET_PED_INTO_VEHICLE(pl->GetHandle(), Handle, pl->m_FutureSeat);
 			if (!PED::IS_PED_IN_ANY_VEHICLE(pl->GetHandle(), false)) {
 				m_Inited = false;
-				log << "Not set" << std::endl;
+				_MY_log << "Not set" << std::endl;
 			}
 		}
 		else m_Inited = false;

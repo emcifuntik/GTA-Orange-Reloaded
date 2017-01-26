@@ -167,6 +167,11 @@ using namespace RakNet;
 #include "orange-core.h"
 #include "Utils.h"
 
+#define GFX_ENABLE_DRAWTEXT 1
+#include "GFx.h"
+#include "GFx\GFx_DrawText.h"
+#include "ScaleformManager.h"
+
 IMGUI_API LRESULT ImGui_ImplDX11_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void CreateRenderTarget();
 std::string getHWID();

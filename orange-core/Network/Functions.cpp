@@ -126,10 +126,10 @@ namespace FPlayer
 		bitStream->Read(player);
 		bitStream->Read(veh);
 		bitStream->Read(seat);
-		log << "s1" << std::endl;
+		_MY_log << "s1" << std::endl;
 		if (player == CNetworkConnection::Get()->client->GetMyGUID()) {
-			log << "s2" << std::endl;
-			log << CNetworkVehicle::GetByGUID(veh)->GetHandle() << std::endl;
+			_MY_log << "s2" << std::endl;
+			_MY_log << CNetworkVehicle::GetByGUID(veh)->GetHandle() << std::endl;
 			CLocalPlayer::Get()->FutureVeh = CNetworkVehicle::GetByGUID(veh);
 			CLocalPlayer::Get()->FutureSeat = seat;
 		}
@@ -138,7 +138,7 @@ namespace FPlayer
 			CNetworkPlayer *pl = CNetworkPlayer::GetByGUID(player, false);
 			CNetworkVehicle *v = CNetworkVehicle::GetByGUID(veh);
 			if (pl && v) {
-				log << "Ped: " << pl->GetHandle() << " Veh: " << v->GetHandle() << std::endl;
+				_MY_log << "Ped: " << pl->GetHandle() << " Veh: " << v->GetHandle() << std::endl;
 				PED::SET_PED_INTO_VEHICLE(pl->GetHandle(), v->GetHandle(), seat);
 			}
 		}
@@ -168,7 +168,7 @@ namespace FPlayer
 		RakNet::RakNetGUID guid;
 		bitStream->Read(guid);
 
-		log << "deleting: " << guid.ToString() << std::endl;
+		_MY_log << "deleting: " << guid.ToString() << std::endl;
 
 		CNetworkBlip::GetByGUID(guid)->~CNetworkBlip();
 	}

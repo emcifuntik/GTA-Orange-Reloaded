@@ -118,6 +118,8 @@ void OnGameStateChange(int gameState)
 		ScriptEngine::CreateThread(&g_ScriptManagerThread);
 		CScript::RunAll();
 
+		auto text = rage::ScaleformManager::CreateText("Test", { 0,0,200,200 }, NULL);
+
 		//SyncTree::Init();
 		//log_debug << "CPlayerSyncTree: 0x" << std::hex << SyncTree::GetPlayerSyncTree() << std::endl;
 

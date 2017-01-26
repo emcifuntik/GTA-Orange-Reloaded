@@ -68,7 +68,7 @@ int lua_getvalue(lua_State *L)
 				char* value = new char[size + 1];
 				memcpy(value, val, size);
 				value[size] = '\0';
-				log << "Str: " << value << ", size: " << size << std::endl;
+				_MY_log << "Str: " << value << ", size: " << size << std::endl;
 				container->ptr = value;
 				break;
 			}
@@ -87,7 +87,7 @@ int lua_getvalue(lua_State *L)
 				break;
 			}
 			default:
-				log << "Error getting data" << std::endl;
+				_MY_log << "Error getting data" << std::endl;
 				break;
 			}
 			
@@ -147,7 +147,7 @@ int lua_invoke(lua_State *L)
 				delete (int*)ptr->ptr;
 				break;
 			case Type::N_DWORD:
-				log << "DWORD: " << *(int*)ptr->ptr << std::endl;
+				_MY_log << "DWORD: " << *(int*)ptr->ptr << std::endl;
 				nativePush(*(int*)ptr->ptr);
 				delete (int*)ptr->ptr;
 				break;
@@ -183,7 +183,7 @@ int lua_invoke(lua_State *L)
 		numretn = 1;
 		break;
 	default:
-		log << "Not impl retn: " << retval;
+		_MY_log << "Not impl retn: " << retval;
 		break;
 	}
 

@@ -33,11 +33,11 @@ void CScriptEngine::Init()
 	initialized = true;
 
 	if (luaL_loadbuffer(m_lua, luaJIT_BC_natives, luaJIT_BC_natives_SIZE, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
-		log << "Failed to load Native definition file: " << lua_tostring(m_lua, -1) << std::endl;
+		_MY_log << "Failed to load Native definition file: " << lua_tostring(m_lua, -1) << std::endl;
 	}
 
 	if (luaL_loadbuffer(m_lua, luaJIT_BC_ClientsideAPI, luaJIT_BC_ClientsideAPI_SIZE, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
-		log << "Failed to load API definition file: " << lua_tostring(m_lua, -1) << std::endl;
+		_MY_log << "Failed to load API definition file: " << lua_tostring(m_lua, -1) << std::endl;
 	}
 }
 
@@ -72,13 +72,13 @@ void CScriptEngine::LoadScript(RakNet::BitStream *bsIn)
 
 	bsIn->ReadAlignedBytes((unsigned char*)_code, size);
 
-	log << "Loaded script: " << name.C_String() << std::endl;
+	_MY_log << "Loaded script: " << name.C_String() << std::endl;
 
 	if (luaL_loadbuffer(m_lua, _code, size, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
-		log << "[LUA] " << lua_tostring(m_lua, -1) << std::endl;
+		_MY_log << "[LUA] " << lua_tostring(m_lua, -1) << std::endl;
 	}
 
-	log << "success" << std::endl;
+	_MY_log << "success" << std::endl;
 }
 
 void CScriptEngine::SetTick(const std::function<void()>& f)
