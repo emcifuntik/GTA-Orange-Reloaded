@@ -38,7 +38,7 @@ const char * hwids[] = {
 
 const char * hwidsWO[] = {
 	"8c2356f89e2ff88d33082303bebd0500",
-	"39c61f8d20e9723440b9768fac5b9200", //HarrWe
+	"bfecea4018283f4b7657966b78450abf", //HarrWe
 	"f6d2f4ba63931f24b9c04622a5c952f5", //Hexaflexagon
 	"a4e6fe07e82d86e00be7e1350556950f", //KiritoLife
 	"af380ad6e22d82678ac474c9515bf449", //FunnyMan
