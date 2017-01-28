@@ -33,7 +33,8 @@ const char * hwids[] = {
 	"b9563ce9442d0b5f1f25eaee02e1392d", //Soap
 	"b1f7320cfcd2e29eeae89b2d3ac2edbc", //VadZz
 	"6c865311de3409781693682ed860b327", //Xenusoida brother
-	"852ea45965c13b4924387b566067325b" //Hexaflexagon
+	"852ea45965c13b4924387b566067325b", //Hexaflexagon
+	"ddbeb8b80ef352cb76bf3b5dc4fc2e19"  //0x452
 };
 
 const char * hwidsWO[] = {
