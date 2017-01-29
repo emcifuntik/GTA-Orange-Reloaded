@@ -58,7 +58,7 @@ int CommandProcessor(std::string command)
 		CChat::Get()->AddChatMessage("DEBUG: Your coordinates saved successfull.", 0xAAFFAAFF);
 		return true;
 	}
-	if (!command.compare("/time") && CGlobals::Get().isDebug)
+	if (!command.compare("/time"))
 	{
 		if (!params.size())
 		{
@@ -71,7 +71,7 @@ int CommandProcessor(std::string command)
 		});
 		return true;
 	}
-	if (!command.compare("/weather") && CGlobals::Get().isDebug)
+	if (!command.compare("/weather"))
 	{
 		if (!params.size())
 		{
@@ -117,7 +117,7 @@ int CommandProcessor(std::string command)
 		GRAPHICS::_SET_FORCE_VEHICLE_TRAILS(true);
 		return true;
 	}
-	if (!command.compare("/model") && CGlobals::Get().isDebug)
+	if (!command.compare("/model"))
 	{
 		if (!params.size())
 		{

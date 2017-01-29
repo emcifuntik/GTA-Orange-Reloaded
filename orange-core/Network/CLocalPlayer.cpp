@@ -12,11 +12,11 @@ CLocalPlayer::CLocalPlayer() :CPedestrian(PLAYER::PLAYER_PED_ID())
 		GAMEPLAY::DELETE_STUNT_JUMP(i);
 	}
 
-	TIME::SET_CLOCK_TIME(10, 0, 0);
+	TIME::SET_CLOCK_TIME(23, 0, 0);
 
 	CEntity::InitOffsetFunc();
 
-	rageGlobals::SetPlayerColor(0xFF, 0x8F, 0x00, 0xFF);
+	rageGlobals::SetPlayerColor(0x99, 0x0F, 0x0f, 0xFF);
 
 	typedef int(*ShowAbilityBar)(bool);
 	((ShowAbilityBar)CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1F26D4)())(false);

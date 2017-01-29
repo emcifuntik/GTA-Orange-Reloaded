@@ -36,10 +36,10 @@ void Action()
 			CAM::RENDER_SCRIPT_CAMS(true, false, 0, true, false);
 			UI::DISPLAY_HUD(false);
 			UI::DISPLAY_RADAR(false);
-			CLocalPlayer::Get()->ChangeModel(Utils::Hash("mp_m_freemode_01"));
+			CLocalPlayer::Get()->ChangeModel(Utils::Hash("a_m_m_soucent_01"));
 			CGlobals::Get().displayServerBrowser = true;
 			teleported = true;
-			CLocalPlayer::Get()->ChangeModel(Utils::Hash("mp_m_freemode_01"));
+			CLocalPlayer::Get()->ChangeModel(Utils::Hash("a_m_m_soucent_01"));
 			std::stringstream ss;
 			ss << "{E30022}" << u8"\ueffb" << "{FFFFFF} Grand Theft Auto: {FF8F00}Orange {FFFFFF}loaded";
 			CChat::Get()->AddChatMessage(ss.str());
