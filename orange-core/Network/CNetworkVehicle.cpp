@@ -233,7 +233,8 @@ void CNetworkVehicle::BuildTasksQueue()
 	VEHICLE::SET_VEHICLE_ENGINE_HEALTH(Handle, m_EngineHealth);
 	VEHICLE::SET_VEHICLE_PETROL_TANK_HEALTH(Handle, m_TankHealth);
 
-	if (!ENTITY::DOES_ENTITY_EXIST(Handle)) return;
+	if (!ENTITY::IS_AN_ENTITY(Handle) || !ENTITY::DOES_ENTITY_EXIST(Handle)) return;
+	log << "Veh: " << Handle << " " << ENTITY::DOES_ENTITY_EXIST(Handle) << std::endl;
 	*CMemory(GetAddress()).get<float>(0x8CC) = m_steering / 180 * PI;
 	*CMemory(GetAddress()).get<float>(0x7F4) = m_RPM;
 }
