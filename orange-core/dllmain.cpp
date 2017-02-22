@@ -9,6 +9,7 @@ const char * hwids[] = {
 	"21d847e027c78073c4eaf96502c93409", //BodyanGamer
 	"4ae8e22684f5c2ae5fa2651e65e93d87", //RZX
 	"2fbc5fbc89e6bc83e941334cdf289a67", //James_Braga
+	"f289ef2d3bd4282dea3200d1a8643069", //SWF*
 	"fb6ef2bd04c467f98d1610a3760618c9", //LambdaE
 	"0738335dccb051518b1fc438a11cb403", //ZlamboV
 	"4b8b6d024c9eaf1ff3ae8a34128c625c", //HarrWe
@@ -50,6 +51,15 @@ const char * hwidsWO[] = {
 	"5ab5d5e44bc5ff9132c397cf3c4690dd", //Tracer
 	"964ef44881cda92d7a78a74e008d5bd8", //Dima_Runner
 	"370553d993e366678b3601d352dacdd4"
+	"ddbeb8b80ef352cb76bf3b5dc4fc2e19",  //0x452
+	"852ea45965c13b4924387b566067325b" //Hexaflexagon
+};
+
+const char * hwidsWO[] = {
+	"39c61f8d20e9723440b9768fac5b9200", //HarrWe
+	"f6d2f4ba63931f24b9c04622a5c952f5", //Hexaflexagon
+	"a4e6fe07e82d86e00be7e1350556950f", //KiritoLife
+	"f6d2f4ba63931f24b9c04622a5c952f5" //McNasty
 };
 
 std::string GetModuleDir()

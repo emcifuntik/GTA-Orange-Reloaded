@@ -30,25 +30,9 @@ void Action()
 			
 			for (int i = 0; i < 5; i++)
 				GAMEPLAY::DISABLE_HOSPITAL_RESTART(i, true);
-
 			for (int i = 0; i < 50; i++) {
 				GAMEPLAY::DISABLE_STUNT_JUMP_SET(i);
 				GAMEPLAY::DELETE_STUNT_JUMP(i);
-			}*/
-
-			/*HMODULE *arr = new HMODULE[256];
-			DWORD num = 0;
-			if (EnumProcessModules(NULL, arr, 256, &num)) log << "Error: " << GetLastError() << std::endl;
-			else
-			{
-				log << num/sizeof(HMODULE) << " DLLs " << std::endl;
-				for (int i = 0; i < 256; i++)
-				{
-					char name[MAX_PATH];
-					GetModuleFileNameA(arr[i], name, MAX_PATH);
-
-					log << "DLL: " << name << std::endl;
-				}
 			}*/
 
 			ENTITY::SET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), 363.871f, 621.555f, 78.44f, true, false, false, false);

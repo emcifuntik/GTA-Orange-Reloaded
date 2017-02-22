@@ -47,6 +47,7 @@ public:
 	bool blockquickswitch = true;
 	int currentGameState = -1;
 	char serverIP[32] = "194.87.239.79";
+	//char serverIP[32] = "123.56.158.105"; // China Server
 	char nickName[32] = "";
 	int serverPort = 7788;
 	bool isDebug = false;

@@ -203,7 +203,9 @@ void CNetworkVehicle::BuildTasksQueue()
 		return;
 	}
 	if (Handle == 0) return;
+
 	if (HasTargetPosition()) ENTITY::SET_ENTITY_VELOCITY(Handle, m_vecMove.fX, m_vecMove.fY, m_vecMove.fZ);
+
 	if (m_MoveSpeed != .0f)
 	{
 		if (m_hasDriver)
