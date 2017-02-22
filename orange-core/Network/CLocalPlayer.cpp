@@ -41,7 +41,8 @@ CLocalPlayer::~CLocalPlayer()
 void CLocalPlayer::Spawn()
 {
 	Spawned = true;
-
+	ENTITY::FREEZE_ENTITY_POSITION(Handle, false);
+	CAM::DO_SCREEN_FADE_IN(1000);
 	//CAM::DESTROY_CAM(CGlobals::Get().currentcam, true);
 	CAM::RENDER_SCRIPT_CAMS(false, false, 0, false, false);
 	UI::DISPLAY_HUD(true);
@@ -63,27 +64,46 @@ void CLocalPlayer::GetOnFootSync(OnFootSyncData& onfoot)
 	onfoot.usArmour = GetArmour();
 	onfoot.ulWeapon = GetCurrentWeapon();
 	onfoot.uAmmo = GetCurrentWeaponAmmo();
-	onfoot.vecAim = CWorld::Get()->CPedPtr->CPlayerInfoPtr->AimPosition;
 	onfoot.bAiming = (CWorld::Get()->CPedPtr->CPlayerInfoPtr->AimState == 2);
+
+	Entity handle;
+	if (PLAYER::GET_ENTITY_PLAYER_IS_FREE_AIMING_AT(PLAYER::PLAYER_ID(), &handle))
+	{
+		auto pl = CNetworkPlayer::GetByHandler(handle);
+		if (pl)
+		{
+			onfoot.bAimAtPlayer = true;
+			onfoot.rnAimAt = pl->GetGUID();
+			onfoot.vecAim = CWorld::Get()->CPedPtr->CPlayerInfoPtr->AimPosition - pl->GetPosition();
+			log << "Aim at " << pl->GetName() << std::endl;
+		}
+		else onfoot.bAimAtPlayer = false;
+	}
+	else
+	{
+		onfoot.bAimAtPlayer = false; 
+		onfoot.vecAim = CWorld::Get()->CPedPtr->CPlayerInfoPtr->AimPosition;
+	}
+
 	onfoot.bShooting = PED::IS_PED_SHOOTING(Handle) ? true : false;
 	onfoot.bRagdoll = PED::IS_PED_RAGDOLL(Handle) ? true : false;
 
 	if (PED::IS_PED_IN_ANY_VEHICLE(Handle, true)) {
 		onfoot.bInVehicle = true;
-		CNetworkVehicle *veh = CNetworkVehicle::GetByHandle(PED::GET_VEHICLE_PED_IS_TRYING_TO_ENTER(Handle));
+		CNetworkVehicle *veh = CNetworkVehicle::GetByHandle(PED::GET_VEHICLE_PED_IS_USING(Handle));
 		if (veh)
 		{
 			onfoot.rnVehicle = veh->m_GUID;
-			short seat = PED::GET_SEAT_PED_IS_TRYING_TO_ENTER(Handle);
-			onfoot.cSeat = seat == -3 ? -2 : seat;
+			onfoot.cSeat = PED::GET_VEHICLE_PED_IS_TRYING_TO_ENTER(Handle) ? PED::GET_SEAT_PED_IS_TRYING_TO_ENTER(Handle) : (char)GetSeat();
 		}
-		else {
-			veh = CNetworkVehicle::GetByHandle(PED::GET_VEHICLE_PED_IS_IN(Handle, false));
+		/*else {
+			veh = CNetworkVehicle::GetByHandle();
 			if (veh) {
 				onfoot.rnVehicle = veh->m_GUID;
-				onfoot.cSeat = (char)GetSeat();
+				short seat = ;
+				onfoot.cSeat = seat == -3 ? -2 : seat;
 			}
-		}
+		}*/
 	}
 	else {
 		onfoot.bInVehicle = false;
@@ -100,6 +120,7 @@ void CLocalPlayer::GetVehicleSync(VehicleData& vehsync)
 	vehsync.GUID = veh->m_GUID;
 	CVector3 pos = veh->GetPosition();
 	pos.fZ -= 0.02f;
+	veh->SetTargetPosition(pos);
 	vehsync.vecPos = pos;
 	vehsync.vecRot = veh->GetRotation();
 	vehsync.vecMoveSpeed = veh->GetMovementVelocity();
@@ -137,29 +158,55 @@ CLocalPlayer * CLocalPlayer::Get()
 
 void CLocalPlayer::Tick()
 {
+	if (!Spawned)
+	{
+		AI::CLEAR_PED_TASKS_IMMEDIATELY(Handle);
+		return;
+	}
 	if (!dead && ENTITY::IS_ENTITY_DEAD(Handle) && ENTITY::DOES_ENTITY_EXIST(Handle))
 	{
-		Entity killer = PED::_GET_PED_KILLER(Handle);
-		if(killer != 0)
+		Hash weapon;
+		Entity killer = NETWORK::NETWORK_GET_ENTITY_KILLER_OF_PLAYER(PLAYER::PLAYER_ID(), &weapon); //PED::_GET_PED_KILLER(Handle);
+		if (killer != 0)
 		{
+			RakNetGUID rnKiller;
+
 			dead = true;
 			if (killer != Handle) {
 				auto killer_ = CNetworkPlayer::GetByHandler(PED::_GET_PED_KILLER(Handle));
-				if (killer_) log << "You was killed by " << killer_->GetName() << " heath: " << GetHealth() << std::endl;
+				if (killer_) {
+					log << "You was killed by " << killer_->GetName() << " with " << weapon << std::endl;
+					rnKiller = killer_->GetGUID();
+				}
 				else log << "killer: " << killer << " killed: " << Handle << std::endl;
 			}
 			else {
 				log << "You commited suicide" << std::endl;
 			}
+
+			BitStream bsOut;
+
+			bsOut.Write(rnKiller);
+			bsOut.Write(weapon);
+
+			CRPCPlugin::Get()->rpc.Signal("PlayerDeath", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 		}
 		
-		//CVector3 pos = GetPosition();
-		//ChangeModel(GetModel());
+		CScriptInvoker::Get().Push([=]() { // WARNING костыль
+			while (!CAM::IS_SCREEN_FADING_IN()) scriptWait(0);
+			CVector3 pos = GetPosition();
+			SetPosition({ 0.f, 0.f, 0.f });
+			ENTITY::FREEZE_ENTITY_POSITION(Handle, true);
+			Spawned = false;
+			CAM::DO_SCREEN_FADE_OUT(0);
+			BitStream bsOut;
+			bsOut.Write(pos);
+			CRPCPlugin::Get()->rpc.Signal("PlayerSpawn", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+		});
 	}
 	if (PED::IS_PED_GETTING_INTO_A_VEHICLE(Handle) && PED::GET_SEAT_PED_IS_TRYING_TO_ENTER(Handle) == -1)
 	{
 		Vehicle veh = PED::GET_VEHICLE_PED_IS_USING(Handle);
-		log_debug << "Veh: " << veh << ", seatFree: " << VEHICLE::IS_VEHICLE_SEAT_FREE(veh, -1) << std::endl;
 		if (!VEHICLE::IS_VEHICLE_SEAT_FREE(veh, -1) && VEHICLE::GET_PED_IN_VEHICLE_SEAT(veh, -1) != PLAYER::PLAYER_PED_ID())
 		{
 			AI::CLEAR_PED_TASKS(Handle);
@@ -176,12 +223,10 @@ void CLocalPlayer::Tick()
 	{
 		if (FutureVeh->GetHandle() != 0)
 		{
-			log << "s3" << std::endl;
 			PED::SET_PED_INTO_VEHICLE(Handle, FutureVeh->GetHandle(), FutureSeat);
 			if (PED::GET_VEHICLE_PED_IS_IN(Handle, false) == FutureVeh->GetHandle()) FutureVeh = nullptr;
 		}
 	}
-	if (!Spawned) AI::CLEAR_PED_TASKS_IMMEDIATELY(Handle);
 	if (_togopassenger) CLocalPlayer::GoPassenger();
 }
 
@@ -346,6 +391,8 @@ void CLocalPlayer::SetMoney(int money)
 		char statNameFull[32];
 		sprintf_s(statNameFull, "SP%d_TOTAL_CASH", i);
 		Hash hash = GAMEPLAY::GET_HASH_KEY(statNameFull);
-		STATS::STAT_SET_INT(hash, money, 1);
+		STATS::STAT_SET_INT(hash, 1000, 1);
 	}
+	UI::SET_MULTIPLAYER_HUD_CASH(1000, 1100);
+	NETWORKCASH::NETWORK_INITIALIZE_CASH(1200, 1300);
 }

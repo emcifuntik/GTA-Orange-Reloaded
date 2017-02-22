@@ -103,6 +103,8 @@ public:
 	virtual CVector3 GetPlayerPosition(long playerid) = 0;
 	virtual bool IsPlayerInRange(long playerid, float x, float y, float z, float range) = 0;
 	virtual bool SetPlayerHeading(long playerid, float angle) = 0;
+	virtual float GetPlayerHeading(long playerid) = 0;
+	virtual bool RemovePlayerWeapons(long playerid) = 0;
 	virtual bool GivePlayerWeapon(long playerid, long weapon, long ammo) = 0;
 	virtual bool GivePlayerAmmo(long playerid, long weapon, long ammo) = 0;
 	virtual bool GivePlayerMoney(long playerid, long money) = 0;
@@ -122,6 +124,7 @@ public:
 	virtual void BroadcastClientMessage(const char * message, unsigned int color) = 0;
 	virtual bool SendClientMessage(long playerid, const char * message, unsigned int color) = 0;
 	virtual bool SetPlayerIntoVehicle(long playerid, unsigned long vehicle, char seat) = 0;
+	virtual void DisablePlayerHud(long playerid, bool toggle) = 0;
 	//World
 	virtual void Print(const char * message) = 0;
 	virtual long Hash(const char * str) = 0;
@@ -137,12 +140,18 @@ public:
 	virtual unsigned long CreateObject(long model, float x, float y, float z, float pitch, float yaw, float roll) = 0;
 
 	virtual bool CreatePickup(int type, float x, float y, float z, float scale) = 0;
-	virtual unsigned long CreateBlipForAll(float x, float y, float z, float scale, int color, int sprite) = 0;
-	virtual unsigned long CreateBlipForPlayer(long playerid, float x, float y, float z, float scale, int color, int sprite) = 0;
+
+	virtual unsigned long CreateBlipForAll(std::string name, float x, float y, float z, float scale, int color, int sprite) = 0;
+	virtual unsigned long CreateBlipForPlayer(long playerid, std::string name, float x, float y, float z, float scale, int color, int sprite) = 0;
 	virtual void DeleteBlip(unsigned long guid) = 0;
 	virtual void SetBlipColor(unsigned long guid, int color) = 0;
 	virtual void SetBlipScale(unsigned long guid, float scale) = 0;
 	virtual void SetBlipRoute(unsigned long guid, bool route) = 0;
+	virtual void SetBlipSprite(unsigned long guid, int sprite) = 0;
+	virtual void SetBlipName(unsigned long guid, std::string name) = 0;
+	virtual void SetBlipAsShortRange(unsigned long guid, bool _short) = 0;
+	virtual void AttachBlipToPlayer(unsigned long _guid, long player) = 0;
+	virtual void AttachBlipToVehicle(unsigned long _guid, unsigned long vehicle) = 0;
 
 	virtual unsigned long CreateMarkerForAll(float x, float y, float z, float height, float radius) = 0;
 	virtual unsigned long CreateMarkerForPlayer(long playerid, float x, float y, float z, float height, float radius) = 0;
@@ -171,6 +180,8 @@ public:
 	CVector3 GetPlayerPosition(long playerid);
 	bool IsPlayerInRange(long playerid, float x, float y, float z, float range);
 	bool SetPlayerHeading(long playerid, float angle);
+	float GetPlayerHeading(long playerid);
+	bool RemovePlayerWeapons(long playerid);
 	bool GivePlayerWeapon(long playerid, long weapon, long ammo);
 	bool GivePlayerAmmo(long playerid, long weapon, long ammo);
 	bool GivePlayerMoney(long playerid, long money);
@@ -190,6 +201,7 @@ public:
 	void BroadcastClientMessage(const char * message, unsigned int color);
 	bool SendClientMessage(long playerid, const char * message, unsigned int color);
 	bool SetPlayerIntoVehicle(long playerid, unsigned long vehicle, char seat);
+	void DisablePlayerHud(long playerid, bool toggle);
 
 	//Vehicle
 	unsigned long CreateVehicle(long hash, float x, float y, float z, float heading);
@@ -199,12 +211,17 @@ public:
 
 	bool CreatePickup(int type, float x, float y, float z, float scale);
 
-	unsigned long CreateBlipForAll(float x, float y, float z, float scale, int color, int sprite);
-	unsigned long CreateBlipForPlayer(long playerid, float x, float y, float z, float scale, int color, int sprite);
+	unsigned long CreateBlipForAll(std::string name, float x, float y, float z, float scale, int color, int sprite);
+	unsigned long CreateBlipForPlayer(long playerid, std::string name, float x, float y, float z, float scale, int color, int sprite);
 	void DeleteBlip(unsigned long guid);
 	void SetBlipColor(unsigned long guid, int color);
 	void SetBlipScale(unsigned long guid, float scale);
 	void SetBlipRoute(unsigned long guid, bool route);
+	void SetBlipSprite(unsigned long guid, int sprite);
+	void SetBlipName(unsigned long guid, std::string name);
+	void SetBlipAsShortRange(unsigned long guid, bool _short);
+	void AttachBlipToPlayer(unsigned long _guid, long player);
+	void AttachBlipToVehicle(unsigned long _guid, unsigned long vehicle);
 
 	unsigned long CreateMarkerForAll(float x, float y, float z, float height, float radius);
 	unsigned long CreateMarkerForPlayer(long playerid, float x, float y, float z, float height, float radius);

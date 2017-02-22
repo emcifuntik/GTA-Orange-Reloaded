@@ -1,30 +1,22 @@
 #include "stdafx.h"
 
 std::vector<CNetworkObject *> CNetworkObject::ObjectPool;
+int CNetworkObject::Count = 0;
 
 CNetworkObject::CNetworkObject(ObjectData data) :CEntity(-1)
 {
 	m_Model = data.hashModel;
 	m_futureModel = m_Model;
-	//UpdateModel();
 
-	scriptWait(5);
-	if (STREAMING::IS_MODEL_IN_CDIMAGE(m_Model) && STREAMING::IS_MODEL_VALID(m_Model))
-	{
-		STREAMING::REQUEST_MODEL(m_Model);
-		while (!STREAMING::HAS_MODEL_LOADED(m_Model))
-			scriptWait(0);
-		Handle = OBJECT::CREATE_OBJECT(m_Model, data.vecPos.fX, data.vecPos.fY, data.vecPos.fZ, false, true, false);
-		ENTITY::FREEZE_ENTITY_POSITION(Handle, true);
-	}
+	m_vecPos = data.vecPos;
+	m_vecRot = data.vecRot;
 
-	SetRotation(data.vecRot);
 	ObjectPool.push_back(this);
 }
 
 void CNetworkObject::UpdateModel()
 {
-	m_Model = m_futureModel;
+	/*m_Model = m_futureModel;
 	CVector3 curPos = GetPosition();
 	float curHead = GetHeading();
 
@@ -36,7 +28,7 @@ void CNetworkObject::UpdateModel()
 		while (!STREAMING::HAS_MODEL_LOADED(m_Model))
 			scriptWait(0);
 		Handle = OBJECT::CREATE_OBJECT(m_Model, curPos.fX, curPos.fY, curPos.fZ, false, true, false);
-	}
+	}*/
 }
 
 /*void CNetworkObject::UpdateTargetPosition()
@@ -290,10 +282,43 @@ CNetworkObject * CNetworkObject::GetByGUID(RakNet::RakNetGUID GUID)
 	return nullptr;
 }
 
-/*void CNetworkObject::Tick()
+void CNetworkObject::Tick()
 {
-	for each (CNetworkObject * veh in ObjectPool)
+	for each (CNetworkObject *obj in ObjectPool)
 	{
-		veh->Interpolate();
+		float dist = (obj->m_vecPos - CLocalPlayer::Get()->GetPosition()).Length();
+		if (Count < 100 && dist < 70)
+		{
+			if (!obj->m_bVisible)
+			{
+				if (STREAMING::IS_MODEL_IN_CDIMAGE(obj->m_Model) && STREAMING::IS_MODEL_VALID(obj->m_Model))
+				{
+					STREAMING::REQUEST_MODEL(obj->m_Model);
+					while (!STREAMING::HAS_MODEL_LOADED(obj->m_Model))
+						scriptWait(0);
+					obj->Handle = OBJECT::CREATE_OBJECT(obj->m_Model, obj->m_vecPos.fX, obj->m_vecPos.fY, obj->m_vecPos.fZ, true, true, false);
+					obj->m_bVisible = true;
+
+					if (obj->Handle != 0) {
+						ENTITY::FREEZE_ENTITY_POSITION(obj->Handle, true);
+						obj->SetPosition(obj->m_vecPos);
+						obj->SetRotation(obj->m_vecRot);
+					}
+					log << "create: " << Count << std::endl;
+				}
+				Count++;
+			}
+		}
+		else if(Count > 100 || dist > 70)
+		{
+			if (obj->m_bVisible)
+			{
+				OBJECT::DELETE_OBJECT(&obj->Handle);
+				obj->m_bVisible = false;
+				log << "delete: " << Count << std::endl;
+				Count--;
+			}
+		}
+		//if (count > 500) log << "count!!" << std::endl;
 	}
-}*/
+}

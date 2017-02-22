@@ -51,19 +51,16 @@ public:
 	RakNet::RakNetGUID GetGUID() { return rnGUID; }
 	void SetOnFootData(const OnFootSyncData& data);
 	void GetOnFootData(OnFootSyncData & data);
-	void HideBlip() { bBlipVisible = false; }
-	void ShowBlip() { bBlipVisible = true; }
-	bool IsBlipVisible() { return bBlipVisible; }
 	void SetName(std::string playername) { sName = playername; }
 	std::string GetName() { return sName; }
-	void SetMoney(size_t money) { uMoney = money; }
+	void SetMoney(int money);
 	void GiveMoney(size_t money) { uMoney += money; }
 	size_t GetMoney() { return uMoney; }
 	void SetPosition(const CVector3& position);
 	void SetCoords(const CVector3 & position);
 	void GetPosition(CVector3& position) { position = vecPosition; };
 	CVector3 GetPosition() { return vecPosition; };
-	void SetHeading(float heading) { fHeading = heading; }
+	void SetHeading(float heading);
 	void GiveWeapon(unsigned int weaponHash, unsigned int ammo);
 	void GiveAmmo(unsigned int weaponHash, unsigned int ammo);
 	void SetModel(unsigned int model);
@@ -75,7 +72,6 @@ public:
 	float GetArmour() { return (float)usArmour; }
 	unsigned int GetModel() { return hModel; }
 	float GetHeading() { return fHeading; }
-	float GetTagDrawDistance() { return fTagDrawDistance; }
-	void SendTextMessage(const char * message, unsigned int color);
+	void RemoveAllWeapons();
 };
 

@@ -45,12 +45,11 @@ void CNetworkVehicle::UpdateModel()
 			scriptWait(0);
 		Handle = VEHICLE::CREATE_VEHICLE(m_Model, curPos.fX, curPos.fY, curPos.fZ, curHead, true, true);
 		VEHICLE::SET_VEHICLE_EXPLODES_ON_HIGH_EXPLOSION_DAMAGE(Handle, false);
-
-		Blip blip = AddBlip();
-		UI::SET_BLIP_SPRITE(blip, 225);
-		UI::SET_BLIP_AS_SHORT_RANGE(blip, true);
-		UI::SET_BLIP_COLOUR(blip, 0);
-		UI::SET_BLIP_SCALE(blip, 0.75f);
+		if (blip)
+		{
+			blip->Handle = UI::ADD_BLIP_FOR_ENTITY(Handle);
+			blip->Update();
+		}
 	}
 }
 
@@ -74,6 +73,8 @@ void CNetworkVehicle::UpdateTargetPosition()
 		if (fAlpha == 1.5f)
 		{
 			ENTITY::SET_ENTITY_VELOCITY(Handle, 0, 0, 0);
+			m_RPM = 0.2;
+			m_Horn = false;
 			m_interp.pos.ulFinishTime = 0;
 		}
 
@@ -125,6 +126,11 @@ void CNetworkVehicle::UpdateTargetRotation()
 	}
 }
 
+void CNetworkVehicle::SetTargetPosition(const CVector3 & vecPosition)
+{
+	m_interp.pos.vecTarget = vecPosition;
+}
+
 void CNetworkVehicle::SetTargetPosition(const CVector3& vecPosition, unsigned long ulDelay)
 {
 
@@ -132,6 +138,7 @@ void CNetworkVehicle::SetTargetPosition(const CVector3& vecPosition, unsigned lo
 	{
 		VEHICLE::SET_VEHICLE_ENGINE_ON(Handle, true, true, true);
 	}
+
 	// Update our target position
 	UpdateTargetPosition();
 
@@ -196,7 +203,7 @@ void CNetworkVehicle::BuildTasksQueue()
 		return;
 	}
 	if (Handle == 0) return;
-	ENTITY::SET_ENTITY_VELOCITY(Handle, m_vecMove.fX, m_vecMove.fY, m_vecMove.fZ);
+	if (HasTargetPosition()) ENTITY::SET_ENTITY_VELOCITY(Handle, m_vecMove.fX, m_vecMove.fY, m_vecMove.fZ);
 	if (m_MoveSpeed != .0f)
 	{
 		if (m_hasDriver)
@@ -234,7 +241,7 @@ void CNetworkVehicle::BuildTasksQueue()
 	VEHICLE::SET_VEHICLE_PETROL_TANK_HEALTH(Handle, m_TankHealth);
 
 	if (!ENTITY::IS_AN_ENTITY(Handle) || !ENTITY::DOES_ENTITY_EXIST(Handle)) return;
-	log << "Veh: " << Handle << " " << ENTITY::DOES_ENTITY_EXIST(Handle) << std::endl;
+	//log << "Veh: " << Handle << " " << ENTITY::DOES_ENTITY_EXIST(Handle) << std::endl;
 	*CMemory(GetAddress()).get<float>(0x8CC) = m_steering / 180 * PI;
 	*CMemory(GetAddress()).get<float>(0x7F4) = m_RPM;
 }
@@ -358,8 +365,42 @@ void CNetworkVehicle::Delete(RakNet::RakNetGUID GUID)
 
 void CNetworkVehicle::Tick()
 {
+	//log << "Count: " << VehiclePool.size() << std::endl;
 	for each (CNetworkVehicle * veh in VehiclePool)
 	{
+		//log << "Kek: " << veh->m_interp.pos.vecTarget.ToString() << std::endl << CLocalPlayer::Get()->GetPosition().ToString() << std::endl;
+		if (PED::IS_PED_IN_ANY_VEHICLE(CLocalPlayer::Get()->GetHandle(), true) && PED::GET_VEHICLE_PED_IS_USING(CLocalPlayer::Get()->GetHandle()) == veh->Handle) continue;
+		if ((veh->m_interp.pos.vecTarget - CLocalPlayer::Get()->GetPosition()).Length() < 300)
+		{
+			//log << "Kek" << std::endl;
+			if (!veh->m_bVisible)
+			{
+				//log << "Kek2" << std::endl;
+				if (STREAMING::IS_MODEL_IN_CDIMAGE(veh->m_Model) && STREAMING::IS_MODEL_VALID(veh->m_Model) && STREAMING::IS_MODEL_A_VEHICLE(veh->m_Model))
+				{
+					STREAMING::REQUEST_MODEL(veh->m_Model);
+					while (!STREAMING::HAS_MODEL_LOADED(veh->m_Model))
+						scriptWait(0);
+					veh->Handle = VEHICLE::CREATE_VEHICLE(veh->m_Model, veh->m_interp.pos.vecTarget.fX, veh->m_interp.pos.vecTarget.fY, veh->m_interp.pos.vecTarget.fZ, veh->m_interp.rot.vecTarget.fZ, true, true);
+
+					if (veh->blip)
+					{
+						veh->blip->Handle = UI::ADD_BLIP_FOR_ENTITY(veh->Handle);
+						veh->blip->Update();
+					}
+				}
+				veh->m_bVisible = true;
+			}
+		}
+		else
+		{
+			if (veh->m_bVisible)
+			{
+				VEHICLE::DELETE_VEHICLE(&veh->Handle);
+				veh->m_bVisible = false;
+			}
+		}
+		if (!veh->m_bVisible) continue;
 		if (!veh->m_Inited) veh->Init();
 		veh->Interpolate();
 	}

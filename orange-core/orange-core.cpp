@@ -58,10 +58,14 @@ static bool OnLookAlive()
 		typedef void(*InitHUD)(void);
 		InitHUD(CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1F358F)() - 0x23)();
 		HUDInited = true;
-	}
-	if (!IsScriptsDisabled() && IsAnyScriptLoaded())
+	}    
+	if (!ScriptsDisabled && CGlobals::Get().HasScriptLoaded("startup"))
 	{
-		DisableScripts();
+		//DisableScripts();   
+		ScriptsDisabled = true;
+		CGlobals::Get().ForceCleanupForAllThreadsWithThisName("startup", 8);
+		CGlobals::Get().TerminateAllScriptsWithThisName("startup");
+
 		CGlobals::Get().ShutdownLoadingScreen();
 		CGlobals::Get().DoScreenFadeIn(0);
 	}
@@ -103,7 +107,7 @@ void OnGameStateChange(int gameState)
 		break;
 	case GameStatePlaying:
 	{
-		//TurnOnConsole();
+		TurnOnConsole();
 		if (!ScriptEngine::Initialize())
 			log_error << "Failed to initialize ScriptEngine" << std::endl;
 		D3DHook::HookD3D11();

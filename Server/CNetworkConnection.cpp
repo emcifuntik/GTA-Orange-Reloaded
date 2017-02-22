@@ -151,7 +151,7 @@ void CNetworkConnection::Tick()
 				if (Plugin::PlayerText(CNetworkPlayer::GetByGUID(packet->guid)->GetID(), playerText.C_String()))
 				{
 					std::stringstream ss;
-					ss << CNetworkPlayer::GetByGUID(packet->guid)->GetName() << " " << u8"\uefaa" << " {FFFFFF}" << playerText.C_String();
+					ss << CNetworkPlayer::GetByGUID(packet->guid)->GetName() << "{FFFFFF}: " << playerText.C_String();
 					RakNet::RakString toSend(ss.str().c_str());
 					bsOut.Write(toSend);
 					color_t messageColor = { 0x7C, 0xB9, 0xE8, 0xFF };

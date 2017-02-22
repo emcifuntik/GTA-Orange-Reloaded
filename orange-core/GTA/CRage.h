@@ -233,8 +233,11 @@ public:
 	CVector3 AimPosition; //0x0260 
 	float AimLength; //0x026C 
 	char pad_0x0270[0xA0]; //0x0270
-	CEntity_* TargetEntity; //0x0310 
-	char pad_0x0318[0x2B0]; //0x0318
+	CEntity_* TargetEntity; //0x0310
+	DWORD dwLastAimTime; //0x0318 
+	char pad_0x011C[0x34]; //0x031C
+	int8_t bAimAtEntity; //0x0350 
+	char pad_0x0151[0x2F]; //0x0351
 
 }; //Size=0x05C8
 

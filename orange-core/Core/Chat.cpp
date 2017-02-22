@@ -91,13 +91,22 @@ void CChat::Render()
 		{
 			if (chatLine.sLineText[i] == '{' && ((i + 7) <= chatLine.sLineText.length() && chatLine.sLineText[i + 7] == '}'))
 			{
-				DWORD x = std::stoul(std::string("0x") + chatLine.sLineText.substr(i + 1, 6), nullptr, 16);
+				DWORD x;
+
+				try {
+					x = std::stoul(std::string("0x") + chatLine.sLineText.substr(i + 1, 6), nullptr, 16);
+				}
+				catch (std::invalid_argument)
+				{
+					x = 0xFFFFFF;
+				}
+
 				color_t col;
 				Utils::HexToRGB(x, col.red, col.green, col.blue);
 				frag.color = col;
 				frag.color.alpha = chatLine.structColor.alpha;
 				frag.str = "";
-				if(i != 0)
+				if (i != 0)
 					currentFrag++;
 				chatLine.sLineText = chatLine.sLineText.substr(i + 8);
 				i = -1;

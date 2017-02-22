@@ -84,7 +84,7 @@ extern "C"
 
 	EXPORT bool OnPlayerText(long playerid, const char * text)
 	{
-		return true;
+		return SResource::Get()->OnPlayerText(playerid, text);
 	}
 
 	EXPORT bool OnKeyStateChanged(long playerid, int keycode, bool isUp)

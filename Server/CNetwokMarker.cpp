@@ -87,6 +87,8 @@ CNetworkMarker * CNetworkMarker::GetByGUID(RakNetGUID guid)
 
 void CNetworkMarker::Tick()
 {
+	//for (auto pl : CNetworkPlayer::All()) if (pl->bInVehicle) log << "veh: " << pl->vehicle.ToString() << " " << CNetworkVehicle::GetByGUID(pl->vehicle)->GetPosition().ToString() << std::endl;
+
 	for (auto m : GlobalMarkers)
 	{
 		auto map = &playermap[m];
@@ -122,19 +124,24 @@ void CNetworkMarker::Tick()
 			CVector3 mPos = m->vecPos;
 			CVector3 pPos = veh->GetPosition();
 
-			if (Math::GetDistanceBetweenPoints2D(mPos.fX, mPos.fY, pPos.fX, pPos.fY) < m->radius && (pPos.fZ - mPos.fZ)*(pPos.fZ - mPos.fZ) < m->radius*m->radius)
+			//log << "veh1: " << pPos.ToString() << std::endl;
+			//if(Math::GetDistanceBetweenPoints2D(mPos.fX, mPos.fY, pPos.fX, pPos.fY) < 40) log << Math::GetDistanceBetweenPoints2D(mPos.fX, mPos.fY, pPos.fX, pPos.fY) << std::endl;
+
+			if (Math::GetDistanceBetweenPoints2D(mPos.fX, mPos.fY, pPos.fX, pPos.fY) < m->radius && (pPos.fZ - mPos.fZ) > 0 && (pPos.fZ - mPos.fZ) < m->radius)
 			{
 				bool was = false;
+				log << "in marker" << std::endl;
 				for (auto _veh : *vmap) if (_veh == veh) was = true;
 				if (!was) {
 					vmap->push_back(veh);
+					log << "just entered" << std::endl;
 					Plugin::Trigger("VehEnterMarker", (ULONG)RakNetGUID::ToUint32(veh->GetGUID()), RakNetGUID::ToUint32(m->rnGUID));
 				}
 			}
 			else {
 				for (int i = 0; i < vmap->size(); i++) {
 					if (vmap->at(i) == veh) {
-						vmap->erase(vmap->begin() + i, vmap->begin() + i + 1);
+						vmap->erase(vmap->begin() + i);
 						Plugin::Trigger("VehLeftMarker", (ULONG)RakNetGUID::ToUint32(veh->GetGUID()), RakNetGUID::ToUint32(m->rnGUID));
 					}
 				}
@@ -177,6 +184,8 @@ void CNetworkMarker::Tick()
 			if (!veh) continue;
 			CVector3 mPos = m->vecPos;
 			CVector3 pPos = veh->GetPosition();
+
+			//log << "veh2: " << pPos.ToString() << std::endl;
 
 			if (Math::GetDistanceBetweenPoints2D(mPos.fX, mPos.fY, pPos.fX, pPos.fY) < m->radius && (pPos.fZ - mPos.fZ)*(pPos.fZ - mPos.fZ) < m->radius*m->radius)
 			{

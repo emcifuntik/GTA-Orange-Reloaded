@@ -22,6 +22,15 @@ void ServerBrowser()
 		}
 		if (ImGui::Button("Connect"))
 		{
+			int size = strlen(CGlobals::Get().nickName);
+			for (int i = 0; i < size; ++i)
+			{
+				if (CGlobals::Get().nickName[i] == '{' || CGlobals::Get().nickName[i] == '}') {
+					log << "found: " << i << std::endl;
+					CGlobals::Get().nickName[i] == '\u0020';
+				}
+			}
+
 			CNetworkPlayer::Clear();
 			CNetworkVehicle::Clear();
 			CNetworkObject::Clear();

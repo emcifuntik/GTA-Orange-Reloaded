@@ -9,7 +9,6 @@ const char * hwids[] = {
 	"21d847e027c78073c4eaf96502c93409", //BodyanGamer
 	"4ae8e22684f5c2ae5fa2651e65e93d87", //RZX
 	"2fbc5fbc89e6bc83e941334cdf289a67", //James_Braga
-	"f289ef2d3bd4282dea3200d1a8643069", //SWF*
 	"fb6ef2bd04c467f98d1610a3760618c9", //LambdaE
 	"0738335dccb051518b1fc438a11cb403", //ZlamboV
 	"4b8b6d024c9eaf1ff3ae8a34128c625c", //HarrWe
@@ -20,27 +19,37 @@ const char * hwids[] = {
 	"8428e015aff0780dcac5de8d9c874548", //Chesko
 	"4d92907275e69028d4d55f19de7da7d2", //Tribunal
 	"e0735fa46a46402ada23a2f412baa785", //Xenusoida
+	"6c865311de3409781693682ed860b327", //Xenusoida brother
 	"39de3a656067a9491e19f1474899f409", //themallard
 	"343806704c614ca3ea7cdc998612f6d8", //Funtik
 	"e506ab868dbde12cd1ec2539609eb13d", //frontface
 	"75bb89ad01bb780b30b05f460e71f41d", //FunnyMan
 	"867c8f56e502449b177d97c6285598cf", //Genius
 	"20fc780ef02401f7e30431fa2e8464eb", //Xinerki
-	"41fa3c9e0a19afaa8ad794109da9d3c9", //Theglobalfive
+	"4174cedcd4eea146dbefb37034b1f954", //Theglobalfive
 	"1872d951994962b6e40053aeae0b13f2", //Kiwi
 	"d2fd5d9df2ae83066ea086c597cf8845", //Forces
 	"8568e7ee13cad430d8c8a1100f041af7", //McNasty
 	"b9563ce9442d0b5f1f25eaee02e1392d", //Soap
 	"b1f7320cfcd2e29eeae89b2d3ac2edbc", //VadZz
-	"ddbeb8b80ef352cb76bf3b5dc4fc2e19",  //0x452
-	"852ea45965c13b4924387b566067325b" //Hexaflexagon
+	"852ea45965c13b4924387b566067325b", //Hexaflexagon
+	"ddbeb8b80ef352cb76bf3b5dc4fc2e19"  //0x452
+
 };
 
-const char * hwidsWO[] = {
-	"39c61f8d20e9723440b9768fac5b9200", //HarrWe
+const char * hwidsWO[] = { 
+	"bfecea4018283f4b7657966b78450abf", //HarrWe
+	"af380ad6e22d82678ac474c9515bf449", //FunnyMan
+	"c259ba19d1f64c9ff22a1a44bae43f43", //Jesus
+	"f6d2f4ba63931f24b9c04622a5c952f5", //McNasty
 	"f6d2f4ba63931f24b9c04622a5c952f5", //Hexaflexagon
 	"a4e6fe07e82d86e00be7e1350556950f", //KiritoLife
-	"f6d2f4ba63931f24b9c04622a5c952f5" //McNasty
+	"2d56b12455537c45d997ea8043cacae0", //value.H12
+	"4657822e7dca0316148ec2b3e10b5321", //SWF*
+	"f6d2f4ba63931f24b9c04622a5c952f5", //McNasty
+	"5ab5d5e44bc5ff9132c397cf3c4690dd", //Tracer
+	"964ef44881cda92d7a78a74e008d5bd8", //Dima_Runner
+	"370553d993e366678b3601d352dacdd4"
 };
 
 std::string GetModuleDir()
@@ -98,6 +107,12 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		if (isDev.good())
 			CGlobals::Get().isDeveloper = true;
 		isDev.close();
+
+		if (CGlobals::Get().isDeveloper)
+		{
+			strcpy_s(CGlobals::Get().serverIP, CConfig::Get()->sIP.c_str());
+			CGlobals::Get().serverPort = CConfig::Get()->uiPort;
+		}
 
 		//std::stringstream path;
 		//path << CGlobals::Get().orangePath << "\\bin;" << std::getenv("PATH");

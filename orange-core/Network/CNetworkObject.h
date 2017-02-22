@@ -42,13 +42,18 @@ class CNetworkObject : public CEntity
 	DWORD				lastUpdate = 9999;
 
 	unsigned short		m_Health;*/
+	CVector3			m_vecPos;
+	CVector3			m_vecRot;
 	Hash				m_Model;
 	Hash				m_futureModel;
+	bool				m_bVisible = false;
 
 	static std::vector<CNetworkObject *> ObjectPool;
 public:
 	RakNet::RakNetGUID	m_GUID;
 	CNetworkObject(ObjectData data);
+
+	static int Count;
 
 	void UpdateModel();
 
@@ -73,7 +78,7 @@ public:
 	static CNetworkObject * GetByHandle(Object veh);
 	static CNetworkObject * GetByGUID(RakNet::RakNetGUID GUID);
 
-	//static void Tick();
+	static void Tick();
 
 	~CNetworkObject();
 };

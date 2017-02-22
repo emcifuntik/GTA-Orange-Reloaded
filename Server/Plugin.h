@@ -37,6 +37,8 @@ public:
 	static const char * OnHTTPRequest(const char * method, const char * url, const char * query, std::string body);
 	static const char * HTTPRequest(const char * method, const char * url, const char * query, std::string body);
 	static void KeyEvent(RakNet::BitStream * bitStream, RakNet::Packet * packet);
+	static void PlayerSpawn(RakNet::BitStream * bitStream, RakNet::Packet * packet);
+	static void PlayerDeath(RakNet::BitStream * bitStream, RakNet::Packet * packet);
 	static void ServerEvent(RakNet::BitStream * bitStream, RakNet::Packet * packet);
 
 	static void Trigger(const char * e, std::vector<MValue> args);
@@ -44,4 +46,5 @@ public:
 	static void Trigger(const char * e, MValue p0);
 	static void Trigger(const char * e, MValue p0, MValue p1);
 	static void Trigger(const char * e, MValue p0, MValue p1, MValue p2);
+	static void Trigger(const char * e, MValue p0, MValue p1, MValue p2, MValue p3);
 };

@@ -30,9 +30,6 @@ SResource *SResource::singleInstance = nullptr;
 
 static const struct luaL_Reg gfunclib[] = {
 	{ "print", lua_print },
-	/*{ "__invoke", lua_invoke },
-	{ "_i", lua_getvalue<Type::N_INT> },
-	{ "_ip", lua_getvalue<Type::N_INTPOINTER> },*/
 	{ NULL, NULL }
 };
 
@@ -42,6 +39,13 @@ static const struct luaL_Reg mfunclib[] = {
 	{ "DeleteBlip", lua_DeleteBlip },
 	{ "SetBlipColor", lua_SetBlipColor },
 	{ "SetBlipRoute", lua_SetBlipRoute },
+	{ "SetBlipSprite", lua_SetBlipSprite },
+	{ "SetBlipName", lua_SetBlipName },
+	{ "SetBlipShortRange", lua_SetBlipShortRange },
+	{ "DisablePlayerHud", lua_DisablePlayerHud },
+
+	{ "AttachBlipToPlayer", lua_AttachBlipToPlayer },
+	{ "AttachBlipToVehicle", lua_AttachBlipToVehicle },
 
 	{ "CreateMarkerForAll", lua_CreateMarkerForAll },
 	{ "CreateMarkerForPlayer", lua_CreateMarkerForPlayer },
@@ -56,18 +60,26 @@ static const struct luaL_Reg mfunclib[] = {
 	{ "SetPlayerCoords", lua_SetPlayerCoords },
 	{ "GetPlayerName", lua_GetPlayerName },
 	{ "GetPlayerModel", lua_GetPlayerModel },
+	{ "SetPlayerModel", lua_SetPlayerModel },
+	{ "GetPlayerHeading", lua_GetPlayerHeading },
 	{ "GivePlayerWeapon", lua_GivePlayerWeapon },
+	{ "RemovePlayerWeapons", lua_RemovePlayerWeapons },
 	{ "PlayerExists", lua_PlayerExists },
 	{ "SendPlayerNotification", lua_SendPlayerNotification },
 	{ "SetPlayerInfoMsg", lua_SetPlayerInfoMsg },
 	{ "SendPlayerMessage", lua_SendPlayerMessage },
 	{ "SetPlayerIntoVehicle", lua_SetPlayerIntoVehicle },
+	{ "SetPlayerHealth", lua_SetPlayerHealth },
+	{ "SetPlayerArmour", lua_SetPlayerArmour },
+	{ "SetPlayerHeading", lua_SetPlayerHeading },
+	{ "SetPlayerMoney", lua_SetPlayerMoney },
 	
 	{ "AddClientScript", lua_LoadClientScript },
 	{ "OnTick", lua_tick },
 	{ "OnHTTPReq", lua_HTTPReq },
 	{ "OnEvent", lua_Event },
 	{ "OnCommand", lua_Command },
+	{ "OnText", lua_Text },
 	{ "SQLEnv", luaopen_luasql_mysql },
 
 	{ "Create3DText", lua_Create3DText },
@@ -75,6 +87,7 @@ static const struct luaL_Reg mfunclib[] = {
 	{ "Attach3DTextToVeh", lua_Attach3DTextToVeh },
 	{ "Attach3DTextToPlayer", lua_Attach3DTextToPlayer },
 	{ "Delete3DText", lua_Delete3DText },
+	{ "Broadcast", lua_Broadcast },
 
 	{ NULL, NULL }
 };
@@ -131,8 +144,6 @@ void SResource::AddClientScript(std::string file)
 	char* _code = new char[_size];
 	_code_.sgetn(_code, _size);
 
-	API::Get().Print("ADD");
-
 	/*if (luaL_loadbuffer(m_lua, _code, _size, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
 		std::stringstream ss;
 		ss << "[LUA] " << lua_tostring(m_lua, -1);
@@ -182,6 +193,11 @@ bool SResource::OnPlayerCommand(long playerid, const char* cmd)
 	return oncommand(playerid, cmd);
 }
 
+bool SResource::OnPlayerText(long playerid, const char* text)
+{
+	return ontext(playerid, text);
+}
+
 void SResource::SetHTTP(const std::function<char*(const char* method, const char* url, const char* query, const char* body)>& t)
 {
 	http = t;
@@ -200,6 +216,11 @@ void SResource::SetEvent(const std::function<void(const char* e, std::vector<MVa
 void SResource::SetCommandProcessor(const std::function<bool(long pid, const char*command)>& t)
 {
 	oncommand = t;
+}
+
+void SResource::SetTextProcessor(const std::function<bool(long pid, const char*text)>& t)
+{
+	ontext = t;
 }
 
 

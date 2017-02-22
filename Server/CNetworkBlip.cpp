@@ -2,13 +2,14 @@
 
 std::vector<CNetworkBlip *> CNetworkBlip::AllBlips;
 
-CNetworkBlip::CNetworkBlip(float x, float y, float z, float scale, int color, int sprite, int playerid):vecPos(x, y, z), scale(scale), color(color), sprite(sprite), playerid(playerid)
+CNetworkBlip::CNetworkBlip(std::string name, float x, float y, float z, float scale, int color, int sprite, int playerid):name(name), vecPos(x, y, z), scale(scale), color(color), sprite(sprite), playerid(playerid)
 {
 	RakNet::BitStream bsOut;
 
 	rnGUID = RakNetGUID(createGUID());
 
 	bsOut.Write(rnGUID);
+	bsOut.Write(RakString(name.c_str()));
 	bsOut.Write(x);
 	bsOut.Write(y);
 	bsOut.Write(z);
@@ -41,10 +42,20 @@ void CNetworkBlip::SetSprite(int _sprite)
 	sprite = _sprite;
 }
 
-void CNetworkBlip::Delete()
+void CNetworkBlip::SetRoute(bool _route)
 {
+	route = _route;
 }
 
+void CNetworkBlip::SetName(std::string _name)
+{
+	name = _name;
+}
+
+void CNetworkBlip::SetAsShortRange(bool _short)
+{
+	bnear = _short;
+}
 
 CNetworkBlip::~CNetworkBlip()
 {
@@ -65,6 +76,7 @@ void CNetworkBlip::SendGlobal(RakNet::Packet *packet)
 			RakNet::BitStream bsOut;
 
 			bsOut.Write(blip->rnGUID);
+			bsOut.Write(RakString(blip->name.c_str()));
 			bsOut.Write(blip->vecPos.fX);
 			bsOut.Write(blip->vecPos.fY);
 			bsOut.Write(blip->vecPos.fZ);
@@ -84,6 +96,19 @@ CNetworkBlip * CNetworkBlip::GetByGUID(RakNetGUID guid)
 			return blip;
 
 	return nullptr;
+}
+
+void CNetworkBlip::Delete(RakNetGUID guid)
+{
+	for (int i = 0; i < AllBlips.size(); i++)
+	{
+		CNetworkBlip *blip = AllBlips[i];
+		if (blip && blip->rnGUID == guid)
+		{
+			delete blip;
+			AllBlips[i] = NULL;
+		}
+	}
 }
 
 std::vector<CNetworkBlip *> CNetworkBlip::All()

@@ -116,6 +116,12 @@ Blip CEntity::AddBlip()
 	return UI::ADD_BLIP_FOR_ENTITY(Handle);
 }
 
+void CEntity::AttachBlip(CNetworkBlip *_blip)
+{
+	if(blip) UI::REMOVE_BLIP(&blip->Handle);
+	blip = _blip;
+}
+
 void CEntity::FreezePosition(bool toggle)
 {
 	ENTITY::FREEZE_ENTITY_POSITION(Handle, toggle);

@@ -18,6 +18,7 @@ namespace FPlayer
 	void SetPlayerArmour(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void SetPlayerModel(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void SetPlayerIntoVehicle(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+	void DisableHud(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 
 	void CreateBlip(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void DeleteBlip(RakNet::BitStream * bitStream, RakNet::Packet * packet);
@@ -26,6 +27,8 @@ namespace FPlayer
 	void SetBlipSprite(RakNet::BitStream * bitStream, RakNet::Packet *packet);
 	void SetBlipAsShortRange(RakNet::BitStream * bitStream, RakNet::Packet *packet);
 	void SetBlipRoute(RakNet::BitStream * bitStream, RakNet::Packet * packet);
+	void AttachBlipToPlayer(RakNet::BitStream * bitStream, RakNet::Packet * packet);
+	void AttachBlipToVehicle(RakNet::BitStream * bitStream, RakNet::Packet * packet);
 
 	void SetInfoMsg(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 

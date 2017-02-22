@@ -15,39 +15,39 @@ class my_ostream
 public:
 
 	my_ostream() {
-		//my_fstream = std::ofstream("D:\\Launcher.log"/*std::string(PROJECT_NAME) + ".log"*/, std::ios_base::app);
-		//my_fstream << std::endl;
+		my_fstream = std::ofstream("server.log", std::ios_base::app);
+		my_fstream << std::endl;
 	};
 
 	my_ostream& info()
 	{
 		std::cout << color::lblue << _O_LOG_INFO << color::white;
-		//my_fstream << LOG_INFO;
+		my_fstream << _O_LOG_INFO;
 		return *this;
 	}
 	my_ostream& debug()
 	{
 		std::cout << color::lyellow << _O_LOG_DEBUG << color::white;
-		//my_fstream << LOG_DEBUG;
+		my_fstream << _O_LOG_DEBUG;
 		return *this;
 	}
 	my_ostream& error()
 	{
 		std::cout << color::lred << _O_LOG_ERROR << color::white;
-		//my_fstream << LOG_ERROR;
+		my_fstream << _O_LOG_ERROR;
 		return *this;
 	}
 	template<typename T> my_ostream& operator<<(const T& something)
 	{
 		std::cout << something;
-		//my_fstream << something;
+		my_fstream << something;
 		return *this;
 	}
 	typedef std::ostream& (*stream_function)(std::ostream&);
 	my_ostream& operator<<(stream_function func)
 	{
 		func(std::cout);
-		//func(my_fstream);
+		func(my_fstream);
 		return *this;
 	}
 	static my_ostream& _log()
@@ -65,7 +65,7 @@ public:
 		return log_stream;
 	}
 private:
-	//std::ofstream my_fstream;
+	std::ofstream my_fstream;
 };
 
 static std::string DateTimeA()

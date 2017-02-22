@@ -79,7 +79,9 @@ namespace FPlayer
 
 	void SetPlayerMoney(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 	{
-
+		int money;
+		bitStream->Read(money);
+		CLocalPlayer::Get()->SetMoney(money);
 	}
 
 	void SetPlayerPos(RakNet::BitStream *bitStream, RakNet::Packet *packet) // CVector3 pos
@@ -144,13 +146,27 @@ namespace FPlayer
 		}
 	}
 
+	void DisableHud(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		bool toggle;
+		bitStream->Read(toggle);
+
+		log << "HUD" << toggle << std::endl;
+
+		UI::DISPLAY_HUD(!toggle);
+		UI::DISPLAY_RADAR(!toggle);
+	}
+
 	void CreateBlip(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 	{
 		RakNet::RakNetGUID guid;
+		RakString name;
 		float x, y, z, scale;
 		int color, sprite;
 
 		bitStream->Read(guid);
+
+		bitStream->Read(name);
 
 		bitStream->Read(x);
 		bitStream->Read(y);
@@ -160,7 +176,7 @@ namespace FPlayer
 		bitStream->Read(color);
 		bitStream->Read(sprite);
 		
-		new CNetworkBlip(guid, x, y, z, scale, color, sprite);
+		new CNetworkBlip(guid, name.C_String(), x, y, z, scale, color, sprite);
 	}
 
 	void DeleteBlip(RakNet::BitStream *bitStream, RakNet::Packet *packet)
@@ -226,6 +242,26 @@ namespace FPlayer
 		bitStream->Read(route);
 
 		CNetworkBlip::GetByGUID(guid)->SetRoute(route);
+	}
+
+	void AttachBlipToVehicle(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNet::RakNetGUID guid, attachedTo;
+
+		bitStream->Read(guid);
+		bitStream->Read(attachedTo);
+
+		CNetworkBlip::GetByGUID(guid)->AttachToVehicle(attachedTo);
+	}
+
+	void AttachBlipToPlayer(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNet::RakNetGUID guid, attachedTo;
+
+		bitStream->Read(guid);
+		bitStream->Read(attachedTo);
+
+		CNetworkBlip::GetByGUID(guid)->AttachToPlayer(attachedTo);
 	}
 
 	void SetInfoMsg(RakNet::BitStream *bitStream, RakNet::Packet *packet)

@@ -1986,7 +1986,7 @@ namespace GAMEPLAY
 	static void DISABLE_HOSPITAL_RESTART(int hospitalIndex, BOOL toggle) { invoke<Void>(0x99C1005B4B647851, hospitalIndex, toggle); } // 0xC8535819C450EBA8 0x09F49C72
 	static Any ADD_POLICE_RESTART(float p0, float p1, float p2, float p3, Any p4) { return invoke<Any>(0x97095977658AFE5F, p0, p1, p2, p3, p4); } // 0x452736765B31FC4B 0xE96C29FE
 	static void DISABLE_POLICE_RESTART(int policeIndex, BOOL toggle) { invoke<Void>(0xADB9D1B16DEA544F, policeIndex, toggle); } // 0x23285DED6EBD7EA3 0x0A280324
-	static void _0x706B5EDCAA7FA663(Any p0, Any p1, Any p2, Any p3) { invoke<Void>(0xAB6E71AED78BAD60, p0, p1, p2, p3); } // 0x706B5EDCAA7FA663
+	static void _0x706B5EDCAA7FA663(float x, float y, float z, float heading) { invoke<Void>(0xAB6E71AED78BAD60, x, y, z, heading); } // 0x706B5EDCAA7FA663
 	static void _0xA2716D40842EAF79() { invoke<Void>(0x366C549B960B11F4); } // 0xA2716D40842EAF79
 	static void _DISABLE_AUTOMATIC_RESPAWN(BOOL disableRespawn) { invoke<Void>(0x0A4474CA170E33E0, disableRespawn); } // 0x2C2B3493FBF51C71 0x296574AE
 	static void IGNORE_NEXT_RESTART(BOOL toggle) { invoke<Void>(0x09FF08F4026F6F86, toggle); } // 0x21FFB63D8C615361 0xDA13A4B6
@@ -3068,7 +3068,7 @@ namespace UI
 	static void _ADD_TEXT_COMPONENT_ITEM_STRING(char* labelName) { invoke<Void>(0xBDE6EEC5F6BDC060, labelName); } // 0xC63CD5D2920ACBE7 0xDCE05406
 	static void _0x17299B63C7683A2B(Hash inputName) { invoke<Void>(0xDF3B405935FDB6CC, inputName); } // 0x17299B63C7683A2B 0x150E03B6
 	static void _0x80EAD8E2E1D5D52E(Blip blip) { invoke<Void>(0x245225E63C3F8D31, blip); } // 0x80EAD8E2E1D5D52E 0x5DE98F0A
-	static void _ADD_TEXT_COMPONENT_STRING(char* text) { invoke<Void>(0xDA35BDB37E728640, text); } // 0x6C188BE134E074AA 0x27A244D8
+	static void _ADD_TEXT_COMPONENT_STRING(const char* text) { invoke<Void>(0xDA35BDB37E728640, text); } // 0x6C188BE134E074AA 0x27A244D8
 	static void ADD_TEXT_COMPONENT_SUBSTRING_TIME(int timestamp, int flags) { invoke<Void>(0x37F0707A16E921F7, timestamp, flags); } // 0x1115F16B8AB9E8BF 0x135B3CD0
 	static void _0x0E4C749FF9DE9CC4(int p0, BOOL p1) { invoke<Void>(0xBEC4DE8C7D72AD8A, p0, p1); } // 0x0E4C749FF9DE9CC4 0x12929BDF
 	static void _0x761B77454205A61D(char* p0, int p1) { invoke<Void>(0xAACCC88E8429891E, p0, p1); } // 0x761B77454205A61D 0x65E1D404

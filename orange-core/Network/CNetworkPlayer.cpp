@@ -142,9 +142,6 @@ void CNetworkPlayer::Spawn(const CVector3& vecPosition)
 		pedHandler->Flags |= 1 << 6;
 		ENTITY::SET_ENTITY_PROOFS(Handle, true, true, true, true, true, true, true, true);
 		WEAPON::SET_PED_INFINITE_AMMO_CLIP(Handle, true);
-
-		Blip blip = AddBlip();
-		UI::SET_BLIP_AS_SHORT_RANGE(blip, false);
 	}
 }
 
@@ -206,6 +203,7 @@ void CNetworkPlayer::SetOnFootData(OnFootSyncData data, unsigned long ulDelay)
 {
 	SetHealth(data.usHealth);
 	m_Health = data.usHealth;
+
 	if (m_Health <= 100.f)
 		return;
 	else if(pedJustDead)
@@ -229,7 +227,7 @@ void CNetworkPlayer::SetOnFootData(OnFootSyncData data, unsigned long ulDelay)
 		AI::TASK_LEAVE_VEHICLE(Handle, PED::GET_VEHICLE_PED_IS_IN(Handle, false), (CLocalPlayer::Get()->GetPosition() - GetPosition()).Length() > 50 ? 16 : 1);
 		//AI::CLEAR_PED_TASKS(Handle);
 		//AI::TASK_LEAVE_VEHICLE(Handle, PED::GET_VEHICLE_PED_IS_IN(Handle, false), 16);
-		log_debug << "Trying to throw out" << std::endl;
+		//log_debug << "Trying to throw out" << std::endl;
 		//ENTITY::SET_ENTITY_HEALTH(Handle, 0);
 		
 		m_Entering = false;
@@ -260,7 +258,23 @@ void CNetworkPlayer::SetOnFootData(OnFootSyncData data, unsigned long ulDelay)
 		m_Jumping = data.bJumping;
 		m_Aiming = data.bAiming;
 		m_Shooting = data.bShooting;
-		m_vecAim = data.vecAim;
+		m_aimAtEntity = data.bAimAtPlayer;
+		if (m_aimAtEntity)
+		{
+			if (data.rnAimAt == CNetworkConnection::Get()->client->GetMyGUID())
+			{
+				m_vecAim = CLocalPlayer::Get()->GetPosition() + data.vecAim;
+			}
+			else {
+				auto pl = CNetworkPlayer::GetByGUID(data.rnAimAt);
+				if (pl) {
+					m_vecAim = pl->GetPosition() + data.vecAim;
+				}
+			}
+		}
+		else {
+			m_vecAim = data.vecAim;
+		}
 		SetTargetPosition(data.vecPos, ulDelay);
 		if (!m_Aiming && !m_Shooting)
 			SetTargetRotation(data.vecRot, ulDelay);
@@ -538,7 +552,6 @@ void CNetworkPlayer::BuildTasksQueue()
 	}
 	else if (m_Shooting && m_MoveSpeed != .0f)
 	{
-		TaskAimAt(m_vecAim, -1);
 		TaskShootAt(m_vecAim, -1);
 		//if (GetMovementVelocity().Length() < m_MoveSpeed - 0.4) SetMoveToDirectionAndAiming(m_interp.pos.vecTarget, m_vecMove, m_vecAim, m_MoveSpeed, true);
 		//tasksToIgnore = 5;
@@ -546,13 +559,13 @@ void CNetworkPlayer::BuildTasksQueue()
 	}
 	else if (m_Shooting && !m_Aiming)
 	{
-		TaskAimAt(m_vecAim, -1);
+		//TaskAimAt(m_vecAim, -1);
 		TaskShootAt(m_vecAim, -1);
 		m_Shooting = false;
 	}
 	else if (m_Shooting && m_MoveSpeed == .0f)
 	{
-		TaskShootAt(m_vecAim, 1);
+		TaskShootAt(m_vecAim, -1);
 		m_Shooting = false;
 	}
 	else if (m_MoveSpeed != .0f)
@@ -568,7 +581,7 @@ void CNetworkPlayer::BuildTasksQueue()
 void CNetworkPlayer::MakeTag()
 {
 	tag.bVisible = false;
-	if (ENTITY::HAS_ENTITY_CLEAR_LOS_TO_ENTITY(CLocalPlayer::Get()->GetHandle(), Handle, 17))
+	if (ENTITY::HAS_ENTITY_CLEAR_LOS_TO_ENTITY(CLocalPlayer::Get()->GetHandle(), Handle, 273))
 	{
 		Vector3 _camPos = CAM::GET_GAMEPLAY_CAM_COORD();
 		CVector3 camPos(_camPos.x, _camPos.y, _camPos.z);

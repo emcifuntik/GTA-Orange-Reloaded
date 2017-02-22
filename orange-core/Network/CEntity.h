@@ -2,10 +2,13 @@
 
 typedef uintptr_t(*GetEntityOffsetFunc)(int);
 
+class CNetworkBlip;
+
 class CEntity
 {
 protected:
 	Entity Handle;
+	CNetworkBlip *blip;
 	static GetEntityOffsetFunc _entityAddressFunc;
 public:
 	Entity GetHandle();
@@ -32,6 +35,8 @@ public:
 	void PlayAnim(std::string animDict, std::string animName, float speed, int duration, DWORD animFlags, float playbackRate);
 
 	Blip AddBlip();
+
+	void AttachBlip(CNetworkBlip * blip);
 
 	void FreezePosition(bool toggle);
 

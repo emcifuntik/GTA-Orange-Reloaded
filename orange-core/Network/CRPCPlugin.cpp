@@ -29,6 +29,7 @@ void CRPCPlugin::BindFunctions()
 	rpc.RegisterSlot("SetPlayerArmour", FPlayer::SetPlayerArmour, 0);
 	rpc.RegisterSlot("SetPlayerModel", FPlayer::SetPlayerModel, 0);
 	rpc.RegisterSlot("SetPlayerIntoVehicle", FPlayer::SetPlayerIntoVehicle, 0);
+	rpc.RegisterSlot("DisableHud", FPlayer::DisableHud, 0);
 	#pragma endregion
 
 	#pragma region Blip functions
@@ -39,6 +40,8 @@ void CRPCPlugin::BindFunctions()
 	rpc.RegisterSlot("SetBlipSprite", FPlayer::SetBlipSprite, 0);
 	rpc.RegisterSlot("SetBlipAsShortRange", FPlayer::SetBlipAsShortRange, 0);
 	rpc.RegisterSlot("SetBlipRoute", FPlayer::SetBlipRoute, 0);
+	rpc.RegisterSlot("AttachBlipToPlayer", FPlayer::AttachBlipToPlayer, 0);
+	rpc.RegisterSlot("AttachBlipToVehicle", FPlayer::AttachBlipToVehicle, 0);
 	#pragma endregion
 
 	#pragma region Marker functions

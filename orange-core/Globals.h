@@ -7,6 +7,7 @@ typedef void(*InitializeOnline_)();
 typedef void(*DoScreenFadeIn_)(int64_t delay);
 typedef bool(*HasScriptLoaded_)(const char * name);
 typedef bool(*SetMenuState_)(const char * name);
+typedef int(*CreateObject_)(const char * name);
 
 class CGlobals
 {

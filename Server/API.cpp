@@ -47,6 +47,23 @@ bool API::SetPlayerHeading(long playerid, float angle)
 	return true;
 }
 
+float API::GetPlayerHeading(long playerid)
+{
+	auto player = CNetworkPlayer::GetByID(playerid);
+	if (!player)
+		return 0.f;
+	return player->GetHeading();
+}
+
+bool API::RemovePlayerWeapons(long playerid)
+{
+	auto player = CNetworkPlayer::GetByID(playerid);
+	if (!player)
+		return false;
+	player->RemoveAllWeapons();
+	return true;
+}
+
 bool API::GivePlayerWeapon(long playerid, long weapon, long ammo)
 {
 	auto player = CNetworkPlayer::GetByID(playerid);
@@ -231,6 +248,13 @@ bool API::SetPlayerIntoVehicle(long playerid, unsigned long vehicle, char seat)
 	return true;
 }
 
+void API::DisablePlayerHud(long playerid, bool toggle)
+{
+	BitStream bsOut;
+	bsOut.Write(toggle);
+	CRPCPlugin::Get()->Signal("DisableHud", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, CNetworkPlayer::GetByID(playerid)->GetGUID(), false, false);
+}
+
 unsigned long API::CreateVehicle(long hash, float x, float y, float z, float heading)
 {
 	CNetworkVehicle *veh = new CNetworkVehicle(hash, x, y, z, heading);
@@ -268,21 +292,21 @@ bool API::CreatePickup(int type, float x, float y, float z, float scale)
 	return true;
 }
 
-unsigned long API::CreateBlipForAll(float x, float y, float z, float scale, int color, int sprite)
+unsigned long API::CreateBlipForAll(std::string name, float x, float y, float z, float scale, int color, int sprite)
 {
-	CNetworkBlip * blip = new CNetworkBlip(x, y, z, scale, color, sprite, -1);
+	CNetworkBlip * blip = new CNetworkBlip(name, x, y, z, scale, color, sprite, -1);
 	return RakNetGUID::ToUint32(blip->rnGUID);
 }
 
-unsigned long API::CreateBlipForPlayer(long playerid, float x, float y, float z, float scale, int color, int sprite)
+unsigned long API::CreateBlipForPlayer(long playerid, std::string name, float x, float y, float z, float scale, int color, int sprite)
 {
-	CNetworkBlip * blip = new CNetworkBlip(x, y, z, scale, color, sprite, playerid);
+	CNetworkBlip * blip = new CNetworkBlip(name, x, y, z, scale, color, sprite, playerid);
 	return RakNetGUID::ToUint32(blip->rnGUID);
 }
 
 void API::DeleteBlip(unsigned long guid)
 {
-	CNetworkBlip::GetByGUID(RakNetGUID(guid))->~CNetworkBlip();
+	delete CNetworkBlip::GetByGUID(RakNetGUID(guid));
 }
 
 void API::SetBlipColor(unsigned long _guid, int color)
@@ -318,13 +342,87 @@ void API::SetBlipRoute(unsigned long _guid, bool route)
 	RakNet::BitStream bsOut;
 	RakNetGUID guid = RakNetGUID(_guid);
 	CNetworkBlip *blip = CNetworkBlip::GetByGUID(guid);
-	//blip->SetRoute(color);
+	blip->SetRoute(route);
 
 	bsOut.Write(guid);
 	bsOut.Write(route);
 
 	if (blip->GetPlayerID() == -1) CRPCPlugin::Get()->Signal("SetBlipRoute", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 	else CRPCPlugin::Get()->Signal("SetBlipRoute", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, CNetworkPlayer::GetByID(blip->GetPlayerID())->GetGUID(), false, false);
+}
+
+void API::SetBlipSprite(unsigned long _guid, int sprite)
+{
+	RakNet::BitStream bsOut;
+	RakNetGUID guid = RakNetGUID(_guid);
+	CNetworkBlip *blip = CNetworkBlip::GetByGUID(guid);
+	blip->SetSprite(sprite);
+
+	bsOut.Write(guid);
+	bsOut.Write(sprite);
+
+	if (blip->GetPlayerID() == -1) CRPCPlugin::Get()->Signal("SetBlipSprite", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	else CRPCPlugin::Get()->Signal("SetBlipSprite", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, CNetworkPlayer::GetByID(blip->GetPlayerID())->GetGUID(), false, false);
+}
+
+void API::SetBlipName(unsigned long _guid, std::string name)
+{
+	RakNet::BitStream bsOut;
+	RakNetGUID guid = RakNetGUID(_guid);
+	CNetworkBlip *blip = CNetworkBlip::GetByGUID(guid);
+	blip->SetName(name);
+
+	bsOut.Write(guid);
+	bsOut.Write(RakString(name.c_str()));
+
+	if (blip->GetPlayerID() == -1) CRPCPlugin::Get()->Signal("SetBlipName", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	else CRPCPlugin::Get()->Signal("SetBlipName", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, CNetworkPlayer::GetByID(blip->GetPlayerID())->GetGUID(), false, false);
+}
+
+void API::SetBlipAsShortRange(unsigned long _guid, bool _short)
+{
+	RakNet::BitStream bsOut;
+	RakNetGUID guid = RakNetGUID(_guid);
+	CNetworkBlip *blip = CNetworkBlip::GetByGUID(guid);
+	blip->SetAsShortRange(_short);
+
+	bsOut.Write(guid);
+	bsOut.Write(_short);
+
+	if (blip->GetPlayerID() == -1) CRPCPlugin::Get()->Signal("SetBlipRange", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	else CRPCPlugin::Get()->Signal("SetBlipRange", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, CNetworkPlayer::GetByID(blip->GetPlayerID())->GetGUID(), false, false);
+}
+
+void API::AttachBlipToPlayer(unsigned long _guid, long player)
+{
+	RakNet::BitStream bsOut;
+	RakNetGUID guid = RakNetGUID(_guid);
+	CNetworkBlip *blip = CNetworkBlip::GetByGUID(guid);
+	auto pl = CNetworkPlayer::GetByID(player);
+
+	if (!blip || !pl) return;
+
+	bsOut.Write(guid);
+	bsOut.Write(pl->GetGUID());
+
+	if (blip->GetPlayerID() == -1) CRPCPlugin::Get()->Signal("AttachBlipToPlayer", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	else CRPCPlugin::Get()->Signal("AttachBlipToPlayer", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, CNetworkPlayer::GetByID(blip->GetPlayerID())->GetGUID(), false, false);
+}
+
+void API::AttachBlipToVehicle(unsigned long _guid, unsigned long vehicle)
+{
+	RakNet::BitStream bsOut;
+	RakNetGUID guid = RakNetGUID(_guid);
+	RakNetGUID veh(vehicle);
+	CNetworkBlip *blip = CNetworkBlip::GetByGUID(guid);
+
+	if (!blip) return;
+
+	bsOut.Write(guid);
+	bsOut.Write(veh);
+
+	if (blip->GetPlayerID() == -1) CRPCPlugin::Get()->Signal("AttachBlipToVehicle", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	else CRPCPlugin::Get()->Signal("AttachBlipToVehicle", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, CNetworkPlayer::GetByID(blip->GetPlayerID())->GetGUID(), false, false);
 }
 
 unsigned long API::CreateMarkerForAll(float x, float y, float z, float height, float radius)

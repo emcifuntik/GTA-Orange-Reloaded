@@ -29,10 +29,14 @@ void NetworkAction()
 		}
 		CNetworkPlayer::Tick();
 		CNetworkVehicle::Tick();
+		CNetworkObject::Tick();
+
 		CNetworkPlayer::PreRender();
 		CNetwork3DText::PreRender();
+
 		CNetworkUI::Get()->Render();
 		CScriptEngine::Get()->Tick();
+
 		scriptWait(0);
 	}
 }

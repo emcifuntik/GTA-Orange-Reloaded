@@ -380,6 +380,30 @@ void Plugin::KeyEvent(RakNet::BitStream *bitStream, RakNet::Packet *packet)
     Plugin::Trigger("keyPress", (ULONG)CNetworkPlayer::GetByGUID(packet->guid)->GetID(), keycode);
 }
 
+void Plugin::PlayerSpawn(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	CVector3 pos;
+	bitStream->Read(pos);
+	auto player = CNetworkPlayer::GetByGUID(packet->guid)->GetID();
+
+	Plugin::Trigger("PlayerSpawn", (ULONG)player, pos.fX, pos.fY, pos.fZ);
+}
+
+void Plugin::PlayerDeath(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	RakNetGUID killer;
+	unsigned int killer_;
+	Hash weapon;
+	bitStream->Read(killer);
+	bitStream->Read(weapon);
+	auto player = CNetworkPlayer::GetByGUID(packet->guid)->GetID();
+
+	if (killer == UNASSIGNED_RAKNET_GUID) killer_ = player;
+	else killer_ = CNetworkPlayer::GetByGUID(killer)->GetID();
+
+	Plugin::Trigger("PlayerDead", (ULONG)player, (ULONG)killer_, weapon);
+}
+
 void Plugin::ServerEvent(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
 	RakString name;
@@ -470,5 +494,17 @@ void Plugin::Trigger(const char* e, MValue p0, MValue p1, MValue p2)
     params.push_back(p2);
 
     Trigger(e, params);
+}
+
+void Plugin::Trigger(const char* e, MValue p0, MValue p1, MValue p2, MValue p3)
+{
+	std::vector<MValue> params;
+
+	params.push_back(p0);
+	params.push_back(p1);
+	params.push_back(p2);
+	params.push_back(p3);
+
+	Trigger(e, params);
 }
 

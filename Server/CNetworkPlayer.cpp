@@ -113,6 +113,13 @@ void CNetworkPlayer::GetOnFootData(OnFootSyncData& data)
 	data.cSeat = cSeat;
 }
 
+void CNetworkPlayer::SetMoney(int money)
+{
+	RakNet::BitStream bsOut;
+	bsOut.Write(money);
+	CRPCPlugin::Get()->Signal("SetPlayerMoney", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, rnGUID, false, false);
+}
+
 void CNetworkPlayer::SetPosition(const CVector3 & position)
 {
 	RakNet::BitStream bsOut;
@@ -123,6 +130,13 @@ void CNetworkPlayer::SetPosition(const CVector3 & position)
 void CNetworkPlayer::SetCoords(const CVector3 & position)
 {
 	vecPosition = position;
+}
+
+void CNetworkPlayer::SetHeading(float heading)
+{
+	RakNet::BitStream bsOut;
+	bsOut.Write(heading);
+	CRPCPlugin::Get()->Signal("SetPlayerHeading", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, rnGUID, false, false);
 }
 
 void CNetworkPlayer::GiveWeapon(unsigned int weaponHash, unsigned int ammo)
@@ -173,6 +187,12 @@ void CNetworkPlayer::SetColor(unsigned int color)
 	bsOut.Write(col);
 	colColor = col;
 	CRPCPlugin::Get()->Signal("SetPlayerColor", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, rnGUID, false, false);
+}
+
+void CNetworkPlayer::RemoveAllWeapons()
+{
+	RakNet::BitStream bsOut;
+	CRPCPlugin::Get()->Signal("RemoveAllWeapons", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, rnGUID, false, false);
 }
 
 //void CNetworkPlayer::SendTextMessage(const char *message, unsigned int color)

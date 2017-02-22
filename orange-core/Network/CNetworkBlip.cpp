@@ -2,31 +2,27 @@
 
 std::vector<CNetworkBlip *> CNetworkBlip::BlipPool;
 
-CNetworkBlip::CNetworkBlip(RakNetGUID guid, float x, float y, float z, float scale, int color, int sprite)
+CNetworkBlip::CNetworkBlip(RakNetGUID guid, std::string name, float x, float y, float z, float scale, int color, int sprite):name(name), vecPos(x, y, z), scale(scale), color(color), sprite(sprite)
 {
 	m_GUID = guid;
-	this->vecPos = CVector3(x, y, z);
-	this->scale = scale;
-	this->color = color;
-	this->sprite = sprite;
 
 	Handle = UI::ADD_BLIP_FOR_COORD(x, y, z);
 
-	SetScale(scale);
 	SetSprite(sprite);
-	SetColor(color);
-	SetAsShortRange(false);
+	SetAsShortRange(true);
 
 	BlipPool.push_back(this);
 }
 
 void CNetworkBlip::SetScale(float scale)
 {
+	this->scale = scale;
 	UI::SET_BLIP_SCALE(Handle, scale);
 }
 
 void CNetworkBlip::SetColor(int color)
 {
+	this->color = color;
 	UI::SET_BLIP_COLOUR(Handle, color);
 }
 
@@ -37,7 +33,12 @@ void CNetworkBlip::SetAsShortRange(bool _short)
 
 void CNetworkBlip::SetSprite(int sprite)
 {
+	this->sprite = sprite;
 	UI::SET_BLIP_SPRITE(Handle, sprite);
+
+	SetScale(scale);
+	SetColor(color);
+	SetName(name);
 }
 
 void CNetworkBlip::SetRoute(bool route)
@@ -45,21 +46,39 @@ void CNetworkBlip::SetRoute(bool route)
 	UI::SET_BLIP_ROUTE(Handle, route);
 }
 
+void CNetworkBlip::SetName(std::string name)
+{
+	this->name = name;
+	UI::BEGIN_TEXT_COMMAND_SET_BLIP_NAME("STRING");
+	UI::_ADD_TEXT_COMPONENT_STRING(name.c_str());
+	UI::END_TEXT_COMMAND_SET_BLIP_NAME(Handle);
+}
+
 void CNetworkBlip::AttachToPlayer(RakNet::RakNetGUID GUID)
 {
-	if (CNetworkPlayer::Exists(GUID))
+	UI::REMOVE_BLIP(&Handle);
+	auto pl = CNetworkPlayer::GetByGUID(GUID, false);
+	if (pl)
 	{
-		auto pl = CNetworkPlayer::GetByGUID(GUID);
-		if (pl)
-		{
-			UI::REMOVE_BLIP(&Handle);
-			Handle = pl->AddBlip();
-			SetScale(scale);
-			SetColor(color);
-			SetSprite(sprite);
-			SetAsShortRange(false);
-		}
+		Handle = pl->AddBlip();
+		SetSprite(sprite);
 	}
+}
+
+void CNetworkBlip::AttachToVehicle(RakNet::RakNetGUID GUID)
+{
+	UI::REMOVE_BLIP(&Handle);
+	auto veh = CNetworkVehicle::GetByGUID(GUID);
+	if (veh)
+	{
+		veh->AttachBlip(this);
+		SetSprite(sprite);
+	}
+}
+
+void CNetworkBlip::Update()
+{
+	SetSprite(sprite);
 }
 
 CNetworkBlip::~CNetworkBlip()

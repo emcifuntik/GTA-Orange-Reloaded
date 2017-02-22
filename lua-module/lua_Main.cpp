@@ -162,6 +162,41 @@ int lua_Command(lua_State *L)
 	return 0;
 }
 
+int lua_Text(lua_State *L)
+{
+	lua_pushvalue(L, 1);
+
+	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+
+	SResource::Get()->SetTextProcessor([=](long pid, const char* text)
+	{
+		lua_pushvalue(L, 1);
+
+		lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
+
+		lua_pushinteger(L, pid);
+		lua_pushstring(L, text);
+
+		if (lua_pcall(L, 2, 1, 0)) {
+			std::string err = luaL_checkstring(L, -1);
+			lua_pop(L, 1);
+
+			API::Get().Print(err.c_str());
+		}
+		if (lua_isnil(L, -1)) {
+			lua_pop(L, 2);
+			return true;
+		}
+
+		bool res = lua_toboolean(L, -1);
+		lua_pop(L, 2);
+
+		return res;
+	});
+
+	return 0;
+}
+
 int lua_Create3DText(lua_State *L)
 {
 	lua_pushinteger(L, API::Get().Create3DText(lua_tostring(L, 1), lua_tonumber(L, 2), lua_tonumber(L, 3), lua_tonumber(L, 4), lua_tointeger(L, 5), lua_tointeger(L, 6), lua_tonumber(L, 7)));
@@ -201,5 +236,11 @@ int lua_LoadClientScript(lua_State *L)
 int lua_Delete3DTextToPlayer(lua_State *L)
 {
 	API::Get().Delete3DText(lua_tointeger(L, 1));
+	return 0;
+}
+
+int lua_Broadcast(lua_State *L)
+{
+	API::Get().BroadcastClientMessage(lua_tostring(L, 1), 0xFFFFFFFF);
 	return 0;
 }

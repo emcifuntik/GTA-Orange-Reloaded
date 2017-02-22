@@ -60,6 +60,9 @@ private:
 	bool				m_Lefting = false;
 	bool				m_Ragdoll = false;
 
+	bool				m_aimAtEntity;
+	Entity				m_aimAt;
+
 	bool				pedJustDead = false;
 	float				m_MoveSpeed;
 	float				lastMoveSpeed;
@@ -93,6 +96,7 @@ public:
 	void UpdateLastTickTime();
 	int GetTickTime();
 	
+	RakNetGUID GetGUID() { return m_GUID; }
 	std::string GetName() { return m_Name; }
 	void SetName(std::string Name) { m_Name = Name; }
 
@@ -117,12 +121,9 @@ public:
 	void RemoveTargetRotation();
 	void ResetInterpolation();
 
-	void SetMovementTask(RakNet::BitStream& bsIn);
-
 	void Interpolate();
 
 	void SetMoveToDirection(CVector3 vecPos, CVector3 vecMove, float iMoveSpeed);
-
 	void SetMoveToDirectionAndAiming(CVector3 vecPos, CVector3 vecMove, CVector3 aimPos, float moveSpeed, bool shooting);
 
 	void AssignTask(GTA::CTask * task);

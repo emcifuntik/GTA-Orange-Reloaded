@@ -18,6 +18,7 @@ public:
 	bool bDuckState : 1;
 	bool bJumping : 1;
 	bool bInVehicle : 1;
+	bool bAimAtPlayer : 1;
 
 	char cSeat;
 
@@ -39,6 +40,7 @@ public:
 	//CVector3 vecTurnSpeed;
 
 	RakNetGUID rnVehicle;
+	RakNetGUID rnAimAt;
 };
 
 /*class OnFootSyncData

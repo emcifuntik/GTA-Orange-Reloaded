@@ -64,6 +64,7 @@ class CNetworkVehicle : public CVehicle
 	bool				m_Siren = false;
 
 	bool				m_Inited = false;
+	bool				m_bVisible= false;
 
 	static std::vector<CNetworkVehicle *> VehiclePool;
 public:
@@ -79,6 +80,7 @@ public:
 
 	void UpdateTargetPosition();
 	void UpdateTargetRotation();
+	void SetTargetPosition(const CVector3 & vecPosition);
 	void SetTargetPosition(const CVector3 & vecPosition, unsigned long ulDelay);
 	void SetTargetRotation(const CVector3 & vecRotation, unsigned long ulDelay);
 	void Interpolate();

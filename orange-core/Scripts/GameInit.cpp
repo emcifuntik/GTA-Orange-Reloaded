@@ -15,7 +15,7 @@ void StartScript(const char* name)
 void Action()
 {
 	bool teleported = false;
-	bool mobiledisabled = false;
+	//bool mobiledisabled = false;
 	while (true)
 	{
 		if (!teleported)
@@ -26,7 +26,30 @@ void Action()
 			//StartScript("standard_global_init");
 			//StartScript("standard_global_reg");
 
-			scriptWait(0);
+			/*scriptWait(0);
+			
+			for (int i = 0; i < 5; i++)
+				GAMEPLAY::DISABLE_HOSPITAL_RESTART(i, true);
+
+			for (int i = 0; i < 50; i++) {
+				GAMEPLAY::DISABLE_STUNT_JUMP_SET(i);
+				GAMEPLAY::DELETE_STUNT_JUMP(i);
+			}*/
+
+			/*HMODULE *arr = new HMODULE[256];
+			DWORD num = 0;
+			if (EnumProcessModules(NULL, arr, 256, &num)) log << "Error: " << GetLastError() << std::endl;
+			else
+			{
+				log << num/sizeof(HMODULE) << " DLLs " << std::endl;
+				for (int i = 0; i < 256; i++)
+				{
+					char name[MAX_PATH];
+					GetModuleFileNameA(arr[i], name, MAX_PATH);
+
+					log << "DLL: " << name << std::endl;
+				}
+			}*/
 
 			ENTITY::SET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), 363.871f, 621.555f, 78.44f, true, false, false, false);
 			CGlobals::Get().currentcam = CAM::CREATE_CAM("DEFAULT_SCRIPTED_CAMERA", false);
@@ -39,11 +62,17 @@ void Action()
 			CLocalPlayer::Get()->ChangeModel(Utils::Hash("mp_m_freemode_01"));
 			CGlobals::Get().displayServerBrowser = true;
 			teleported = true;
-			CLocalPlayer::Get()->ChangeModel(Utils::Hash("mp_m_freemode_01"));
 			std::stringstream ss;
 			ss << "{E30022}" << u8"\ueffb" << "{FFFFFF} Grand Theft Auto: {FF8F00}Orange {FFFFFF}loaded";
 			CChat::Get()->AddChatMessage(ss.str());
 		}
+		/*if (!mobiledisabled && CGlobals::Get().HasScriptLoaded("cellphone_controller"))
+		{
+			MOBILE::DESTROY_MOBILE_PHONE();
+			CGlobals::Get().ForceCleanupForAllThreadsWithThisName("cellphone_controller", 8);
+			CGlobals::Get().TerminateAllScriptsWithThisName("cellphone_controller");
+			mobiledisabled = true;
+		}*/
 		scriptWait(0);
 	}
 }
