@@ -472,6 +472,18 @@
     <ClCompile Include="md5.cpp">
       <Filter>HWID</Filter>
     </ClCompile>
+    <ClCompile Include="ScriptingScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaUIDefs.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripting\LuaEntityDefs.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="PreRender.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="orange-core.rc">

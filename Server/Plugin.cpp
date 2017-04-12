@@ -329,17 +329,19 @@ bool Plugin::PlayerUpdate(long playerid)
 
 bool Plugin::PlayerCommand(long playerid, const char * command)
 {
+	bool res = true;
     for (auto func : playerCommands)
         if (!func(playerid, command))
-            return false;
-    return true;
+            res = false;
+    return res;
 }
 
 bool Plugin::PlayerText(long playerid, const char * text)
 {
+	bool res = true;
     for (auto func : playerTexts)
         if (!func(playerid, text))
-            return false;
+			res = false;
     return true;
 }
 
@@ -352,10 +354,10 @@ const char* Plugin::OnHTTPRequest(const char* method, const char* url, const cha
     req.body = body;
     while (queryblocked) RakSleep(1);
     reqquery.push_back(&req);
+
     while (req.result == NULL)
-    {
         RakSleep(1);
-    }
+
     return req.result;
 }
 
@@ -393,7 +395,7 @@ void Plugin::PlayerDeath(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
 	RakNetGUID killer;
 	unsigned int killer_;
-	Hash weapon;
+	int weapon;
 	bitStream->Read(killer);
 	bitStream->Read(weapon);
 	auto player = CNetworkPlayer::GetByGUID(packet->guid)->GetID();
@@ -412,9 +414,10 @@ void Plugin::ServerEvent(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 
 	bitStream->Read(name);
 	bitStream->Read(nargs);
-	args.push_back(name.C_String());
 
-	//log << "Event: Name(" << nargs << "): " << name << std::endl;
+	//log << name.C_String() << " " << CNetworkPlayer::GetByGUID(packet->guid)->GetID();
+	args.push_back(name.C_String());
+	args.push_back((int)CNetworkPlayer::GetByGUID(packet->guid)->GetID());
 
 	for (int i = 0; i < nargs; i++)
 	{
@@ -426,7 +429,6 @@ void Plugin::ServerEvent(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 		{
 			bool val;
 			bitStream->Read(val);
-			//log << "\tBool: " << val << std::endl;
 			args.push_back(val);
 			break;
 		}
@@ -434,7 +436,6 @@ void Plugin::ServerEvent(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 		{
 			double val;
 			bitStream->Read(val);
-			//log << "\tInt: " << val << std::endl;
 			args.push_back(val);
 			break;
 		}
@@ -442,7 +443,6 @@ void Plugin::ServerEvent(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 		{
 			RakString val;
 			bitStream->Read(val);
-			//log << "\tString: " << val.C_String() << std::endl;
 			args.push_back(val.C_String());
 			break;
 		}

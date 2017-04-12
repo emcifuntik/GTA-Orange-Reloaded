@@ -39,7 +39,8 @@ int lua_getvalue(lua_State *L)
 			{
 			case Type::N_BOOL:
 			{
-				int* value = new int(lua_tointeger(L, 1));
+				int* value = new int(lua_toboolean(L, 1));
+				delete (int*)container->ptr;
 				container->ptr = value;
 				break;
 			}
@@ -47,6 +48,7 @@ int lua_getvalue(lua_State *L)
 			case Type::N_INTPOINTER:
 			{
 				int* value = new int(luaL_checkinteger(L, 1));
+				delete (int*)container->ptr;
 				container->ptr = value;
 				break;
 			}
@@ -58,6 +60,7 @@ int lua_getvalue(lua_State *L)
 			case Type::N_FLOATPOINTER:
 			{
 				float* value = new float(luaL_checknumber(L, 1));
+				delete (float*)container->ptr;
 				container->ptr = value;
 				break;
 			}
@@ -68,7 +71,7 @@ int lua_getvalue(lua_State *L)
 				char* value = new char[size + 1];
 				memcpy(value, val, size);
 				value[size] = '\0';
-				log << "Str: " << value << ", size: " << size << std::endl;
+				delete (char*)container->ptr;
 				container->ptr = value;
 				break;
 			}
@@ -82,7 +85,8 @@ int lua_getvalue(lua_State *L)
 			case Type::N_DWORD:
 			case Type::N_DWORDPOINTER:
 			{
-				int* value = new int(luaL_checkinteger(L, 1));
+				DWORD* value = new DWORD(luaL_checkinteger(L, 1));
+				delete (DWORD*)container->ptr;
 				container->ptr = value;
 				break;
 			}
@@ -90,22 +94,7 @@ int lua_getvalue(lua_State *L)
 				log << "Error getting data" << std::endl;
 				break;
 			}
-			
-			/*else if(T == Type::N_STRING)
-			{
-				const char* val = luaL_checkstring(L, 1);
-				int size = strlen(val);
-				char* value = new char[size+1];
-				memcpy(value, val, size);
-				value[size] = '\0';
-				log << "Str: " << value << ", size: "<< size << std::endl;
-				container->ptr = (uintptr_t)value;
-			}
-			if (T == Type::N_DWORD || T == Type::N_DWORDPOINTER)
-			{
-				DWORD* value = new DWORD(luaL_checkinteger(L, 1));
-				container->ptr = (uintptr_t)value;
-			}*/
+
 			break;
 		}
 	}
@@ -113,21 +102,47 @@ int lua_getvalue(lua_State *L)
 	return 1;
 }
 
+void LuaInvoke(uint64_t hash, ScriptManagerContext *ctx)
+{
+	auto fn = ScriptEngine::GetNativeHandler(hash);
+	if (fn != 0) {
+		__try {
+			fn(ctx);
+		}
+		__except (EXCEPTION_EXECUTE_HANDLER) {
+			log_error << "[LUA] Error in nativeCall. 0x" << hash << std::endl;
+		}
+	}
+}
+
+template <typename T>
+void LuaPush(ScriptManagerContext *ctx, T val)
+{
+	UINT64 val64 = 0;
+	if (sizeof(T) > sizeof(UINT64))
+	{
+		throw "error, value size > 64 bit";
+	}
+	*reinterpret_cast<T *>(&val64) = val; // &val + sizeof(dw) - sizeof(val)
+	ctx->Push(val64);
+}
+
 int lua_invoke(lua_State *L)
 {
-	//log << std::hex << lua_tointeger(L, 1) << std::endl;
-	//log << *(UINT64*)lua_topointer(L, 1) << std::endl;
-	/*log << lua_touserdata(L, 1) << std::endl;
-	log << lua_tostring(L, 1) << std::endl;
-	log << lua_topointer(L, 1) << std::endl;
-	log << std::hex << lua_tonumber(L, 1) << std::endl;
-	log << std::hex << static_cast<UINT64>(lua_tonumber(L, 1)) << std::endl << std::endl;*/
-
 	UINT64 hash = *(UINT64*)lua_topointer(L, 1);
 	unsigned char retval = lua_tointeger(L, 2);
+
 	int nargs = lua_gettop(L);
-	nativeInit(hash);
-	int numretn;
+	int numretn = 0;
+
+	int numpretn = 0;
+	luameta_t* preturns[8];
+
+	ScriptManagerContext ctx;
+	
+	//log << "Called 0x" << hash << std::endl;
+	std::stringstream ss;
+	ss << "Params: ";
 
 	for (int i = 3; i <= nargs; ++i) {
 		int type = lua_type(L, i);
@@ -136,55 +151,104 @@ int lua_invoke(lua_State *L)
 			luameta_t *ptr = (luameta_t*)lua_touserdata(L, i);
 			type = (UINT)(((ULONG)ptr - (ULONG)(&g_pointers)) / sizeof(Entry));
 
+			ptr->empty = true;
+
 			switch (type)
 			{
+			case Type::N_BOOL:
+				LuaPush(&ctx, *(int*)ptr->ptr);
+				break;
 			case Type::N_INT:
-				nativePush(*(int*)ptr->ptr);
-				delete (int*)ptr->ptr;
+				LuaPush(&ctx, *(int*)ptr->ptr);
 				break;
 			case Type::N_INTPOINTER:
-				nativePush((int*)ptr->ptr);
-				delete (int*)ptr->ptr;
+				LuaPush(&ctx, (int*)ptr->ptr);
+				preturns[numpretn++] = ptr;
+				break;
+			case Type::N_FLOAT:
+				LuaPush(&ctx, *(float*)ptr->ptr);
+				break;
+			case Type::N_FLOATPOINTER:
+				LuaPush(&ctx, (float*)ptr->ptr);
+				preturns[numpretn++] = ptr;
 				break;
 			case Type::N_DWORD:
-				log << "DWORD: " << *(int*)ptr->ptr << std::endl;
-				nativePush(*(int*)ptr->ptr);
-				delete (int*)ptr->ptr;
+				LuaPush(&ctx, *(int*)ptr->ptr);
 				break;
 			case Type::N_DWORDPOINTER:
-				nativePush((DWORD*)ptr->ptr);
-				delete (DWORD*)ptr->ptr;
+				LuaPush(&ctx, (DWORD*)ptr->ptr);
+				preturns[numpretn++] = ptr;
 				break;
 			case Type::N_STRING:
-				nativePush((char*)ptr->ptr);
-				delete (char*)ptr->ptr;
+				LuaPush(&ctx, _strdup((char*)ptr->ptr));
 				break;
 			default:
 				break;
 			}
 		}
 	}
+
+	LuaInvoke(hash, &ctx);
+
 	switch (retval)
 	{
 	case Type::N_VOID:
-		nativeCall();
-		numretn = 0;
 		break;
 	case Type::N_BOOL:
-		lua_pushboolean(L, (*reinterpret_cast<int*>(nativeCall())) != 0);
-		numretn = 1;
+		lua_pushboolean(L, (*reinterpret_cast<int*>(ctx.GetResultPointer())) != 0);
+		numretn += 1;
 		break;
 	case Type::N_INT:
-		lua_pushinteger(L, *reinterpret_cast<int*>(nativeCall()));
-		numretn = 1;
+		lua_pushinteger(L, *reinterpret_cast<int*>(ctx.GetResultPointer()));
+		numretn += 1;
 		break;
+	case Type::N_FLOAT:
+		lua_pushnumber(L, *reinterpret_cast<float*>(ctx.GetResultPointer()));
+		numretn += 1;
+		break;
+	case Type::N_VECTOR3:
+	{
+		Vector3 pos = *reinterpret_cast<Vector3*>(ctx.GetResultPointer());
+		lua_pushnumber(L, pos.x);
+		lua_pushnumber(L, pos.y);
+		lua_pushnumber(L, pos.z);
+		numretn += 3;
+		break;
+	}
 	case Type::N_DWORD:
-		lua_pushinteger(L, *reinterpret_cast<int*>(nativeCall()));
-		numretn = 1;
+		lua_pushinteger(L, *reinterpret_cast<int*>(ctx.GetResultPointer()));
+		numretn += 1;
 		break;
 	default:
-		log << "Not impl retn: " << retval;
+		log << "Not impl retn: " << (int)retval;
 		break;
+	}
+
+	numretn += numpretn;
+
+	for (int i = 0; i < numpretn; i++)
+	{
+		luameta_t* ptr = preturns[i];
+		unsigned int type = (UINT)(((ULONG)ptr - (ULONG)(&g_pointers)) / sizeof(Entry));
+
+		switch (type)
+		{
+		case Type::N_INTPOINTER:
+			//log << *(int*)(ptr->ptr) << std::endl;
+			lua_pushinteger(L, *(int*)(ptr->ptr));
+			break;
+		case Type::N_FLOATPOINTER:
+			//log << *(float*)(ptr->ptr) << std::endl;
+			lua_pushnumber(L, *(float*)(ptr->ptr));
+			break;
+		case Type::N_DWORDPOINTER:
+			//log << *(DWORD*)(ptr->ptr) << std::endl;
+			lua_pushinteger(L, *(DWORD*)(ptr->ptr));
+			break;
+		default:
+			numretn--;
+			log << "not supported pointer " << type << std::endl;
+		}
 	}
 
 	return numretn;

@@ -5,6 +5,7 @@ CNetworkConnection *CNetworkConnection::singleInstance = nullptr;
 CNetworkConnection::CNetworkConnection()
 {
 	client = RakNet::RakPeerInterface::GetInstance();
+	tcpclient = RakNet::PacketizedTCP::GetInstance();
 }
 
 CNetworkConnection::~CNetworkConnection()
@@ -31,6 +32,20 @@ bool CNetworkConnection::Connect(std::string host, unsigned short port)
 		client->SetOccasionalPing(true);
 		connection = client->Connect(host.c_str(), port, 0, 0);
 		RakAssert(connection == RakNet::CONNECTION_ATTEMPT_STARTED);
+
+		tcpclient->Start(0, 0);
+		tcpclient->Connect(host.c_str(), port);
+
+		SystemAddress tcpaddr = tcpclient->HasCompletedConnectionAttempt();
+		//while (tcpaddr == UNASSIGNED_SYSTEM_ADDRESS) RakSleep(0);
+
+		BitStream con;
+
+		con.Write((unsigned char)1);
+		con.Write(client->GetMyGUID());
+
+		tcpclient->Send(reinterpret_cast<char*>(con.GetData()), con.GetNumberOfBytesUsed(), tcpaddr, false);
+
 		bConnected = true;
 		CRPCPlugin::Get();
 		return true;
@@ -63,6 +78,7 @@ void CNetworkConnection::Tick()
 				RakString playerName(CConfig::Get()->sNickName.c_str());
 				bsOut.Write((unsigned char)ID_CONNECT_TO_SERVER);
 				bsOut.Write(playerName);
+				//bsOut.Write();
 				CLocalPlayer::Get()->SetMoney(0);
 
 				client->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
@@ -101,7 +117,8 @@ void CNetworkConnection::Tick()
 			}
 			case ID_CONNECT_TO_SERVER:
 			{
-				bEstablished = true;
+				cEstablished++;
+				if (cEstablished > 1) bEstablished = true;
 				break;
 			}
 			case ID_SEND_PLAYER_DATA:
@@ -114,10 +131,12 @@ void CNetworkConnection::Tick()
 				bsIn.Read(data);
 				CNetworkPlayer::hFutureModel = data.hModel;
 				CNetworkPlayer *remotePlayer = CNetworkPlayer::GetByGUID(playerGUID);
+
 				if(rsName.GetLength())
 					remotePlayer->SetName(std::string(rsName.C_String()));
+
 				remotePlayer->UpdateLastTickTime();
-				remotePlayer->SetOnFootData(data, 100); //remotePlayer->GetTickTime());
+				remotePlayer->SetOnFootData(data, 100);
 				if (data.bShooting)
 					remotePlayer->Interpolate();
 				break;
@@ -135,7 +154,7 @@ void CNetworkConnection::Tick()
 					if (remoteVeh)
 					{
 						remoteVeh->UpdateLastTickTime();
-						remoteVeh->SetVehicleData(data, 100 + (int)(data.vecMoveSpeed.Length()*1.8)); // remoteVeh->GetTickTime());
+						remoteVeh->SetVehicleData(data, 100 + (int)(data.vecMoveSpeed.Length()*1.6));
 					}
 				}
 
@@ -187,8 +206,11 @@ void CNetworkConnection::Tick()
 							if (!parentTask)
 							{
 								parentTask = (GTA::CTask*)cloned.task->GetTask();
-								parentTask->Deserialize(cloned.task);
-								cursorTask = parentTask;
+								if (parentTask)
+								{
+									parentTask->Deserialize(cloned.task);
+									cursorTask = parentTask;
+								}
 							}
 							else
 							{
@@ -216,11 +238,49 @@ void CNetworkConnection::Tick()
 			}
 			default:
 			{
-				std::stringstream ss;
-				ss << "[RakNet] Unknown message id: " << (int)packet->data[0] << ", message: " << packet->data;
-				CChat::Get()->AddChatMessage(ss.str(), { 255, 100, 100, 255 });
+				log << "[RakNet] Unknown message id: " << (int)packet->data[0] << ", message: " << packet->data << std::endl;
 				break;
 			}
+		}
+	}
+
+	for (packet = tcpclient->Receive(); packet; tcpclient->DeallocatePacket(packet), packet = tcpclient->Receive()) {
+		unsigned char packetid;
+		RakNet::BitStream bsIn(packet->data, packet->length, false);
+
+		bsIn.Read(packetid);
+
+		switch (packetid)
+		{
+		case 1:
+		{
+			size_t count;
+			bsIn.Read(count);
+
+			for (int i = 0; i < count; i++)
+			{
+				RakString name;
+				unsigned int size;
+				bsIn.Read(name);
+				bsIn.Read(size);
+
+				unsigned char* code = (unsigned char*)malloc(size);
+				bool result = bsIn.ReadAlignedBytes(code, size);
+
+				CScriptEngine::Get()->LoadScript(size, reinterpret_cast<char*>(code), name.C_String());
+
+				free(code);
+			}
+
+			cEstablished++;
+			if (cEstablished > 1) bEstablished = true;
+
+			break;
+		}
+		case 2:
+			break;
+		default:
+			log << (int)packetid << " " << packet->length << std::endl << (char*)packet->data << std::endl;
 		}
 	}
 }

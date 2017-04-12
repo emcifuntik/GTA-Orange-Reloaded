@@ -66,7 +66,7 @@ eThreadState ScriptManagerThread::Reset(uint32_t scriptHash, void * pArgs, uint3
 
 void ScriptManagerThread::AddScript(std::string threadName, void(*fn)())
 {
-	log_debug << "Registering thread " << threadName.c_str() << " 0x" << std::hex << fn << std::endl;
+	//log_debug << "Registering thread " << threadName.c_str() << " 0x" << std::hex << fn << std::endl;
 	if (m_scripts.find(threadName) != m_scripts.end()) 
 	{
 		log_error << "Thread " << threadName.c_str() << " is already registered" << std::endl;
@@ -82,7 +82,7 @@ void ScriptManagerThread::RemoveScript(std::string threadName) {
 		log_error << "Could not find thread " << threadName << std::endl;
 		return;
 	}
-	log_debug << "Unregistered script " << threadName << std::endl;
+	//log_debug << "Unregistered script " << threadName << std::endl;
 	m_scripts.erase(pair);
 }
 
@@ -126,6 +126,7 @@ uint64_t * nativeCall()
 	auto fn = ScriptEngine::GetNativeHandler(g_hash);
 	if (fn != 0) {
 		__try {
+			//log << "_Called 0x" << g_hash << std::endl;
 			fn(&g_context);
 		}
 		__except (EXCEPTION_EXECUTE_HANDLER) {

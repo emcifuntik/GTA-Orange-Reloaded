@@ -8,8 +8,30 @@ CScriptEngine *CScriptEngine::singleInstance = nullptr;
 static const struct luaL_Reg gfunclib[] = {
 	{ "print", lua_print },
 	{ "__setTickHandler", lua_tick },
+	{ "__setEventHandler", lua_onevent },
 	{ "__menu", lua_menu },
+	{ "__setMenuOpened", lua_MenuSetOpened },
+	{ "__getMenuOpened", lua_MenuGetOpened },
 	{ "__trigger", lua_trigger },
+	{ "__keyState", lua_KeyState },
+	{ "__chatOpened", lua_ChatShown },
+
+	{ "__getAllPlayers", lua_GetAllPlayers},
+	{ "__getPlayerPedHandle", lua_GetPlayerHandle },
+	{ "__getPlayerName", lua_GetPlayerName },
+	{ "__getMyGUID", lua_GetMyGUID },
+	{ "__disableHeadDisplay", lua_DisableHead },
+	{ "__setHeadDisplay", lua_SetHeadDisplay },
+
+	{ "__getAllVehicles", lua_GetAllVehicles },
+	{ "__getVehicleHandle", lua_GetVehicleHandle },
+
+	{ "__getAllObjects", lua_GetAllObjects },
+	{ "__getObjectHandle", lua_GetObjectHandle },
+
+	{ "__getAllBlips", lua_GetAllBlips },
+	{ "__getBlipHandle", lua_GetBlipHandle },
+
 	{ NULL, NULL }
 };
 
@@ -43,7 +65,7 @@ void CScriptEngine::Init()
 
 CScriptEngine::~CScriptEngine()
 {
-
+	if (initialized) lua_close(m_lua);
 }
 
 CScriptEngine * CScriptEngine::Get()
@@ -68,17 +90,24 @@ void CScriptEngine::LoadScript(RakNet::BitStream *bsIn)
 	bsIn->Read(name);
 	bsIn->Read(size);
 
+	log << "Loaded script: " << name.C_String() << std::endl;
+
 	char* _code = new char[size];
 
 	bsIn->ReadAlignedBytes((unsigned char*)_code, size);
 
-	log << "Loaded script: " << name.C_String() << std::endl;
-
 	if (luaL_loadbuffer(m_lua, _code, size, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
 		log << "[LUA] " << lua_tostring(m_lua, -1) << std::endl;
 	}
+}
 
-	log << "success" << std::endl;
+void CScriptEngine::LoadScript(size_t size, char* code, const char* name)
+{
+	log << "Loaded script: " << name << std::endl;
+
+	if (luaL_loadbuffer(m_lua, code, size, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
+		log << "[LUA] " << lua_tostring(m_lua, -1) << std::endl;
+	}
 }
 
 void CScriptEngine::SetTick(const std::function<void()>& f)
@@ -86,8 +115,30 @@ void CScriptEngine::SetTick(const std::function<void()>& f)
 	tickHandler = f;
 }
 
+void CScriptEngine::SetCustomHead(const std::function<void(unsigned long guid, bool clear, float distance, CVector3 pos)>& f)
+{
+	customHead = f;
+}
+
+void CScriptEngine::SetEvent(const std::function<void(BitStream *bsIn)>& f)
+{
+	onevent = f;
+}
+
 void CScriptEngine::Tick()
 {
 	if (!initialized) return;
+
 	if(tickHandler) tickHandler();
+}
+
+void CScriptEngine::Close()
+{
+	delete singleInstance;
+	singleInstance = nullptr;
+}
+
+void CScriptEngine::Trigger(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	Get()->onevent(bitStream);
 }

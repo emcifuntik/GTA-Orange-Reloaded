@@ -15,15 +15,15 @@ void CNetworkVehicle::Init()
 	m_Inited = true;
 	//log << " ShouldHaveDriver: " << m_ShouldHasDriver << std::endl;
 	if (m_ShouldHasDriver) {
-		log << "DGUID: " << m_DriverGUID.ToString() << std::endl;
+		//log << "DGUID: " << m_DriverGUID.ToString() << std::endl;
 		CNetworkPlayer *pl = CNetworkPlayer::GetByGUID(m_DriverGUID, false);
 		if (pl)
 		{
-			log << "Handle: " << pl->GetHandle() << " Seat: " << pl->m_FutureSeat << " Player: 0x" << std::hex << pl << " GUID: " << m_DriverGUID.ToString() << std::endl;
+			//log << "Handle: " << pl->GetHandle() << " Seat: " << pl->m_FutureSeat << " Player: 0x" << std::hex << pl << " GUID: " << m_DriverGUID.ToString() << std::endl;
 			PED::SET_PED_INTO_VEHICLE(pl->GetHandle(), Handle, pl->m_FutureSeat);
 			if (!PED::IS_PED_IN_ANY_VEHICLE(pl->GetHandle(), false)) {
 				m_Inited = false;
-				log << "Not set" << std::endl;
+				//log << "Not set" << std::endl;
 			}
 		}
 		else m_Inited = false;
@@ -70,7 +70,7 @@ void CNetworkVehicle::UpdateTargetPosition()
 		CVector3 vecCompensation = Math::Lerp(CVector3(), fCurrentAlpha, m_interp.pos.vecError);
 
 		// If we finished compensating the error, finish it for the next pulse
-		if (fAlpha == 1.5f)
+		if (fAlpha > 10.f)
 		{
 			ENTITY::SET_ENTITY_VELOCITY(Handle, 0, 0, 0);
 			m_RPM = 0.2;
@@ -186,7 +186,7 @@ void CNetworkVehicle::SetTargetRotation(const CVector3& vecRotation, unsigned lo
 void CNetworkVehicle::Interpolate()
 {
 	if (m_Model != m_futureModel) UpdateModel();
-	if (Handle == 0 || m_ShouldHasDriver != m_hasDriver) return;
+	if (Handle == 0) return;
 	if (PED::GET_VEHICLE_PED_IS_IN(CLocalPlayer::Get()->GetHandle(), false) != Handle || CLocalPlayer::Get()->GetSeat() != -1)
 	{
 		UpdateTargetRotation();
@@ -242,8 +242,14 @@ void CNetworkVehicle::BuildTasksQueue()
 	VEHICLE::SET_VEHICLE_ENGINE_HEALTH(Handle, m_EngineHealth);
 	VEHICLE::SET_VEHICLE_PETROL_TANK_HEALTH(Handle, m_TankHealth);
 
-	if (!ENTITY::IS_AN_ENTITY(Handle) || !ENTITY::DOES_ENTITY_EXIST(Handle)) return;
-	//log << "Veh: " << Handle << " " << ENTITY::DOES_ENTITY_EXIST(Handle) << std::endl;
+	if (!ENTITY::IS_AN_ENTITY(Handle) || !ENTITY::DOES_ENTITY_EXIST(Handle))
+	{
+		//log << "Veh: " << Handle << " " << ENTITY::DOES_ENTITY_EXIST(Handle) << " " << ENTITY::IS_AN_ENTITY(Handle) << std::endl;
+		return;
+	}
+	
+	//log << "Veh: " << Handle << " " << m_steering << std::endl;
+
 	*CMemory(GetAddress()).get<float>(0x8CC) = m_steering / 180 * PI;
 	*CMemory(GetAddress()).get<float>(0x7F4) = m_RPM;
 }
@@ -321,9 +327,8 @@ std::vector<CNetworkVehicle*> CNetworkVehicle::All()
 void CNetworkVehicle::Clear()
 {
 	for each(CNetworkVehicle* veh in VehiclePool)
-	{
 		delete veh;
-	}
+
 	VehiclePool.erase(VehiclePool.begin(), VehiclePool.end());
 }
 
@@ -349,20 +354,15 @@ CNetworkVehicle * CNetworkVehicle::GetByGUID(RakNet::RakNetGUID GUID)
 
 void CNetworkVehicle::Delete(RakNet::RakNetGUID GUID)
 {
-	int number = -1;
 	for(int i = 0; i < VehiclePool.size(); ++i)
 	{
 		if (VehiclePool[i]->m_GUID == GUID)
 		{
-			number = i;
+			delete VehiclePool[i];
+			VehiclePool.erase(VehiclePool.begin() + i);
 			break;
 		}
 	}
-	if (number == -1)
-		return;
-
-	delete VehiclePool[number];
-	VehiclePool.erase(VehiclePool.begin() + number);
 }
 
 void CNetworkVehicle::Tick()
@@ -371,7 +371,7 @@ void CNetworkVehicle::Tick()
 	for each (CNetworkVehicle * veh in VehiclePool)
 	{
 		//log << "Kek: " << veh->m_interp.pos.vecTarget.ToString() << std::endl << CLocalPlayer::Get()->GetPosition().ToString() << std::endl;
-		if (PED::IS_PED_IN_ANY_VEHICLE(CLocalPlayer::Get()->GetHandle(), true) && PED::GET_VEHICLE_PED_IS_USING(CLocalPlayer::Get()->GetHandle()) == veh->Handle) continue;
+		if (PED::IS_PED_IN_ANY_VEHICLE(CLocalPlayer::Get()->GetHandle(), true) && PED::GET_VEHICLE_PED_IS_USING(CLocalPlayer::Get()->GetHandle()) == veh->Handle && CLocalPlayer::Get()->GetSeat() == -1) continue;
 		if ((veh->m_interp.pos.vecTarget - CLocalPlayer::Get()->GetPosition()).Length() < 300)
 		{
 			//log << "Kek" << std::endl;

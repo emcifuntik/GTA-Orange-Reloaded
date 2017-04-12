@@ -26,7 +26,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -75,7 +75,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;ORANGECORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\deps\RakNet\DependentExtensions\portaudio_v18_1\pa_win_wmme;..\deps\RakNet\DependentExtensions\portaudio_v18_1\pa_common;../deps/RakNet/DependentExtensions/;../deps/ServerDeps/LuaJIT-2.1.0-beta2/src;../deps/RakNet/Source/;../shared/;./;../deps/tinyxml2/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../deps/ServerDeps/LuaJIT-2.1.0-beta2/src;../deps/RakNet/Source/;../shared/;./;../deps/tinyxml2/</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -84,7 +84,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\deps\bin\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>RakNet_$(Configuration)_$(Platform).lib;tinyxml2_$(Configuration)_$(Platform).lib;d3dcompiler.lib;winmm.lib;Mincore.lib;version.lib;lua51.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>RakNet_Release_$(Platform).lib;tinyxml2_$(Configuration)_$(Platform).lib;d3dcompiler.lib;winmm.lib;Mincore.lib;version.lib;lua51.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -203,6 +203,7 @@
     <ClCompile Include="GuiDispatcher.cpp" />
     <ClCompile Include="HWID.cpp" />
     <ClCompile Include="LuaNativeEngine.cpp" />
+    <ClCompile Include="LuaUIDefs.cpp" />
     <ClCompile Include="md5.cpp" />
     <ClCompile Include="Memory.cpp" />
     <ClCompile Include="MemoryCache.cpp" />
@@ -222,10 +223,13 @@
     <ClCompile Include="Network\CVehicle.cpp" />
     <ClCompile Include="Network\Functions.cpp" />
     <ClCompile Include="orange-core.cpp" />
+    <ClCompile Include="PreRender.cpp" />
     <ClCompile Include="Registry.cpp" />
     <ClCompile Include="ScriptingScene.cpp" />
+    <ClCompile Include="ScriptingScript.cpp" />
     <ClCompile Include="Scripting\CScriptEngine.cpp" />
     <ClCompile Include="Scripting\LuaMainDefs.cpp" />
+    <ClCompile Include="Scripting\LuaEntityDefs.cpp" />
     <ClCompile Include="Scripts\ChatScript.cpp" />
     <ClCompile Include="Scripts\GameInit.cpp" />
     <ClCompile Include="Scripts\NetworkScript.cpp" />

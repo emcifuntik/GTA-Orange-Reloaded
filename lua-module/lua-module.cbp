@@ -42,8 +42,8 @@
 			<Add directory="../deps/ServerDeps/LuaJIT-2.1.0-beta2/src" />
 		</Compiler>
 		<Linker>
-			<Add option="-lluajit-5.1" />
 			<Add option="-lmysqlclient" />
+			<Add library="/usr/local/lib/libluajit-5.1.so" />
 		</Linker>
 		<Unit filename="API.h" />
 		<Unit filename="SResource.cpp" />

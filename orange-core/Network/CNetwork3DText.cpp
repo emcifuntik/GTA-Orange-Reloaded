@@ -5,6 +5,15 @@ std::vector<CNetwork3DText *> CNetwork3DText::TextPool;
 
 CNetwork3DText::~CNetwork3DText()
 {
+
+}
+
+void CNetwork3DText::Clear()
+{
+	for each(CNetwork3DText* t in TextPool)
+		delete t;
+
+	TextPool.erase(TextPool.begin(), TextPool.end());
 }
 
 

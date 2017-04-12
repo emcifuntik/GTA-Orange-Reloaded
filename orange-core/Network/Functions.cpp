@@ -128,10 +128,10 @@ namespace FPlayer
 		bitStream->Read(player);
 		bitStream->Read(veh);
 		bitStream->Read(seat);
-		log << "s1" << std::endl;
+		//log << "s1" << std::endl;
 		if (player == CNetworkConnection::Get()->client->GetMyGUID()) {
-			log << "s2" << std::endl;
-			log << CNetworkVehicle::GetByGUID(veh)->GetHandle() << std::endl;
+			//log << "s2" << std::endl;
+			//log << CNetworkVehicle::GetByGUID(veh)->GetHandle() << std::endl;
 			CLocalPlayer::Get()->FutureVeh = CNetworkVehicle::GetByGUID(veh);
 			CLocalPlayer::Get()->FutureSeat = seat;
 		}
@@ -140,7 +140,7 @@ namespace FPlayer
 			CNetworkPlayer *pl = CNetworkPlayer::GetByGUID(player, false);
 			CNetworkVehicle *v = CNetworkVehicle::GetByGUID(veh);
 			if (pl && v) {
-				log << "Ped: " << pl->GetHandle() << " Veh: " << v->GetHandle() << std::endl;
+				//log << "Ped: " << pl->GetHandle() << " Veh: " << v->GetHandle() << std::endl;
 				PED::SET_PED_INTO_VEHICLE(pl->GetHandle(), v->GetHandle(), seat);
 			}
 		}
@@ -151,7 +151,7 @@ namespace FPlayer
 		bool toggle;
 		bitStream->Read(toggle);
 
-		log << "HUD" << toggle << std::endl;
+		//log << "HUD" << toggle << std::endl;
 
 		UI::DISPLAY_HUD(!toggle);
 		UI::DISPLAY_RADAR(!toggle);
@@ -184,7 +184,7 @@ namespace FPlayer
 		RakNet::RakNetGUID guid;
 		bitStream->Read(guid);
 
-		log << "deleting: " << guid.ToString() << std::endl;
+		//log << "deleting: " << guid.ToString() << std::endl;
 
 		CNetworkBlip::GetByGUID(guid)->~CNetworkBlip();
 	}
@@ -408,6 +408,13 @@ namespace FPlayer
 		ObjectData data;
 		bitStream->Read(data);
 		new CNetworkObject(data);
+	}
+
+	void DeleteObject(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNetGUID obj;
+		bitStream->Read(obj);
+		CNetworkObject::Delete(obj);
 	}
 }
 

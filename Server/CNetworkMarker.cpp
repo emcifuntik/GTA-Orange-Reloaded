@@ -130,11 +130,11 @@ void CNetworkMarker::Tick()
 			if (Math::GetDistanceBetweenPoints2D(mPos.fX, mPos.fY, pPos.fX, pPos.fY) < m->radius && (pPos.fZ - mPos.fZ) > 0 && (pPos.fZ - mPos.fZ) < m->radius)
 			{
 				bool was = false;
-				log << "in marker" << std::endl;
+				//log << "in marker" << std::endl;
 				for (auto _veh : *vmap) if (_veh == veh) was = true;
 				if (!was) {
 					vmap->push_back(veh);
-					log << "just entered" << std::endl;
+					//log << "just entered" << std::endl;
 					Plugin::Trigger("VehEnterMarker", (ULONG)RakNetGUID::ToUint32(veh->GetGUID()), RakNetGUID::ToUint32(m->rnGUID));
 				}
 			}

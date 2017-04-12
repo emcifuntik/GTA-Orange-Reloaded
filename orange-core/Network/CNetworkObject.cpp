@@ -8,6 +8,8 @@ CNetworkObject::CNetworkObject(ObjectData data) :CEntity(-1)
 	m_Model = data.hashModel;
 	m_futureModel = m_Model;
 
+	m_GUID = data.GUID;
+
 	m_vecPos = data.vecPos;
 	m_vecRot = data.vecRot;
 
@@ -255,10 +257,8 @@ std::vector<CNetworkObject*> CNetworkObject::All()
 void CNetworkObject::Clear()
 {
 	for each(CNetworkObject* obj in ObjectPool)
-	{
-		obj->~CNetworkObject();
 		delete obj;
-	}
+
 	ObjectPool.erase(ObjectPool.begin(), ObjectPool.end());
 }
 
@@ -304,7 +304,6 @@ void CNetworkObject::Tick()
 						obj->SetPosition(obj->m_vecPos);
 						obj->SetRotation(obj->m_vecRot);
 					}
-					log << "create: " << Count << std::endl;
 				}
 				Count++;
 			}
@@ -315,10 +314,25 @@ void CNetworkObject::Tick()
 			{
 				OBJECT::DELETE_OBJECT(&obj->Handle);
 				obj->m_bVisible = false;
-				log << "delete: " << Count << std::endl;
 				Count--;
 			}
 		}
 		//if (count > 500) log << "count!!" << std::endl;
+	}
+}
+
+void CNetworkObject::Delete(RakNet::RakNetGUID GUID)
+{
+	log << "DELETE" << GUID.ToString() << std::endl;
+	for (int i = 0; i < ObjectPool.size(); ++i)
+	{
+		log << "DELETE2" << ObjectPool[i]->m_GUID.ToString()  << std::endl;
+		if (ObjectPool[i]->m_GUID == GUID)
+		{
+			log << "DELETE3" << std::endl;
+			delete ObjectPool[i];
+			ObjectPool.erase(ObjectPool.begin() + i);
+			break;
+		}
 	}
 }

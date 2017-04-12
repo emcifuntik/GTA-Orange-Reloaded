@@ -1,39 +1,77 @@
 #include "stdafx.h"
 
-void StartScript(const char* name)
-{
-	Hash hash = Utils::Hash(name);
-	SCRIPT::_REQUEST_STREAMED_SCRIPT(hash);
-	while (!SCRIPT::_HAS_STREAMED_SCRIPT_LOADED(hash)) {
-		scriptWait(0);
-		SCRIPT::_REQUEST_STREAMED_SCRIPT(hash);
-	}
-	SYSTEM::_START_NEW_STREAMED_SCRIPT(hash, 1424);
-	SCRIPT::_SET_STREAMED_SCRIPT_AS_NO_LONGER_NEEDED(hash);
-}
+char* ipls[] = {
+	"facelobby",
+	"shr_int",
+	"FIBlobby",
+	"post_hiest_unload",
+	"refit_unload",
+	"CS1_02_cf_onmission1",
+	"CS1_02_cf_onmission2",
+	"CS1_02_cf_onmission3",
+	"CS1_02_cf_onmission4",
+	"RC12B_Default",
+	"SP1_10_real_interior",
+	"burnt_switch_off",
+	"id2_14_during1",
+	"id2_14_during_door",
+	"farm",
+	"farmint",
+	"des_farmhouse",
+	"Coroner_Int_on",
+	"FINBANK",
+	"ch1_02_open",
+	"hei_yacht_heist",
+	"hei_yacht_heist_enginrm",
+	"hei_yacht_heist_lounge",
+	"hei_yacht_heist_bridge",
+	"hei_yacht_heist_bar",
+	"hei_yacht_heist_bedrm",
+	"hei_carrier",
+	"hei_Carrier_int1",
+	"hei_Carrier_int2",
+	"hei_Carrier_int3",
+	"hei_Carrier_int4",
+	"hei_Carrier_int5",
+	"hei_Carrier_int6",
+	"hei_yacht_heist_distantlights",
+	"hei_yacht_heist_lodlights",
+	"hei_carrier_DistantLights",
+	"hei_carrier_LODLights",
+	"lr_cs6_08_grave_closed",
+	"bkr_bi_hw1_13_int",
+	"hei_bi_hw1_13_door",
+	"bkr_bi_id1_23_door",
+	"FINBANK",
+	"v_tunnel_hole",
+	"DT1_03_Shutter",
+	"DT1_03_Gr_Closed",
+	"canyonriver01",
+	"railing_start",
+	"farm",
+	"farmint",
+	"farm_props"
+};
 
 void Action()
 {
 	bool teleported = false;
-	//bool mobiledisabled = false;
+
 	while (true)
 	{
 		if (!teleported)
 		{
-			//StartScript("mp_registration");
-			//StartScript("title_update_registration");
 			SCRIPT::_REQUEST_STREAMED_SCRIPT(Utils::Hash("standard_global_init"));
-			//StartScript("standard_global_init");
-			//StartScript("standard_global_reg");
 
-			/*scriptWait(0);
-			
-			for (int i = 0; i < 5; i++)
-				GAMEPLAY::DISABLE_HOSPITAL_RESTART(i, true);
-			for (int i = 0; i < 50; i++) {
-				GAMEPLAY::DISABLE_STUNT_JUMP_SET(i);
-				GAMEPLAY::DELETE_STUNT_JUMP(i);
-			}*/
+			DLC2::_LOAD_MP_DLC_MAPS();
+			GAMEPLAY::_ENABLE_MP_DLC_MAPS(true);
+
+			for (int i = 0; i < sizeof(ipls) / sizeof(ipls[0]); i++)
+				STREAMING::REQUEST_IPL(ipls[i]);
+
+			Entity glass = OBJECT::CREATE_OBJECT_NO_OFFSET(Utils::Hash("prop_showroom_glass_1b"), -59.77f, -1098.77f, 27.2f, 1, true, true);
+			ENTITY::SET_ENTITY_ROTATION(glass, 0.f, 0.f, 121.5f, 2, 1);
+			ENTITY::FREEZE_ENTITY_POSITION(glass, true);
 
 			ENTITY::SET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), 363.871f, 621.555f, 78.44f, true, false, false, false);
 			CGlobals::Get().currentcam = CAM::CREATE_CAM("DEFAULT_SCRIPTED_CAMERA", false);
@@ -44,19 +82,28 @@ void Action()
 			UI::DISPLAY_HUD(false);
 			UI::DISPLAY_RADAR(false);
 			CLocalPlayer::Get()->ChangeModel(Utils::Hash("mp_m_freemode_01"));
+			CScriptEngine::Get()->Init();
 			CGlobals::Get().displayServerBrowser = true;
 			teleported = true;
 			std::stringstream ss;
 			ss << "{E30022}" << u8"\ueffb" << "{FFFFFF} Grand Theft Auto: {FF8F00}Orange {FFFFFF}loaded";
 			CChat::Get()->AddChatMessage(ss.str());
 		}
-		/*if (!mobiledisabled && CGlobals::Get().HasScriptLoaded("cellphone_controller"))
-		{
-			MOBILE::DESTROY_MOBILE_PHONE();
-			CGlobals::Get().ForceCleanupForAllThreadsWithThisName("cellphone_controller", 8);
-			CGlobals::Get().TerminateAllScriptsWithThisName("cellphone_controller");
-			mobiledisabled = true;
-		}*/
+		if(CNetworkConnection::Get()->bClear) {
+			CScriptEngine::Close();
+			CScriptEngine::Get()->Init();
+
+			CNetworkPlayer::Clear();
+			CNetworkVehicle::Clear();
+			CNetworkObject::Clear();
+
+			CNetwork3DText::Clear();
+			CNetworkMarker::Clear();
+			CNetworkBlip::Clear();
+
+			CNetworkConnection::Get()->bClear = false;
+		}
+
 		scriptWait(0);
 	}
 }

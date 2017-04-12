@@ -12,6 +12,8 @@ class CNetworkConnection
 	bool bConnected = false;
 public:
 	RakNet::RakPeerInterface *server;
+	RakNet::PacketizedTCP *tcpserver;
+
 	std::vector<Hash> UsedModels;
 
 	static CNetworkConnection * Get();

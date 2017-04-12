@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "CVector3.h"
+#include <memory>
 
 enum {
 	M_STRING,
@@ -14,31 +15,31 @@ class MValue
 {
 public:
 	MValue(const char* val) {
-		string_val = strdup(val);
+		_val = std::shared_ptr<void>(strdup(val));
 		type = M_STRING;
 	};
-	MValue(int val) {
-		int_val = val;
+	MValue(int const &val) {
+		_val = std::shared_ptr<void>(new int(val));
 		type = M_INT;
 	};
-	MValue(bool val) {
-		bool_val = val;
+	MValue(bool const &val) {
+		_val = std::shared_ptr<void>(new bool(val));
 		type = M_BOOL;
 	}
-	MValue(double val) {
-		double_val = val;
+	MValue(double const &val) {
+		_val = std::shared_ptr<void>(new double(val));
 		type = M_DOUBLE;
 	};
-	MValue(unsigned long val) {
-		ulong_val = val;
+	MValue(unsigned long const &val) {
+		_val = std::shared_ptr<void>(new unsigned long(val));
 		type = M_ULONG;
 	};
 
-	char* getString() { if (type == M_STRING) return string_val; return NULL; };
-	int getInt() { if (type == M_INT) return int_val; return 0; };
-	bool getBool() { if (type == M_BOOL) return bool_val; return false; };
-	double getDouble() { if (type == M_DOUBLE) return double_val; return 0; };
-	unsigned long getULong() { if (type == M_ULONG) return ulong_val; return 0; };
+	char* getString() { if (type == M_STRING) return (char*)_val.get(); return NULL; };
+	int getInt() { if (type == M_INT) return *(int*)_val.get(); return 0; };
+	bool getBool() { if (type == M_BOOL) return *(bool*)_val.get(); return false; };
+	double getDouble() { if (type == M_DOUBLE) return *(double*)_val.get(); return 0; };
+	unsigned long getULong() { if (type == M_ULONG) return *(unsigned long*)_val.get(); return 0; };
 
 	bool isString() { return type == M_STRING; };
 	bool isInt() { return type == M_INT; };
@@ -47,17 +48,13 @@ public:
 	bool isULong() { return type == M_ULONG; };
 
 	char type;
-private:
-	char* string_val;
-	int int_val;
-	bool bool_val;
-	double double_val;
-	unsigned long ulong_val;
+	std::shared_ptr<void> _val;
 };
 
 class APIBase {
 public:
 	virtual void LoadClientScript(std::string name, char* buffer, size_t size) = 0;
+	virtual void ClientEvent(const char * name, std::vector<MValue> args, long playerid) = 0;
 	//Player
 	virtual bool SetPlayerPosition(long playerid, float x, float y, float z) = 0;
 	virtual CVector3 GetPlayerPosition(long playerid) = 0;
@@ -85,6 +82,7 @@ public:
 	virtual bool SendClientMessage(long playerid, const char * message, unsigned int color) = 0;
 	virtual bool SetPlayerIntoVehicle(long playerid, unsigned long vehicle, char seat) = 0;
 	virtual void DisablePlayerHud(long playerid, bool toggle) = 0;
+	virtual unsigned long GetPlayerGUID(long playerid) = 0;
 
 	//World
 	virtual void Print(const char * message) = 0;
@@ -99,6 +97,7 @@ public:
 	virtual CVector3 GetVehiclePosition(int vehicleid) = 0;
 
 	virtual unsigned long CreateObject(long model, float x, float y, float z, float pitch, float yaw, float roll) = 0;
+	virtual bool DeleteObject(unsigned long guid) = 0;
 
 	virtual bool CreatePickup(int type, float x, float y, float z, float scale) = 0;
 
@@ -130,11 +129,12 @@ public:
 	virtual bool Delete3DText(unsigned long textId) = 0;
 };
 
-class API:
-	public APIBase
+#ifndef GTA_ORANGE_SERVER
+class API : public APIBase
 {
 public:
 	static API * instance;
-	static void Set(API * api){instance = api;}
-	static API& Get(){return *instance;}
+	static void Set(API * api) { instance = api; }
+	static API& Get() { return *instance; }
 };
+#endif

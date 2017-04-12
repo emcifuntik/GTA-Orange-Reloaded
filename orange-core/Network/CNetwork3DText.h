@@ -39,5 +39,6 @@ public:
 	static void DeleteByGUID(RakNet::RakNetGUID guid);
 
 	~CNetwork3DText();
+	static void Clear();
 };
 

@@ -21,9 +21,8 @@
   <ItemGroup>
     <ClInclude Include="..\..\GTA-Orange\Shared\Console\CConsole.h" />
     <ClInclude Include="..\..\GTA-Orange\Shared\Console\CLog.h" />
-    <ClInclude Include="API.h" />
+    <ClInclude Include="API_ext.h" />
     <ClInclude Include="CClientScripting.h" />
-    <ClInclude Include="CHTTPServer.h" />
     <ClInclude Include="CNetwork3DText.h" />
     <ClInclude Include="CNetworkObject.h" />
     <ClInclude Include="CNetworkBlip.h" />
@@ -38,12 +37,9 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\deps\ServerDeps\Civet\CivetServer.cpp" />
-    <ClCompile Include="..\deps\ServerDeps\Civet\civetweb.c" />
-    <ClCompile Include="API.cpp" />
+    <ClCompile Include="API_ext.cpp" />
     <ClCompile Include="CClientScripting.cpp" />
-    <ClCompile Include="CHTTPServer.cpp" />
-    <ClCompile Include="CNetwokMarker.cpp" />
+    <ClCompile Include="CNetworkMarker.cpp" />
     <ClCompile Include="CNetwork3DText.cpp" />
     <ClCompile Include="CNetworkBlip.cpp" />
     <ClCompile Include="CNetworkConnection.cpp" />
@@ -104,7 +100,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
     <CLRSupport>false</CLRSupport>

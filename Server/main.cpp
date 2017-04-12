@@ -18,19 +18,53 @@ unsigned long GetTickCount()
 }
 #endif
 
+bool bExit = false;
+
+#ifdef _WIN32
+
+BOOL WINAPI HandlerRoutine(DWORD dwCtrlType)
+{
+	Plugin::Trigger("ServerUnload", dwCtrlType);
+	bExit = true;
+	return TRUE;
+}
+
+#else
+
+void sig_handler(int s) {
+	if(s == 2) Plugin::Trigger("ServerUnload");
+	else printf("Caught signal %d\n", s);
+	exit(1);
+
+}
+
+#endif
+
 int main(void)
 {
+#ifdef _WIN32
+	SetConsoleCtrlHandler(HandlerRoutine, TRUE);
+#else
+	struct sigaction sigIntHandler;
+
+	sigIntHandler.sa_handler = sig_handler;
+	sigemptyset(&sigIntHandler.sa_mask);
+	sigIntHandler.sa_flags = 0;
+
+	sigaction(SIGINT, &sigIntHandler, NULL);
+#endif
+
 	log << "Starting the server..." << std::endl;
-	log << "Hostname: " << /*color::lred <<*/ CConfig::Get()->Hostname << std::endl;
-	log << "Port: " << /*color::lred <<*/ CConfig::Get()->Port << std::endl;
-	log << "HTTP Server port: " << /*color::lred <<*/ CConfig::Get()->HTTPPort << std::endl;
-	log << "Maximum players: " << /*color::lred <<*/ CConfig::Get()->MaxPlayers << std::endl;
+	log << "Hostname: " << color::lred << CConfig::Get()->Hostname << std::endl;
+	log << "Port: " << color::lred << CConfig::Get()->Port << std::endl;
+	log << "HTTP Server port: " << color::lred << CConfig::Get()->HTTPPort << std::endl;
+	log << "Maximum players: " << color::lred << CConfig::Get()->MaxPlayers << std::endl;
 
 	Plugin::LoadPlugins();
 
-	CHTTPServer::Get()->Start(CConfig::Get()->HTTPPort);
+	/*CHTTPServer::Get()->Start(CConfig::Get()->HTTPPort);
 	CHTTPHandler h_a;
-	CHTTPServer::g_server->addHandler("", h_a);
+	CHTTPServer::g_server->addHandler("", h_a);*/
 
 	auto netLoop = [=]()
 	{
@@ -65,9 +99,12 @@ int main(void)
 	{
 		std::string msg;
 		std::getline(std::cin, msg);
-		if (!msg.compare("exit") || !msg.compare("kill"))
+		if (bExit || !msg.compare("exit") || !msg.compare("kill"))
 		{
 			log << "Terminating server..." << std::endl;
+#ifndef _WIN32
+			Plugin::Trigger("ServerUnload");
+#endif
 			break;
 		}
 		else

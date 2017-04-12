@@ -1,10 +1,8 @@
-//============== IV:Multiplayer - https://github.com/Neproify/ivmultiplayer ==============
+//==============================================================================
 //
 // File: CVector3.h
 // Project: Shared
-// Author(s): jenksta
-//            Multi Theft Auto Team
-// License: See LICENSE in root directory
+// Author(s): Multi Theft Auto Team
 //
 //==============================================================================
 

@@ -437,9 +437,19 @@ void CChat::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, BOOL i
 			CGlobals::Get().displayServerBrowser = !CGlobals::Get().displayServerBrowser;
 			break;
 		case 0x54:
-			if (!Chat->bOpened)
-				Chat->Open();
+		{
+			if (Chat->bOpened) break;
+			bool _break = false;
+			for (auto m : CNetworkUI::Get()->menus)
+				if (m->shown)
+				{
+					_break = true;
+					break;
+				}
+			if (_break) break;
+			Chat->Open();
 			break;
+		}
 		}
 	}
 }

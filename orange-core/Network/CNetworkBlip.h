@@ -12,6 +12,7 @@ class CNetworkBlip
 
 	RakNetGUID attachedTo;
 	char attachType;
+	bool toattach = false;
 public:
 	Blip Handle;
 	RakNet::RakNetGUID	m_GUID;
@@ -31,7 +32,9 @@ public:
 
 	static std::vector<CNetworkBlip*> All();
 	static CNetworkBlip * GetByGUID(RakNet::RakNetGUID GUID);
+	static void Tick();
 
 	~CNetworkBlip();
+	static void Clear();
 };
 

@@ -100,6 +100,7 @@ typedef hde64s HDE;
 #include <WindowsIncludes.h>
 #include <GetTime.h>
 #include <RPC4Plugin.h>
+#include <PacketizedTCP.h>
 using namespace RakNet;
 #pragma endregion
 

@@ -25,4 +25,5 @@ public:
 	static void DeleteByGUID(RakNet::RakNetGUID GUID);
 
 	~CNetworkMarker();
+	static void Clear();
 };

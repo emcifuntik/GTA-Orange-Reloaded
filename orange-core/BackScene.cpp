@@ -12,6 +12,16 @@ void BackScene()
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.f);
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.f, 0.f));
 	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.f);
+
+	float x1 = viewPortGame->Width - CGlobals::Get().tagFont->CalcTextSizeA(22.f, 1000.f, 1000.f, "GTA: Orange").x - 5;
+	float y1 = 0;
+
+	/*ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, 22.f, ImVec2(x1 - 1, y1 - 1), ImColor(0, 0, 0, 100), "GTA: Orange");
+	ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, 22.f, ImVec2(x1 + 1, y1 + 1), ImColor(0, 0, 0, 100), "GTA: Orange");
+	ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, 22.f, ImVec2(x1 + 1, y1 - 1), ImColor(0, 0, 0, 100), "GTA: Orange");
+	ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, 22.f, ImVec2(x1 - 1, y1 + 1), ImColor(0, 0, 0, 100), "GTA: Orange");
+	ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, 22.f, ImVec2(x1, y1), ImColor(0xFF, 0x8F, 0x00, 150), "GTA: Orange");*/
+
 	if (CGlobals::Get().currentGameState == GameStatePlaying && CGlobals::Get().isDebug)
 	{
 		std::stringstream ss;

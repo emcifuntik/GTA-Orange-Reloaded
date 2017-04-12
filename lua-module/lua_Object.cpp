@@ -9,3 +9,9 @@ int lua_CreateObject(lua_State *L)
 	
 	return 1;
 }
+
+int lua_DeleteObject(lua_State *L)
+{
+	API::Get().DeleteObject(lua_tointeger(L, 1));
+	return 0;
+}

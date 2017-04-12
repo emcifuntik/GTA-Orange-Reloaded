@@ -19,16 +19,10 @@
     <ClInclude Include="CConfig.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
-    <ClInclude Include="API.h">
-      <Filter>Source Files\Plugins</Filter>
-    </ClInclude>
     <ClInclude Include="Plugin.h">
       <Filter>Source Files\Plugins</Filter>
     </ClInclude>
     <ClInclude Include="CNetworkBlip.h">
-      <Filter>Header Files\Network</Filter>
-    </ClInclude>
-    <ClInclude Include="CHTTPServer.h">
       <Filter>Header Files\Network</Filter>
     </ClInclude>
     <ClInclude Include="CNetworkMarker.h">
@@ -50,6 +44,9 @@
       <Filter>Header Files\Network</Filter>
     </ClInclude>
     <ClInclude Include="CClientScripting.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="API_ext.h">
       <Filter>Source Files\Plugins</Filter>
     </ClInclude>
   </ItemGroup>
@@ -75,25 +72,10 @@
     <ClCompile Include="CConfig.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
-    <ClCompile Include="API.cpp">
-      <Filter>Source Files\Plugins</Filter>
-    </ClCompile>
     <ClCompile Include="Plugin.cpp">
       <Filter>Source Files\Plugins</Filter>
     </ClCompile>
     <ClCompile Include="CNetworkBlip.cpp">
-      <Filter>Source Files\Net</Filter>
-    </ClCompile>
-    <ClCompile Include="CHTTPServer.cpp">
-      <Filter>Source Files\Net</Filter>
-    </ClCompile>
-    <ClCompile Include="CNetwokMarker.cpp">
-      <Filter>Source Files\Net</Filter>
-    </ClCompile>
-    <ClCompile Include="..\deps\ServerDeps\Civet\CivetServer.cpp">
-      <Filter>Source Files\Net</Filter>
-    </ClCompile>
-    <ClCompile Include="..\deps\ServerDeps\Civet\civetweb.c">
       <Filter>Source Files\Net</Filter>
     </ClCompile>
     <ClCompile Include="CNetwork3DText.cpp">
@@ -103,6 +85,12 @@
       <Filter>Source Files\Net</Filter>
     </ClCompile>
     <ClCompile Include="CClientScripting.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="CNetworkMarker.cpp">
+      <Filter>Source Files\Net</Filter>
+    </ClCompile>
+    <ClCompile Include="API_ext.cpp">
       <Filter>Source Files\Plugins</Filter>
     </ClCompile>
   </ItemGroup>

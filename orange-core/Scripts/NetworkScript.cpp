@@ -1,41 +1,39 @@
 #include "stdafx.h"
 
 ULONGLONG lastSendTick = 0;
+ULONGLONG lastSendTime = 0;
 
 void NetworkAction()
 {
 	keyboardHandlerRegister(CNetworkUI::ScriptKeyboardMessage);
-	CScriptEngine::Get()->Init();
 	for (;;)
 	{
 		CLocalPlayer::Get()->Tick();
 		if (CNetworkConnection::Get()->IsConnected()) {
-			if (CNetworkConnection::Get()->IsConnectionEstablished())
+			if (CNetworkConnection::Get()->IsConnectionEstablished() &&
+				(timeGetTime() > (lastSendTime + 50) || CLocalPlayer::Get()->IsShooting()))
 			{
 				CLocalPlayer::Get()->SendOnFootData();
+				lastSendTime = timeGetTime();
+
 				/*if (CLocalPlayer::Get()->updateTasks)
 				{
-				CLocalPlayer::Get()->updateTasks ^= 1;
-				CLocalPlayer::Get()->SendTasks();
+					CLocalPlayer::Get()->updateTasks ^= 1;
+					CLocalPlayer::Get()->SendTasks();
 				}*/
 			}
 		}
-		if (GetTickCount64() >= (lastSendTick + 10))
-		{
-			if (CNetworkConnection::Get()->IsConnected()) {
-				CNetworkConnection::Get()->Tick();
-			}
-			lastSendTick = GetTickCount64();
+
+		if (CNetworkConnection::Get()->IsConnected()) {
+			CNetworkConnection::Get()->Tick();
 		}
+
 		CNetworkPlayer::Tick();
 		CNetworkVehicle::Tick();
 		CNetworkObject::Tick();
-
-		CNetworkPlayer::PreRender();
-		CNetwork3DText::PreRender();
+		CNetworkBlip::Tick();
 
 		CNetworkUI::Get()->Render();
-		CScriptEngine::Get()->Tick();
 
 		scriptWait(0);
 	}

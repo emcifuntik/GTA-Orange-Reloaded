@@ -3,6 +3,13 @@
 // =================================================================================
 #include "stdafx.h"
 
+bool ToRender = false;
+
+void D3DHook::SetRender(bool state)
+{
+	ToRender = state;
+}
+
 void CreateRenderTarget()
 {
 	DXGI_SWAP_CHAIN_DESC sd;
@@ -22,8 +29,7 @@ void CreateRenderTarget()
 
 void D3DHook::Render()
 {
-	if (UI::IS_PAUSE_MENU_ACTIVE() || UI::_0xE18B138FABC53103())
-		return;
+	if (!ToRender) return;
 	ImGui_ImplDX11_NewFrame();
 	CGuiDispatcher::Get()();
 	ImGui::Render();

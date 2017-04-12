@@ -3,6 +3,7 @@
 std::vector<CNetworkPlayer *> CNetworkPlayer::PlayersPool;
 Hash CNetworkPlayer::hFutureModel = 0;
 int CNetworkPlayer::ignoreTasks = 0;
+bool CNetworkPlayer::enableHead = true;
 
 CNetworkPlayer::CNetworkPlayer() :CPedestrian(0)
 {
@@ -23,6 +24,16 @@ CNetworkPlayer* CNetworkPlayer::GetByGUID(RakNet::RakNetGUID GUID, bool create)
 		CNetworkPlayer *_newPlayer = new CNetworkPlayer();
 		_newPlayer->m_GUID = GUID;
 		return _newPlayer;
+	}
+	return nullptr;
+}
+
+CNetworkPlayer* CNetworkPlayer::GetByGUID32(uint32_t GUID)
+{
+	for each (CNetworkPlayer *_player in PlayersPool)
+	{
+		if (RakNetGUID::ToUint32(_player->m_GUID) == GUID)
+			return _player;
 	}
 	return nullptr;
 }
@@ -50,10 +61,8 @@ CNetworkPlayer* CNetworkPlayer::GetByHandler(Entity handler)
 void CNetworkPlayer::Clear()
 {
 	for each(CNetworkPlayer* player in PlayersPool)
-	{
-		PED::DELETE_PED(&(player->Handle));
 		delete player;
-	}
+
 	PlayersPool.erase(PlayersPool.begin(), PlayersPool.end());
 }
 
@@ -70,22 +79,57 @@ void CNetworkPlayer::Tick()
 
 void CNetworkPlayer::PreRender()
 {
-	for each (CNetworkPlayer * player in PlayersPool)
+	if (enableHead)
 	{
-		if (player->IsSpawned())
+		for each (CNetworkPlayer * player in PlayersPool)
 		{
-			player->MakeTag();
+			if (player->IsSpawned())
+			{
+				player->MakeTag();
+			}
+		}
+	}
+	if (CScriptEngine::Get()->customHead)
+	{
+		Vector3 _camPos = CAM::GET_GAMEPLAY_CAM_COORD();
+		CVector3 camPos(_camPos.x, _camPos.y, _camPos.z);
+
+		for each (CNetworkPlayer * player in PlayersPool)
+		{
+			if (player->IsSpawned())
+			{
+				bool clear = ENTITY::HAS_ENTITY_CLEAR_LOS_TO_ENTITY(CLocalPlayer::Get()->GetHandle(), player->Handle, 273);
+				unsigned long guid = RakNetGUID::ToUint32(player->GetGUID());
+							
+				auto ped = player->pedHandler;
+				if (ped)
+				{
+					CVector3 *vecCurPos = &ped->Position;
+					if (vecCurPos)
+					{
+						float distance = (((*vecCurPos) - camPos).Length() / CAM::_GET_GAMEPLAY_CAM_ZOOM());
+
+						CVector3 screenPos;
+						CGraphics::Get()->WorldToScreen(CVector3(vecCurPos->fX, vecCurPos->fY, vecCurPos->fZ + 1.f), screenPos);
+
+						CScriptEngine::Get()->customHead(guid, clear, distance, screenPos);
+					}
+				}
+			}
 		}
 	}
 }
 
 void CNetworkPlayer::Render()
 {
-	for each (CNetworkPlayer * player in PlayersPool)
+	if (enableHead)
 	{
-		if (player->IsSpawned())
+		for each (CNetworkPlayer * player in PlayersPool)
 		{
-			player->DrawTag();
+			if (player->IsSpawned())
+			{
+				player->DrawTag();
+			}
 		}
 	}
 }
@@ -132,6 +176,7 @@ void CNetworkPlayer::Spawn(const CVector3& vecPosition)
 		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(m_Model);
 		AI::TASK_SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Handle, true);
 		PED::SET_PED_CAN_RAGDOLL_FROM_PLAYER_IMPACT(Handle, false);
+		PED::SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Handle, 1);
 		PED::SET_PED_FLEE_ATTRIBUTES(Handle, 0, 0);
 		PED::SET_PED_COMBAT_ATTRIBUTES(Handle, 17, 1);
 		PED::SET_PED_CAN_RAGDOLL(Handle, false);
@@ -202,7 +247,9 @@ void CNetworkPlayer::SetTargetRotation(const CVector3& vecRotation, unsigned lon
 void CNetworkPlayer::SetOnFootData(OnFootSyncData data, unsigned long ulDelay)
 {
 	SetHealth(data.usHealth);
+	SetArmour(data.usArmour);
 	m_Health = data.usHealth;
+	m_Armour = data.usArmour;
 
 	if (m_Health <= 100.f)
 		return;
@@ -225,6 +272,7 @@ void CNetworkPlayer::SetOnFootData(OnFootSyncData data, unsigned long ulDelay)
 		ENTITY::SET_ENTITY_VELOCITY(Handle, 0.f, 0.f, 0.f);
 		ENTITY::SET_ENTITY_VELOCITY(PED::GET_VEHICLE_PED_IS_IN(Handle, true), 0.f, 0.f, 0.f);
 		AI::TASK_LEAVE_VEHICLE(Handle, PED::GET_VEHICLE_PED_IS_IN(Handle, false), (CLocalPlayer::Get()->GetPosition() - GetPosition()).Length() > 50 ? 16 : 1);
+		
 		//AI::CLEAR_PED_TASKS(Handle);
 		//AI::TASK_LEAVE_VEHICLE(Handle, PED::GET_VEHICLE_PED_IS_IN(Handle, false), 16);
 		//log_debug << "Trying to throw out" << std::endl;
@@ -278,7 +326,6 @@ void CNetworkPlayer::SetOnFootData(OnFootSyncData data, unsigned long ulDelay)
 		SetTargetPosition(data.vecPos, ulDelay);
 		if (!m_Aiming && !m_Shooting)
 			SetTargetRotation(data.vecRot, ulDelay);
-		SetArmour(data.usArmour);
 		if (GetCurrentWeapon() != data.ulWeapon)
 			SetCurrentWeapon(data.ulWeapon, true);
 		//SetAmmo(data.ulWeapon, 9999);
@@ -419,6 +466,7 @@ void CNetworkPlayer::Interpolate()
 	else if (PED::IS_PED_DEAD_OR_DYING(Handle, true))
 	{
 		ResetInterpolation();
+		//PED::SET_PED_TO_RAGDOLL_WITH_FALL(Handle, 1500, 2000, 1, ENTITY::GET_ENTITY_FORWARD_VECTOR(Handle), 1.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f);
 		return;
 	}
 		
@@ -476,6 +524,7 @@ void CNetworkPlayer::BuildTasksQueue()
 	}
 	if (m_Lefting)
 	{
+		log << "Lefting: " << PED::GET_VEHICLE_PED_IS_USING(Handle) << std::endl;
 		if (PED::GET_VEHICLE_PED_IS_USING(Handle) == 0) m_Lefting = false;
 		return;
 	}
@@ -499,7 +548,7 @@ void CNetworkPlayer::BuildTasksQueue()
 				m_Seat = m_FutureSeat;
 				timeLeaveVehicle = 0;
 				timeEnterVehicle = timeGetTime();
-				AI::TASK_ENTER_VEHICLE(Handle, veh->GetHandle(), 2000, m_Seat, 2.f, 0, 0);
+				AI::TASK_ENTER_VEHICLE(Handle, veh->GetHandle(), 2000, m_Seat, 3.f, 1, 0);
 				//PED::SET_PED_INTO_VEHICLE(Handle, veh->GetHandle(), m_Seat);
 			}
 		}
@@ -589,23 +638,32 @@ void CNetworkPlayer::MakeTag()
 		CVector3 *vecCurPos = &pedHandler->Position;
 		tag.distance = (((*vecCurPos) - camPos).Length() / CAM::_GET_GAMEPLAY_CAM_ZOOM());
 
-		if (tag.distance > 70.f)
+		if (tag.distance > 50.f)
 			return;
 
-		tag.health = ((((m_Health - 100.f) < pedHandler->MaxHealth ? (m_Health - 100.f) : pedHandler->MaxHealth)) / (pedHandler->MaxHealth - 100.f));
+		//tag.health = ((((m_Health - 100.f) < pedHandler->MaxHealth ? (m_Health - 100.f) : pedHandler->MaxHealth)) / (pedHandler->MaxHealth - 100.f));
+		//tag.armour = ((((m_Armour - 100.f) < 150 ? (m_Armour - 100.f) : pedHandler->MaxHealth)) / (pedHandler->MaxHealth - 100.f));
+
+		tag.health = m_Health < 100.f ? 0.f : (m_Health - 100.f) / (pedHandler->MaxHealth - 100.f);
+		tag.armour = m_Armour / 100.f;
 		
 		if (tag.health > 1.f)
 			tag.health = 1.f;
 		else if (tag.health < 0.f)
 			tag.health = 0.f;
 
-		tag.width = 0.08f * 800;
-		tag.height = 0.012f * 600;
+		if (tag.armour > 1.f)
+			tag.armour = 1.f;
+		else if (tag.armour < 0.f)
+			tag.armour = 0.f;
 
-		tag.k = 1.3f - tag.distance / 100;
+		tag.width = 0.04f * 800;
+		tag.height = 0.006f * 600;
+
+		tag.k = 1.56f - tag.distance / 42;
 
 		CVector3 screenPos;
-		CGraphics::Get()->WorldToScreen(CVector3(vecCurPos->fX, vecCurPos->fY, vecCurPos->fZ + 1.1f * tag.k + (tag.distance * 0.04f)), screenPos);
+		CGraphics::Get()->WorldToScreen(CVector3(vecCurPos->fX, vecCurPos->fY, vecCurPos->fZ + 1.f), screenPos);
 		auto viewPortGame = GTA::CViewportGame::Get();
 		tag.x = screenPos.fX * viewPortGame->Width;
 		tag.y = screenPos.fY * viewPortGame->Height;
@@ -621,37 +679,34 @@ void CNetworkPlayer::DrawTag()
 		float font_size = 20.0f * tag.k;
 		ImVec2 textSize = CGlobals::Get().tagFont->CalcTextSizeA(font_size, 1000.f, 1000.f, _name);
 
-		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, font_size, ImVec2(tag.x - textSize.x / 2 - 1, tag.y - 1), ImColor(0, 0, 0, 255), _name);
-		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, font_size, ImVec2(tag.x - textSize.x / 2 + 1, tag.y + 1), ImColor(0, 0, 0, 255), _name);
-		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, font_size, ImVec2(tag.x - textSize.x / 2 + 1, tag.y - 1), ImColor(0, 0, 0, 255), _name);
-		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, font_size, ImVec2(tag.x - textSize.x / 2 - 1, tag.y + 1), ImColor(0, 0, 0, 255), _name);
-		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, font_size, ImVec2(tag.x - textSize.x / 2, tag.y), ImColor(0xFF, 0xFF, 0xFF, 0xFF), _name);
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, font_size, ImVec2(tag.x - textSize.x / 2 - 1, tag.y - 24 * tag.k - 1), ImColor(30, 30, 30, 170), _name);
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, font_size, ImVec2(tag.x - textSize.x / 2 + 1, tag.y - 24 * tag.k + 1), ImColor(30, 30, 30, 170), _name);
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, font_size, ImVec2(tag.x - textSize.x / 2 + 1, tag.y - 24 * tag.k - 1), ImColor(30, 30, 30, 170), _name);
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, font_size, ImVec2(tag.x - textSize.x / 2 - 1, tag.y - 24 * tag.k + 1), ImColor(30, 30, 30, 170), _name);
+		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, font_size, ImVec2(tag.x - textSize.x / 2, tag.y - 24 * tag.k), ImColor(0xC7, 0xC7, 0xC7, 242), _name);
+		
+		DWORD hOut = ImColor(0x77, 0x77, 0x77, 0x99);
+		DWORD hIn = ImColor(0xC7, 0xC7, 0xC7, 0x88);
 
-		color_t bgColor, fgColor;
-
-		if (tag.health > 0.2f)
-		{
-			bgColor = { 50, 100, 50, 150 };
-			fgColor = { 100, 200, 100, 150 };
-		}
-		else
-		{
-			bgColor = { 150, 30, 30, 150 };
-			fgColor = { 230, 70, 70, 150 };
-		}
-
-		DWORD colorOut = ImColor(bgColor.red, bgColor.green, bgColor.blue, bgColor.alpha);
-		DWORD colorIn = ImColor(fgColor.red, fgColor.green, fgColor.blue, fgColor.alpha);
+		DWORD aOut = ImColor(0x77, 0x77, 0x77, 0x99);
+		DWORD aIn = ImColor(0, 130, 191, 0x88);
 
 		float width = tag.width * tag.k;
 		float height = tag.height * tag.k;
 
 		float x = tag.x - (width / 2);
-		float y = tag.y + 24 * tag.k;
+		float y = tag.y;
+		
+		ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(x - 1, y - 1), ImVec2(x + width + 1, tag.armour > 0 ? (tag.y + height * 5 / 3 + 2) : (tag.y + height + 1)), ImColor(30, 30, 30, 170), 0.f, 15);
 
-		ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(x - 2, y - 2), ImVec2(x + width + 2, y + height + 2), ImColor(0, 0, 0, 255), 0.f, 15);
-		ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(x, y), ImVec2(x + width, y + height), colorOut, 0.f);
-		ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(x, y), ImVec2(x + (width * tag.health), y + height), colorIn, 0.f);
+		ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(x, y), ImVec2(x + width, y + height), hOut, 0.f);
+		ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(x, y), ImVec2(x + (width * tag.health), y + height), hIn, 0.f);
+
+		if (tag.armour > 0)
+		{
+			ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(x, y + height + 1), ImVec2(x + width, y + height * 5 / 3 + 1), aOut, 0.f);
+			ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(x, y + height + 1), ImVec2(x + (width * tag.armour), y + height * 5 / 3 + 1), aIn, 0.f);
+		}
 	}
 }
 
@@ -701,4 +756,9 @@ void CNetworkPlayer::ResetInterpolation()
 {
 	RemoveTargetPosition();
 	RemoveTargetRotation();
+}
+
+CNetworkPlayer::~CNetworkPlayer()
+{
+	PED::DELETE_PED(&Handle);
 }

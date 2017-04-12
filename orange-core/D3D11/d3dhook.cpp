@@ -4,6 +4,10 @@
 #include "fontawesome.h"
 #include "tagfont.h"
 #include "icofont.h"
+#include "signpainterfont.h"
+#include "londonfont.h"
+#include "newyorkfont.h"
+
 //this disables broken typedef
 #define __dxgitype_h__
 
@@ -301,8 +305,6 @@ bool D3DHook::HookD3D11()
 	auto gui_result = ImGui_ImplDX11_Init(CGlobals::Get().gtaHwnd, device, device_context);
 	ImGuiIO& io = ImGui::GetIO();
 	io.Fonts->AddFontDefault();
-	/*char windowsPath[MAX_PATH];
-	GetWindowsDirectoryA(windowsPath, MAX_PATH);*/
 
 	ImFontConfig config;
 	config.MergeMode = false;
@@ -314,14 +316,22 @@ bool D3DHook::HookD3D11()
 	CGlobals::Get().chatFont = io.Fonts->AddFontFromMemoryCompressedTTF(fontawesome_compressed_data, fontawesome_compressed_size, 16.0f, &config, ranges);
 	
 	ImFontConfig tagConfig;
-	config.OversampleH = 3;
-	config.OversampleV = 1;
+	//tagConfig.OversampleH = 3;
+	//tagConfig.OversampleV = 1;
+
 	CGlobals::Get().tagFont = io.Fonts->AddFontFromMemoryCompressedTTF(tagfont_compressed_data, tagfont_compressed_size, 48.0f, &tagConfig, io.Fonts->GetGlyphRangesCyrillic());
+	CGlobals::Get().signpainterFont = io.Fonts->AddFontFromMemoryCompressedTTF(signpainterfont_compressed_data, signpainterfont_compressed_size, 72.0f, &tagConfig, io.Fonts->GetGlyphRangesCyrillic());
+	CGlobals::Get().londonFont = io.Fonts->AddFontFromMemoryCompressedTTF(londonfont_compressed_data, londonfont_compressed_size, 21.0f, &tagConfig, io.Fonts->GetGlyphRangesCyrillic());
+	CGlobals::Get().newyorkFont = io.Fonts->AddFontFromMemoryCompressedTTF(newyorkfont_compressed_data, newyorkfont_compressed_size, 21.0f, &tagConfig, io.Fonts->GetGlyphRangesCyrillic());
 
 	for (int i = 0; i < 256; ++i)
+	{
 		CGlobals::Get().chatFont->AddRemapChar(charTable[i].old_, charTable[i].new_);
-	for (int i = 0; i < 256; ++i)
 		CGlobals::Get().tagFont->AddRemapChar(charTable[i].old_, charTable[i].new_);
+		CGlobals::Get().signpainterFont->AddRemapChar(charTable[i].old_, charTable[i].new_);
+		CGlobals::Get().londonFont->AddRemapChar(charTable[i].old_, charTable[i].new_);
+		CGlobals::Get().newyorkFont->AddRemapChar(charTable[i].old_, charTable[i].new_);
+	}
 
 	CreateRenderTarget();
 	DWORD64* pD3D11_SwapChainVTable = (DWORD64*)swapchain;
@@ -330,3 +340,4 @@ bool D3DHook::HookD3D11()
 	Memory::HookFunction((DWORD64)pD3D11_SwapChainVTable[8], &D3D11_Present_Hook, (void**)&pD3D11_Present);
 	return true;
 }
+ 

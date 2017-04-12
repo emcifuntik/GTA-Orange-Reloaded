@@ -15,7 +15,7 @@ class my_ostream
 public:
 
 	my_ostream() {
-		my_fstream = std::ofstream("server.log", std::ios_base::app);
+		my_fstream.open("server.log");
 		my_fstream << std::endl;
 	};
 
@@ -54,13 +54,14 @@ public:
 	{
 		static my_ostream log_stream;
 		time_t rawtime;
-		tm timeinfo;
+		tm *timeinfo;
 		char buffer[80];
 		time(&rawtime);
-		errno_t error = localtime_s(&timeinfo, &rawtime);
+		/*errno_t error = localtime_s(&timeinfo, &rawtime);
 		if (error)
-			return log_stream;
-		strftime(buffer, 80, "[%Ex %EX]", &timeinfo);
+			return log_stream;*/
+        timeinfo = localtime(&rawtime);
+		strftime(buffer, 80, "[%Ex %EX]", timeinfo);
 		log_stream << color::lwhite << buffer << " " << color::white;
 		return log_stream;
 	}
@@ -71,31 +72,33 @@ private:
 static std::string DateTimeA()
 {
 	time_t rawtime;
-	tm timeinfo;
+	tm *timeinfo;
 	char buffer[80];
 	time(&rawtime);
-	errno_t error = localtime_s(&timeinfo, &rawtime);
+	/*errno_t error = localtime_s(timeinfo, &rawtime);
 	if (error)
-		return std::string("");
-	strftime(buffer, 80, "[%Ex %EX]", &timeinfo);
+		return std::string("");*/
+    timeinfo = localtime(&rawtime);
+	strftime(buffer, 80, "[%Ex %EX]", timeinfo);
 	return buffer;
 }
 
-static std::wstring DateTimeW()
+/*static std::wstring DateTimeW()
 {
 	time_t rawtime;
-	tm timeinfo;
+	tm *timeinfo;
 	char buffer[80];
 	time(&rawtime);
-	errno_t error = localtime_s(&timeinfo, &rawtime);
+	/*errno_t error = localtime_s(timeinfo, &rawtime);
 	if (error)
 		return std::wstring(L"");
-	strftime(buffer, 80, "[%Ex %EX]", &timeinfo);
+    timeinfo = localtime(&rawtime);
+	strftime(buffer, 80, "[%Ex %EX]", timeinfo);
 	std::string buff(buffer);
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 	std::wstring wide = converter.from_bytes(buff);
 	return wide;
-}
+}*/
 
 #define log my_ostream::_log()
 #define log_info my_ostream::_log().info()

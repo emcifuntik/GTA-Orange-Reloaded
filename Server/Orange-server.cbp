@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Orange-server" />
+		<Option title="orange-server" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="../x64/Debug/server/Orange-server" prefix_auto="1" extension_auto="1" />
+				<Option output="../x64/Debug/server/orange-server" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -18,7 +18,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="../x64/Release/server/Orange-server" prefix_auto="1" extension_auto="1" />
+				<Option output="../x64/Release/server/orange-server" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -60,13 +60,13 @@
 		<Unit filename="CHTTPServer.cpp" />
 		<Unit filename="CHTTPServer.h" />
 		<Unit filename="CLog.h" />
-		<Unit filename="CNetwokMarker.cpp" />
 		<Unit filename="CNetwork3DText.cpp" />
 		<Unit filename="CNetwork3DText.h" />
 		<Unit filename="CNetworkBlip.cpp" />
 		<Unit filename="CNetworkBlip.h" />
 		<Unit filename="CNetworkConnection.cpp" />
 		<Unit filename="CNetworkConnection.h" />
+		<Unit filename="CNetworkMarker.cpp" />
 		<Unit filename="CNetworkMarker.h" />
 		<Unit filename="CNetworkObject.cpp" />
 		<Unit filename="CNetworkObject.h" />

@@ -90,10 +90,11 @@ LRESULT APIENTRY WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return CallWindowProc(CGlobals::Get().gtaWndProc, hwnd, uMsg, wParam, lParam);
 }
 
-void __fastcall eventHook(GTA::CTask* task)
+void __fastcall eventHook(GTA::CTask* _task)
 {
-	/*log_debug << task->GetTree() << std::endl;
+	/*log_debug << _task->GetTree() << std::endl;
 	CLocalPlayer::Get()->updateTasks = true;*/
+	
 }
 
 bool consoleShowed = false;

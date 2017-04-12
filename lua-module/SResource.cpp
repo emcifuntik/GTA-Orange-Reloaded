@@ -4,11 +4,9 @@ std::stringbuf _code_;
 size_t _size = 0;
 
 static int writer(lua_State *L, const void *p, size_t size, void *u) {
-
-	unsigned int i = 0;
-
 	unsigned char *d = (unsigned char *)p;
 
+	//API::Get().Print((char*)d);
 	_code_.sputn((char*)d, size);
 	_size += size;
 
@@ -17,7 +15,9 @@ static int writer(lua_State *L, const void *p, size_t size, void *u) {
 
 
 void compile(lua_State *L, const char *file) {
-	
+#ifndef _WIN32
+	//_code_.sputn("\x1b\x4c", 2);
+#endif
 	if (luaL_loadfile(L, file) != 0) {
 		printf("%s\n", lua_tostring(L, -1));
 	}
@@ -42,7 +42,6 @@ static const struct luaL_Reg mfunclib[] = {
 	{ "SetBlipSprite", lua_SetBlipSprite },
 	{ "SetBlipName", lua_SetBlipName },
 	{ "SetBlipShortRange", lua_SetBlipShortRange },
-	{ "DisablePlayerHud", lua_DisablePlayerHud },
 
 	{ "AttachBlipToPlayer", lua_AttachBlipToPlayer },
 	{ "AttachBlipToVehicle", lua_AttachBlipToVehicle },
@@ -55,10 +54,12 @@ static const struct luaL_Reg mfunclib[] = {
 	{ "DeleteVehicle", lua_DeleteVehicle },
 
 	{ "CreateObject", lua_CreateObject },
-
+	{ "DeleteObject", lua_DeleteObject },
+	
 	{ "GetPlayerCoords", lua_GetPlayerCoords },
 	{ "SetPlayerCoords", lua_SetPlayerCoords },
 	{ "GetPlayerName", lua_GetPlayerName },
+	{ "SetPlayerName",lua_SetPlayerName },
 	{ "GetPlayerModel", lua_GetPlayerModel },
 	{ "SetPlayerModel", lua_SetPlayerModel },
 	{ "GetPlayerHeading", lua_GetPlayerHeading },
@@ -73,14 +74,18 @@ static const struct luaL_Reg mfunclib[] = {
 	{ "SetPlayerArmour", lua_SetPlayerArmour },
 	{ "SetPlayerHeading", lua_SetPlayerHeading },
 	{ "SetPlayerMoney", lua_SetPlayerMoney },
-	
+	{ "DisablePlayerHud", lua_DisablePlayerHud },
+	{ "GetPlayerGUID", lua_GetPlayerGUID },
+
 	{ "AddClientScript", lua_LoadClientScript },
+	{ "ClientEvent", lua_trigger },
 	{ "OnTick", lua_tick },
 	{ "OnHTTPReq", lua_HTTPReq },
 	{ "OnEvent", lua_Event },
 	{ "OnCommand", lua_Command },
 	{ "OnText", lua_Text },
 	{ "SQLEnv", luaopen_luasql_mysql },
+	{ "Hash", lua_Hash },
 
 	{ "Create3DText", lua_Create3DText },
 	{ "Set3DTextText", lua_Set3DTextText },
@@ -125,15 +130,6 @@ bool SResource::Init()
 		return false;
 	}
 
-	/*if (luaL_loadbuffer(m_lua, luaJIT_BC_main, luaJIT_BC_main_SIZE, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
-		std::stringstream ss;
-		ss << "[LUA] " << lua_tostring(m_lua, -1);
-		API::Get().Print(ss.str().c_str());
-		return false;
-	}*/
-
-	//std::cout << /*lua_dump(m_lua)*/  << std::endl;
-
 	return true;
 }
 
@@ -143,12 +139,6 @@ void SResource::AddClientScript(std::string file)
 
 	char* _code = new char[_size];
 	_code_.sgetn(_code, _size);
-
-	/*if (luaL_loadbuffer(m_lua, _code, _size, NULL) || lua_pcall(m_lua, 0, 0, 0)) {
-		std::stringstream ss;
-		ss << "[LUA] " << lua_tostring(m_lua, -1);
-		API::Get().Print(ss.str().c_str());
-	}*/
 
 	API::Get().LoadClientScript(file.c_str(), _code, _size);
 
@@ -165,7 +155,7 @@ bool SResource::Start(const char* name)
 
 	std::stringstream ss;
 	ss << "[LUA] Starting resource " << name;
-	API::Get().Print(ss.str().c_str());	
+	API::Get().Print(ss.str().c_str());
 
 	if (luaL_loadfile(m_lua, respath) || lua_pcall(m_lua, 0, 0, 0)) {
 		std::stringstream ss;

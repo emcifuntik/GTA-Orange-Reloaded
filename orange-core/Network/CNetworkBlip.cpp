@@ -56,13 +56,9 @@ void CNetworkBlip::SetName(std::string name)
 
 void CNetworkBlip::AttachToPlayer(RakNet::RakNetGUID GUID)
 {
-	UI::REMOVE_BLIP(&Handle);
-	auto pl = CNetworkPlayer::GetByGUID(GUID, false);
-	if (pl)
-	{
-		Handle = pl->AddBlip();
-		SetSprite(sprite);
-	}
+	attachType = 1;
+	toattach = 1;
+	attachedTo = GUID;
 }
 
 void CNetworkBlip::AttachToVehicle(RakNet::RakNetGUID GUID)
@@ -86,6 +82,14 @@ CNetworkBlip::~CNetworkBlip()
 	UI::REMOVE_BLIP(&Handle);
 }
 
+void CNetworkBlip::Clear()
+{
+	for each(CNetworkBlip* b in BlipPool)
+		delete b;
+
+	BlipPool.erase(BlipPool.begin(), BlipPool.end());
+}
+
 std::vector<CNetworkBlip*> CNetworkBlip::All()
 {
 	return BlipPool;
@@ -99,4 +103,26 @@ CNetworkBlip * CNetworkBlip::GetByGUID(RakNet::RakNetGUID GUID)
 			return _Blip;
 	}
 	return nullptr;
+}
+
+void CNetworkBlip::Tick()
+{
+	for each (CNetworkBlip *blip in BlipPool)
+	{
+		if (blip->toattach)
+		{
+			auto pl = CNetworkPlayer::GetByGUID(blip->attachedTo, false);
+			if (pl)
+			{
+				UI::REMOVE_BLIP(&blip->Handle);
+				blip->Handle = pl->AddBlip();
+				blip->Update();
+				blip->toattach = 0;
+			}
+			else
+			{
+				//log << "No player" << std::endl;
+			}
+		}
+	}
 }

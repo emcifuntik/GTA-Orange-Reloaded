@@ -23,7 +23,6 @@ const char * hwids[] = {
 	"6c865311de3409781693682ed860b327", //Xenusoida brother
 	"39de3a656067a9491e19f1474899f409", //themallard
 	"343806704c614ca3ea7cdc998612f6d8", //Funtik
-	"e506ab868dbde12cd1ec2539609eb13d", //frontface
 	"75bb89ad01bb780b30b05f460e71f41d", //FunnyMan
 	"867c8f56e502449b177d97c6285598cf", //Genius
 	"20fc780ef02401f7e30431fa2e8464eb", //Xinerki
@@ -47,19 +46,52 @@ const char * hwidsWO[] = {
 	"a4e6fe07e82d86e00be7e1350556950f", //KiritoLife
 	"2d56b12455537c45d997ea8043cacae0", //value.H12
 	"4657822e7dca0316148ec2b3e10b5321", //SWF*
+	"67854c47df2fd66c96b124ab4410feb4", //RZX
 	"f6d2f4ba63931f24b9c04622a5c952f5", //McNasty
 	"5ab5d5e44bc5ff9132c397cf3c4690dd", //Tracer
 	"964ef44881cda92d7a78a74e008d5bd8", //Dima_Runner
-	"370553d993e366678b3601d352dacdd4"
-	"ddbeb8b80ef352cb76bf3b5dc4fc2e19",  //0x452
-	"852ea45965c13b4924387b566067325b" //Hexaflexagon
-};
-
-const char * hwidsWO[] = {
-	"39c61f8d20e9723440b9768fac5b9200", //HarrWe
+	"ddbeb8b80ef352cb76bf3b5dc4fc2e19", //0x452
+	"780d05a3fe2998da790f583a92dd2057", //HarrWe
 	"f6d2f4ba63931f24b9c04622a5c952f5", //Hexaflexagon
 	"a4e6fe07e82d86e00be7e1350556950f", //KiritoLife
-	"f6d2f4ba63931f24b9c04622a5c952f5" //McNasty
+	"370553d993e366678b3601d352dacdd4", //Xenusoid brother
+	"836e4e6671721f6f307f1768e508253e", //S4MPLE
+	"6b42fa1249dbe75a163833eb96d2939b", //DENO
+	"e38da14a8180f22a56db9661d345e125", //frontface
+
+	// Server-beta
+
+	"480aae7e7d09a36acb9ced72a7a78e77", //ModernB
+	"e92c9d537addd60ee0bf01adc70116ca", //Crimson
+	"30062ff0dc4106c55941e136cd433655", //Nero
+	"329771ca21768ac80ae1271727f316d9", //Laurynu
+	"87c6e3467af57dcc828dd8d01b6dee79", //uPriZz
+	"d0e61da8848fbefbab7f5e7118b98fd0", //Max053
+	"a5c475b32369fde6e7d9a9e364cde402", //RacheT
+	"f772bdddea07204fe82b55718d884c37", //kalle
+	//"9f1ae8c2ee9f1866fd228373f6fab0b4", //Darkness.
+	"d34fcb8e269e3f24707fdd5307e7a2f1", //Darkness.
+	"c7aa35f139be7c6d700c41919492add5", //Aldona
+	"389bbfdbf187719b4c83ad2d2dd15c20", //Nacho
+	"274f9933c9ccaf3938b4e211b309e6fd", //kentas
+	"2d89ee2f3e308dc7b889450a180af534", //Suppeer
+	"70d3c8de0a7875dd48149266f9e57518", //LastSurvivorYT
+	"cb0cbf2a6293de9c5ee0e4bd03cb9b19", //LastSurvivorYT (PC)
+	"c7144590032300c9bd5afbaee9b37857", //Derk
+	"ed896cabc875aca414c66bbbdaf50f8b", //Vektor
+	"f76ae3a70603bc0082baf9177559242f", //Jonniboy
+	"557614ad028176a27c4dd5038b8b1eac", //SirRamzi
+	"85da2868ec755558e28459d2f38d6968", //Scott
+	"d7eed02e9023f12afab3d1ce5abdfae8", //xiadosw
+	"a000afd0f8e3b5d222d06d9fe3935b06", //VFRZ
+	"ff0413fb80e1ab9f392071e2bad7f29d", //Appi
+	"0561034664916301aff422693153b675", //Goomba
+	"e62fc667d7bb75e4972d0eb28df496b1", //Scheffi
+	"1be5c5ce6eb1bf812a73dadfd8cd8444", //TheBloodyScreen
+	"b9290a8467b586b9cbf91f8f588a5cfe", //Mars
+	"aaf9a453dc5b5d125001b84c6dc9de9e", //TREY
+	"cca72dcb2dd9dabebcbe7454f3ebf3d7", //Derk friend
+	"5408d1b001d806ea472d87d0b6202fa8"  //Gazreyn
 };
 
 std::string GetModuleDir()
@@ -99,16 +131,15 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 			}
 			if (!found)
 			{
-				CGlobals::Get().debugInfo << std::endl << myHwid << std::endl << myHwidWO;
-				MessageBoxA(NULL, CGlobals::Get().debugInfo.str().c_str(), "Debug info", MB_OK);
+				std::ofstream dfile(GetModuleDir() + "\\debug.log");
+				dfile << myHwidWO;
+				dfile.close();
+				//MessageBoxA(NULL, CGlobals::Get().debugInfo.str().c_str(), "Debug info", MB_OK);
+				TerminateProcess(NULL, 0);
 				return false;
 			}
-
-			CGlobals::Get().debugInfo << std::endl << myHwid << std::endl << myHwidWO;
-			MessageBoxA(NULL, CGlobals::Get().debugInfo.str().c_str(), "Debug info", MB_OK);
 			//return false;
 		}
-
 
 		CGlobals::Get().dllModule = hModule;
 		CGlobals::Get().orangePath = GetModuleDir();
@@ -130,6 +161,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		//_putenv_s("PATH", path.str().c_str());
 		my_ostream::SetLogFile(CGlobals::Get().orangePath + "/client.log");
 		PreLoadPatches();
+
 		break;
 	}
 	case DLL_THREAD_ATTACH:

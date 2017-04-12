@@ -80,6 +80,8 @@ public:
 
 	static void Tick();
 
+	static void Delete(RakNet::RakNetGUID GUID);
+
 	~CNetworkObject();
 };
 

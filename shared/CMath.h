@@ -43,8 +43,8 @@ static float ConvertRadiansToDegrees(float fRotation)
 
 static CVector3 ConvertRadiansToDegrees(const CVector3 &vecRotation)
 {
-	return CVector3(ConvertRadiansToDegrees(vecRotation.fX), 
-					ConvertRadiansToDegrees(vecRotation.fY), 
+	return CVector3(ConvertRadiansToDegrees(vecRotation.fX),
+					ConvertRadiansToDegrees(vecRotation.fY),
 					ConvertRadiansToDegrees(vecRotation.fZ));
 }
 
@@ -56,8 +56,8 @@ static float ConvertDegreesToRadians(float fRotation)
 
 static CVector3 ConvertDegreesToRadians(const CVector3 &vecRotation)
 {
-	return CVector3(ConvertDegreesToRadians(vecRotation.fX), 
-					ConvertDegreesToRadians(vecRotation.fY), 
+	return CVector3(ConvertDegreesToRadians(vecRotation.fX),
+					ConvertDegreesToRadians(vecRotation.fY),
 					ConvertDegreesToRadians(vecRotation.fZ));
 }
 
@@ -119,7 +119,7 @@ static const float UnlerpClamped(const double fStart, const double fPos, const d
 }
 
 // Find the distance between two 2D points
-static float GetDistanceBetweenPoints2D(float x, float y, float xx, float yy) 
+static float GetDistanceBetweenPoints2D(float x, float y, float xx, float yy)
 {
 	float newx = (xx - x);
 	float newy = (yy - y);
@@ -137,7 +137,7 @@ static float GetDistanceBetweenPoints3D(float x, float y, float z, float xx, flo
 
 // Check if a 2D point is within the specified circle
 static bool IsPointInCircle(float circleX, float circleY, float circleDistance, float pointX, float pointY)
-{	
+{
 	float distancebetween = GetDistanceBetweenPoints2D(circleX, circleY, pointX, pointY);
 
 	if(distancebetween < circleDistance)

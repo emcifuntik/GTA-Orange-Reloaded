@@ -13,6 +13,7 @@ void CRPCPlugin::BindFunctions()
 	rpc.RegisterSlot("PreloadModels", FPlayer::PreloadModels, 0);
 
 	rpc.RegisterSlot("LoadScript", CScriptEngine::LoadScript, 0);
+	rpc.RegisterSlot("ClientEvent", CScriptEngine::Trigger, 0);
 
 	#pragma region Player functions
 	rpc.RegisterSlot("SendNotification", FPlayer::SendNotification, 0);
@@ -68,6 +69,7 @@ void CRPCPlugin::BindFunctions()
 
 	#pragma region Object functions
 	rpc.RegisterSlot("CreateObject", FPlayer::CreateObject, 0);
+	rpc.RegisterSlot("DeleteObject", FPlayer::DeleteObject, 0);
 	#pragma endregion
 }
 

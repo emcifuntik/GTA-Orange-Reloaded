@@ -39,6 +39,9 @@ public:
 	ID3D11RenderTargetView* d3dRenderTargetView = nullptr;
 	ImFont *chatFont = nullptr;
 	ImFont *tagFont = nullptr;
+	ImFont *signpainterFont = nullptr;
+	ImFont *londonFont = nullptr;
+	ImFont *newyorkFont = nullptr;
 	bool renderer = false;
 	bool *hudDisabled = nullptr;
 	bool displayServerBrowser = false;
@@ -46,9 +49,11 @@ public:
 	bool showChat = false;
 	bool blockquickswitch = true;
 	int currentGameState = -1;
-	char serverIP[32] = "194.87.239.79";
+	char serverIP[32] = "109.167.153.69";
+	//char serverIP[32] = "194.87.239.79";
 	//char serverIP[32] = "123.56.158.105"; // China Server
 	char nickName[32] = "";
+	std::string name;
 	int serverPort = 7788;
 	bool isDebug = false;
 

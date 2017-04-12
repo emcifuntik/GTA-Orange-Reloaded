@@ -10,14 +10,18 @@ struct CMenuElement {
 	std::string name;
 	CVector2 pos;
 	UCHAR type;
+	std::string buffer;
+	bool state = false;
 	std::function<void()> cb;
 };
 
 struct CMenu {
 	std::string name;
+	std::string subname;
 	DWORD button;
 	bool shown;
 	unsigned char active;
+	bool jactive = true;
 	CVector2 pos;
 	std::vector<CMenuElement*> children;
 };
@@ -25,8 +29,8 @@ struct CMenu {
 class CNetworkUI
 {
 	static CNetworkUI* Instance;
-	static std::vector<CMenu*> menus;
 public:
+
 	CNetworkUI();
 	bool Render();
 	void DXRender();
@@ -38,4 +42,7 @@ public:
 	~CNetworkUI();
 	static void ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, BOOL isExtended, BOOL isWithAlt, BOOL wasDownBefore, BOOL isUpNow);
 	static CNetworkUI* Get();
+	static void Clear();
+
+	static std::vector<CMenu*> menus;
 };

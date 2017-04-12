@@ -84,7 +84,7 @@ int lua_SendPlayerMessage(lua_State *L)
 
 int lua_PlayerExists(lua_State *L)
 {
-	lua_pushboolean(L, players[lua_tointeger(L, 1)].exists);
+	lua_pushboolean(L, true);
 
 	return 1;
 }
@@ -123,8 +123,20 @@ int lua_RemovePlayerWeapons(lua_State *L)
 	return 0;
 }
 
+int lua_GetPlayerGUID(lua_State *L)
+{
+	lua_pushinteger(L, API::Get().GetPlayerGUID(lua_tointeger(L, 1)));
+	return 1;
+}
+
 int lua_DisablePlayerHud(lua_State *L)
 {
 	API::Get().DisablePlayerHud(lua_tointeger(L, 1), lua_toboolean(L, 2));
+	return 0;
+}
+
+int lua_SetPlayerName(lua_State *L)
+{
+	API::Get().SetPlayerName(lua_tointeger(L, 1), lua_tostring(L, 2));
 	return 0;
 }

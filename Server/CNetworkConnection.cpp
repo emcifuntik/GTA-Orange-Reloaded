@@ -21,6 +21,7 @@ std::vector<std::string> split(const std::string &s, char delim) {
 CNetworkConnection::CNetworkConnection()
 {
 	server = RakNet::RakPeerInterface::GetInstance();
+	tcpserver = RakNet::PacketizedTCP::GetInstance();
 }
 
 CNetworkConnection * CNetworkConnection::Get()
@@ -65,11 +66,11 @@ bool CNetworkConnection::Start(unsigned short maxPlayers, unsigned short port)
 		socketDescriptors[0].socketFamily = AF_INET; // Test out IPV4
 		socketDescriptors[1].port = port;
 		socketDescriptors[1].socketFamily = AF_INET6; // Test out IPV6
-		bool result = server->Startup(maxPlayers, socketDescriptors, 2) == RakNet::RAKNET_STARTED;
+		//bool result = server->Startup(maxPlayers, socketDescriptors, 2) == RakNet::RAKNET_STARTED;
 		server->SetMaximumIncomingConnections(maxPlayers);
-		if (!result)
-		{
-			result = server->Startup(maxPlayers, socketDescriptors, 1) == RakNet::RAKNET_STARTED;
+		//if (!result)
+		//{
+			bool result = server->Startup(maxPlayers, socketDescriptors, 1) == RakNet::RAKNET_STARTED;
 			if (!result)
 			{
 				log << "Server not started" << std::endl;
@@ -77,8 +78,16 @@ bool CNetworkConnection::Start(unsigned short maxPlayers, unsigned short port)
 			}
 			else
 				log << "Server started" << std::endl;
-		} else log << "Server started in IPV4/IPV6 mode" << std::endl;
+		//} else log << "Server started in IPV4/IPV6 mode" << std::endl;
 		server->SetTimeoutTime(15000, RakNet::UNASSIGNED_SYSTEM_ADDRESS);
+
+		result = tcpserver->Start(port, maxPlayers);
+		if (!result)
+		{
+			log << "Failed to start TCP server" << std::endl;
+			exit(EXIT_FAILURE);
+
+		}
 		return true;
 	}
 	return false;
@@ -103,7 +112,7 @@ void CNetworkConnection::Tick()
 				UINT playerID = player->GetID();
 
 				Plugin::PlayerDisconnect(playerID, 1);
-				Plugin::Trigger("PlayerDisconnect", (unsigned long)playerID, 1);
+				if(player->connected) Plugin::Trigger("PlayerDisconnect", (unsigned long)playerID, 1);
 
 				CNetworkPlayer::Remove(playerID);
 
@@ -125,7 +134,6 @@ void CNetworkConnection::Tick()
 				CNetworkVehicle::SendGlobal(packet);
 				CNetwork3DText::SendGlobal(packet);
 				CNetworkObject::SendGlobal(packet);
-				CClientScripting::SendGlobal(packet);
 
 				break;
 			}
@@ -135,12 +143,14 @@ void CNetworkConnection::Tick()
 				bsIn.Read(playerName);
 				CNetworkPlayer *player = new CNetworkPlayer(packet->guid);
 				player->SetName(playerName.C_String());
-
-				Plugin::PlayerConnect(player->GetID());
-				Plugin::Trigger("PlayerConnect", (unsigned long)player->GetID());
+				player->connected = true;
 
 				bsOut.Write((unsigned char)ID_CONNECT_TO_SERVER);
 				server->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
+
+				Plugin::PlayerConnect(player->GetID());
+				Plugin::Trigger("PlayerConnect", (unsigned long)player->GetID(), packet->systemAddress.ToString(true));
+
 				break;
 			}
 			case ID_CHAT_MESSAGE:
@@ -185,7 +195,6 @@ void CNetworkConnection::Tick()
 				OnFootSyncData data;
 				bsIn.Read(data);
 
-				//if(data.bInVehicle) log << "(" << player->GetID() << ") seat: " << data.vehseat << std::endl;
 				player->SetOnFootData(data);
 
 				if (!Plugin::PlayerUpdate(CNetworkPlayer::GetByGUID(packet->guid)->GetID()))
@@ -322,4 +331,27 @@ void CNetworkConnection::Tick()
 			}
 		}
 	}
+
+	for (packet = tcpserver->Receive(); packet; tcpserver->DeallocatePacket(packet), packet = tcpserver->Receive()) {
+		unsigned char packetid;
+
+		RakNet::BitStream bsIn(packet->data, packet->length, false);
+
+		bsIn.Read(packetid);
+
+		switch (packetid)
+		{
+		case 0:
+			break;
+		case 1:
+			CClientScripting::SendGlobal(packet);
+			break;
+		default:
+			log << (int)packetid << " " << packet->length << std::endl << (char*)packet->data << std::endl;
+			break;
+		}
+	}
+
+	SystemAddress newConnection;
+	newConnection = tcpserver->HasNewIncomingConnection();
 }

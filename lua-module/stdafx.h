@@ -41,11 +41,3 @@ static void luaL_setfuncs(lua_State *L, const luaL_Reg *l, int nup)
 	}
 	lua_pop(L, nup);  /* remove upvalues */
 };
-
-struct Player
-{
-	bool exists = false;
-	CVector3 pos;
-};
-
-extern Player players[256];

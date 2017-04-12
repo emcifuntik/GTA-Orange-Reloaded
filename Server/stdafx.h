@@ -1,5 +1,7 @@
 #pragma once
 
+#define GTA_ORANGE_SERVER
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
@@ -25,6 +27,11 @@
 #include <direct.h>
 #include <TimeAPI.h>
 
+#else
+
+#include <signal.h>
+#include <unistd.h>
+
 #endif
 
 // YAML
@@ -32,14 +39,6 @@
 
 // Config
 #include "CConfig.h"
-
-#ifdef _WIN32
-
-// Logging
-#include <Console/CConsole.h>
-#include <CLog.h>
-
-#endif
 
 // RakNet
 #include <MessageIdentifiers.h>
@@ -53,15 +52,18 @@
 #include <WindowsIncludes.h>
 #include <GetTime.h>
 #include <RPC4Plugin.h>
+#include <PacketizedTCP.h>
 using namespace RakNet;
 
 
 #ifndef _WIN32
 
+typedef unsigned short WORD;
 typedef unsigned long DWORD;
 typedef unsigned char BYTE;
 typedef unsigned int UINT;
 typedef unsigned long ULONG;
+typedef int BOOL;
 #define MAX_PATH 260
 
 #endif
@@ -77,18 +79,15 @@ typedef unsigned long ULONG;
 #include "CVector3.h"
 #include "NetworkTypes.h"
 
-#ifndef _WIN32
-#define log std::cout
-#define log_debug std::cout
-#define log_info std::cout
-#define log_error std::cout
-#endif
+// Logging
+#include <Console/CConsole.h>
+#include <CLog.h>
 
 // RPC
 #include "CRPCPlugin.h"
 
 // API
-#include "API.h"
+#include "API_ext.h"
 #include "Plugin.h"
 #include "CClientScripting.h"
 
@@ -99,9 +98,5 @@ typedef unsigned long ULONG;
 #include "CNetworkMarker.h"
 #include "CNetwork3DText.h"
 #include "CNetworkObject.h"
-
-//Http Server
-#include "CivetServer.h"
-#include "CHTTPServer.h"
 
 unsigned long createGUID();

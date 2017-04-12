@@ -37,6 +37,14 @@ CNetworkMarker::~CNetworkMarker()
 	GRAPHICS::DELETE_CHECKPOINT(Handle);
 }
 
+void CNetworkMarker::Clear()
+{
+	for each(CNetworkMarker* m in MarkerPool)
+		delete m;
+
+	MarkerPool.erase(MarkerPool.begin(), MarkerPool.end());
+}
+
 std::vector<CNetworkMarker*> CNetworkMarker::All()
 {
 	return MarkerPool;

@@ -5,7 +5,38 @@ int lua_print(lua_State *L)
 	std::stringstream ss;
 	int nargs = lua_gettop(L);
 	for (int i = 1; i <= nargs; ++i) {
-		ss << lua_tostring(L, i) << "\t";
+		switch (lua_type(L, i))
+		{
+		case LUA_TNIL:
+			ss << "nil";
+			break;
+		case LUA_TBOOLEAN:
+			ss << (lua_toboolean(L, i) ? "true" : "false");
+			break;
+		case LUA_TTABLE:
+			ss << "[table]";
+			break;
+		case LUA_TTHREAD:
+			ss << "[thread]";
+			break;
+		case LUA_TUSERDATA:
+			ss << "[userdata]";
+			break;
+		case LUA_TLIGHTUSERDATA:
+			ss << "[lightuserdata]";
+			break;
+		case LUA_TFUNCTION:
+			ss << "[function]";
+			break;
+		case LUA_TSTRING:
+		case LUA_TNUMBER:
+			ss << lua_tostring(L, i);
+			break;
+		default:
+			ss << "[cant print dat]";
+			break;
+		}
+		ss << "\t";
 	}
 	API::Get().Print(ss.str().c_str());
 	return 0;
@@ -197,6 +228,43 @@ int lua_Text(lua_State *L)
 	return 0;
 }
 
+int lua_trigger(lua_State *L)
+{
+	int nargs = lua_gettop(L);
+	const char* name = lua_tostring(L, 1);
+	long player = lua_tointeger(L, 2);
+
+	std::vector<MValue> args;
+
+	for (int i = 3; i <= nargs; ++i) {
+		switch (lua_type(L, i))
+		{
+		case LUA_TBOOLEAN:
+		{
+			bool val = lua_toboolean(L, i);
+			args.push_back(val);
+			break;
+		}
+		case LUA_TNUMBER:
+		{
+			args.push_back(lua_tonumber(L, i));
+			break;
+		}
+		case LUA_TSTRING:
+		{
+			args.push_back(lua_tostring(L, i));
+			break;
+		}
+		default:
+			API::Get().Print("You can only pass bools, numbers and strings");
+			break;
+		}
+	}
+	API::Get().ClientEvent(name, args, player);
+
+	return 0;
+}
+
 int lua_Create3DText(lua_State *L)
 {
 	lua_pushinteger(L, API::Get().Create3DText(lua_tostring(L, 1), lua_tonumber(L, 2), lua_tonumber(L, 3), lua_tonumber(L, 4), lua_tointeger(L, 5), lua_tointeger(L, 6), lua_tonumber(L, 7)));
@@ -243,4 +311,10 @@ int lua_Broadcast(lua_State *L)
 {
 	API::Get().BroadcastClientMessage(lua_tostring(L, 1), 0xFFFFFFFF);
 	return 0;
+}
+
+int lua_Hash(lua_State *L)
+{
+	lua_pushinteger(L, API::Get().Hash(lua_tostring(L, 1)));
+	return 1;
 }

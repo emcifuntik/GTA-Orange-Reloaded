@@ -14,13 +14,43 @@ static const luaL_Reg lj_libs[] = {
 
 int lua_print(lua_State *L)
 {
+	std::stringstream ss;
 	int nargs = lua_gettop(L);
-	my_ostream& ss = my_ostream::_log();
 	for (int i = 1; i <= nargs; ++i) {
-		ss << lua_tostring(L, i) << "\t";
+		switch (lua_type(L, i))
+		{
+		case LUA_TNIL:
+			ss << "nil";
+			break;
+		case LUA_TBOOLEAN:
+			ss << (lua_toboolean(L, i) ? "true" : "false");
+			break;
+		case LUA_TTABLE:
+			ss << "[table]";
+			break;
+		case LUA_TTHREAD:
+			ss << "[thread]";
+			break;
+		case LUA_TUSERDATA:
+			ss << "[userdata]";
+			break;
+		case LUA_TLIGHTUSERDATA:
+			ss << "[lightuserdata]";
+			break;
+		case LUA_TFUNCTION:
+			ss << "[function]";
+			break;
+		case LUA_TSTRING:
+		case LUA_TNUMBER:
+			ss << lua_tostring(L, i);
+			break;
+		default:
+			ss << "[cant print dat]";
+			break;
+		}
+		ss << "\t";
 	}
-	ss << std::endl;
-
+	log << ss.str() << std::endl;;
 	return 0;
 }
 
@@ -46,90 +76,6 @@ int lua_tick(lua_State *L)
 		lua_pop(L, 1);
 	});
 
-	return 0;
-}
-
-int lua_menu(lua_State *L)
-{
-
-	lua_pushvalue(L, 5);
-	luaL_checktype(L, -1, LUA_TTABLE);
-
-	lua_rawgeti(L, -1, 1);
-	if (lua_isnil(L, -1)) {
-		lua_pop(L, 1);
-		log << "Menu cant be emprty" << std::endl;
-		return 0;
-	}
-	lua_pop(L, 1);
-
-	auto menu = new CMenu();
-
-	menu->name = _strdup(lua_tostring(L, 1));
-	menu->button = lua_tointeger(L, 2);
-	menu->pos.fX = lua_tonumber(L, 3);
-	menu->pos.fY = lua_tonumber(L, 4);
-
-	menu->shown = false;
-
-	for (int i = 1; ; i++) {
-		lua_rawgeti(L, -1, i);
-		if (lua_isnil(L, -1)) {
-			lua_pop(L, 1);
-			break;
-		}
-		luaL_checktype(L, -1, LUA_TTABLE);
-
-		auto child = new CMenuElement;
-
-		lua_rawgeti(L, -1, 1);
-		int type = lua_tointeger(L, -1);
-		lua_pop(L, 1);
-
-		lua_rawgeti(L, -1, 2);
-		const char* capture = lua_tostring(L, -1);
-		lua_pop(L, 1);
-
-		child->name = _strdup(capture);
-		child->type = type;
-	
-		if (type == 1)
-		{
-			lua_rawgeti(L, -1, 3);
-
-			if (lua_isnil(L, -1)) {
-				lua_pop(L, 1);
-				child->cb = []() {};
-			}
-			else {
-				int ref = luaL_ref(L, LUA_REGISTRYINDEX);
-				child->cb = [=]()
-				{
-					lua_pushvalue(L, 1);
-
-					lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
-
-					if (lua_pcall(L, 0, 0, 0) != 0)
-					{
-						std::string err = luaL_checkstring(L, -1);
-						lua_pop(L, 1);
-						log << err.c_str() << std::endl;
-					}
-
-					lua_pop(L, 1);
-				};
-			}
-		}
-		//lua_pop(L, 1);
-
-		menu->children.push_back(child);
-
-		log << "Table entry(" << type << "): " << capture << std::endl;
-
-		lua_pop(L, 1);
-	}
-
-	CNetworkUI::Get()->AddMenu(menu);
 	return 0;
 }
 
@@ -174,6 +120,72 @@ int lua_trigger(lua_State *L)
 	}
 	CRPCPlugin::Get()->rpc.Signal("ServerEvent", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 	return 0;
+}
+
+int lua_onevent(lua_State *L)
+{
+	lua_pushvalue(L, 1);
+
+	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+
+	CScriptEngine::Get()->SetEvent([=](RakNet::BitStream *bsIn)
+	{
+		lua_pushvalue(L, 1);
+
+		lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
+
+		RakString e;
+		bsIn->Read(e);
+		lua_pushstring(L, e.C_String());
+
+		int count;
+		bsIn->Read(count);
+
+		for (int i = 0; i < count; i++)
+		{
+			int type;
+			bsIn->Read(type);
+			switch (type)
+			{
+			case 0:
+			{
+				bool val;
+				bsIn->Read(val);
+				lua_pushboolean(L, val);
+				break;
+			}
+			case 1:
+			{
+				double val;
+				bsIn->Read(val);
+				lua_pushnumber(L, val);
+				break;
+			}
+			case 2:
+			{
+				RakString val;
+				bsIn->Read(val);
+				lua_pushstring(L, val.C_String());
+				break;
+			}
+			}
+		}
+
+		if (lua_pcall(L, count+1, 0, 0)) {
+			log << luaL_checkstring(L, -1) << std::endl;
+			lua_pop(L, 1);
+		}
+
+		lua_pop(L, 1);
+	});
+
+	return 0;
+}
+
+int lua_KeyState(lua_State *L)
+{
+	lua_pushboolean(L, (GetKeyState(lua_tointeger(L, 1)) & 0x8000) != 0);
+	return 1;
 }
 
 void luaL_setfuncs(lua_State *L, const luaL_Reg *l, int nup)

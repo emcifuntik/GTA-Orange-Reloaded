@@ -75,7 +75,7 @@ void CLocalPlayer::GetOnFootSync(OnFootSyncData& onfoot)
 			onfoot.bAimAtPlayer = true;
 			onfoot.rnAimAt = pl->GetGUID();
 			onfoot.vecAim = CWorld::Get()->CPedPtr->CPlayerInfoPtr->AimPosition - pl->GetPosition();
-			log << "Aim at " << pl->GetName() << std::endl;
+			//log << "Aim at " << pl->GetName() << std::endl;
 		}
 		else onfoot.bAimAtPlayer = false;
 	}
@@ -128,8 +128,7 @@ void CLocalPlayer::GetVehicleSync(VehicleData& vehsync)
 	vehsync.RPM = *CMemory(veh->GetAddress()).get<float>(0x7F4);
 	vehsync.Burnout = VEHICLE::IS_VEHICLE_IN_BURNOUT(veh->GetHandle()) != 0;
 
-	if (VEHICLE::IS_THIS_MODEL_A_CAR(veh->GetModel()) || VEHICLE::IS_THIS_MODEL_A_BIKE(veh->GetModel()) || VEHICLE::IS_THIS_MODEL_A_QUADBIKE(veh->GetModel()))
-		vehsync.steering = (*CMemory(veh->GetAddress()).get<float>(0x8CC)) * (180.0f / PI);
+	vehsync.steering = (*CMemory(veh->GetAddress()).get<float>(0x8CC)) * (180.0f / PI);
 
 	vehsync.usHealth = veh->GetHealth();
 	vehsync.fEngineHealth = VEHICLE::GET_VEHICLE_ENGINE_HEALTH(veh->GetHandle());
@@ -165,23 +164,19 @@ void CLocalPlayer::Tick()
 	}
 	if (!dead && ENTITY::IS_ENTITY_DEAD(Handle) && ENTITY::DOES_ENTITY_EXIST(Handle))
 	{
-		Hash weapon;
-		Entity killer = NETWORK::NETWORK_GET_ENTITY_KILLER_OF_PLAYER(PLAYER::PLAYER_ID(), &weapon); //PED::_GET_PED_KILLER(Handle);
-		if (killer != 0)
+		Hash weapon = PED::GET_PED_CAUSE_OF_DEATH(Handle);
+		Entity killer = PED::_GET_PED_KILLER(Handle);
+
+		if (killer != 0 || weapon != 0)
 		{
 			RakNetGUID rnKiller;
 
 			dead = true;
 			if (killer != Handle) {
 				auto killer_ = CNetworkPlayer::GetByHandler(PED::_GET_PED_KILLER(Handle));
-				if (killer_) {
-					log << "You was killed by " << killer_->GetName() << " with " << weapon << std::endl;
+
+				if (killer_)
 					rnKiller = killer_->GetGUID();
-				}
-				else log << "killer: " << killer << " killed: " << Handle << std::endl;
-			}
-			else {
-				log << "You commited suicide" << std::endl;
 			}
 
 			BitStream bsOut;
@@ -190,19 +185,17 @@ void CLocalPlayer::Tick()
 			bsOut.Write(weapon);
 
 			CRPCPlugin::Get()->rpc.Signal("PlayerDeath", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+
+			CScriptInvoker::Get().Push([=]() {
+				while (ENTITY::GET_ENTITY_HEALTH(Handle) == 0) scriptWait(0);
+				SetPosition({ 0.f, 0.f, 0.f });
+				ENTITY::FREEZE_ENTITY_POSITION(Handle, true);
+				//CVector3 pos = GetPosition();
+
+				Spawned = false;
+				CAM::DO_SCREEN_FADE_OUT(0);
+			});
 		}
-		
-		CScriptInvoker::Get().Push([=]() { // WARNING костыль
-			while (!CAM::IS_SCREEN_FADING_IN()) scriptWait(0);
-			CVector3 pos = GetPosition();
-			SetPosition({ 0.f, 0.f, 0.f });
-			ENTITY::FREEZE_ENTITY_POSITION(Handle, true);
-			Spawned = false;
-			CAM::DO_SCREEN_FADE_OUT(0);
-			BitStream bsOut;
-			bsOut.Write(pos);
-			CRPCPlugin::Get()->rpc.Signal("PlayerSpawn", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
-		});
 	}
 	if (PED::IS_PED_GETTING_INTO_A_VEHICLE(Handle) && PED::GET_SEAT_PED_IS_TRYING_TO_ENTER(Handle) == -1)
 	{
@@ -216,7 +209,7 @@ void CLocalPlayer::Tick()
 	if (PED::IS_PED_GETTING_INTO_A_VEHICLE(Handle) && PED::GET_SEAT_PED_IS_TRYING_TO_ENTER(Handle) == -1)
 	{
 		Vehicle veh = PED::GET_VEHICLE_PED_IS_USING(Handle);
-		log_debug << "Veh: " << veh << ", seatFree: " << VEHICLE::IS_VEHICLE_SEAT_FREE(veh, -1) << std::endl;
+		//log_debug << "Veh: " << veh << ", seatFree: " << VEHICLE::IS_VEHICLE_SEAT_FREE(veh, -1) << std::endl;
 		if (!VEHICLE::IS_VEHICLE_SEAT_FREE(veh, -1) && VEHICLE::GET_PED_IN_VEHICLE_SEAT(veh, -1) != PLAYER::PLAYER_PED_ID())
 		{
 			AI::CLEAR_PED_TASKS(Handle);
@@ -244,6 +237,9 @@ void CLocalPlayer::ChangeModel(Hash model)
 {
 	if (STREAMING::IS_MODEL_IN_CDIMAGE(model) && STREAMING::IS_MODEL_VALID(model))
 	{
+		float camh = CAM::GET_GAMEPLAY_CAM_RELATIVE_HEADING();
+		float camp = CAM::GET_GAMEPLAY_CAM_RELATIVE_PITCH();
+
 		STREAMING::REQUEST_MODEL(model);
 		while (!STREAMING::HAS_MODEL_LOADED(model))
 			scriptWait(0);
@@ -263,6 +259,9 @@ void CLocalPlayer::ChangeModel(Hash model)
 		STATS::STAT_SET_INT(Utils::Hash("FLYING_ABILITY"), 100, 1);
 		STATS::STAT_SET_INT(Utils::Hash("SHOOTING_ABILITY"), 100, 1);
 		STATS::STAT_SET_INT(Utils::Hash("STEALTH_ABILITY"), 100, 1);
+
+		CAM::SET_GAMEPLAY_CAM_RELATIVE_HEADING(camh);
+		CAM::SET_GAMEPLAY_CAM_RELATIVE_PITCH(camp, 1.f);
 	}
 }
 
@@ -332,12 +331,14 @@ void CLocalPlayer::GoPassenger()
 	if (smallestDistance > 10.f) return;
 
 	AI::CLEAR_PED_TASKS(Handle);
-	for (int seat = 0; seat < VEHICLE::GET_VEHICLE_MAX_NUMBER_OF_PASSENGERS(veh); seat++)
+	log << "[Passenger] max:" << VEHICLE::GET_VEHICLE_MAX_NUMBER_OF_PASSENGERS(veh) << std::endl;
+	for (int seat = 6; seat < VEHICLE::GET_VEHICLE_MAX_NUMBER_OF_PASSENGERS(veh); seat++)
 	{
+		log << "[Passenger] seat:" << seat << ", free: " << VEHICLE::IS_VEHICLE_SEAT_FREE(veh, seat) << std::endl;
 		if (VEHICLE::IS_VEHICLE_SEAT_FREE(veh, seat))
 		{
 			//PED::SET_PED_INTO_VEHICLE(Handle, veh, seat);
-			AI::TASK_ENTER_VEHICLE(Handle, veh, 1500, seat, 2.f, 0, 0);
+			AI::TASK_ENTER_VEHICLE(Handle, veh, 1500, seat, 2.f, 1, 0);
 			return;
 		}
 	}

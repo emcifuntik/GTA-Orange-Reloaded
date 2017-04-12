@@ -6,6 +6,7 @@ class CNetworkPlayer
 	static void AddPlayer(CNetworkPlayer*);
 
 	// Non-static
+	SystemAddress tcpaddr;
 	unsigned int uiID;
 	RakNet::RakNetGUID rnGUID;
 	Hash hModel;
@@ -38,6 +39,7 @@ public:
 	bool bInVehicle = false;
 	RakNetGUID vehicle;
 	char cSeat;
+	bool connected = false;
 
 	static void Each(void(*func)(CNetworkPlayer*));
 	static CNetworkPlayer *GetByGUID(RakNet::RakNetGUID GUID);
@@ -47,11 +49,13 @@ public:
 	static std::vector<CNetworkPlayer *> All();
 	static void Remove(int playerid);
 
+	void SetTCPAddr(SystemAddress addr);
+	SystemAddress GetTCPAddr();
 	unsigned int GetID() { return uiID; }
 	RakNet::RakNetGUID GetGUID() { return rnGUID; }
 	void SetOnFootData(const OnFootSyncData& data);
 	void GetOnFootData(OnFootSyncData & data);
-	void SetName(std::string playername) { sName = playername; }
+	void SetName(std::string playername);
 	std::string GetName() { return sName; }
 	void SetMoney(int money);
 	void GiveMoney(size_t money) { uMoney += money; }

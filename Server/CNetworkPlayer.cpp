@@ -58,14 +58,29 @@ CNetworkPlayer::~CNetworkPlayer()
 	_players[uiID] = nullptr;
 }
 
+void CNetworkPlayer::SetTCPAddr(SystemAddress addr)
+{
+	tcpaddr = addr;
+}
+
+SystemAddress CNetworkPlayer::GetTCPAddr()
+{
+	return tcpaddr;
+}
+
 void CNetworkPlayer::SetOnFootData(const OnFootSyncData& data)
 {
 	hModel = data.hModel;
 	bJumping = data.bJumping;
-	fMoveSpeed = data.fMoveSpeed;
-	vecPosition = data.vecPos;
-	vecRotation = data.vecRot;
-	fHeading = data.fHeading;
+
+	if (data.usHealth > 100)
+	{
+		fMoveSpeed = data.fMoveSpeed;
+		vecPosition = data.vecPos;
+		vecRotation = data.vecRot;
+		fHeading = data.fHeading;
+	}
+	
 	ulWeapon = data.ulWeapon;
 	uAmmo = data.uAmmo;
 	usHealth = data.usHealth;
@@ -111,6 +126,11 @@ void CNetworkPlayer::GetOnFootData(OnFootSyncData& data)
 	data.bInVehicle = bInVehicle;
 	data.rnVehicle = vehicle;
 	data.cSeat = cSeat;
+}
+
+void CNetworkPlayer::SetName(std::string name)
+{
+	sName = name;
 }
 
 void CNetworkPlayer::SetMoney(int money)
@@ -224,6 +244,8 @@ void CNetworkPlayer::Tick()
 		if (player->usHealth > 0 && player->bDead) {
 			// Spawn player here
 			player->bDead = false;
+			CVector3 pos = player->GetPosition();
+			Plugin::Trigger("PlayerSpawn", (ULONG)player->GetID(), pos.fX, pos.fY, pos.fZ);
 		}
 	}
 }

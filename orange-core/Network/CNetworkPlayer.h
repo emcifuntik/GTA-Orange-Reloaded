@@ -2,7 +2,7 @@
 
 struct tag_t {
 	bool bVisible;
-	float health, distance;
+	float health, armour, distance;
 	float x, y;
 	float width, height;
 	float k;
@@ -72,7 +72,8 @@ private:
 	DWORD				lastUpdate = 9999;
 	DWORD				timeEnterVehicle = 0;
 	DWORD				timeLeaveVehicle = 0;
-	unsigned short		m_Health = 200;
+	unsigned short		m_Health = 150;
+	unsigned short		m_Armour = 150;
 	tag_t				tag;
 	std::queue<std::function<void()>> taskQueue;
 	CNetworkPlayer();
@@ -81,10 +82,12 @@ public:
 	short m_Seat;
 	short m_FutureSeat;
 	static int ignoreTasks;
+	static bool enableHead;
 	static Hash hFutureModel;
 	static std::vector<CNetworkPlayer*> All();
 	static void DeleteByGUID(RakNet::RakNetGUID guid);
 	static CNetworkPlayer * GetByGUID(RakNet::RakNetGUID GUID, bool create = true);
+	static CNetworkPlayer * GetByGUID32(uint32_t GUID);
 	static bool Exists(RakNet::RakNetGUID GUID);
 	static CNetworkPlayer * GetByHandler(Entity handler);
 	static void Clear();
@@ -133,8 +136,5 @@ public:
 	void MakeTag();
 	void DrawTag();
 
-	~CNetworkPlayer()
-	{
-		PED::DELETE_PED(&Handle);
-	}
+	~CNetworkPlayer();
 };

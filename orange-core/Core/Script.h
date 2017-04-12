@@ -15,10 +15,10 @@ protected:
 public:
 	static void RunAll()
 	{
-		log_debug << "Scripts in queue: " << scriptQueue->size() << std::endl;
+		//log_debug << "Scripts in queue: " << scriptQueue->size() << std::endl;
 		while (!scriptQueue->empty())
 		{
-			log_debug << "Running new script: " << scriptQueue->front().first << std::endl;
+			//log_debug << "Running new script: " << scriptQueue->front().first << std::endl;
 			scriptQueue->front().second->Run();
 			scriptQueue->pop();
 		}
