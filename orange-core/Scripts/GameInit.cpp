@@ -50,7 +50,9 @@ char* ipls[] = {
 	"railing_start",
 	"farm",
 	"farmint",
-	"farm_props"
+	"farm_props",
+	"CS3_05_water_grp1",
+	"CS3_05_water_grp2"
 };
 
 void Action()
@@ -61,6 +63,12 @@ void Action()
 	{
 		if (!teleported)
 		{
+			int map = GRAPHICS::REQUEST_SCALEFORM_MOVIE("minimap");
+			GRAPHICS::_PUSH_SCALEFORM_MOVIE_FUNCTION(map, "MULTIPLAYER_IS_ACTIVE");
+			GRAPHICS::_PUSH_SCALEFORM_MOVIE_FUNCTION_PARAMETER_BOOL(true);
+			GRAPHICS::_PUSH_SCALEFORM_MOVIE_FUNCTION_PARAMETER_BOOL(false);
+			GRAPHICS::_POP_SCALEFORM_MOVIE_FUNCTION_VOID();
+
 			SCRIPT::_REQUEST_STREAMED_SCRIPT(Utils::Hash("standard_global_init"));
 
 			DLC2::_LOAD_MP_DLC_MAPS();

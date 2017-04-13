@@ -1,5 +1,11 @@
 #include "stdafx.h"
 
+int lua_KickPlayer(lua_State *L)
+{
+	API::Get().KickPlayer(lua_tointeger(L, 1));
+	return 0;
+}
+
 int lua_GetPlayerCoords(lua_State *L)
 {
 	CVector3 pos = API::Get().GetPlayerPosition(lua_tointeger(L, 1));

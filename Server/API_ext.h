@@ -8,6 +8,7 @@ class API: public APIBase
 public:
 	void LoadClientScript(std::string name, char * buffer, size_t size);
 	void ClientEvent(const char * name, std::vector<MValue> args, long playerid);
+	void KickPlayer(long playerid);
 	//Player
 	bool SetPlayerPosition(long playerid, float x, float y, float z);
 	CVector3 GetPlayerPosition(long playerid);

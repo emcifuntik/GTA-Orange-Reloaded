@@ -56,6 +56,7 @@ static const struct luaL_Reg mfunclib[] = {
 	{ "CreateObject", lua_CreateObject },
 	{ "DeleteObject", lua_DeleteObject },
 	
+	{ "KickPlayer", lua_KickPlayer },
 	{ "GetPlayerCoords", lua_GetPlayerCoords },
 	{ "SetPlayerCoords", lua_SetPlayerCoords },
 	{ "GetPlayerName", lua_GetPlayerName },

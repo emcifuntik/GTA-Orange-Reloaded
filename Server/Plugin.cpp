@@ -342,7 +342,7 @@ bool Plugin::PlayerText(long playerid, const char * text)
     for (auto func : playerTexts)
         if (!func(playerid, text))
 			res = false;
-    return true;
+    return res;
 }
 
 const char* Plugin::OnHTTPRequest(const char* method, const char* url, const char* query, std::string body)

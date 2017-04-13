@@ -55,6 +55,11 @@ void API::ClientEvent(const char* name, std::vector<MValue> args, long playerid)
 	}
 }
 
+void API::KickPlayer(long playerid)
+{
+	CNetworkConnection::Get()->server->CloseConnection(CNetworkPlayer::GetByID(playerid)->GetGUID(), true, 0);
+}
+
 bool API::SetPlayerPosition(long playerid, float x, float y, float z)
 {
 	auto player = CNetworkPlayer::GetByID(playerid);

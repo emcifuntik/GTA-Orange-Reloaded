@@ -56,6 +56,7 @@ public:
 	virtual void LoadClientScript(std::string name, char* buffer, size_t size) = 0;
 	virtual void ClientEvent(const char * name, std::vector<MValue> args, long playerid) = 0;
 	//Player
+	virtual void KickPlayer(long playerid) = 0;
 	virtual bool SetPlayerPosition(long playerid, float x, float y, float z) = 0;
 	virtual CVector3 GetPlayerPosition(long playerid) = 0;
 	virtual bool IsPlayerInRange(long playerid, float x, float y, float z, float range) = 0;

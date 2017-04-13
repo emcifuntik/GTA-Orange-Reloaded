@@ -12,6 +12,7 @@ int lua_Hash(lua_State *L);
 int lua_LoadClientScript(lua_State *L);
 
 //Player
+int lua_KickPlayer(lua_State *L);
 int lua_GetPlayerCoords(lua_State *L);
 int lua_GetPlayerModel(lua_State *L);
 int lua_GetPlayerName(lua_State *L);

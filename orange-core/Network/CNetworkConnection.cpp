@@ -100,7 +100,8 @@ void CNetworkConnection::Tick()
 			{
 				CLocalPlayer::Get()->SetMoney(0);
 
-				CChat::Get()->AddChatMessage("Connection closed!");
+				CChat::Get()->AddChatMessage("You were kicked!");
+
 				break;
 			}
 			case ID_CONNECTION_LOST:
