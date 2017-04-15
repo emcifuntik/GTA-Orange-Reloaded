@@ -14,6 +14,9 @@
 
 
 // TODO: Hier auf zusätzliche Header, die das Programm erfordert, verweisen.
-#include "API.h"
+#include <string>
+#include <sstream>
 #include <vector>
 #include <Python.h>
+#include "API.h"
+//#include "pyhelper.hpp"
