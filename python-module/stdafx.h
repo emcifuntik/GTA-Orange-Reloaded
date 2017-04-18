@@ -1,22 +1,20 @@
-// stdafx.h: Includedatei für Standardsystem-Includedateien
-// oder häufig verwendete projektspezifische Includedateien,
-// die nur in unregelmäßigen Abständen geändert werden.
-//
-
 #pragma once
 
+#define WIN32_LEAN_AND_MEAN
+
+#ifdef _WINDOWS
 #include "targetver.h"
-
-#define WIN32_LEAN_AND_MEAN             // Selten verwendete Komponenten aus Windows-Headern ausschließen
-// Windows-Headerdateien:
 #include <windows.h>
-
-
-
-// TODO: Hier auf zusätzliche Header, die das Programm erfordert, verweisen.
 #include <string>
+#else
+#include <cstring>
+#include <string.h>
+#endif
+
 #include <sstream>
 #include <vector>
 #include <Python.h>
+
 #include "API.h"
-//#include "pyhelper.hpp"
+
+#include "python_Main.h"

@@ -1,14 +1,11 @@
 #pragma once
 
-//DWORD WINAPI ThreadEvent(LPVOID lpParam);
-
 class pythonFunctions
 {
 public:
 	static void EventTriggered(char * Event, PyObject* args);
 	static void PrintError();
 
-	static void addAPI(API * API);
 	static void init();
 	static bool loadResource(const char* resource);
 
@@ -20,6 +17,7 @@ public:
 	static PyObject* GTAOrange_TriggerServerEvent(PyObject* self, PyObject* args);
 
 	//Player
+	static PyObject* GTAOrange_KickPlayer(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_SetPlayerPosition(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_GetPlayerPosition(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_IsPlayerInRange(PyObject* self, PyObject* args);
@@ -91,7 +89,5 @@ public:
 	static PyObject* GTAOrange_Attach3DTextToPlayer(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_Set3DTextContent(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_Delete3DText(PyObject* self, PyObject* args);
-
-	
 };
 

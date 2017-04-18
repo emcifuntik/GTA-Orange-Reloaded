@@ -1,7 +1,6 @@
 // python-module.cpp : Definiert die exportierten Funktionen für die DLL-Anwendung.
 //
 #include "stdafx.h"
-#include "python-Functions.h"
 
 #ifdef _WINDOWS
 #define EXPORT __declspec(dllexport)
@@ -16,14 +15,13 @@ char *_strdup(const char *str) {
 }
 #endif
 
-API * Test = nullptr;
+API * API::instance = nullptr;
 
 extern "C"
 {
 	EXPORT bool Validate(API * api)
 	{
-		pythonFunctions::addAPI(api);
-		Test = api;
+		API::Set(api);
 		return true;
 	}
 

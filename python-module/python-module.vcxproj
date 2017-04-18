@@ -146,7 +146,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="python-Functions.h" />
+    <ClInclude Include="python_Main.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -165,8 +165,15 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="python-functions.cpp" />
+    <ClCompile Include="python_3DText.cpp" />
+    <ClCompile Include="python_Blip.cpp" />
+    <ClCompile Include="python_Main.cpp" />
     <ClCompile Include="python-module.cpp" />
+    <ClCompile Include="python_Marker.cpp" />
+    <ClCompile Include="python_Object.cpp" />
+    <ClCompile Include="python_Pickup.cpp" />
+    <ClCompile Include="python_Player.cpp" />
+    <ClCompile Include="python_Vehicle.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
