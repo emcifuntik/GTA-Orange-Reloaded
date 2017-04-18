@@ -1285,7 +1285,7 @@
 1484398391 source:/mnt/c/Repos/GTA-Orange-Reloaded/Server/stdafx.cpp
 	"stdafx.h"
 
-1490647785 /mnt/c/Repos/GTA-Orange-Reloaded/Server/stdafx.h
+1492090006 /mnt/c/Repos/GTA-Orange-Reloaded/Server/stdafx.h
 	<stdio.h>
 	<stdlib.h>
 	<string>
@@ -1319,6 +1319,7 @@
 	<WindowsIncludes.h>
 	<GetTime.h>
 	<RPC4Plugin.h>
+	<PacketizedTCP.h>
 	<types.h>
 	"CNetworkConnection.h"
 	"CMath.h"
@@ -1327,7 +1328,7 @@
 	<Console/CConsole.h>
 	<CLog.h>
 	"CRPCPlugin.h"
-	"API.h"
+	"API_ext.h"
 	"Plugin.h"
 	"CClientScripting.h"
 	"CNetworkPlayer.h"
@@ -1336,8 +1337,6 @@
 	"CNetworkMarker.h"
 	"CNetwork3DText.h"
 	"CNetworkObject.h"
-	"CivetServer.h"
-	"CHTTPServer.h"
 
 1484398387 /mnt/c/Repos/GTA-Orange-Reloaded/deps/ServerDeps/yaml-cpp/include/yaml-cpp/yaml.h
 	"yaml-cpp/parser.h"
@@ -1442,7 +1441,7 @@
 	<vector>
 	<map>
 
-1485030410 /mnt/c/Repos/GTA-Orange-Reloaded/Server/CConfig.h
+1492108619 /mnt/c/Repos/GTA-Orange-Reloaded/Server/CConfig.h
 
 1490637566 /mnt/c/Repos/GTA-Orange-Reloaded/shared/Console/CConsole.h
 
@@ -1697,7 +1696,7 @@
 
 1485030437 /mnt/c/Repos/GTA-Orange-Reloaded/shared/types.h
 
-1484398391 /mnt/c/Repos/GTA-Orange-Reloaded/Server/CNetworkConnection.h
+1491661464 /mnt/c/Repos/GTA-Orange-Reloaded/Server/CNetworkConnection.h
 
 1490638813 /mnt/c/Repos/GTA-Orange-Reloaded/shared/CMath.h
 	<windows.h>
@@ -1720,7 +1719,7 @@
 
 1485030410 /mnt/c/Repos/GTA-Orange-Reloaded/Server/CClientScripting.h
 
-1487790329 /mnt/c/Repos/GTA-Orange-Reloaded/Server/CNetworkPlayer.h
+1491669336 /mnt/c/Repos/GTA-Orange-Reloaded/Server/CNetworkPlayer.h
 
 1485023202 /mnt/c/Repos/GTA-Orange-Reloaded/Server/CNetworkVehicle.h
 
@@ -1751,7 +1750,7 @@
 1490637010 source:/mnt/c/Repos/GTA-Orange-Reloaded/Server/API.cpp
 	"stdafx.h"
 
-1490450598 source:/mnt/c/Repos/GTA-Orange-Reloaded/Server/CClientScripting.cpp
+1491667596 source:/mnt/c/Repos/GTA-Orange-Reloaded/Server/CClientScripting.cpp
 	"stdafx.h"
 
 1485030410 source:/mnt/c/Repos/GTA-Orange-Reloaded/Server/CConfig.cpp
@@ -1767,13 +1766,13 @@
 1487790329 source:/mnt/c/Repos/GTA-Orange-Reloaded/Server/CNetworkBlip.cpp
 	"stdafx.h"
 
-1490616807 source:/mnt/c/Repos/GTA-Orange-Reloaded/Server/CNetworkConnection.cpp
+1492099154 source:/mnt/c/Repos/GTA-Orange-Reloaded/Server/CNetworkConnection.cpp
 	"stdafx.h"
 
 1490458866 source:/mnt/c/Repos/GTA-Orange-Reloaded/Server/CNetworkObject.cpp
 	"stdafx.h"
 
-1490100300 source:/mnt/c/Repos/GTA-Orange-Reloaded/Server/CNetworkPlayer.cpp
+1491668431 source:/mnt/c/Repos/GTA-Orange-Reloaded/Server/CNetworkPlayer.cpp
 	"stdafx.h"
 
 1489332667 source:/mnt/c/Repos/GTA-Orange-Reloaded/Server/CNetworkVehicle.cpp
@@ -1789,10 +1788,56 @@
 	"stdafx.h"
 	<sys/time.h>
 
-1490651161 source:/mnt/c/Repos/GTA-Orange-Reloaded/Server/Plugin.cpp
+1492108332 source:/mnt/c/Repos/GTA-Orange-Reloaded/Server/Plugin.cpp
 	"stdafx.h"
 	<sys/types.h>
 	<sys/stat.h>
 	<dirent.h>
 	<dlfcn.h>
+
+1485030438 /mnt/c/Repos/GTA-Orange-Reloaded/deps/RakNet/Source/PacketizedTCP.h
+	"NativeFeatureIncludes.h"
+	"TCPInterface.h"
+	"DS_ByteQueue.h"
+	"DS_Map.h"
+
+1485030438 /mnt/c/Repos/GTA-Orange-Reloaded/deps/RakNet/Source/TCPInterface.h
+	"NativeFeatureIncludes.h"
+	"RakMemoryOverride.h"
+	"DS_List.h"
+	"RakNetTypes.h"
+	"Export.h"
+	"RakThread.h"
+	"DS_Queue.h"
+	"SimpleMutex.h"
+	"RakNetDefines.h"
+	"SocketIncludes.h"
+	"DS_ByteQueue.h"
+	"DS_ThreadsafeAllocatingQueue.h"
+	"LocklessTypes.h"
+	"PluginInterface2.h"
+	<openssl/crypto.h>
+	<openssl/x509.h>
+	<openssl/pem.h>
+	<openssl/ssl.h>
+	<openssl/err.h>
+
+1485030438 /mnt/c/Repos/GTA-Orange-Reloaded/deps/RakNet/Source/DS_ByteQueue.h
+	"RakMemoryOverride.h"
+	"Export.h"
+
+1485030438 /mnt/c/Repos/GTA-Orange-Reloaded/deps/RakNet/Source/DS_Map.h
+	"DS_OrderedList.h"
+	"Export.h"
+	"RakMemoryOverride.h"
+	"RakAssert.h"
+
+1492098738 /mnt/c/Repos/GTA-Orange-Reloaded/Server/API_ext.h
+	<string>
+	"API.h"
+
+1492098789 /mnt/c/Repos/GTA-Orange-Reloaded/shared/API.h
+	<string>
+	"CVector3.h"
+	<memory>
 

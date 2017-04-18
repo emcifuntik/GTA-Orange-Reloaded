@@ -38,7 +38,7 @@ class NativeContext : public scrNativeCallContext {
 private:
 	enum
 	{
-		MaxNativeParams = 16,
+		MaxNativeParams = 24,
 		ArgSize = 8,
 	};
 	uint8_t m_TempStack[MaxNativeParams * ArgSize];

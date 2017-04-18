@@ -66,13 +66,20 @@ int lua_getvalue(lua_State *L)
 			}
 			case Type::N_STRING:
 			{
-				const char* val = luaL_checkstring(L, 1);
-				int size = strlen(val);
-				char* value = new char[size + 1];
-				memcpy(value, val, size);
-				value[size] = '\0';
-				delete (char*)container->ptr;
-				container->ptr = value;
+				if (lua_isnumber(L, 1) || lua_isboolean(L, 1))
+				{
+					container->ptr = (void*)lua_tointeger(L, 1);
+				}
+				else
+				{
+					const char* val = luaL_checkstring(L, 1);
+					int size = strlen(val);
+					char* value = new char[size + 1];
+					memcpy(value, val, size);
+					value[size] = '\0';
+					delete (char*)container->ptr;
+					container->ptr = value;
+				}
 				break;
 			}
 			case Type::N_VECTOR3:
@@ -141,8 +148,8 @@ int lua_invoke(lua_State *L)
 	ScriptManagerContext ctx;
 	
 	//log << "Called 0x" << hash << std::endl;
-	std::stringstream ss;
-	ss << "Params: ";
+	//std::stringstream ss;
+	//ss << "Params: ";
 
 	for (int i = 3; i <= nargs; ++i) {
 		int type = lua_type(L, i);
@@ -156,37 +163,48 @@ int lua_invoke(lua_State *L)
 			switch (type)
 			{
 			case Type::N_BOOL:
+				//ss << *(int*)ptr->ptr;
 				LuaPush(&ctx, *(int*)ptr->ptr);
 				break;
 			case Type::N_INT:
+				//ss << *(int*)ptr->ptr;
 				LuaPush(&ctx, *(int*)ptr->ptr);
 				break;
 			case Type::N_INTPOINTER:
+				//ss << *(int*)ptr->ptr;
 				LuaPush(&ctx, (int*)ptr->ptr);
 				preturns[numpretn++] = ptr;
 				break;
 			case Type::N_FLOAT:
+				//ss << *(float*)ptr->ptr;
 				LuaPush(&ctx, *(float*)ptr->ptr);
 				break;
 			case Type::N_FLOATPOINTER:
+				//ss << *(float*)ptr->ptr;
 				LuaPush(&ctx, (float*)ptr->ptr);
 				preturns[numpretn++] = ptr;
 				break;
 			case Type::N_DWORD:
+				//ss << *(int*)ptr->ptr;
 				LuaPush(&ctx, *(int*)ptr->ptr);
 				break;
 			case Type::N_DWORDPOINTER:
+				//ss << *(DWORD*)ptr->ptr;
 				LuaPush(&ctx, (DWORD*)ptr->ptr);
 				preturns[numpretn++] = ptr;
 				break;
 			case Type::N_STRING:
+				//ss << (char*)ptr->ptr;
 				LuaPush(&ctx, _strdup((char*)ptr->ptr));
 				break;
 			default:
 				break;
 			}
+			//ss << ", ";
 		}
 	}
+
+	//log << ctx.GetArgumentCount()  << ss.str() << std::endl;
 
 	LuaInvoke(hash, &ctx);
 

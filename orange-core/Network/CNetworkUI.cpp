@@ -135,6 +135,12 @@ void CNetworkUI::DXRender()
 				ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, 20.f * k, ImVec2((menu->pos.fX + 160)*k, (menu->pos.fY + 132 + pos * 37 + 6)*k), pos == menu->active ? ImColor(0, 0, 0, 255) : ImColor(255, 255, 255, 255), child->buffer.c_str());
 			}
 
+			if (child->type == 4)
+			{
+				ImGui::GetWindowDrawList()->AddRectFilled(ImVec2((menu->pos.fX + 160)*k, (menu->pos.fY + 132 + pos * 37 + 16)*k), ImVec2((menu->pos.fX + 420)*k, (menu->pos.fY + 132 + pos * 37 + 21)*k), pos == menu->active ? ImColor(0, 0, 0, 255) : ImColor(255, 255, 255, 255));
+				ImGui::GetWindowDrawList()->AddCircleFilled(ImVec2((menu->pos.fX + 160 + 260*child->state)*k, (menu->pos.fY + 132 + pos * 37 + 19)*k), 4, pos == menu->active ? ImColor(0, 0, 0, 255) : ImColor(255, 255, 255, 255));
+			}
+
 			pos++;
 		}
 		menu->jactive = false;
@@ -172,11 +178,15 @@ int CNetworkUI::AddMenu(CMenu *menu)
 bool CNetworkUI::Call(CMenu * menu)
 {
 	auto el = menu->children[menu->active];
-	if (el->type == 2) el->state ^= 1;
-	if (el->cb && el->type != 3) {
+	
+	if (el->type == 2)
+		el->state = el->state > 0 ? 0 : 1;
+
+	if (el->cb && (el->type == 1 || el->type == 2)) {
 		CScriptInvoker::Get().Push(el->cb);
 		return true;
 	}
+
 	return false;
 }
 
@@ -216,6 +226,35 @@ void CNetworkUI::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, B
 					menu->jactive = true;
 
 					if (menu->children[menu->active]->type == 3) *(CGlobals::Get().canLangChange) = true;
+				}
+
+		if (key == VK_LEFT)
+			for each(auto menu in menus)
+				if (menu->shown) {
+					auto c = menu->children[menu->active];
+					if (c->type == 4 && c->state > 0)
+					{
+						auto c = menu->children[menu->active];
+						c->state -= c->step;
+						
+						if (c->state < 0) c->state = 0;
+
+						CScriptInvoker::Get().Push(c->cb);
+					}
+				}
+
+		if (key == VK_RIGHT)
+			for each(auto menu in menus)
+				if (menu->shown) {
+					auto c = menu->children[menu->active];
+					if (c->type == 4 && c->state < 1)
+					{
+						c->state += c->step;
+
+						if (c->state > 1) c->state = 1;
+
+						CScriptInvoker::Get().Push(c->cb);
+					}
 				}
 
 		if (key == VK_RETURN)

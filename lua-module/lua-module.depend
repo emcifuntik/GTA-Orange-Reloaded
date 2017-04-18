@@ -421,7 +421,7 @@
 1484398387 /mnt/c/Repos/GTA-Orange-Reloaded/deps/ServerDeps/LuaJIT-2.1.0-beta2/src/luajit.h
 	"lua.h"
 
-1490648549 /mnt/c/Repos/GTA-Orange-Reloaded/lua-module/lua_Main.h
+1492099219 /mnt/c/Repos/GTA-Orange-Reloaded/lua-module/lua_Main.h
 
 1487790329 /mnt/c/Repos/GTA-Orange-Reloaded/lua-module/SResource.h
 
@@ -460,4 +460,9 @@
 
 1484398388 source:/mnt/c/Repos/GTA-Orange-Reloaded/lua-module/stdafx.cpp
 	"stdafx.h"
+
+1492098789 /mnt/c/Repos/GTA-Orange-Reloaded/shared/API.h
+	<string>
+	"CVector3.h"
+	<memory>
 

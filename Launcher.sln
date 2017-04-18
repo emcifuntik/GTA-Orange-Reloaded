@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Launcher", "Launcher\Launcher.vcxproj", "{5C2C1A17-49F8-4349-975D-99D5D54907A7}"
 EndProject
@@ -30,6 +30,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RakNet", "deps\RakNet\Source\RakNet.vcxproj", "{D578244B-91CE-414F-8279-6E39212FF632}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "font-converter", "font-converter\font-converter.vcxproj", "{AE292023-17DF-4BDB-9777-70E6BA4A6992}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "master-server", "master-server\master-server.vcxproj", "{3EA91FE4-A25E-4735-8DEB-3C9FF99534B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +109,14 @@ Global
 		{AE292023-17DF-4BDB-9777-70E6BA4A6992}.Release|x64.Build.0 = Release|x64
 		{AE292023-17DF-4BDB-9777-70E6BA4A6992}.Release|x86.ActiveCfg = Release|Win32
 		{AE292023-17DF-4BDB-9777-70E6BA4A6992}.Release|x86.Build.0 = Release|Win32
+		{3EA91FE4-A25E-4735-8DEB-3C9FF99534B8}.Debug|x64.ActiveCfg = Debug|x64
+		{3EA91FE4-A25E-4735-8DEB-3C9FF99534B8}.Debug|x64.Build.0 = Debug|x64
+		{3EA91FE4-A25E-4735-8DEB-3C9FF99534B8}.Debug|x86.ActiveCfg = Debug|Win32
+		{3EA91FE4-A25E-4735-8DEB-3C9FF99534B8}.Debug|x86.Build.0 = Debug|Win32
+		{3EA91FE4-A25E-4735-8DEB-3C9FF99534B8}.Release|x64.ActiveCfg = Release|x64
+		{3EA91FE4-A25E-4735-8DEB-3C9FF99534B8}.Release|x64.Build.0 = Release|x64
+		{3EA91FE4-A25E-4735-8DEB-3C9FF99534B8}.Release|x86.ActiveCfg = Release|Win32
+		{3EA91FE4-A25E-4735-8DEB-3C9FF99534B8}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -121,5 +131,6 @@ Global
 		{4740EEB7-B7EA-47F0-81DF-BF2F770DBA14} = {83580430-2C1D-47CF-8154-46ED82319C70}
 		{D578244B-91CE-414F-8279-6E39212FF632} = {2B1C54CE-B78F-4E1A-853E-DCC6A8ACC8BD}
 		{AE292023-17DF-4BDB-9777-70E6BA4A6992} = {2B1C54CE-B78F-4E1A-853E-DCC6A8ACC8BD}
+		{3EA91FE4-A25E-4735-8DEB-3C9FF99534B8} = {9DEB3DAA-E3FA-47FB-B952-20E7CE899BE9}
 	EndGlobalSection
 EndGlobal

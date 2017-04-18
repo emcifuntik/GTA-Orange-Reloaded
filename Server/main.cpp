@@ -57,7 +57,6 @@ int main(void)
 	log << "Starting the server..." << std::endl;
 	log << "Hostname: " << color::lred << CConfig::Get()->Hostname << std::endl;
 	log << "Port: " << color::lred << CConfig::Get()->Port << std::endl;
-	log << "HTTP Server port: " << color::lred << CConfig::Get()->HTTPPort << std::endl;
 	log << "Maximum players: " << color::lred << CConfig::Get()->MaxPlayers << std::endl;
 
 	Plugin::LoadPlugins();

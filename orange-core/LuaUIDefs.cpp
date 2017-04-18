@@ -68,18 +68,16 @@ int lua_menu(lua_State *L)
 
 		if (type > 0)
 		{
-			lua_rawgeti(L, -1, 3);
-
 			if (lua_isnil(L, -1)) {
 				lua_pop(L, 1);
-				child->cb = []() {};
 			}
 			else {
-				int ref = luaL_ref(L, LUA_REGISTRYINDEX);
-
+				int ref;
 				switch (type)
 				{
 				case 1:
+					lua_rawgeti(L, -1, 3);
+					ref = luaL_ref(L, LUA_REGISTRYINDEX);
 					child->cb = [=]()
 					{
 						lua_pushvalue(L, 1);
@@ -98,13 +96,19 @@ int lua_menu(lua_State *L)
 					break;
 
 				case 2:
+					lua_rawgeti(L, -1, 3);
+					child->state = lua_toboolean(L, -1);
+					lua_pop(L, 1);
+
+					lua_rawgeti(L, -1, 4);
+					ref = luaL_ref(L, LUA_REGISTRYINDEX);
 					child->cb = [=]()
 					{
 						lua_pushvalue(L, 1);
 
 						lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
 
-						lua_pushboolean(L, child->state);
+						lua_pushboolean(L, child->state != 0);
 
 						if (lua_pcall(L, 1, 0, 0) != 0)
 						{
@@ -118,6 +122,8 @@ int lua_menu(lua_State *L)
 					break;
 
 				case 3:
+					lua_rawgeti(L, -1, 3);
+					ref = luaL_ref(L, LUA_REGISTRYINDEX);
 					child->cb = [=]()
 					{
 						lua_pushvalue(L, 1);
@@ -136,12 +142,40 @@ int lua_menu(lua_State *L)
 						lua_pop(L, 1);
 					};
 					break;
-				}
+				case 4:
+					lua_rawgeti(L, -1, 3);
+					child->step= lua_tonumber(L, -1);
+					log << child->step << std::endl;
+					lua_pop(L, 1);
 
+					lua_rawgeti(L, -1, 4);
+					child->state = lua_tonumber(L, -1);
+					log << child->state << std::endl;
+					lua_pop(L, 1);
+
+					lua_rawgeti(L, -1, 5);
+					ref = luaL_ref(L, LUA_REGISTRYINDEX);
+					child->cb = [=]()
+					{
+						lua_pushvalue(L, 1);
+
+						lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
+
+						lua_pushnumber(L, child->state);
+
+						if (lua_pcall(L, 1, 0, 0) != 0)
+						{
+							std::string err = luaL_checkstring(L, -1);
+							lua_pop(L, 1);
+							log << err.c_str() << std::endl;
+						}
+
+						lua_pop(L, 1);
+					};
+					break;
+				}
 			}
 		}
-		//lua_pop(L, 1);
-
 		menu->children.push_back(child);
 
 		lua_pop(L, 1);

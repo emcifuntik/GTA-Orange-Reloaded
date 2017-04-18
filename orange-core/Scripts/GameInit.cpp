@@ -112,6 +112,9 @@ void Action()
 			CNetworkConnection::Get()->bClear = false;
 		}
 
+		//Vector3 pos = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), true);
+		//GRAPHICS::DRAW_MARKER(2, pos.x, pos.y, pos.z, 0.0f, 0.0f, 0.0f, 180.0f, 0.0f, 0.0f, 0.75f, 0.75f, 0.75f, 204, 204, 0, 100, false, true, 2, false, false, false, false);
+
 		scriptWait(0);
 	}
 }

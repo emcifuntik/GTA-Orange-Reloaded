@@ -33,22 +33,27 @@ bool CNetworkConnection::Connect(std::string host, unsigned short port)
 		connection = client->Connect(host.c_str(), port, 0, 0);
 		RakAssert(connection == RakNet::CONNECTION_ATTEMPT_STARTED);
 
-		tcpclient->Start(0, 0);
-		tcpclient->Connect(host.c_str(), port);
+		if (connection == RakNet::CONNECTION_ATTEMPT_STARTED)
+		{
+			tcpclient->Start(0, 0);
+			tcpclient->Connect(host.c_str(), port);
 
-		SystemAddress tcpaddr = tcpclient->HasCompletedConnectionAttempt();
-		//while (tcpaddr == UNASSIGNED_SYSTEM_ADDRESS) RakSleep(0);
+			SystemAddress tcpaddr = tcpclient->HasCompletedConnectionAttempt();
+			//while (tcpaddr == UNASSIGNED_SYSTEM_ADDRESS) RakSleep(0);
 
-		BitStream con;
+			BitStream con;
 
-		con.Write((unsigned char)1);
-		con.Write(client->GetMyGUID());
+			con.Write((unsigned char)1);
+			con.Write(client->GetMyGUID());
 
-		tcpclient->Send(reinterpret_cast<char*>(con.GetData()), con.GetNumberOfBytesUsed(), tcpaddr, false);
+			tcpclient->Send(reinterpret_cast<char*>(con.GetData()), con.GetNumberOfBytesUsed(), tcpaddr, false);
 
-		bConnected = true;
-		CRPCPlugin::Get();
-		return true;
+			bConnected = true;
+			CRPCPlugin::Get();
+			return true;
+		}
+
+		return false;
 	}
 	return false;
 }
@@ -75,13 +80,17 @@ void CNetworkConnection::Tick()
 			{
 				CLocalPlayer::Get()->FreezePosition(false);
 				CLocalPlayer::Get()->SetVisible(true);
-				RakString playerName(CConfig::Get()->sNickName.c_str());
-				bsOut.Write((unsigned char)ID_CONNECT_TO_SERVER);
-				bsOut.Write(playerName);
-				//bsOut.Write();
 				CLocalPlayer::Get()->SetMoney(0);
 
-				client->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
+				cEstablished++;
+				if (cEstablished > 1)
+				{
+					RakString playerName(CConfig::Get()->sNickName.c_str());
+					bsOut.Write((unsigned char)ID_CONNECT_TO_SERVER);
+					bsOut.Write(playerName);
+
+					client->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
+				}
 				break;
 			}
 			case ID_CONNECTION_ATTEMPT_FAILED:
@@ -118,8 +127,7 @@ void CNetworkConnection::Tick()
 			}
 			case ID_CONNECT_TO_SERVER:
 			{
-				cEstablished++;
-				if (cEstablished > 1) bEstablished = true;
+				bEstablished = true;
 				break;
 			}
 			case ID_SEND_PLAYER_DATA:
@@ -248,14 +256,15 @@ void CNetworkConnection::Tick()
 	for (packet = tcpclient->Receive(); packet; tcpclient->DeallocatePacket(packet), packet = tcpclient->Receive()) {
 		unsigned char packetid;
 		RakNet::BitStream bsIn(packet->data, packet->length, false);
-
 		bsIn.Read(packetid);
 
 		switch (packetid)
 		{
 		case 1:
 		{
+			log << "Client-side scripts: " << packet->length << std::endl;
 			size_t count;
+
 			bsIn.Read(count);
 
 			for (int i = 0; i < count; i++)
@@ -274,11 +283,21 @@ void CNetworkConnection::Tick()
 			}
 
 			cEstablished++;
-			if (cEstablished > 1) bEstablished = true;
+			if (cEstablished > 1)
+			{
+				BitStream bsOut;
+				RakString playerName(CConfig::Get()->sNickName.c_str());
+				bsOut.Write((unsigned char)ID_CONNECT_TO_SERVER);
+				bsOut.Write(playerName);
+
+				client->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
+			}
 
 			break;
 		}
 		case 2:
+			break;
+		case 30:
 			break;
 		default:
 			log << (int)packetid << " " << packet->length << std::endl << (char*)packet->data << std::endl;
