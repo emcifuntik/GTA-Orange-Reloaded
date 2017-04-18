@@ -1,7 +1,6 @@
 // python-module.cpp : Definiert die exportierten Funktionen für die DLL-Anwendung.
 //
 #include "stdafx.h"
-#include "python-Functions.h"
 
 #ifdef _WINDOWS
 #define EXPORT __declspec(dllexport)
@@ -33,52 +32,22 @@ extern "C"
 
 	EXPORT bool OnResourceLoad(const char* resource)
 	{
-		PyObject *pName, *pModule;
-
-		char buffer[28+sizeof(resource)];
-		strncpy(buffer, "[Python] Starting resource ", sizeof(buffer));
-		strncat(buffer, resource, sizeof(buffer));
-		API::Get().Print(buffer);
-		
-		std::string str = "resources/";
-		str.append(resource);
-		std::wstring pathWide;
-		pathWide.assign(str.begin(), str.end());
-		
-		PySys_SetPath(pathWide.c_str());
-		//pName = PyUnicode_DecodeFSDefault("main");
-		/* Error checking of pName left out */
-
-		pModule = PyImport_Import(resource);
-		//Py_DECREF(pName);
-
-		if (pModule != NULL) {
-			fprintf(stderr, "[Python] Started \"%s\"\n", resource);
-			return true;
-		}
-		else {
-			PyErr_Print();
-			fprintf(stderr, "[Python] Failed to load \"%s\"\n", resource);
-			return false;
-		}
+		return pythonFunctions::loadResource(resource);
 	}
 
 	EXPORT void OnModuleInit()
 	{
-		PyImport_AppendInittab("GTAOrange", &pythonFunctions::PyInit_GTAOrange);
-		Py_Initialize();
-		API::Get().Print("Python module loaded");
+		pythonFunctions::init();
+		return;
 	}
 
 	EXPORT bool OnTick()
 	{
-		//API::Get().Print("[Python module]: OnTick");
 		return true;
 	}
 
 	EXPORT bool OnPlayerConnect(long playerid)
 	{
-		API::Get().Print("[Python] OnPlayerConnect");
 		return true;
 	}
 
@@ -90,43 +59,80 @@ extern "C"
 
 	EXPORT bool OnServerCommand(std::string command)
 	{
-		API::Get().Print("[Python] OnServerCommand");
 		return true;
 	}
 
 	EXPORT bool OnPlayerDisconnect(long playerid, int reason)
 	{
-		API::Get().Print("[Python] OnPlayerDisconnect");
 		return true;
 	}
 
 	EXPORT bool OnPlayerUpdate(long playerid)
 	{
-		API::Get().Print("[Python] OnPlayerUpdate");
 		return true;
 	}
 
 	EXPORT bool OnPlayerCommand(long playerid, const char * command)
 	{
-		API::Get().Print("[Python] OnPlayerCommand");
-		return true;
+		PyObject *pArgs = PyTuple_New(2);
+		PyTuple_SetItem(pArgs, 0, PyLong_FromLong(playerid));
+		PyTuple_SetItem(pArgs, 1, PyUnicode_FromString(command));
+		pythonFunctions::EventTriggered("PlayerCommand", pArgs);
+		//Py_DECREF(pArgs);
+		return false;
 	}
 
 	EXPORT bool OnPlayerText(long playerid, const char * text)
 	{
-		API::Get().Print("[Python] OnPlayerText");
+		PyObject *pArgs = PyTuple_New(2);
+		PyTuple_SetItem(pArgs, 0, PyLong_FromLong(playerid));
+		PyTuple_SetItem(pArgs, 1, PyUnicode_FromString(text));
+		pythonFunctions::EventTriggered("PlayerText", pArgs);
+		//Py_DECREF(pArgs);
 		return true;
 	}
 
 	EXPORT bool OnKeyStateChanged(long playerid, int keycode, bool isUp)
 	{
-		API::Get().Print("[Python] OnKeyStateChanged");
+		PyObject *pArgs = PyTuple_New(3);
+		PyTuple_SetItem(pArgs, 0, PyLong_FromLong(playerid));
+		PyTuple_SetItem(pArgs, 1, PyLong_FromLong(keycode));
+		PyTuple_SetItem(pArgs, 2, PyBool_FromLong((int)isUp));
+		pythonFunctions::EventTriggered("KeyStateChanged", pArgs);
+		//Py_DECREF(pArgs);
 		return true;
 	}
 
 	EXPORT void OnEvent(const char* e, std::vector<MValue> *args)
 	{
-		API::Get().Print("[Python] OnEvent");
+		int argsnum = args->size();
+		PyObject *pArgs = PyTuple_New(argsnum);
+		for (int i = 0; i < argsnum; i++)
+		{
+			PyObject *pValue;
+			MValue param = args->at(i);
+			switch (param.type)
+			{
+			case M_BOOL:
+				pValue = PyBool_FromLong(param.getInt());
+				break;
+			case M_INT:
+				pValue = PyLong_FromLong(param.getInt());
+				break;
+			case M_DOUBLE:
+				pValue = PyFloat_FromDouble(param.getDouble());
+				break;
+			case M_ULONG:
+				pValue = PyLong_FromLong(param.getULong());
+				break;
+			case M_STRING:
+				pValue = PyUnicode_FromString(param.getString());
+				break;
+			}
+			PyTuple_SetItem(pArgs, i, pValue);
+		}
+		pythonFunctions::EventTriggered((char*)e, pArgs);
+		//Py_DECREF(pArgs);
 		return;
 	}
 }
