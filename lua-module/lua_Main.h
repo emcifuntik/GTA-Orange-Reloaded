@@ -37,6 +37,7 @@ int lua_SetPlayerName(lua_State *L);
 //Vehicle
 int lua_CreateVehicle(lua_State *L);
 int lua_DeleteVehicle(lua_State *L);
+int lua_SetVehicleColours(lua_State *L);
 
 //Object
 int lua_CreateObject(lua_State *L);

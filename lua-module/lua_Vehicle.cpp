@@ -20,3 +20,9 @@ int lua_GetVehicleCoords(lua_State *L)
 {
 	return 0;
 }
+
+int lua_SetVehicleColours(lua_State *L)
+{
+	API::Get().SetVehicleColours(lua_tointeger(L, 1), lua_tointeger(L, 2), lua_tointeger(L, 3));
+	return 0;
+}

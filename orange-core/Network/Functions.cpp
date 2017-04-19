@@ -297,6 +297,16 @@ namespace FPlayer
 		CNetworkVehicle::Delete(veh);
 	}
 
+	void SetVehicleColours(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNetGUID veh;
+		int color1, color2;
+		bitStream->Read(veh);
+		bitStream->Read(color1);
+		bitStream->Read(color2);
+		CNetworkVehicle::SetColours(veh, color1, color2);
+	}
+
 	void CreateMarker(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 	{
 		RakNet::RakNetGUID guid;

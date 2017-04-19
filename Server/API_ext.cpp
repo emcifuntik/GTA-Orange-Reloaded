@@ -319,6 +319,20 @@ unsigned long API::CreateVehicle(long hash, float x, float y, float z, float hea
 	return RakNetGUID::ToUint32(veh->GetGUID()); // (new CNetworkVehicle(hash, x, y, z, heading));
 }
 
+bool API::SetVehicleColours(unsigned long guid, int Color1, int Color2)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	veh->Color1 = Color1;
+	veh->Color2 = Color2;
+	BitStream bsOut;
+	bsOut.Write(_guid);
+	bsOut.Write(Color1);
+	bsOut.Write(Color2);
+	CRPCPlugin::Get()->Signal("SetVehicleColours", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	return true;
+}
+
 bool API::SetVehiclePosition(int vehicleid, float x, float y, float z)
 {
 	log << "Not implemented" << std::endl;

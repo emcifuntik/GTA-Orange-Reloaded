@@ -52,7 +52,8 @@ const char * hwidsWO[] = {
 	"964ef44881cda92d7a78a74e008d5bd8", //Dima_Runner
 	"ddbeb8b80ef352cb76bf3b5dc4fc2e19", //0x452
 	"780d05a3fe2998da790f583a92dd2057", //HarrWe
-	"f6d2f4ba63931f24b9c04622a5c952f5", //Hexaflexagon
+	"f6d2f4ba63931f24b9c04622a5c952f5", //Hexaflexagon (PC)
+	"125cf7e9b4f41c1653f156691ee8c67b", //Hexaflexagon (Laptop)
 	"a4e6fe07e82d86e00be7e1350556950f", //KiritoLife
 	"370553d993e366678b3601d352dacdd4", //Xenusoid brother
 	"836e4e6671721f6f307f1768e508253e", //S4MPLE

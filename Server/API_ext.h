@@ -42,6 +42,7 @@ public:
 	unsigned long CreateVehicle(long hash, float x, float y, float z, float heading);
 	bool SetVehiclePosition(int vehicleid, float x, float y, float z);
 	CVector3 GetVehiclePosition(int vehicleid);
+	bool SetVehicleColours(unsigned long guid, int pColor, int sColor);
 	bool DeleteVehicle(unsigned long guid);
 
 	bool CreatePickup(int type, float x, float y, float z, float scale);

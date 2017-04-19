@@ -64,7 +64,10 @@ class CNetworkVehicle : public CVehicle
 	bool				m_Siren = false;
 
 	bool				m_Inited = false;
-	bool				m_bVisible= false;
+	bool				m_bVisible = false;
+
+	int					m_Color1 = -1;
+	int					m_Color2 = -1;
 
 	static std::vector<CNetworkVehicle *> VehiclePool;
 public:
@@ -96,6 +99,7 @@ public:
 	static void Clear();
 	static CNetworkVehicle * GetByHandle(Vehicle veh);
 	static CNetworkVehicle * GetByGUID(RakNet::RakNetGUID GUID);
+	static void SetColours(RakNet::RakNetGUID GUID, int Color1, int Color2);
 	static void Delete(RakNet::RakNetGUID GUID);
 
 	static void Tick();

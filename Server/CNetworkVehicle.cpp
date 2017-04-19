@@ -97,6 +97,8 @@ void CNetworkVehicle::GetVehicleData(VehicleData & data)
 	data.fBodyHealth = fBodyHealth;
 	data.fTankHealth = fTankHealth;
 	data.bDrivable = bDrivable;
+	data.Color1 = Color1;
+	data.Color2 = Color2;
 }
 
 

@@ -62,6 +62,9 @@ struct VehicleData
 	float fBodyHealth;
 	float fTankHealth;
 
+	short int Color1;
+	short int Color2;
+
 	CVector3 vecPos;
 	CVector3 vecRot;
 	CVector3 vecMoveSpeed;

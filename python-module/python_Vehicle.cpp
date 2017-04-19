@@ -50,6 +50,18 @@ PyObject* pythonFunctions::GTAOrange_GetVehiclePosition(PyObject* self, PyObject
 	return NULL;
 }
 
+PyObject* pythonFunctions::GTAOrange_SetVehicleColours(PyObject* self, PyObject* args)
+{
+	PyObject *vehid, *color1, *color2;
+	if (PyArg_UnpackTuple(args, "lll", 1, 3, &vehid, &color1, &color2))
+	{
+		bool value = API::Get().SetVehicleColours(PyLong_AsLong(vehid), PyLong_AsLong(color1), PyLong_AsLong(color2));
+		if (value)
+			return PyBool_FromLong(1);
+	}
+	return PyBool_FromLong(0);
+}
+
 PyObject* pythonFunctions::GTAOrange_VehicleExists(PyObject* self, PyObject* args)
 {
 	PyObject *vehid;

@@ -15,6 +15,9 @@ public:
 	bool bSirenState;					// vehicle siren state
 	float iDirtLevel;					// vehicle dirt level
 
+	int Color1 = -1;
+	int Color2 = -1;
+
 	float fEngineHealth = 1000, fBodyHealth = 1000, fTankHealth = 1000;
 	bool bDrivable = true;
 

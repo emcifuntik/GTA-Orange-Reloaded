@@ -56,6 +56,7 @@ void CRPCPlugin::BindFunctions()
 
 	#pragma region Vehicle functions
 	rpc.RegisterSlot("CreateVehicle", FPlayer::CreateVehicle, 0);
+	rpc.RegisterSlot("SetVehicleColours", FPlayer::SetVehicleColours, 0);
 	rpc.RegisterSlot("DeleteVehicle", FPlayer::DeleteVehicle, 0);
 	#pragma endregion
 

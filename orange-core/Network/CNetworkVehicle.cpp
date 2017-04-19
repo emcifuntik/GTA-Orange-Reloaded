@@ -44,6 +44,7 @@ void CNetworkVehicle::UpdateModel()
 		while (!STREAMING::HAS_MODEL_LOADED(m_Model))
 			scriptWait(0);
 		Handle = VEHICLE::CREATE_VEHICLE(m_Model, curPos.fX, curPos.fY, curPos.fZ, curHead, true, true);
+		VEHICLE::SET_VEHICLE_COLOURS(Handle, m_Color1, m_Color2);
 		VEHICLE::SET_VEHICLE_EXPLODES_ON_HIGH_EXPLOSION_DAMAGE(Handle, false);
 		if (blip)
 		{
@@ -299,6 +300,9 @@ void CNetworkVehicle::SetVehicleData(VehicleData data, unsigned long ulDelay)
 	m_TankHealth = data.fTankHealth;
 	m_Drivable = data.bDrivable;
 
+	m_Color1 = data.Color1;
+	m_Color2 = data.Color2;
+
 	if (!m_Exploded && m_EngineHealth < 0 && m_TankHealth < 0 && (m_EngineHealth == -4000 || m_TankHealth == -1000))
 	{
 		NETWORK::NETWORK_EXPLODE_VEHICLE(Handle, 1, 0, 0);
@@ -352,6 +356,20 @@ CNetworkVehicle * CNetworkVehicle::GetByGUID(RakNet::RakNetGUID GUID)
 	return nullptr;
 }
 
+void CNetworkVehicle::SetColours(RakNet::RakNetGUID GUID, int Color1, int Color2)
+{
+	for (int i = 0; i < VehiclePool.size(); ++i)
+	{
+		if (VehiclePool[i]->m_GUID == GUID)
+		{
+			VehiclePool[i]->m_Color1 = Color1;
+			VehiclePool[i]->m_Color2 = Color2;
+			VEHICLE::SET_VEHICLE_COLOURS(VehiclePool[i]->Handle, Color1, Color2);
+			break;
+		}
+	}
+}
+
 void CNetworkVehicle::Delete(RakNet::RakNetGUID GUID)
 {
 	for(int i = 0; i < VehiclePool.size(); ++i)
@@ -384,7 +402,7 @@ void CNetworkVehicle::Tick()
 					while (!STREAMING::HAS_MODEL_LOADED(veh->m_Model))
 						scriptWait(0);
 					veh->Handle = VEHICLE::CREATE_VEHICLE(veh->m_Model, veh->m_interp.pos.vecTarget.fX, veh->m_interp.pos.vecTarget.fY, veh->m_interp.pos.vecTarget.fZ, veh->m_interp.rot.vecTarget.fZ, true, true);
-
+					VEHICLE::SET_VEHICLE_COLOURS(veh->Handle, veh->m_Color1, veh->m_Color2);
 					if (veh->blip)
 					{
 						veh->blip->Handle = UI::ADD_BLIP_FOR_ENTITY(veh->Handle);
