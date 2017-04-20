@@ -40,13 +40,14 @@ static struct PyMethodDef methods[] = {
 	{ "GetPlayerGUID", pythonFunctions::GTAOrange_GetPlayerGUID, METH_VARARGS, "" }, //Not tested
 	{ "Print", pythonFunctions::GTAOrange_Print, METH_VARARGS, "" }, // Replaced python function print
 	//{ "Hash", pythonFunctions::GTAOrange_Hash, METH_VARARGS, "" },
-	{ "PlayerExists", pythonFunctions::GTAOrange_PlayerExists, METH_VARARGS, "" }, //Not tested
-	{ "VehicleExists", pythonFunctions::GTAOrange_VehicleExists, METH_VARARGS, "" }, //Not tested
+	{ "PlayerExists", pythonFunctions::GTAOrange_PlayerExists, METH_VARARGS, "" }, //Not Implemented
+	{ "VehicleExists", pythonFunctions::GTAOrange_VehicleExists, METH_VARARGS, "" }, //Not Implemented
 	{ "CreateVehicle", pythonFunctions::GTAOrange_CreateVehicle, METH_VARARGS, "" },
 	{ "DeleteVehicle", pythonFunctions::GTAOrange_DeleteVehicle, METH_VARARGS, "" },
 	{ "SetVehiclePosition", pythonFunctions::GTAOrange_SetVehiclePosition, METH_VARARGS, "" },
 	{ "GetVehiclePosition", pythonFunctions::GTAOrange_GetVehiclePosition, METH_VARARGS, "" },
 	{ "SetVehicleColours", pythonFunctions::GTAOrange_SetVehicleColours, METH_VARARGS, "" },
+	{ "GetVehicleDriver", pythonFunctions::GTAOrange_GetVehicleDriver, METH_VARARGS, "" },
 	{ "CreateObject", pythonFunctions::GTAOrange_CreateObject, METH_VARARGS, "" }, //Not tested
 	{ "DeleteObject", pythonFunctions::GTAOrange_DeleteObject, METH_VARARGS, "" }, //Not tested
 	{ "CreatePickup", pythonFunctions::GTAOrange_CreatePickup, METH_VARARGS, "" }, //Not tested

@@ -94,9 +94,10 @@ public:
 	//virtual bool VehicleExists(long playerid) = 0;
 	virtual unsigned long CreateVehicle(long hash, float x, float y, float z, float heading) = 0;
 	virtual bool DeleteVehicle(unsigned long guid) = 0;
-	virtual bool SetVehiclePosition(int vehicleid, float x, float y, float z) = 0;
-	virtual CVector3 GetVehiclePosition(int vehicleid) = 0;
+	virtual bool SetVehiclePosition(unsigned long guid, float x, float y, float z) = 0;
+	virtual CVector3 GetVehiclePosition(unsigned long guid) = 0;
 	virtual bool SetVehicleColours(unsigned long guid, int pColor, int sColor) = 0;
+	virtual unsigned long GetVehicleDriver(unsigned long guid) = 0;
 
 	virtual unsigned long CreateObject(long model, float x, float y, float z, float pitch, float yaw, float roll) = 0;
 	virtual bool DeleteObject(unsigned long guid) = 0;

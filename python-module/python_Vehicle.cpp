@@ -62,6 +62,16 @@ PyObject* pythonFunctions::GTAOrange_SetVehicleColours(PyObject* self, PyObject*
 	return PyBool_FromLong(0);
 }
 
+PyObject* pythonFunctions::GTAOrange_GetVehicleDriver(PyObject* self, PyObject* args)
+{
+	PyObject *vehid;
+	if (PyArg_UnpackTuple(args, "l", 1, 1, &vehid))
+	{
+		return PyLong_FromLong(API::Get().GetVehicleDriver(PyLong_AsLong(vehid)));
+	}
+	return PyBool_FromLong(0);
+}
+
 PyObject* pythonFunctions::GTAOrange_VehicleExists(PyObject* self, PyObject* args)
 {
 	PyObject *vehid;
