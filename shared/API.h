@@ -96,6 +96,8 @@ public:
 	virtual bool DeleteVehicle(unsigned long guid) = 0;
 	virtual bool SetVehiclePosition(unsigned long guid, float x, float y, float z) = 0;
 	virtual CVector3 GetVehiclePosition(unsigned long guid) = 0;
+	virtual bool SetVehicleRotation(unsigned long guid, float rx, float ry, float rz) = 0;
+	virtual CVector3 GetVehicleRotation(unsigned long guid) = 0;
 	virtual bool SetVehicleColours(unsigned long guid, int pColor, int sColor) = 0;
 	virtual unsigned long GetVehicleDriver(unsigned long guid) = 0;
 

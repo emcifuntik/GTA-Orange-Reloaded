@@ -57,6 +57,8 @@ public:
 	static PyObject* GTAOrange_DeleteVehicle(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_SetVehiclePosition(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_GetVehiclePosition(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_SetVehicleRotation(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_GetVehicleRotation(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_SetVehicleColours(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_GetVehicleDriver(PyObject* self, PyObject* args);
 

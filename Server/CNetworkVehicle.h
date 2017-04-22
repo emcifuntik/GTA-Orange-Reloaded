@@ -39,6 +39,7 @@ public:
 	void SetHealth(unsigned short health);
 
 	CVector3 GetPosition() { return vecPos; };
+	CVector3 GetRotation() { return vecRot; };
 
 	void SetVehicleData(const VehicleData& data);
 	void GetVehicleData(VehicleData& data);

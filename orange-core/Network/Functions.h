@@ -34,6 +34,7 @@ namespace FPlayer
 
 	void CreateVehicle(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void SetVehiclePosition(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+	void SetVehicleRotation(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void SetVehicleColours(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void DeleteVehicle(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 

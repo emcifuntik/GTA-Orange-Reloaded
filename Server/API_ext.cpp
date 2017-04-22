@@ -345,6 +345,32 @@ CVector3 API::GetVehiclePosition(unsigned long guid)
 	return CVector3(0, 0, 0);
 }
 
+bool API::SetVehicleRotation(unsigned long guid, float rx, float ry, float rz)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		CVector3 vecRot = CVector3(rx, ry, rz);
+		veh->SetRotation(vecRot);
+		BitStream bsOut;
+		bsOut.Write(_guid);
+		bsOut.Write(vecRot);
+		CRPCPlugin::Get()->Signal("SetVehicleRotation", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+		return true;
+	}
+	return false;
+}
+
+CVector3 API::GetVehicleRotation(unsigned long guid)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		return veh->GetRotation();
+	}
+	return CVector3(0, 0, 0);
+}
+
 bool API::SetVehicleColours(unsigned long guid, int Color1, int Color2)
 {
 	RakNetGUID _guid(guid);

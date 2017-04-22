@@ -42,6 +42,8 @@ public:
 	unsigned long CreateVehicle(long hash, float x, float y, float z, float heading);
 	bool SetVehiclePosition(unsigned long guid, float x, float y, float z);
 	CVector3 GetVehiclePosition(unsigned long guid);
+	bool SetVehicleRotation(unsigned long guid, float rx, float ry, float rz);
+	CVector3 GetVehicleRotation(unsigned long guid);
 	bool SetVehicleColours(unsigned long guid, int pColor, int sColor);
 	unsigned long GetVehicleDriver(unsigned long guid);
 	bool DeleteVehicle(unsigned long guid);

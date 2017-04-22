@@ -307,6 +307,16 @@ namespace FPlayer
 		veh->SetPosition(pos);
 	}
 
+	void SetVehicleRotation(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNetGUID guid;
+		CVector3 rot;
+		bitStream->Read(guid);
+		bitStream->Read(rot);
+		CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(guid);
+		veh->SetRotation(rot);
+	}
+
 	void SetVehicleColours(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 	{
 		RakNetGUID guid;
