@@ -216,8 +216,7 @@ PyObject* pythonFunctions::GTAOrange_SetPlayerHealth(PyObject* self, PyObject* a
 	PyObject *playerid, *health;
 	if (PyArg_UnpackTuple(args, "lf", 1, 2, &playerid, &health))
 	{
-		float health2 = PyFloat_AsDouble(health);
-		bool value = API::Get().SetPlayerHealth(PyLong_AsLong(playerid), health2 == 0 ? 0 : health2 / 2 + 100);
+		bool value = API::Get().SetPlayerHealth(PyLong_AsLong(playerid), PyFloat_AsDouble(health));
 		if (value)
 			return PyBool_FromLong(1);
 	}
@@ -240,8 +239,7 @@ PyObject* pythonFunctions::GTAOrange_SetPlayerArmour(PyObject* self, PyObject* a
 	PyObject *playerid, *armour;
 	if (PyArg_UnpackTuple(args, "lf", 1, 2, &playerid, &armour))
 	{
-		float armour2 = PyFloat_AsDouble(armour);
-		bool value = API::Get().SetPlayerArmour(PyLong_AsLong(playerid), armour2 == 0 ? 0 : armour2 / 2 + 100);
+		bool value = API::Get().SetPlayerArmour(PyLong_AsLong(playerid), PyFloat_AsDouble(armour));
 		if (value)
 			return PyBool_FromLong(1);
 	}

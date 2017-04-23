@@ -356,20 +356,6 @@ CNetworkVehicle * CNetworkVehicle::GetByGUID(RakNet::RakNetGUID GUID)
 	return nullptr;
 }
 
-void CNetworkVehicle::SetColours(RakNet::RakNetGUID GUID, int Color1, int Color2)
-{
-	for (int i = 0; i < VehiclePool.size(); ++i)
-	{
-		if (VehiclePool[i]->m_GUID == GUID)
-		{
-			VehiclePool[i]->m_Color1 = Color1;
-			VehiclePool[i]->m_Color2 = Color2;
-			VEHICLE::SET_VEHICLE_COLOURS(VehiclePool[i]->Handle, Color1, Color2);
-			break;
-		}
-	}
-}
-
 void CNetworkVehicle::Delete(RakNet::RakNetGUID GUID)
 {
 	for(int i = 0; i < VehiclePool.size(); ++i)

@@ -297,14 +297,35 @@ namespace FPlayer
 		CNetworkVehicle::Delete(veh);
 	}
 
+	void SetVehiclePosition(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNetGUID guid;
+		CVector3 pos;
+		bitStream->Read(guid);
+		bitStream->Read(pos);
+		CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(guid);
+		veh->SetPosition(pos);
+	}
+
+	void SetVehicleRotation(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNetGUID guid;
+		CVector3 rot;
+		bitStream->Read(guid);
+		bitStream->Read(rot);
+		CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(guid);
+		veh->SetRotation(rot);
+	}
+
 	void SetVehicleColours(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 	{
-		RakNetGUID veh;
+		RakNetGUID guid;
 		int color1, color2;
-		bitStream->Read(veh);
+		bitStream->Read(guid);
 		bitStream->Read(color1);
 		bitStream->Read(color2);
-		CNetworkVehicle::SetColours(veh, color1, color2);
+		CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(guid);
+		veh->SetColours(color1, color2);
 	}
 
 	void CreateMarker(RakNet::BitStream *bitStream, RakNet::Packet *packet)
