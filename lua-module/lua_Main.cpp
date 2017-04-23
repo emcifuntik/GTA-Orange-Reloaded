@@ -121,29 +121,39 @@ int lua_Event(lua_State *L)
 
 		int count = 1;
 
+		std::stringstream ss;
+
 		for(int i = 0; i < args->size(); i++)
 		{
 			count++;
 			MValue param = args->at(i);
+			ss << " ";
 			switch (param.type)
 			{
 			case M_BOOL:
+				ss << param.getBool();
 				lua_pushboolean(L, param.getBool());
 				break;
 			case M_INT:
+				ss << param.getInt();
 				lua_pushinteger(L, param.getInt());
 				break;
 			case M_DOUBLE:
+				ss << param.getDouble();
 				lua_pushnumber(L, param.getDouble());
 				break;
 			case M_ULONG:
+				ss << param.getULong();
 				lua_pushinteger(L, param.getULong());
 				break;
 			case M_STRING:
+				ss << param.getString();
 				lua_pushstring(L, param.getString());
 				break;
 			}
 		}
+
+		//API::Get().Print(ss.str().c_str());
 
 		if (lua_pcall(L, count, 0, 0)) {
 			std::string err = luaL_checkstring(L, -1);
@@ -253,6 +263,66 @@ int lua_trigger(lua_State *L)
 		case LUA_TSTRING:
 		{
 			args.push_back(lua_tostring(L, i));
+			break;
+		}
+		case LUA_TTABLE:
+		{
+			MValue arr = MValue::CreateMArray();
+			lua_pushvalue(L, i);
+			lua_pushnil(L);
+
+			while (lua_next(L, -2))
+			{
+				// stack now contains: -1 => value; -2 => key; -3 => table
+				lua_pushvalue(L, -2);
+				// stack now contains: -1 => key; -2 => value; -3 => key; -4 => table
+
+				int keytype = lua_type(L, -1);
+
+				if (keytype != LUA_TNUMBER && keytype != LUA_TSTRING)
+				{
+					API::Get().Print("You can only use numbers and strings as keys");
+					return 0;
+				}
+				
+				switch (lua_type(L, -2))
+				{
+				case LUA_TBOOLEAN:
+				{
+					bool val = lua_toboolean(L, -2);
+					if (keytype == LUA_TNUMBER) arr.push((int)lua_tointeger(L, -1), val);
+					else arr.push(lua_tostring(L, -1), val);
+					break;
+				}
+				case LUA_TNUMBER:
+				{
+					double val = lua_tonumber(L, -2);
+					if (keytype == LUA_TNUMBER) arr.push((int)lua_tointeger(L, -1), val);
+					else arr.push(lua_tostring(L, -1), val);
+					break;
+				}
+				case LUA_TSTRING:
+				{
+					const char* val = lua_tostring(L, -2);
+					if (keytype == LUA_TNUMBER) arr.push((int)lua_tointeger(L, -1), val);
+					else arr.push(lua_tostring(L, -1), val);
+					break;
+				}
+				case LUA_TTABLE:
+				{
+					API::Get().Print("Nested tables are unsupported yet");
+					break;
+				}
+				default:
+					break;
+				}
+
+				lua_pop(L, 2);
+				// stack now contains: -1 => key; -2 => table
+			}
+			lua_pop(L, 1);
+
+			args.push_back(arr);
 			break;
 		}
 		default:

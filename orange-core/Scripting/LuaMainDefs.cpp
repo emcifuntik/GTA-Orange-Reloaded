@@ -143,7 +143,7 @@ int lua_onevent(lua_State *L)
 
 		for (int i = 0; i < count; i++)
 		{
-			int type;
+			char type;
 			bsIn->Read(type);
 			switch (type)
 			{
@@ -166,6 +166,66 @@ int lua_onevent(lua_State *L)
 				RakString val;
 				bsIn->Read(val);
 				lua_pushstring(L, val.C_String());
+				break;
+			}
+			case 3:
+			{
+				unsigned int size;
+				bsIn->Read(size);
+				lua_newtable(L);
+
+				log << "TABLE:" << std::endl;
+
+				for (int i = 0; i < size; i++)
+				{
+					char atype;
+					bsIn->Read(atype);
+
+					if (atype & 16)
+					{
+						int key;
+						bsIn->Read(key);
+						log << key << " => ";
+						lua_pushinteger(L, key);
+					}
+					else
+					{
+						std::string key;
+						bsIn->Read(key);
+						log << key << " => ";
+						lua_pushstring(L, key.c_str());
+					}
+
+					switch (atype & 15)
+					{
+					case 0:
+					{
+						bool val;
+						bsIn->Read(val);
+						std::cout << val;
+						lua_pushboolean(L, val);
+						break;
+					}
+					case 1:
+					{
+						double val;
+						bsIn->Read(val);
+						std::cout << val;
+						lua_pushnumber(L, val);
+						break;
+					}
+					case 2:
+					{
+						std::string val;
+						bsIn->Read(val);
+						std::cout << val;
+						lua_pushstring(L, val.c_str());
+						break;
+					}
+					}
+					std::cout << std::endl;
+					lua_settable(L, -3);
+				}
 				break;
 			}
 			}

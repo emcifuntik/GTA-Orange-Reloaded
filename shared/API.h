@@ -8,47 +8,160 @@ enum {
 	M_INT,
 	M_BOOL,
 	M_DOUBLE,
-	M_ULONG
+	M_ULONG,
+	M_ARRAY
+};
+
+class MValue;
+struct MArray {
+	std::map<int, MValue*> ikeys;
+	std::map<std::string, MValue*> skeys;
 };
 
 class MValue
 {
 public:
+	static MValue CreateMArray() {
+		MValue val;
+		val.type = M_ARRAY;
+		val._val = new MArray;
+		val.counter = new int(1);
+		return val;
+	};
+	MValue() { type = -1; counter = new int(1); };
+	MValue(const MValue &val) 
+	{
+		std::stringstream ss;
+		type = val.type;
+		_val = val._val;
+		counter = val.counter;
+		(*counter)++;
+	};
 	MValue(const char* val) {
-		_val = std::shared_ptr<void>(strdup(val));
+		_val = strdup(val);
 		type = M_STRING;
+		counter = new int(1);
 	};
 	MValue(int const &val) {
-		_val = std::shared_ptr<void>(new int(val));
+		_val = new int(val);
 		type = M_INT;
+		counter = new int(1);
 	};
 	MValue(bool const &val) {
-		_val = std::shared_ptr<void>(new bool(val));
+		_val = new bool(val);
 		type = M_BOOL;
+		counter = new int(1);
 	}
 	MValue(double const &val) {
-		_val = std::shared_ptr<void>(new double(val));
+		_val = new double(val);
 		type = M_DOUBLE;
+		counter = new int(1);
 	};
 	MValue(unsigned long const &val) {
-		_val = std::shared_ptr<void>(new unsigned long(val));
+		_val = new unsigned long(val);
 		type = M_ULONG;
+		counter = new int(1);
 	};
+	~MValue()
+	{
+		(*counter)--;
+		if ((*counter) == 0)
+		{
+			switch (type)
+			{
+			case M_STRING:
+				std::cout << "free: " << (char*)_val << std::endl;
+				free(_val);
+				break;
+			case M_INT:
+				delete (int*)_val;
+				break;
+			case M_BOOL:
+				delete (bool*)_val;
+				break;
+			case M_DOUBLE:
+				delete (double*)_val;
+				break;
+			case M_ULONG:
+				delete (ULONG*)_val;
+				break;
+			case M_ARRAY:
+			{
+				MArray *val = (MArray*)_val;
+				val->ikeys.erase(val->ikeys.begin(), val->ikeys.end());
+				val->skeys.erase(val->skeys.begin(), val->skeys.end());
+				delete (MArray*)_val;
+				break;
+			}
+			default:
+				break;
+			}
+		}
+	}
 
-	char* getString() { if (type == M_STRING) return (char*)_val.get(); return NULL; };
-	int getInt() { if (type == M_INT) return *(int*)_val.get(); return 0; };
-	bool getBool() { if (type == M_BOOL) return *(bool*)_val.get(); return false; };
-	double getDouble() { if (type == M_DOUBLE) return *(double*)_val.get(); return 0; };
-	unsigned long getULong() { if (type == M_ULONG) return *(unsigned long*)_val.get(); return 0; };
+	char* getString() { if (type == M_STRING) return (char*)_val; return NULL; };
+	int getInt() { if (type == M_INT) return *(int*)_val; return 0; };
+	bool getBool() { if (type == M_BOOL) return *(bool*)_val; return false; };
+	double getDouble() { if (type == M_DOUBLE) return *(double*)_val; return 0; };
+	unsigned long getULong() { if (type == M_ULONG) return *(unsigned long*)_val; return 0; };
+	MArray getArray() { if (type == M_ARRAY) return *(MArray*)_val; };
 
 	bool isString() { return type == M_STRING; };
 	bool isInt() { return type == M_INT; };
 	bool isBool() { return type == M_BOOL; };
 	bool isDouble() { return type == M_DOUBLE; };
 	bool isULong() { return type == M_ULONG; };
+	bool isArray() { return type == M_ARRAY; };
+
+	void push(MValue key, MValue val) {
+		if (type == M_ARRAY)
+		{
+			MArray *arr = (MArray*)_val;
+			switch (key.type)
+			{
+			case M_INT:
+			{
+				if (arr->ikeys[key.getInt()]) delete (arr->ikeys[key.getInt()]);
+				arr->ikeys[key.getInt()] = new MValue(val);
+				break;
+				break;
+			}
+			case M_STRING:
+			{
+				if (arr->skeys[key.getString()]) delete (arr->skeys[key.getString()]);
+				arr->skeys[key.getString()] = new MValue(val);
+				break;
+			}
+			default:
+				break;
+			}
+		}
+	};
+	MValue get(MValue key) {
+		if (type == M_ARRAY)
+		{
+			MArray *arr = (MArray*)_val;
+			switch (key.type)
+			{
+			case M_INT:
+			{
+				if (arr->ikeys[key.getInt()])
+					return arr->ikeys[key.getInt()];
+			}
+			case M_STRING:
+			{
+				if (arr->skeys[key.getString()])
+					return arr->skeys[key.getString()];
+			}
+			default:
+				return MValue(0);
+			}
+		}
+	};
 
 	char type;
-	std::shared_ptr<void> _val;
+	void* _val;
+	int* counter;
 };
 
 class APIBase {

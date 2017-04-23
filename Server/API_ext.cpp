@@ -22,25 +22,91 @@ void API::ClientEvent(const char* name, std::vector<MValue> args, long playerid)
 		{
 		case M_BOOL:
 		{
-			bsOut.Write(0);
+			bsOut.Write((char)0);
 			bsOut.Write(arg.getBool());
 			break;
 		}
 		case M_DOUBLE:
 		{
-			bsOut.Write(1);
+			bsOut.Write((char)1);
 			bsOut.Write(arg.getDouble());
 			break;
 		}
 		case M_STRING:
 		{
 			RakString str(arg.getString());
-			bsOut.Write(2);
+			bsOut.Write((char)2);
 			bsOut.Write(str);
 			break;
 		}
+		case M_ARRAY:
+		{
+			bsOut.Write((char)3);
+			MArray arr = arg.getArray();
+			bsOut.Write((unsigned int)(arr.ikeys.size() + arr.skeys.size()));
+			for (auto arg1 : arr.ikeys)
+			{
+				log << arg1.first << std::endl;
+				switch (arg1.second->type)
+				{
+				case M_BOOL:
+				{
+					bsOut.Write((char)(0 | 16));
+					bsOut.Write(arg1.first);
+					bsOut.Write(arg1.second->getBool());
+					break;
+				}
+				case M_DOUBLE:
+				{
+					bsOut.Write((char)(1 | 16));
+					bsOut.Write(arg1.first);
+					bsOut.Write(arg1.second->getDouble());
+					break;
+				}
+				case M_STRING:
+				{
+					std::string str(arg1.second->getString());
+					bsOut.Write((char)(2 | 16));
+					bsOut.Write(arg1.first);
+					bsOut.Write(str);
+					log << str << std::endl;
+					break;
+				}
+				}
+			}
+			for (auto arg2 : arr.skeys)
+			{
+				switch (arg2.second->type)
+				{
+				case M_BOOL:
+				{
+					bsOut.Write((char)(0));
+					bsOut.Write(arg2.first);
+					bsOut.Write(arg2.second->getBool());
+					break;
+				}
+				case M_DOUBLE:
+				{
+					bsOut.Write((char)(1));
+					bsOut.Write(arg2.first);
+					bsOut.Write(arg2.second->getDouble());
+					break;
+				}
+				case M_STRING:
+				{
+					std::string str(arg2.second->getString());
+					bsOut.Write((char)(2));
+					bsOut.Write(arg2.first);
+					bsOut.Write(str);
+					log << str << std::endl;
+					break;
+				}
+				}
+			}
+			break;
+		}
 		default:
-			log << "You can only pass bools, numbers and strings" << std::endl;
+			log << "You can only pass bools, numbers, strings and tables" << std::endl;
 			break;
 		}
 	}

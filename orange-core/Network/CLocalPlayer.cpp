@@ -328,11 +328,11 @@ void CLocalPlayer::GoPassenger()
 		}
 	}
 
-	if (smallestDistance > 10.f) return;
+	if (smallestDistance > 7.f) return;
 
 	AI::CLEAR_PED_TASKS(Handle);
 	log << "[Passenger] max:" << VEHICLE::GET_VEHICLE_MAX_NUMBER_OF_PASSENGERS(veh) << std::endl;
-	for (int seat = 6; seat < VEHICLE::GET_VEHICLE_MAX_NUMBER_OF_PASSENGERS(veh); seat++)
+	for (int seat = 0; seat < VEHICLE::GET_VEHICLE_MAX_NUMBER_OF_PASSENGERS(veh); seat++)
 	{
 		log << "[Passenger] seat:" << seat << ", free: " << VEHICLE::IS_VEHICLE_SEAT_FREE(veh, seat) << std::endl;
 		if (VEHICLE::IS_VEHICLE_SEAT_FREE(veh, seat))

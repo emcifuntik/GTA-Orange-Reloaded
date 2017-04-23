@@ -47,7 +47,7 @@ int lua_getvalue(lua_State *L)
 			case Type::N_INT:
 			case Type::N_INTPOINTER:
 			{
-				int* value = new int(luaL_checkinteger(L, 1));
+				int* value = new int(lua_tointeger(L, 1));
 				delete (int*)container->ptr;
 				container->ptr = value;
 				break;
@@ -59,7 +59,7 @@ int lua_getvalue(lua_State *L)
 			case Type::N_FLOAT:
 			case Type::N_FLOATPOINTER:
 			{
-				float* value = new float(luaL_checknumber(L, 1));
+				float* value = new float(lua_tonumber(L, 1));
 				delete (float*)container->ptr;
 				container->ptr = value;
 				break;
@@ -85,8 +85,6 @@ int lua_getvalue(lua_State *L)
 			case Type::N_VECTOR3:
 			case Type::N_VECTOR3POINTER:
 			{
-				/*float* value = new float(luaL_checkinteger(L, 1));
-				container->ptr = (uintptr_t)value;*/
 				break;
 			}
 			case Type::N_DWORD:

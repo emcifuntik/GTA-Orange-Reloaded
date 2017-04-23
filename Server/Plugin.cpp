@@ -415,7 +415,6 @@ void Plugin::ServerEvent(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 	bitStream->Read(name);
 	bitStream->Read(nargs);
 
-	//log << name.C_String() << " " << CNetworkPlayer::GetByGUID(packet->guid)->GetID();
 	args.push_back(name.C_String());
 	args.push_back((int)CNetworkPlayer::GetByGUID(packet->guid)->GetID());
 
