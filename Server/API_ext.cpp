@@ -385,6 +385,19 @@ unsigned long API::CreateVehicle(long hash, float x, float y, float z, float hea
 	return RakNetGUID::ToUint32(veh->GetGUID()); // (new CNetworkVehicle(hash, x, y, z, heading));
 }
 
+bool API::DeleteVehicle(unsigned long guid)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		delete veh;
+	}
+	BitStream bsOut;
+	bsOut.Write(_guid);
+	CRPCPlugin::Get()->Signal("DeleteVehicle", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	return true;
+}
+
 bool API::SetVehiclePosition(unsigned long guid, float x, float y, float z)
 {
 	RakNetGUID _guid(guid);
@@ -454,6 +467,271 @@ bool API::SetVehicleColours(unsigned long guid, int Color1, int Color2)
 	return false;
 }
 
+bool API::GetVehicleColours(unsigned long guid, int *Color1, int *Color2)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		*Color1 = veh->Color1;
+		*Color2 = veh->Color2;
+		return true;
+	}
+	return false;
+}
+
+bool API::SetVehicleTyresBulletproof(unsigned long guid, bool bulletproof)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		veh->bTyresBulletproof = bulletproof;
+		BitStream bsOut;
+		bsOut.Write(_guid);
+		bsOut.Write(bulletproof);
+		CRPCPlugin::Get()->Signal("SetVehicleTyresBulletproof", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+		return true;
+	}
+	return false;
+}
+
+bool API::GetVehicleTyresBulletproof(unsigned long guid)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		return veh->bTyresBulletproof;
+	}
+	return false;
+}
+
+bool API::SetVehicleCustomPrimaryColor(unsigned long guid, int rColor, int gColor, int bColor)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		log << "SetVehicleCustomPrimaryColor not implemented" << std::endl;
+		return true;
+	}
+	return false;
+}
+
+bool API::GetVehicleCustomPrimaryColor(unsigned long guid, int *rColor, int *gColor, int *bColor)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		log << "GetVehicleCustomPrimaryColor not implemented" << std::endl;
+		return true;
+	}
+	return false;
+}
+
+bool API::SetVehicleCustomSecondaryColor(unsigned long guid, int rColor, int gColor, int bColor)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		log << "SetVehicleCustomSecondaryColor not implemented" << std::endl;
+		return true;
+	}
+	return false;
+}
+
+bool API::GetVehicleCustomSecondaryColor(unsigned long guid, int *rColor, int *gColor, int *bColor)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		log << "GetVehicleCustomSecondaryColor not implemented" << std::endl;
+		return true;
+	}
+	return false;
+}
+
+bool API::SetVehicleEngineStatus(unsigned long guid, bool status, bool locked)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		veh->bEngineStatus = status;
+		BitStream bsOut;
+		bsOut.Write(_guid);
+		bsOut.Write(status);
+		CRPCPlugin::Get()->Signal("SetVehicleEngineStatus", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+		return true;
+	}
+	return false;
+}
+
+bool API::GetVehicleEngineStatus(unsigned long guid)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		return veh->bEngineStatus;
+	}
+	return false;
+}
+
+bool API::SetVehicleBodyHealth(unsigned long guid, float health)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		log << "SetVehicleBodyHealth not implemented" << std::endl;
+		return true;
+	}
+	return false;
+}
+
+bool API::SetVehicleEngineHealth(unsigned long guid, float health)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		log << "SetVehicleEngineHealth not implemented" << std::endl;
+		return true;
+	}
+	return false;
+}
+
+bool API::SetVehicleTankHealth(unsigned long guid, float health)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		log << "SetVehicleTankHealth not implemented" << std::endl;
+		return true;
+	}
+	return false;
+}
+
+bool API::GetVehicleHealth(unsigned long guid, float *body, float *engine, float *tank)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		*body = veh->fBodyHealth;
+		*engine = veh->fEngineHealth;
+		*tank = veh->fTankHealth;
+		return true;
+	}
+	return false;
+}
+
+bool API::SetVehicleNumberPlate(unsigned long guid, const char *text)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		log << "SetVehicleNumberPlate not implemented" << std::endl;
+		return true;
+	}
+	return false;
+}
+
+std::string API::GetVehicleNumberPlate(unsigned long guid)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		log << "GetVehicleNumberPlate not implemented" << std::endl;
+		return "none";
+	}
+	return false;
+}
+
+bool API::SetVehicleNumberPlateStyle(unsigned long guid, int style)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		log << "SetVehicleNumberPlateStyle not implemented" << std::endl;
+		return true;
+	}
+	return false;
+}
+
+int API::GetVehicleNumberPlateStyle(unsigned long guid)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		log << "GetVehicleNumberPlateStyle not implemented" << std::endl;
+		return 0;
+	}
+	return -1;
+}
+
+bool API::SetVehicleSirenState(unsigned long guid, bool state)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		veh->bSirenState = state;
+		BitStream bsOut;
+		bsOut.Write(_guid);
+		bsOut.Write(state);
+		CRPCPlugin::Get()->Signal("SetVehicleSirenState", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+		return true;
+	}
+	return false;
+}
+
+bool API::GetVehicleSirenState(unsigned long guid)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		return veh->bSirenState;
+	}
+	return false;
+}
+
+bool API::SetVehicleWheelColor(unsigned long guid, int color)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		log << "SetVehicleWheelColor not implemented" << std::endl;
+		return true;
+	}
+	return false;
+}
+
+int API::GetVehicleWheelColor(unsigned long guid)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		log << "GetVehicleWheelColor not implemented" << std::endl;
+		return true;
+	}
+	return false;
+}
+
+bool API::SetVehicleWheelType(unsigned long guid, int type)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		log << "SetVehicleWheelType not implemented" << std::endl;
+		return true;
+	}
+	return false;
+}
+
+int API::GetVehicleWheelType(unsigned long guid)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		log << "GetVehicleWheelType not implemented" << std::endl;
+		return true;
+	}
+	return false;
+}
+
 unsigned long API::GetVehicleDriver(unsigned long guid)
 {
 	RakNetGUID _guid(guid);
@@ -462,19 +740,6 @@ unsigned long API::GetVehicleDriver(unsigned long guid)
 		return RakNetGUID::ToUint32(veh->driverGUID);
 	}
 	return NULL;
-}
-
-bool API::DeleteVehicle(unsigned long guid)
-{
-	RakNetGUID _guid(guid);
-	auto veh = CNetworkVehicle::GetByGUID(_guid);
-	if (veh) {
-		delete veh;
-	}
-	BitStream bsOut;
-	bsOut.Write(_guid);
-	CRPCPlugin::Get()->Signal("DeleteVehicle", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
-	return true;
 }
 
 bool API::CreatePickup(int type, float x, float y, float z, float scale)

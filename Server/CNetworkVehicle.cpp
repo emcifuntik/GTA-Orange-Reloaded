@@ -76,6 +76,7 @@ void CNetworkVehicle::SetVehicleData(const VehicleData & data)
 	fBodyHealth = data.fBodyHealth;
 	fTankHealth = data.fTankHealth;
 	bDrivable = data.bDrivable;
+	bSirenState = data.bSirenState;
 
 	if (hasDriver)
 	{
@@ -97,6 +98,9 @@ void CNetworkVehicle::GetVehicleData(VehicleData & data)
 	data.fBodyHealth = fBodyHealth;
 	data.fTankHealth = fTankHealth;
 	data.bDrivable = bDrivable;
+	data.bSirenState = bSirenState;
+	data.bEngineStatus = bEngineStatus;
+	data.bTyresBulletproof = bTyresBulletproof;
 	data.Color1 = Color1;
 	data.Color2 = Color2;
 }

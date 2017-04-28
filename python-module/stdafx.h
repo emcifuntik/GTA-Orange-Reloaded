@@ -13,6 +13,8 @@
 
 #include <sstream>
 #include <vector>
+#include <map>
+#include <iostream>
 #include <Python.h>
 
 #include "API.h"

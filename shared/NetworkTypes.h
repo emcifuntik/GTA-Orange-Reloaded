@@ -62,6 +62,8 @@ struct VehicleData
 	float fBodyHealth;
 	float fTankHealth;
 
+	bool bEngineStatus : 1;
+	bool bTyresBulletproof : 1;
 	short int Color1;
 	short int Color2;
 

@@ -304,7 +304,7 @@ namespace FPlayer
 		bitStream->Read(guid);
 		bitStream->Read(pos);
 		CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(guid);
-		veh->SetPosition(pos);
+		veh->SetTargetPosition(pos);
 	}
 
 	void SetVehicleRotation(RakNet::BitStream *bitStream, RakNet::Packet *packet)
@@ -314,7 +314,7 @@ namespace FPlayer
 		bitStream->Read(guid);
 		bitStream->Read(rot);
 		CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(guid);
-		veh->SetRotation(rot);
+		veh->SetTargetRotation(rot);
 	}
 
 	void SetVehicleColours(RakNet::BitStream *bitStream, RakNet::Packet *packet)
@@ -325,7 +325,37 @@ namespace FPlayer
 		bitStream->Read(color1);
 		bitStream->Read(color2);
 		CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(guid);
-		veh->SetColours(color1, color2);
+		veh->SetTargetColours(color1, color2);
+	}
+
+	void SetVehicleTyresBulletproof(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNetGUID guid;
+		bool state;
+		bitStream->Read(guid);
+		bitStream->Read(state);
+		CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(guid);
+		veh->SetTargetTyresBulletproof(state);
+	}
+
+	void SetVehicleSirenState(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNetGUID guid;
+		bool state;
+		bitStream->Read(guid);
+		bitStream->Read(state);
+		CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(guid);
+		veh->SetTargetSiren(state);
+	}
+
+	void SetVehicleEngineStatus(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNetGUID guid;
+		bool state;
+		bitStream->Read(guid);
+		bitStream->Read(state);
+		CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(guid);
+		veh->SetTargetEngineStatus(state);
 	}
 
 	void CreateMarker(RakNet::BitStream *bitStream, RakNet::Packet *packet)
