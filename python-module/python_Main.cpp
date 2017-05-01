@@ -73,6 +73,7 @@ static struct PyMethodDef methods[] = {
 	{ "SetVehicleWheelType", pythonFunctions::GTAOrange_SetVehicleWheelType, METH_VARARGS, "" },
 	{ "GetVehicleWheelType", pythonFunctions::GTAOrange_GetVehicleWheelType, METH_VARARGS, "" },
 	{ "GetVehicleDriver", pythonFunctions::GTAOrange_GetVehicleDriver, METH_VARARGS, "" },
+	{ "GetVehiclePassengers", pythonFunctions::GTAOrange_GetVehiclePassengers, METH_VARARGS, "" },
 	{ "CreateObject", pythonFunctions::GTAOrange_CreateObject, METH_VARARGS, "" }, //Not tested
 	{ "DeleteObject", pythonFunctions::GTAOrange_DeleteObject, METH_VARARGS, "" }, //Not tested
 	{ "CreatePickup", pythonFunctions::GTAOrange_CreatePickup, METH_VARARGS, "" }, //Not tested

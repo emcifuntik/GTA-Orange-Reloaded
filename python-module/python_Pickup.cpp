@@ -8,5 +8,5 @@ PyObject* pythonFunctions::GTAOrange_CreatePickup(PyObject* self, PyObject* args
 		unsigned long value = API::Get().CreatePickup(PyLong_AsLong(type), PyFloat_AsDouble(x), PyFloat_AsDouble(y), PyFloat_AsDouble(z), PyFloat_AsDouble(scale));
 		return PyLong_FromLong(value);
 	}
-	return NULL;
+	return Py_None;
 }

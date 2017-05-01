@@ -338,16 +338,6 @@ namespace FPlayer
 		veh->SetTargetTyresBulletproof(state);
 	}
 
-	void SetVehicleSirenState(RakNet::BitStream *bitStream, RakNet::Packet *packet)
-	{
-		RakNetGUID guid;
-		bool state;
-		bitStream->Read(guid);
-		bitStream->Read(state);
-		CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(guid);
-		veh->SetTargetSiren(state);
-	}
-
 	void SetVehicleEngineStatus(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 	{
 		RakNetGUID guid;
@@ -356,6 +346,46 @@ namespace FPlayer
 		bitStream->Read(state);
 		CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(guid);
 		veh->SetTargetEngineStatus(state);
+	}
+
+	void SetVehicleBodyHealth(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNetGUID guid;
+		float health;
+		bitStream->Read(guid);
+		bitStream->Read(health);
+		CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(guid);
+		veh->SetTargetBodyHealth(health);
+	}
+
+	void SetVehicleEngineHealth(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNetGUID guid;
+		float health;
+		bitStream->Read(guid);
+		bitStream->Read(health);
+		CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(guid);
+		veh->SetTargetEngineHealth(health);
+	}
+
+	void SetVehicleTankHealth(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNetGUID guid;
+		float health;
+		bitStream->Read(guid);
+		bitStream->Read(health);
+		CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(guid);
+		veh->SetTargetTankHealth(health);
+	}
+
+	void SetVehicleSirenState(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNetGUID guid;
+		bool state;
+		bitStream->Read(guid);
+		bitStream->Read(state);
+		CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(guid);
+		veh->SetTargetSiren(state);
 	}
 
 	void CreateMarker(RakNet::BitStream *bitStream, RakNet::Packet *packet)

@@ -85,6 +85,7 @@ public:
 	static PyObject* GTAOrange_SetVehicleWheelType(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_GetVehicleWheelType(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_GetVehicleDriver(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_GetVehiclePassengers(PyObject* self, PyObject* args);
 
 	//Object
 	static PyObject* GTAOrange_CreateObject(PyObject* self, PyObject* args);

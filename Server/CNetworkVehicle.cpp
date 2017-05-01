@@ -145,3 +145,16 @@ void CNetworkVehicle::SendGlobal(RakNet::Packet *packet)
 		CRPCPlugin::Get()->Signal("CreateVehicle", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, packet->guid, false, false);
 	}
 }
+
+std::vector<unsigned long> CNetworkVehicle::GetPassengers()
+{
+	std::vector<unsigned long> result;
+	for (CNetworkPlayer *player : CNetworkPlayer::All())
+	{
+		if (player && player->bInVehicle && player->vehicle == rnGUID)
+		{
+			result.push_back(player->GetID());
+		}
+	}
+	return result;
+}

@@ -432,11 +432,11 @@ void CNetworkVehicle::SetTargetColours(int color1, int color2)
 	VEHICLE::SET_VEHICLE_COLOURS(Handle, m_Color1, m_Color2);
 }
 
-void CNetworkVehicle::SetTargetSiren(bool state)
+void CNetworkVehicle::SetTargetTyresBulletproof(bool bulletproof)
 {
-	if (m_Siren != state) {
-		m_Siren = state;
-		VEHICLE::SET_VEHICLE_SIREN(Handle, m_Siren);
+	if (m_TyresBulletproof != bulletproof) {
+		m_TyresBulletproof = bulletproof;
+		VEHICLE::SET_VEHICLE_TYRES_CAN_BURST(Handle, !m_TyresBulletproof);
 	}
 }
 
@@ -448,10 +448,28 @@ void CNetworkVehicle::SetTargetEngineStatus(bool state)
 	}
 }
 
-void CNetworkVehicle::SetTargetTyresBulletproof(bool bulletproof)
+void CNetworkVehicle::SetTargetBodyHealth(float health)
 {
-	if (m_TyresBulletproof != bulletproof) {
-		m_TyresBulletproof = bulletproof;
-		VEHICLE::SET_VEHICLE_TYRES_CAN_BURST(Handle, !m_TyresBulletproof);
+	m_BodyHealth = health;
+	VEHICLE::SET_VEHICLE_BODY_HEALTH(Handle, health);
+}
+
+void CNetworkVehicle::SetTargetEngineHealth(float health)
+{
+	m_EngineHealth = health;
+	VEHICLE::SET_VEHICLE_ENGINE_HEALTH(Handle, m_EngineHealth);
+}
+
+void CNetworkVehicle::SetTargetTankHealth(float health)
+{
+	m_TankHealth = health;
+	VEHICLE::SET_VEHICLE_PETROL_TANK_HEALTH(Handle, m_TankHealth);
+}
+
+void CNetworkVehicle::SetTargetSiren(bool state)
+{
+	if (m_Siren != state) {
+		m_Siren = state;
+		VEHICLE::SET_VEHICLE_SIREN(Handle, m_Siren);
 	}
 }

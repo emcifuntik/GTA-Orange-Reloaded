@@ -94,8 +94,12 @@ public:
 
 	void SetTargetColours(int color1, int color2);
 	void SetTargetTyresBulletproof(bool bulletproof);
-	void SetTargetSiren(bool state);
 	void SetTargetEngineStatus(bool state);
+	void SetTargetBodyHealth(float health);
+	void SetTargetEngineHealth(float health);
+	void SetTargetTankHealth(float health);
+	void SetTargetSiren(bool state);
+	
 
 	void BuildTasksQueue();
 

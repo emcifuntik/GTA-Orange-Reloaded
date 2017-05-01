@@ -31,7 +31,7 @@ PyObject* pythonFunctions::GTAOrange_GetPlayerPosition(PyObject* self, PyObject*
 		CVector3 value = API::Get().GetPlayerPosition(PyLong_AsLong(playerid));
 		return Py_BuildValue("fff", value.fX, value.fY, value.fZ);
 	}
-	return NULL;
+	return Py_None;
 }
 
 PyObject* pythonFunctions::GTAOrange_IsPlayerInRange(PyObject* self, PyObject* args)
@@ -66,7 +66,7 @@ PyObject* pythonFunctions::GTAOrange_GetPlayerHeading(PyObject* self, PyObject* 
 		float value = API::Get().GetPlayerHeading(PyLong_AsLong(playerid));
 		return PyFloat_FromDouble(value);
 	}
-	return NULL;
+	return Py_None;
 }
 
 PyObject* pythonFunctions::GTAOrange_RemovePlayerWeapons(PyObject* self, PyObject* args)
@@ -158,7 +158,7 @@ PyObject* pythonFunctions::GTAOrange_GetPlayerMoney(PyObject* self, PyObject* ar
 		size_t value = API::Get().GetPlayerMoney(PyLong_AsLong(playerid));
 		return PyLong_FromSize_t(value);
 	}
-	return NULL;
+	return Py_None;
 }
 
 PyObject* pythonFunctions::GTAOrange_SetPlayerModel(PyObject* self, PyObject* args)
@@ -185,7 +185,7 @@ PyObject* pythonFunctions::GTAOrange_GetPlayerModel(PyObject* self, PyObject* ar
 		long value = API::Get().GetPlayerModel(PyLong_AsLong(playerid));
 		return PyLong_FromLong(value);
 	}
-	return NULL;
+	return Py_None;
 }
 
 PyObject* pythonFunctions::GTAOrange_SetPlayerName(PyObject* self, PyObject* args)
@@ -208,7 +208,7 @@ PyObject* pythonFunctions::GTAOrange_GetPlayerName(PyObject* self, PyObject* arg
 		std::string value = API::Get().GetPlayerName(PyLong_AsLong(playerid));
 		return PyUnicode_FromString(value.c_str());
 	}
-	return NULL;
+	return Py_None;
 }
 
 PyObject* pythonFunctions::GTAOrange_SetPlayerHealth(PyObject* self, PyObject* args)
@@ -231,7 +231,7 @@ PyObject* pythonFunctions::GTAOrange_GetPlayerHealth(PyObject* self, PyObject* a
 		float value = API::Get().GetPlayerHealth(PyLong_AsLong(playerid));
 		return PyFloat_FromDouble(value);
 	}
-	return NULL;
+	return Py_None;
 }
 
 PyObject* pythonFunctions::GTAOrange_SetPlayerArmour(PyObject* self, PyObject* args)
@@ -254,7 +254,7 @@ PyObject* pythonFunctions::GTAOrange_GetPlayerArmour(PyObject* self, PyObject* a
 		float value = API::Get().GetPlayerArmour(PyLong_AsLong(playerid));
 		return PyFloat_FromDouble(value);
 	}
-	return NULL;
+	return Py_None;
 }
 
 PyObject* pythonFunctions::GTAOrange_SetPlayerColor(PyObject* self, PyObject* args)
@@ -277,7 +277,7 @@ PyObject* pythonFunctions::GTAOrange_GetPlayerColor(PyObject* self, PyObject* ar
 		unsigned int value = API::Get().GetPlayerColor(PyLong_AsLong(playerid));
 		return PyLong_FromLong(value);
 	}
-	return NULL;
+	return Py_None;
 }
 
 PyObject* pythonFunctions::GTAOrange_SendClientMessage(PyObject* self, PyObject* args)

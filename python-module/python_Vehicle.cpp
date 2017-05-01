@@ -47,7 +47,7 @@ PyObject* pythonFunctions::GTAOrange_GetVehicleRotation(PyObject* self, PyObject
 		CVector3 value = API::Get().GetVehicleRotation(PyLong_AsLong(vehid));
 		return Py_BuildValue("fff", value.fX, value.fY, value.fZ);
 	}
-	return NULL;
+	return Py_None;
 }
 
 PyObject* pythonFunctions::GTAOrange_SetVehicleRotation(PyObject* self, PyObject* args)
@@ -70,7 +70,7 @@ PyObject* pythonFunctions::GTAOrange_GetVehiclePosition(PyObject* self, PyObject
 		CVector3 value = API::Get().GetVehiclePosition(PyLong_AsLong(vehid));
 		return Py_BuildValue("fff", value.fX, value.fY, value.fZ);
 	}
-	return NULL;
+	return Py_None;
 }
 
 PyObject* pythonFunctions::GTAOrange_SetVehicleColours(PyObject* self, PyObject* args)
@@ -95,7 +95,7 @@ PyObject* pythonFunctions::GTAOrange_GetVehicleColours(PyObject* self, PyObject*
 		if (value)
 			return Py_BuildValue("ii", color1, color2);
 	}
-	return NULL;
+	return Py_None;
 }
 
 PyObject* pythonFunctions::GTAOrange_SetVehicleTyresBulletproof(PyObject* self, PyObject* args)
@@ -147,7 +147,7 @@ PyObject* pythonFunctions::GTAOrange_GetVehicleCustomPrimaryColor(PyObject* self
 		if (value)
 			return Py_BuildValue("iii", rColor, gColor, bColor);
 	}
-	return NULL;
+	return Py_None;
 }
 
 PyObject* pythonFunctions::GTAOrange_SetVehicleCustomSecondaryColor(PyObject* self, PyObject* args)
@@ -172,7 +172,7 @@ PyObject* pythonFunctions::GTAOrange_GetVehicleCustomSecondaryColor(PyObject* se
 		if (value)
 			return Py_BuildValue("iii", rColor, gColor, bColor);
 	}
-	return NULL;
+	return Py_None;
 }
 
 PyObject* pythonFunctions::GTAOrange_SetVehicleEngineStatus(PyObject* self, PyObject* args)
@@ -248,7 +248,7 @@ PyObject* pythonFunctions::GTAOrange_GetVehicleHealth(PyObject* self, PyObject* 
 		if (value)
 			return Py_BuildValue("fff", body, engine, tank);
 	}
-	return NULL;
+	return Py_None;
 }
 
 PyObject* pythonFunctions::GTAOrange_SetVehicleNumberPlate(PyObject* self, PyObject* args)
@@ -375,6 +375,27 @@ PyObject* pythonFunctions::GTAOrange_GetVehicleDriver(PyObject* self, PyObject* 
 		return PyLong_FromLong(API::Get().GetVehicleDriver(PyLong_AsLong(vehid)));
 	}
 	return PyBool_FromLong(0);
+}
+
+PyObject* pythonFunctions::GTAOrange_GetVehiclePassengers(PyObject* self, PyObject* args)
+{
+	PyObject *vehid;
+	if (PyArg_UnpackTuple(args, "l", 1, 1, &vehid))
+	{
+		std::vector<unsigned long> value = API::Get().GetVehiclePassengers(PyLong_AsLong(vehid));
+		if (value.size() == 0)
+			return Py_None;
+		else if(value.size() == 1)
+			return PyLong_FromLong(value.back());
+		PyObject *pArgs = PyTuple_New(value.size());
+		for (int i = 0; i < value.size(); i++)
+		{
+			PyTuple_SetItem(pArgs, i, PyLong_FromLong(value.back()));
+			value.pop_back();
+		}
+		return pArgs;
+	}
+	return Py_None;
 }
 
 PyObject* pythonFunctions::GTAOrange_VehicleExists(PyObject* self, PyObject* args)

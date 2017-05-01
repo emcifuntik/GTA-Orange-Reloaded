@@ -8,7 +8,7 @@ PyObject* pythonFunctions::GTAOrange_CreateMarkerForAll(PyObject* self, PyObject
 		unsigned long value = API::Get().CreateMarkerForAll(PyFloat_AsDouble(x), PyFloat_AsDouble(y), PyFloat_AsDouble(z), PyFloat_AsDouble(height), PyFloat_AsDouble(radius));
 		return PyLong_FromLong(value);
 	}
-	return NULL;
+	return Py_None;
 }
 
 PyObject* pythonFunctions::GTAOrange_CreateMarkerForPlayer(PyObject* self, PyObject* args)
@@ -19,7 +19,7 @@ PyObject* pythonFunctions::GTAOrange_CreateMarkerForPlayer(PyObject* self, PyObj
 		unsigned long value = API::Get().CreateMarkerForPlayer(PyLong_AsLong(playerid), PyFloat_AsDouble(x), PyFloat_AsDouble(y), PyFloat_AsDouble(z), PyFloat_AsDouble(height), PyFloat_AsDouble(radius));
 		return PyLong_FromLong(value);
 	}
-	return NULL;
+	return Py_None;
 }
 
 PyObject* pythonFunctions::GTAOrange_DeleteMarker(PyObject* self, PyObject* args)

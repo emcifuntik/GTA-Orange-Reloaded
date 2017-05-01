@@ -8,7 +8,7 @@ PyObject* pythonFunctions::GTAOrange_Create3DTextForAll(PyObject* self, PyObject
 		unsigned long value = API::Get().Create3DText(PyUnicode_AsUTF8(text), PyFloat_AsDouble(x), PyFloat_AsDouble(y), PyFloat_AsDouble(z), PyLong_AsLong(color), PyLong_AsLong(outcolor), PyFloat_AsDouble(frontsize));
 		return PyLong_FromLong(value);
 	}
-	return NULL;
+	return Py_None;
 }
 
 PyObject* pythonFunctions::GTAOrange_Create3DTextForPlayer(PyObject* self, PyObject* args)
@@ -19,7 +19,7 @@ PyObject* pythonFunctions::GTAOrange_Create3DTextForPlayer(PyObject* self, PyObj
 		unsigned long value = API::Get().Create3DTextForPlayer(PyLong_AsLong(playerid), PyUnicode_AsUTF8(text), PyFloat_AsDouble(x), PyFloat_AsDouble(y), PyFloat_AsDouble(z), PyLong_AsLong(color), PyLong_AsLong(outcolor));
 		return PyLong_FromLong(value);
 	}
-	return NULL;
+	return Py_None;
 }
 
 PyObject* pythonFunctions::GTAOrange_Attach3DTextToPlayer(PyObject* self, PyObject* args)

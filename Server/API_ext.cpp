@@ -578,7 +578,11 @@ bool API::SetVehicleBodyHealth(unsigned long guid, float health)
 	RakNetGUID _guid(guid);
 	auto veh = CNetworkVehicle::GetByGUID(_guid);
 	if (veh) {
-		log << "SetVehicleBodyHealth not implemented" << std::endl;
+		veh->fBodyHealth = health;
+		BitStream bsOut;
+		bsOut.Write(_guid);
+		bsOut.Write(health);
+		CRPCPlugin::Get()->Signal("SetVehicleBodyHealth", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 		return true;
 	}
 	return false;
@@ -589,7 +593,11 @@ bool API::SetVehicleEngineHealth(unsigned long guid, float health)
 	RakNetGUID _guid(guid);
 	auto veh = CNetworkVehicle::GetByGUID(_guid);
 	if (veh) {
-		log << "SetVehicleEngineHealth not implemented" << std::endl;
+		veh->fEngineHealth = health;
+		BitStream bsOut;
+		bsOut.Write(_guid);
+		bsOut.Write(health);
+		CRPCPlugin::Get()->Signal("SetVehicleEngineHealth", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 		return true;
 	}
 	return false;
@@ -600,7 +608,11 @@ bool API::SetVehicleTankHealth(unsigned long guid, float health)
 	RakNetGUID _guid(guid);
 	auto veh = CNetworkVehicle::GetByGUID(_guid);
 	if (veh) {
-		log << "SetVehicleTankHealth not implemented" << std::endl;
+		veh->fTankHealth = health;
+		BitStream bsOut;
+		bsOut.Write(_guid);
+		bsOut.Write(health);
+		CRPCPlugin::Get()->Signal("SetVehicleTankHealth", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 		return true;
 	}
 	return false;
@@ -740,6 +752,17 @@ unsigned long API::GetVehicleDriver(unsigned long guid)
 		return RakNetGUID::ToUint32(veh->driverGUID);
 	}
 	return NULL;
+}
+
+std::vector<unsigned long> API::GetVehiclePassengers(unsigned long guid)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	std::vector<unsigned long> value;
+	if (veh) {
+		value = veh->GetPassengers();
+	}
+	return value;
 }
 
 bool API::CreatePickup(int type, float x, float y, float z, float scale)

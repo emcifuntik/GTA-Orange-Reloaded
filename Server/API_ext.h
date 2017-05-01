@@ -45,7 +45,7 @@ public:
 	CVector3 GetVehiclePosition(unsigned long guid);
 	bool SetVehicleRotation(unsigned long guid, float rx, float ry, float rz);
 	CVector3 GetVehicleRotation(unsigned long guid);
-	bool SetVehicleColours(unsigned long guid, int pColor, int sColor);
+	bool SetVehicleColours(unsigned long guid, int Color1, int Color2);
 	bool GetVehicleColours(unsigned long guid, int *Color1, int *Color2);
 	bool SetVehicleTyresBulletproof(unsigned long guid, bool bulletproof);
 	bool GetVehicleTyresBulletproof(unsigned long guid);
@@ -70,6 +70,7 @@ public:
 	bool SetVehicleWheelType(unsigned long guid, int type);
 	int GetVehicleWheelType(unsigned long guid);
 	unsigned long GetVehicleDriver(unsigned long guid);
+	std::vector<unsigned long> GetVehiclePassengers(unsigned long guid);
 	
 
 	//Pickup
