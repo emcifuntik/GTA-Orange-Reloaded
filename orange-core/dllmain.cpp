@@ -92,7 +92,9 @@ const char * hwidsWO[] = {
 	"b9290a8467b586b9cbf91f8f588a5cfe", //Mars
 	"aaf9a453dc5b5d125001b84c6dc9de9e", //TREY
 	"cca72dcb2dd9dabebcbe7454f3ebf3d7", //Derk friend
-	"8d880899d9d2a48689b0513f5261fe85", ///Mafiatoss
+	"8d880899d9d2a48689b0513f5261fe85", //Mafiatoss
+	"e18b236a388264eb0d9aeb78c19c30d2", //Metmonk
+	"e331c9ef2788a931c2abfd0f2cef564c", //ChristianWood
 	"5408d1b001d806ea472d87d0b6202fa8"  //Gazreyn
 };
 
