@@ -76,6 +76,7 @@ void CNetworkVehicle::SetVehicleData(const VehicleData & data)
 	fBodyHealth = data.fBodyHealth;
 	fTankHealth = data.fTankHealth;
 	bDrivable = data.bDrivable;
+	bSirenState = data.bSirenState;
 
 	if (hasDriver)
 	{
@@ -97,6 +98,9 @@ void CNetworkVehicle::GetVehicleData(VehicleData & data)
 	data.fBodyHealth = fBodyHealth;
 	data.fTankHealth = fTankHealth;
 	data.bDrivable = bDrivable;
+	data.bSirenState = bSirenState;
+	data.bEngineStatus = bEngineStatus;
+	data.bTyresBulletproof = bTyresBulletproof;
 	data.Color1 = Color1;
 	data.Color2 = Color2;
 }
@@ -140,4 +144,17 @@ void CNetworkVehicle::SendGlobal(RakNet::Packet *packet)
 
 		CRPCPlugin::Get()->Signal("CreateVehicle", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, packet->guid, false, false);
 	}
+}
+
+std::vector<unsigned long> CNetworkVehicle::GetPassengers()
+{
+	std::vector<unsigned long> result;
+	for (CNetworkPlayer *player : CNetworkPlayer::All())
+	{
+		if (player && player->bInVehicle && player->vehicle == rnGUID)
+		{
+			result.push_back(player->GetID());
+		}
+	}
+	return result;
 }

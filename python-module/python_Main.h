@@ -53,6 +53,7 @@ public:
 	static PyObject* GTAOrange_PlayerExists(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_VehicleExists(PyObject* self, PyObject* args);
 
+	//Vehicle
 	static PyObject* GTAOrange_CreateVehicle(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_DeleteVehicle(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_SetVehiclePosition(PyObject* self, PyObject* args);
@@ -60,13 +61,40 @@ public:
 	static PyObject* GTAOrange_SetVehicleRotation(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_GetVehicleRotation(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_SetVehicleColours(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_GetVehicleColours(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_SetVehicleTyresBulletproof(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_GetVehicleTyresBulletproof(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_SetVehicleCustomPrimaryColor(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_GetVehicleCustomPrimaryColor(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_SetVehicleCustomSecondaryColor(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_GetVehicleCustomSecondaryColor(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_SetVehicleEngineStatus(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_GetVehicleEngineStatus(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_SetVehicleBodyHealth(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_SetVehicleEngineHealth(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_SetVehicleTankHealth(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_GetVehicleHealth(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_SetVehicleNumberPlate(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_GetVehicleNumberPlate(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_SetVehicleNumberPlateStyle(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_GetVehicleNumberPlateStyle(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_SetVehicleSirenState(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_GetVehicleSirenState(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_SetVehicleWheelColor(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_GetVehicleWheelColor(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_SetVehicleWheelType(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_GetVehicleWheelType(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_GetVehicleDriver(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_GetVehiclePassengers(PyObject* self, PyObject* args);
 
+	//Object
 	static PyObject* GTAOrange_CreateObject(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_DeleteObject(PyObject* self, PyObject* args);
 
+	//Pickup
 	static PyObject* GTAOrange_CreatePickup(PyObject* self, PyObject* args);
 
+	//Blip
 	static PyObject* GTAOrange_CreateBlipForAll(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_CreateBlipForPlayer(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_DeleteBlip(PyObject* self, PyObject* args);
@@ -79,6 +107,7 @@ public:
 	static PyObject* GTAOrange_AttachBlipToPlayer(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_AttachBlipToVehicle(PyObject* self, PyObject* args);
 
+	//Marker
 	static PyObject* GTAOrange_CreateMarkerForAll(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_CreateMarkerForPlayer(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_DeleteMarker(PyObject* self, PyObject* args);
@@ -87,6 +116,7 @@ public:
 	static PyObject* GTAOrange_SetInfoMsg(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_UnsetInfoMsg(PyObject* self, PyObject* args);
 
+	//3DText
 	static PyObject* GTAOrange_Create3DTextForAll(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_Create3DTextForPlayer(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_Attach3DTextToVehicle(PyObject* self, PyObject* args);

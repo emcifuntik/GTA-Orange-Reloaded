@@ -8,7 +8,7 @@ PyObject* pythonFunctions::GTAOrange_CreateBlipForAll(PyObject* self, PyObject* 
 		unsigned long value = API::Get().CreateBlipForAll(PyUnicode_AsUTF8(name), PyFloat_AsDouble(x), PyFloat_AsDouble(y), PyFloat_AsDouble(z), PyFloat_AsDouble(scale), PyLong_AsLong(color), PyLong_AsLong(sprite));
 		return PyLong_FromLong(value);
 	}
-	return NULL;
+	return Py_None;
 }
 
 
@@ -20,7 +20,7 @@ PyObject* pythonFunctions::GTAOrange_CreateBlipForPlayer(PyObject* self, PyObjec
 		unsigned long value = API::Get().CreateBlipForPlayer(PyLong_AsLong(playerid), PyUnicode_AsUTF8(name), PyFloat_AsDouble(x), PyFloat_AsDouble(y), PyFloat_AsDouble(z), PyFloat_AsDouble(scale), PyLong_AsLong(color), PyLong_AsLong(sprite));
 		return PyLong_FromLong(value);
 	}
-	return NULL;
+	return Py_None;
 }
 
 PyObject* pythonFunctions::GTAOrange_DeleteBlip(PyObject* self, PyObject* args)

@@ -11,8 +11,10 @@ public:
 	CVector3 vecRot;					// vehicle rotation
 	CVector3 vecMoveSpeed;				// vehicle move speed
 	unsigned short int usHealth;		// vehicle health 
-	bool bTaxiLights;					// vehicle taxi lights
-	bool bSirenState;					// vehicle siren state
+	bool bTaxiLights = false;			// vehicle taxi lights
+	bool bSirenState = false;			// vehicle siren state
+	bool bEngineStatus = true;			// vehicle engine status
+	bool bTyresBulletproof = false;		// vehicle tyres bulletproof
 	float iDirtLevel;					// vehicle dirt level
 
 	int Color1 = -1;
@@ -37,6 +39,7 @@ public:
 	void SetDriver(CNetworkPlayer* driver);
 	void SetRotation(CVector3 rotation);
 	void SetHealth(unsigned short health);
+	std::vector<unsigned long> GetPassengers();
 
 	CVector3 GetPosition() { return vecPos; };
 	CVector3 GetRotation() { return vecRot; };

@@ -8,7 +8,7 @@ PyObject* pythonFunctions::GTAOrange_CreateObject(PyObject* self, PyObject* args
 		unsigned long value = API::Get().CreateObject(PyLong_AsLong(model), PyFloat_AsDouble(x), PyFloat_AsDouble(y), PyFloat_AsDouble(z), PyFloat_AsDouble(pitch), PyFloat_AsDouble(yaw), PyFloat_AsDouble(roll));
 		return PyLong_FromLong(value);
 	}
-	return NULL;
+	return Py_None;
 }
 
 PyObject* pythonFunctions::GTAOrange_DeleteObject(PyObject* self, PyObject* args)

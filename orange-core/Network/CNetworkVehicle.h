@@ -66,6 +66,9 @@ class CNetworkVehicle : public CVehicle
 	bool				m_Inited = false;
 	bool				m_bVisible = false;
 
+	bool				m_EngineState = true;
+	bool				m_TyresBulletproof = false;
+
 	int					m_Color1 = -1;
 	int					m_Color2 = -1;
 
@@ -85,8 +88,18 @@ public:
 	void UpdateTargetRotation();
 	void SetTargetPosition(const CVector3 & vecPosition);
 	void SetTargetPosition(const CVector3 & vecPosition, unsigned long ulDelay);
+	void SetTargetRotation(const CVector3 & vecRotation);
 	void SetTargetRotation(const CVector3 & vecRotation, unsigned long ulDelay);
 	void Interpolate();
+
+	void SetTargetColours(int color1, int color2);
+	void SetTargetTyresBulletproof(bool bulletproof);
+	void SetTargetEngineStatus(bool state);
+	void SetTargetBodyHealth(float health);
+	void SetTargetEngineHealth(float health);
+	void SetTargetTankHealth(float health);
+	void SetTargetSiren(bool state);
+	
 
 	void BuildTasksQueue();
 

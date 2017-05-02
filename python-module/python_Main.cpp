@@ -49,7 +49,31 @@ static struct PyMethodDef methods[] = {
 	{ "SetVehicleRotation", pythonFunctions::GTAOrange_SetVehicleRotation, METH_VARARGS, "" },
 	{ "GetVehicleRotation", pythonFunctions::GTAOrange_GetVehicleRotation, METH_VARARGS, "" },
 	{ "SetVehicleColours", pythonFunctions::GTAOrange_SetVehicleColours, METH_VARARGS, "" },
+	{ "GetVehicleColours", pythonFunctions::GTAOrange_GetVehicleColours, METH_VARARGS, "" },
+	{ "SetVehicleTyresBulletproof", pythonFunctions::GTAOrange_SetVehicleTyresBulletproof, METH_VARARGS, "" },
+	{ "GetVehicleTyresBulletproof", pythonFunctions::GTAOrange_GetVehicleTyresBulletproof, METH_VARARGS, "" },
+	{ "SetVehicleCustomPrimaryColor", pythonFunctions::GTAOrange_SetVehicleCustomPrimaryColor, METH_VARARGS, "" },
+	{ "GetVehicleCustomPrimaryColor", pythonFunctions::GTAOrange_GetVehicleCustomPrimaryColor, METH_VARARGS, "" },
+	{ "SetVehicleCustomSecondaryColor", pythonFunctions::GTAOrange_SetVehicleCustomSecondaryColor, METH_VARARGS, "" },
+	{ "GetVehicleCustomSecondaryColor", pythonFunctions::GTAOrange_GetVehicleCustomSecondaryColor, METH_VARARGS, "" },
+	{ "SetVehicleEngineStatus", pythonFunctions::GTAOrange_SetVehicleEngineStatus, METH_VARARGS, "" },
+	{ "GetVehicleEngineStatus", pythonFunctions::GTAOrange_GetVehicleEngineStatus, METH_VARARGS, "" },
+	{ "SetVehicleBodyHealth", pythonFunctions::GTAOrange_SetVehicleBodyHealth, METH_VARARGS, "" },
+	{ "SetVehicleEngineHealth", pythonFunctions::GTAOrange_SetVehicleEngineHealth, METH_VARARGS, "" },
+	{ "SetVehicleTankHealth", pythonFunctions::GTAOrange_SetVehicleTankHealth, METH_VARARGS, "" },
+	{ "GetVehicleHealth", pythonFunctions::GTAOrange_GetVehicleHealth, METH_VARARGS, "" },
+	{ "SetVehicleNumberPlate", pythonFunctions::GTAOrange_SetVehicleNumberPlate, METH_VARARGS, "" },
+	{ "GetVehicleNumberPlate", pythonFunctions::GTAOrange_GetVehicleNumberPlate, METH_VARARGS, "" },
+	{ "SetVehicleNumberPlateStyle", pythonFunctions::GTAOrange_SetVehicleNumberPlateStyle, METH_VARARGS, "" },
+	{ "GetVehicleNumberPlateStyle", pythonFunctions::GTAOrange_GetVehicleNumberPlateStyle, METH_VARARGS, "" },
+	{ "SetVehicleSirenState", pythonFunctions::GTAOrange_SetVehicleSirenState, METH_VARARGS, "" },
+	{ "GetVehicleSirenState", pythonFunctions::GTAOrange_GetVehicleSirenState, METH_VARARGS, "" },
+	{ "SetVehicleWheelColor", pythonFunctions::GTAOrange_SetVehicleWheelColor, METH_VARARGS, "" },
+	{ "GetVehicleWheelColor", pythonFunctions::GTAOrange_GetVehicleWheelColor, METH_VARARGS, "" },
+	{ "SetVehicleWheelType", pythonFunctions::GTAOrange_SetVehicleWheelType, METH_VARARGS, "" },
+	{ "GetVehicleWheelType", pythonFunctions::GTAOrange_GetVehicleWheelType, METH_VARARGS, "" },
 	{ "GetVehicleDriver", pythonFunctions::GTAOrange_GetVehicleDriver, METH_VARARGS, "" },
+	{ "GetVehiclePassengers", pythonFunctions::GTAOrange_GetVehiclePassengers, METH_VARARGS, "" },
 	{ "CreateObject", pythonFunctions::GTAOrange_CreateObject, METH_VARARGS, "" }, //Not tested
 	{ "DeleteObject", pythonFunctions::GTAOrange_DeleteObject, METH_VARARGS, "" }, //Not tested
 	{ "CreatePickup", pythonFunctions::GTAOrange_CreatePickup, METH_VARARGS, "" }, //Not tested
@@ -286,11 +310,11 @@ void pythonFunctions::init()
 	PyEval_ReleaseThread(Threads);
 
 	if (pModule == NULL) {
-		//pythonFunctions::PrintError();
+		pythonFunctions::PrintError();
 		sprintf(buffer, "[Python] Error: Wrapper not loaded");
 		API::Get().Print(buffer);
-	}
-	Py_DECREF(pModule);
+	} else
+		Py_DECREF(pModule);
 
 	API::Get().Print("Python module 0.2 loaded");
 	return;
@@ -307,20 +331,20 @@ bool pythonFunctions::loadResource(const char* resource)
 	PyObject *pName = PyUnicode_DecodeFSDefault(resource);
 
 	PyObject *pModule = PyImport_Import(pName);
-	PyEval_ReleaseThread(Threads);
 	Py_DECREF(pName);
 
 	if (pModule != NULL) {
 		sprintf(buffer, "[Python] Started %s", resource);
 		API::Get().Print(buffer);
 		Py_DECREF(pModule);
+		PyEval_ReleaseThread(Threads);
 		return true;
 	}
 	else {
 		pythonFunctions::PrintError();
 		sprintf(buffer, "[Python] Failed to load %s", resource);
 		API::Get().Print(buffer);
-		Py_DECREF(pModule);
+		PyEval_ReleaseThread(Threads);
 		return false;
 	}
 }

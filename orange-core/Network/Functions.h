@@ -36,6 +36,12 @@ namespace FPlayer
 	void SetVehiclePosition(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void SetVehicleRotation(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void SetVehicleColours(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+	void SetVehicleTyresBulletproof(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+	void SetVehicleEngineStatus(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+	void SetVehicleBodyHealth(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+	void SetVehicleEngineHealth(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+	void SetVehicleTankHealth(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+	void SetVehicleSirenState(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void DeleteVehicle(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 
 	void CreateMarker(RakNet::BitStream *bitStream, RakNet::Packet *packet);

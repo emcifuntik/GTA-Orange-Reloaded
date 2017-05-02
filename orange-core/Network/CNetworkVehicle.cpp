@@ -45,6 +45,9 @@ void CNetworkVehicle::UpdateModel()
 			scriptWait(0);
 		Handle = VEHICLE::CREATE_VEHICLE(m_Model, curPos.fX, curPos.fY, curPos.fZ, curHead, true, true);
 		VEHICLE::SET_VEHICLE_COLOURS(Handle, m_Color1, m_Color2);
+		VEHICLE::SET_VEHICLE_SIREN(Handle, m_Siren);
+		VEHICLE::SET_VEHICLE_ENGINE_ON(Handle, m_EngineState, true, true);
+		VEHICLE::SET_VEHICLE_TYRES_CAN_BURST(Handle, !m_TyresBulletproof);
 		VEHICLE::SET_VEHICLE_EXPLODES_ON_HIGH_EXPLOSION_DAMAGE(Handle, false);
 		if (blip)
 		{
@@ -135,9 +138,9 @@ void CNetworkVehicle::SetTargetPosition(const CVector3 & vecPosition)
 void CNetworkVehicle::SetTargetPosition(const CVector3& vecPosition, unsigned long ulDelay)
 {
 
-	if (!VEHICLE::_IS_VEHICLE_ENGINE_ON(Handle))
+	if (!VEHICLE::_IS_VEHICLE_ENGINE_ON(Handle) && m_EngineState)
 	{
-		VEHICLE::SET_VEHICLE_ENGINE_ON(Handle, true, true, true);
+		//VEHICLE::SET_VEHICLE_ENGINE_ON(Handle, true, true, true);
 	}
 
 	// Update our target position
@@ -159,6 +162,11 @@ void CNetworkVehicle::SetTargetPosition(const CVector3& vecPosition, unsigned lo
 
 	// Initialize the interpolation
 	m_interp.pos.fLastAlpha = 0.0f;
+}
+
+void CNetworkVehicle::SetTargetRotation(const CVector3& vecRotation)
+{
+	m_interp.rot.vecTarget = vecRotation;
 }
 
 void CNetworkVehicle::SetTargetRotation(const CVector3& vecRotation, unsigned long ulDelay)
@@ -300,6 +308,8 @@ void CNetworkVehicle::SetVehicleData(VehicleData data, unsigned long ulDelay)
 	m_TankHealth = data.fTankHealth;
 	m_Drivable = data.bDrivable;
 
+	m_TyresBulletproof = data.bTyresBulletproof;
+	m_EngineState = data.bEngineStatus;
 	m_Color1 = data.Color1;
 	m_Color2 = data.Color2;
 
@@ -389,6 +399,9 @@ void CNetworkVehicle::Tick()
 						scriptWait(0);
 					veh->Handle = VEHICLE::CREATE_VEHICLE(veh->m_Model, veh->m_interp.pos.vecTarget.fX, veh->m_interp.pos.vecTarget.fY, veh->m_interp.pos.vecTarget.fZ, veh->m_interp.rot.vecTarget.fZ, true, true);
 					VEHICLE::SET_VEHICLE_COLOURS(veh->Handle, veh->m_Color1, veh->m_Color2);
+					VEHICLE::SET_VEHICLE_SIREN(veh->Handle, veh->m_Siren);
+					VEHICLE::SET_VEHICLE_ENGINE_ON(veh->Handle, veh->m_EngineState, true, true);
+					VEHICLE::SET_VEHICLE_TYRES_CAN_BURST(veh->Handle, !veh->m_TyresBulletproof);
 					if (veh->blip)
 					{
 						veh->blip->Handle = UI::ADD_BLIP_FOR_ENTITY(veh->Handle);
@@ -409,5 +422,54 @@ void CNetworkVehicle::Tick()
 		if (!veh->m_bVisible) continue;
 		if (!veh->m_Inited) veh->Init();
 		veh->Interpolate();
+	}
+}
+
+void CNetworkVehicle::SetTargetColours(int color1, int color2)
+{
+	m_Color1 = color1;
+	m_Color2 = color2;
+	VEHICLE::SET_VEHICLE_COLOURS(Handle, m_Color1, m_Color2);
+}
+
+void CNetworkVehicle::SetTargetTyresBulletproof(bool bulletproof)
+{
+	if (m_TyresBulletproof != bulletproof) {
+		m_TyresBulletproof = bulletproof;
+		VEHICLE::SET_VEHICLE_TYRES_CAN_BURST(Handle, !m_TyresBulletproof);
+	}
+}
+
+void CNetworkVehicle::SetTargetEngineStatus(bool state)
+{
+	if (m_EngineState != state) {
+		m_EngineState = state;
+		VEHICLE::SET_VEHICLE_ENGINE_ON(Handle, m_EngineState, true, true);
+	}
+}
+
+void CNetworkVehicle::SetTargetBodyHealth(float health)
+{
+	m_BodyHealth = health;
+	VEHICLE::SET_VEHICLE_BODY_HEALTH(Handle, health);
+}
+
+void CNetworkVehicle::SetTargetEngineHealth(float health)
+{
+	m_EngineHealth = health;
+	VEHICLE::SET_VEHICLE_ENGINE_HEALTH(Handle, m_EngineHealth);
+}
+
+void CNetworkVehicle::SetTargetTankHealth(float health)
+{
+	m_TankHealth = health;
+	VEHICLE::SET_VEHICLE_PETROL_TANK_HEALTH(Handle, m_TankHealth);
+}
+
+void CNetworkVehicle::SetTargetSiren(bool state)
+{
+	if (m_Siren != state) {
+		m_Siren = state;
+		VEHICLE::SET_VEHICLE_SIREN(Handle, m_Siren);
 	}
 }
