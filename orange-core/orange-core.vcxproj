@@ -75,7 +75,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;ORANGECORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../deps/ServerDeps/LuaJIT-2.1.0-beta2/src;../deps/RakNet/Source/;../shared/;./;../deps/tinyxml2/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../deps/ServerDeps/LuaJIT-2.1.0-beta2/src;../deps/RakNet/Source/;../shared/;./;../deps/tinyxml2/;../deps/ClientDeps/cef</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -83,14 +83,17 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\deps\bin\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>RakNet_Release_$(Platform).lib;tinyxml2_$(Configuration)_$(Platform).lib;d3dcompiler.lib;winmm.lib;Mincore.lib;version.lib;lua51.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\deps\bin\;..\deps\ClientDeps\cef\Release;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>RakNet_Release_$(Platform).lib;tinyxml2_$(Configuration)_$(Platform).lib;d3dcompiler.lib;winmm.lib;Mincore.lib;version.lib;lua51.lib;libcef.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CEFCore.h" />
+    <ClInclude Include="CEFView.h" />
+    <ClInclude Include="CEFSimple.h" />
     <ClInclude Include="chatfont.h" />
     <ClInclude Include="Core\Chat.h" />
     <ClInclude Include="Core\Commands.h" />
@@ -164,6 +167,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BackScene.cpp" />
+    <ClCompile Include="CEFCore.cpp" />
+    <ClCompile Include="CEFView.cpp" />
+    <ClCompile Include="CEFSimple.cpp" />
     <ClCompile Include="ChatGUI.cpp" />
     <ClCompile Include="Core\Chat.cpp" />
     <ClCompile Include="Core\Commands.cpp" />
@@ -245,6 +251,9 @@
     <Image Include="Launcher.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\deps\ClientDeps\cef\cef.vcxproj">
+      <Project>{c469151d-15d8-4df2-b555-b06eb61d6c67}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\deps\tinyxml2\tinyxml2\tinyxml2.vcxproj">
       <Project>{d1c528b6-aa02-4d29-9d61-dc08e317a70d}</Project>
     </ProjectReference>

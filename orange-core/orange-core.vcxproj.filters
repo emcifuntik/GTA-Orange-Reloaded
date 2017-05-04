@@ -70,6 +70,15 @@
     <Filter Include="HWID">
       <UniqueIdentifier>{34a6b72f-145a-46b5-8f8c-bb63d21ff96b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CEF">
+      <UniqueIdentifier>{1cef4db2-c620-4ab2-8587-b9495ef0488a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CEF\Header Files">
+      <UniqueIdentifier>{38b1fb66-1866-4906-b929-04770cd91cba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CEF\Source Files">
+      <UniqueIdentifier>{dfb2f308-5964-4ea9-a365-444fd4ecc37c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -281,6 +290,15 @@
     <ClInclude Include="md5.h">
       <Filter>HWID</Filter>
     </ClInclude>
+    <ClInclude Include="CEFSimple.h">
+      <Filter>CEF\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CEFCore.h">
+      <Filter>CEF\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CEFView.h">
+      <Filter>CEF\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -483,6 +501,15 @@
     </ClCompile>
     <ClCompile Include="PreRender.cpp">
       <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CEFSimple.cpp">
+      <Filter>CEF\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CEFCore.cpp">
+      <Filter>CEF\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CEFView.cpp">
+      <Filter>CEF\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -28,6 +28,14 @@ int CommandProcessor(std::string command)
 		ExitProcess(EXIT_SUCCESS);
 		return true;
 	}
+
+	if (!command.compare("/cef"))
+	{
+		CEFCore Test = CEFCore();
+		Test.init();
+		Test.CreateWebView(2, 2, false, false);
+		return true;
+	}
 	
 	if (!command.compare("/save") && CGlobals::Get().isDebug)
 	{
