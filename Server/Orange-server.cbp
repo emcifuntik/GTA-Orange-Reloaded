@@ -46,18 +46,13 @@
 			<Add library="../deps/bin/libRakNetLibStatic.a" />
 			<Add library="../deps/bin/libyaml-cpp.a" />
 		</Linker>
-		<Unit filename="../deps/ServerDeps/Civet/CivetServer.cpp" />
-		<Unit filename="../deps/ServerDeps/Civet/civetweb.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="API.cpp" />
 		<Unit filename="API.h" />
+		<Unit filename="API_ext.cpp" />
 		<Unit filename="CClientScripting.cpp" />
 		<Unit filename="CClientScripting.h" />
 		<Unit filename="CConfig.cpp" />
 		<Unit filename="CConfig.h" />
 		<Unit filename="CConsole.h" />
-		<Unit filename="CHTTPServer.cpp" />
 		<Unit filename="CHTTPServer.h" />
 		<Unit filename="CLog.h" />
 		<Unit filename="CNetwork3DText.cpp" />
