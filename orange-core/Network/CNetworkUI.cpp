@@ -138,7 +138,7 @@ void CNetworkUI::DXRender()
 			if (child->type == 4)
 			{
 				ImGui::GetWindowDrawList()->AddRectFilled(ImVec2((menu->pos.fX + 160)*k, (menu->pos.fY + 132 + pos * 37 + 16)*k), ImVec2((menu->pos.fX + 420)*k, (menu->pos.fY + 132 + pos * 37 + 21)*k), pos == menu->active ? ImColor(0, 0, 0, 255) : ImColor(255, 255, 255, 255));
-				ImGui::GetWindowDrawList()->AddCircleFilled(ImVec2((menu->pos.fX + 160 + 260*child->state)*k, (menu->pos.fY + 132 + pos * 37 + 19)*k), 4, pos == menu->active ? ImColor(0, 0, 0, 255) : ImColor(255, 255, 255, 255));
+				ImGui::GetWindowDrawList()->AddCircleFilled(ImVec2((menu->pos.fX + 160 + 260*child->state/(child->max - child->min))*k, (menu->pos.fY + 132 + pos * 37 + 19)*k), 4, pos == menu->active ? ImColor(0, 0, 0, 255) : ImColor(255, 255, 255, 255));
 			}
 
 			pos++;
@@ -232,12 +232,12 @@ void CNetworkUI::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, B
 			for each(auto menu in menus)
 				if (menu->shown) {
 					auto c = menu->children[menu->active];
-					if (c->type == 4 && c->state > 0)
+					if (c->type == 4 && c->state > c->min)
 					{
 						auto c = menu->children[menu->active];
 						c->state -= c->step;
 						
-						if (c->state < 0) c->state = 0;
+						if (c->state < c->min) c->state = c->min;
 
 						CScriptInvoker::Get().Push(c->cb);
 					}
@@ -247,11 +247,11 @@ void CNetworkUI::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, B
 			for each(auto menu in menus)
 				if (menu->shown) {
 					auto c = menu->children[menu->active];
-					if (c->type == 4 && c->state < 1)
+					if (c->type == 4 && c->state < c->max)
 					{
 						c->state += c->step;
 
-						if (c->state > 1) c->state = 1;
+						if (c->state > c->max) c->state = c->max;
 
 						CScriptInvoker::Get().Push(c->cb);
 					}

@@ -144,16 +144,26 @@ int lua_menu(lua_State *L)
 					break;
 				case 4:
 					lua_rawgeti(L, -1, 3);
-					child->step= lua_tonumber(L, -1);
-					log << child->step << std::endl;
+					child->min = lua_tonumber(L, -1);
+					//log << child->min << std::endl;
 					lua_pop(L, 1);
 
 					lua_rawgeti(L, -1, 4);
-					child->state = lua_tonumber(L, -1);
-					log << child->state << std::endl;
+					child->max = lua_tonumber(L, -1);
+					//log << child->max << std::endl;
 					lua_pop(L, 1);
 
 					lua_rawgeti(L, -1, 5);
+					child->step= lua_tonumber(L, -1);
+					//log << child->step << std::endl;
+					lua_pop(L, 1);
+
+					lua_rawgeti(L, -1, 6);
+					child->state = lua_tonumber(L, -1);
+					//log << child->state << std::endl;
+					lua_pop(L, 1);
+
+					lua_rawgeti(L, -1, 7);
 					ref = luaL_ref(L, LUA_REGISTRYINDEX);
 					child->cb = [=]()
 					{

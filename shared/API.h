@@ -70,7 +70,7 @@ public:
 			switch (type)
 			{
 			case M_STRING:
-				std::cout << "free: " << (char*)_val << std::endl;
+				//std::cout << "free: " << (char*)_val << std::endl;
 				free(_val);
 				break;
 			case M_INT:
