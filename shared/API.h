@@ -38,7 +38,7 @@ public:
 		(*counter)++;
 	};
 	MValue(const char* val) {
-		_val = strdup(val);
+		_val = _strdup(val);
 		type = M_STRING;
 		counter = new int(1);
 	};

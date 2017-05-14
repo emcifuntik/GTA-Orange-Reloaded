@@ -1,72 +1,62 @@
+// lua-module.cpp: определяет экспортированные функции для приложения DLL.
+//
 
 #include "stdafx.h"
+#ifdef _WINDOWS
+#define EXPORT __declspec(dllexport)
+#else
+#define EXPORT
+char *_strdup(const char *str) {
+	size_t len = std::strlen(str);
+	char *x = (char *)malloc(len + 1); /* 1 for the null terminator */
+	if (!x) return NULL; /* malloc could not allocate memory */
+	std::memcpy(x, str, len + 1); /* copy the string into the new buffer */
+	return x;
+}
+#endif
+
 
 API * API::instance = nullptr;
 
 extern "C"
 {
-	__declspec(dllexport) bool Validate(API * api)
+	EXPORT bool Validate(API * api)
 	{
 		API::Set(api);
 		return true;
 	}
 
-	__declspec(dllexport) void OnModuleInit()
+	EXPORT const char* OnResourceTypeRegister()
 	{
-		API::Get().Print("Simple module has been successfully loaded!");
-
-		API::Get().CreateVehicle(0x6322B39A, 46.34f, -688.664f, 43.6748f, 133.994f);
-		API::Get().CreateVehicle(0x6322B39A, 43.0207f, -695.123f, 43.662f, 159.652f);
-		API::Get().CreateVehicle(0x6322B39A, 40.2774f, -702.291f, 43.6512f, 158.812f);
-		API::Get().CreateVehicle(0x6322B39A, 38.2197f, -707.548f, 43.6416f, 158.856f);
-
-		API::Get().Print("All cars were loaded!");
+		return "lua";
 	}
 
-	__declspec(dllexport) bool OnPlayerConnect(long playerid)
+
+	EXPORT void OnModuleInit()
 	{
-		std::stringstream message;
-		message << "Player " << API::Get().GetPlayerName(playerid) << " joined the server!";
-		API::Get().BroadcastClientMessage(message.str().c_str(), 0xFFFFFFFF);
-		API::Get().SetPlayerPosition(playerid, 21.2369f, -711.042f, 45.973f);
+		API::Get().Print("Simple module loaded");
+	}
 
-		API::Get().GivePlayerWeapon(playerid, 0x2BE6766B, 2000);
-		API::Get().GivePlayerWeapon(playerid, 0xBFEFFF6D, 2000);
-		API::Get().GivePlayerWeapon(playerid, 0x1B06D571, 2000);
-
+	EXPORT bool OnPlayerConnect(long playerid)
+	{
 		return true;
 	}
 
-	__declspec(dllexport) bool OnServerCommand(std::string command)
-	{
 
+	EXPORT bool OnServerCommand(std::string command)
+	{
 		return true;
 	}
 
-	__declspec(dllexport) bool OnPlayerDisconnect(long playerid, int reason)
+	EXPORT bool OnPlayerDisconnect(long playerid, int reason)
 	{
-		std::stringstream message;
-		message << "Player  " << API::Get().GetPlayerName(playerid) << " left the server(" << ((reason == 1) ? "Disconnected" : "Timeout") << ")!";
-		API::Get().BroadcastClientMessage(message.str().c_str(), 0xFFFFFFFF);
 		return true;
 	}
 
-	__declspec(dllexport) bool OnPlayerUpdate(long playerid)
+	EXPORT bool OnPlayerUpdate(long playerid)
 	{
-
 		return true;
 	}
 
-	__declspec(dllexport) bool OnPlayerCommand(long playerid, const char * command)
-	{
-
-		return true;
-	}
-
-	__declspec(dllexport) bool OnPlayerText(long playerid, const char * text)
-	{
-
-		return true;
-	}
 }
 
