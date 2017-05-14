@@ -62,20 +62,6 @@ void ServerBrowser()
 		ImGui::End();
 		ImGui::PopFont();
 	}
-	else {
-		ImGui::SetNextWindowSize(ImVec2(600, 600), ImGuiSetCond_Always);
-		ImGui::SetNextWindowPosCenter(ImGuiSetCond_Always);
-		ImGui::PushFont(CGlobals::Get().chatFont);
-		ImGui::Begin("CEF", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize);
-
-		if (CGlobals::Get().ceftest2 && CGlobals::Get().m_pTextureView != nullptr)
-		{
-			ImGui::Image(CGlobals::Get().m_pTextureView, ImVec2(600, 500));
-		}
-
-		ImGui::End();
-		ImGui::PopFont();
-	}
 }
 
 GUI(ServerBrowser);

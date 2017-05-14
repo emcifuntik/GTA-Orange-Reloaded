@@ -22,6 +22,13 @@ void BackScene()
 	ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, 22.f, ImVec2(x1 - 1, y1 + 1), ImColor(0, 0, 0, 100), "GTA: Orange");
 	ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, 22.f, ImVec2(x1, y1), ImColor(0xFF, 0x8F, 0x00, 150), "GTA: Orange");*/
 
+	if (CGlobals::Get().ceftest2 && CGlobals::Get().m_pTextureView != nullptr)
+	{
+		ImGui::GetWindowDrawList()->AddImage(CGlobals::Get().m_pTextureView, ImVec2(0, 0), ImVec2((float)viewPortGame->Width, (float)viewPortGame->Height));
+		//ImGui::SetCursorPos(ImVec2(0, 0));
+		//ImGui::Image(CGlobals::Get().m_pTextureView, ImVec2((float)viewPortGame->Width, (float)viewPortGame->Height));
+	}
+	
 	if (CGlobals::Get().currentGameState == GameStatePlaying && CGlobals::Get().isDebug)
 	{
 		std::stringstream ss;

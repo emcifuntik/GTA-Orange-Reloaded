@@ -42,11 +42,13 @@ void CEFView::Initialise()
 {
 	//ID3D11Texture2D* m_pTexture;
 
+	auto viewPort = GTA::CViewportGame::Get();
+
 	// Setup the description of the texture
 	D3D11_TEXTURE2D_DESC m_TextureDesc;
 	ZeroMemory(&m_TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
-	m_TextureDesc.Width = 600;
-	m_TextureDesc.Height = 500;
+	m_TextureDesc.Width = viewPort->Width;
+	m_TextureDesc.Height = viewPort->Height;
 	m_TextureDesc.MipLevels = 1;
 	m_TextureDesc.ArraySize = 1;
 	m_TextureDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
@@ -85,9 +87,9 @@ void CEFView::Initialise()
 	}
 
 	CefWindowInfo windowInfo;
-	windowInfo.SetAsWindowless(CGlobals::Get().gtaHwnd, false);
+	windowInfo.SetAsWindowless(CGlobals::Get().gtaHwnd, true);
 
-	bool test = CefBrowserHost::CreateBrowser(windowInfo, this, "https://www.google.de/imghp", browserSettings, nullptr);
+	bool test = CefBrowserHost::CreateBrowser(windowInfo, this, "https://gta-orange.net/hidev/cef.html", browserSettings, nullptr);
 }
 bool CEFView::CanGoBack()
 {
@@ -203,10 +205,12 @@ bool CEFView::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect)
 	if (m_bBeingDestroyed)
 		return false;
 
+	auto viewPort = GTA::CViewportGame::Get();
+
 	rect.x = 0;
 	rect.y = 0;
-	rect.width = 500;
-	rect.height = 400;
+	rect.width = viewPort->Width;
+	rect.height = viewPort->Height;
 	log << "GetViewRect" << std::endl;
 	return true;
 }
@@ -258,6 +262,7 @@ void CEFView::OnPaint(CefRefPtr<CefBrowser> browser, CefRenderHandler::PaintElem
 
 	for (unsigned int y = 0; y < height; ++y)
 	{
+		log << (int)srcData[3] << std::endl;
 		std::memcpy(&dstData[mapped.RowPitch * y], &srcData[width2 * y], width2); // TODO: Copy only box
 	}
 	// Unmap
