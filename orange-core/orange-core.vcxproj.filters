@@ -290,13 +290,13 @@
     <ClInclude Include="md5.h">
       <Filter>HWID</Filter>
     </ClInclude>
-    <ClInclude Include="CEFSimple.h">
+    <ClInclude Include="CEF\CEFCore.h">
       <Filter>CEF\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CEFCore.h">
+    <ClInclude Include="CEF\CEFView.h">
       <Filter>CEF\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CEFView.h">
+    <ClInclude Include="CEF\CEFSimple.h">
       <Filter>CEF\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -502,13 +502,13 @@
     <ClCompile Include="PreRender.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
-    <ClCompile Include="CEFSimple.cpp">
+    <ClCompile Include="CEF\CEFCore.cpp">
       <Filter>CEF\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CEFCore.cpp">
+    <ClCompile Include="CEF\CEFSimple.cpp">
       <Filter>CEF\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CEFView.cpp">
+    <ClCompile Include="CEF\CEFView.cpp">
       <Filter>CEF\Source Files</Filter>
     </ClCompile>
   </ItemGroup>

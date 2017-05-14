@@ -57,11 +57,9 @@ void CEFView::Initialise()
 	}
 
 	CefWindowInfo windowInfo;
-	windowInfo.SetAsWindowless(CGlobals::Get().gtaHwnd, true);
+	windowInfo.SetAsWindowless(CGlobals::Get().gtaHwnd, false);
 
 	bool test = CefBrowserHost::CreateBrowser(windowInfo, this, "http://google.de/", browserSettings, nullptr);
-
-	log << test << std::endl;
 }
 bool CEFView::CanGoBack()
 {
@@ -179,8 +177,8 @@ bool CEFView::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect)
 
 	rect.x = 0;
 	rect.y = 0;
-	rect.width = 1920;
-	rect.height = 1024;
+	rect.width = 500;
+	rect.height = 500;
 	log << "GetViewRect" << std::endl;
 	return true;
 }

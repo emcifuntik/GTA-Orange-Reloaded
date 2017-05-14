@@ -20,10 +20,6 @@
 #include <mmdeviceapi.h>
 #include <audiopolicy.h>
 #include <condition_variable>
-#define GetNextSibling(hwnd) GetWindow(hwnd, GW_HWNDNEXT) // Re-define the conflicting macro
-#define GetFirstChild(hwnd) GetTopWindow(hwnd)
-
-#define MTA_CEF_USERAGENT "Multi Theft Auto: San Andreas Client " MTA_DM_BUILDTAG_LONG
 
 class CEFView : private CefClient,
 	private CefRenderHandler, private CefLoadHandler, private CefRequestHandler, private CefLifeSpanHandler,

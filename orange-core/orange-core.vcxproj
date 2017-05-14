@@ -91,9 +91,9 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CEFCore.h" />
-    <ClInclude Include="CEFView.h" />
-    <ClInclude Include="CEFSimple.h" />
+    <ClInclude Include="CEF\CEFCore.h" />
+    <ClInclude Include="CEF\CEFSimple.h" />
+    <ClInclude Include="CEF\CEFView.h" />
     <ClInclude Include="chatfont.h" />
     <ClInclude Include="Core\Chat.h" />
     <ClInclude Include="Core\Commands.h" />
@@ -167,9 +167,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BackScene.cpp" />
-    <ClCompile Include="CEFCore.cpp" />
-    <ClCompile Include="CEFView.cpp" />
-    <ClCompile Include="CEFSimple.cpp" />
+    <ClCompile Include="CEF\CEFCore.cpp" />
+    <ClCompile Include="CEF\CEFSimple.cpp" />
+    <ClCompile Include="CEF\CEFView.cpp" />
     <ClCompile Include="ChatGUI.cpp" />
     <ClCompile Include="Core\Chat.cpp" />
     <ClCompile Include="Core\Commands.cpp" />
