@@ -83,7 +83,7 @@ public:
 				delete (double*)_val;
 				break;
 			case M_ULONG:
-				delete (ULONG*)_val;
+				delete (unsigned long*)_val;
 				break;
 			case M_ARRAY:
 			{
