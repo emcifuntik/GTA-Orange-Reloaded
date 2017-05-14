@@ -33,6 +33,9 @@ public:
 	bool isDeveloper = false;
 	bool d3dloaded = false;
 	Cam currentcam;
+	ID3D11Texture2D* m_pTexture = nullptr;
+	ID3D11ShaderResourceView* m_pTextureView = nullptr;
+	bool	ceftest2 = false;
 	ID3D11Device *d3dDevice = nullptr;
 	ID3D11DeviceContext *d3dDeviceContext = nullptr;
 	IDXGISwapChain *d3dSwapChain = nullptr;

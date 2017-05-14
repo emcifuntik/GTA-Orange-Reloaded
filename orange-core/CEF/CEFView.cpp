@@ -40,6 +40,34 @@ CEFView::~CEFView()
 
 void CEFView::Initialise()
 {
+	//ID3D11Texture2D* m_pTexture;
+
+	// Setup the description of the texture
+	D3D11_TEXTURE2D_DESC m_TextureDesc;
+	ZeroMemory(&m_TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
+	m_TextureDesc.Width = 600;
+	m_TextureDesc.Height = 500;
+	m_TextureDesc.MipLevels = 1;
+	m_TextureDesc.ArraySize = 1;
+	m_TextureDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+	m_TextureDesc.SampleDesc.Count = 1;
+	m_TextureDesc.Usage = D3D11_USAGE_DYNAMIC;
+	m_TextureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE /*| D3D11_BIND_RENDER_TARGET*/;
+	m_TextureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+	// Create the empty texture
+	CGlobals::Get().d3dDevice->CreateTexture2D(&m_TextureDesc, nullptr, &CGlobals::Get().m_pTexture);
+
+	// Setup the shader resource view description
+	D3D11_SHADER_RESOURCE_VIEW_DESC m_SrvDesc;
+	m_SrvDesc.Format = m_TextureDesc.Format;
+	m_SrvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	m_SrvDesc.Texture2D.MostDetailedMip = 0;
+	m_SrvDesc.Texture2D.MipLevels = -1;
+
+	// Create the shader resource view for the texture.
+	CGlobals::Get().d3dDevice->CreateShaderResourceView(CGlobals::Get().m_pTexture, &m_SrvDesc, &CGlobals::Get().m_pTextureView);
+
 	// Initialise the web session (which holds the actual settings) in in-memory mode
 	CefBrowserSettings browserSettings;
 	//browserSettings.windowless_frame_rate = g_pCore->GetFrameRateLimit();
@@ -59,7 +87,7 @@ void CEFView::Initialise()
 	CefWindowInfo windowInfo;
 	windowInfo.SetAsWindowless(CGlobals::Get().gtaHwnd, false);
 
-	bool test = CefBrowserHost::CreateBrowser(windowInfo, this, "http://google.de/", browserSettings, nullptr);
+	bool test = CefBrowserHost::CreateBrowser(windowInfo, this, "https://www.google.de/imghp", browserSettings, nullptr);
 }
 bool CEFView::CanGoBack()
 {
@@ -178,7 +206,7 @@ bool CEFView::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect)
 	rect.x = 0;
 	rect.y = 0;
 	rect.width = 500;
-	rect.height = 500;
+	rect.height = 400;
 	log << "GetViewRect" << std::endl;
 	return true;
 }
@@ -213,6 +241,30 @@ void CEFView::OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect)
 ////////////////////////////////////////////////////////////////////
 void CEFView::OnPaint(CefRefPtr<CefBrowser> browser, CefRenderHandler::PaintElementType paintType, const CefRenderHandler::RectList& dirtyRects, const void* buffer, int width, int height)
 {
+	CGlobals::Get().ceftest2 = false;
+	D3D11_BOX box;
+	box.left = 0;
+	box.top = 0;
+	box.right = width;
+	box.bottom = height;
+	// Map resource
+	D3D11_MAPPED_SUBRESOURCE mapped;
+	CGlobals::Get().d3dDeviceContext->Map(CGlobals::Get().m_pTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped);
+
+	// Set subresource data and copy texture row by row
+	auto width2 = static_cast<unsigned int>(width * 4);
+	auto dstData = static_cast<byte*>(mapped.pData);
+	auto srcData = static_cast<const byte*>(buffer);
+
+	for (unsigned int y = 0; y < height; ++y)
+	{
+		std::memcpy(&dstData[mapped.RowPitch * y], &srcData[width2 * y], width2); // TODO: Copy only box
+	}
+	// Unmap
+	CGlobals::Get().d3dDeviceContext->Unmap(CGlobals::Get().m_pTexture, 0);
+
+	CGlobals::Get().ceftest2 = true;
+
 	std::string filename((CGlobals::Get().orangePath + "/webpage.bmp").c_str());
 
 	void* bits;

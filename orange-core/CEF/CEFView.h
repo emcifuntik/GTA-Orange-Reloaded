@@ -86,7 +86,7 @@ private:
 	CefRefPtr<CefBrowser> m_pWebView;
 	CWebBrowserItem*    m_pWebBrowserRenderItem;
 
-
+	ID3D11Texture2D*	m_pTexture = nullptr;
 	bool                m_bBeingDestroyed;
 	bool                m_bIsLocal;
 	bool                m_bIsTransparent;
