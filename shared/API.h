@@ -2,6 +2,9 @@
 #include <string>
 #include "CVector3.h"
 #include <memory>
+#ifndef ULONG
+#define ULONG unsigned long
+#endif // ULONG
 
 enum {
 	M_STRING,
@@ -29,7 +32,7 @@ public:
 		return val;
 	};
 	MValue() { type = -1; counter = new int(1); };
-	MValue(const MValue &val) 
+	MValue(const MValue &val)
 	{
 		std::stringstream ss;
 		type = val.type;
