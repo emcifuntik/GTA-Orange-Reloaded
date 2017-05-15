@@ -292,11 +292,6 @@
     <ClCompile Include="..\src\contrib\graphbuilder.cpp" />
     <ClCompile Include="..\src\contrib\graphbuilderadapter.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="C:/Users/tuxic/Документы/Visual Studio 2015/Projects/Launcher/deps/ServerDeps/yaml-cpp/vs/ZERO_CHECK.vcxproj">
-      <Project>ADD31EA6-6142-307D-8772-1BADBF11A58F</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

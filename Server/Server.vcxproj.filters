@@ -31,10 +31,10 @@
     <ClInclude Include="CNetworkPlayer.h">
       <Filter>Header Files\Network</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\GTA-Orange\Shared\Console\CLog.h">
+    <ClInclude Include="..\shared\Console\CLog.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\GTA-Orange\Shared\Console\CConsole.h">
+    <ClInclude Include="..\shared\Console\CConsole.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
     <ClInclude Include="CNetwork3DText.h">
