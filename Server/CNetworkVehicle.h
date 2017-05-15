@@ -39,7 +39,7 @@ public:
 	void SetDriver(CNetworkPlayer* driver);
 	void SetRotation(CVector3 rotation);
 	void SetHealth(unsigned short health);
-	std::vector<unsigned long> GetPassengers();
+	std::vector<unsigned int> GetPassengers();
 
 	CVector3 GetPosition() { return vecPos; };
 	CVector3 GetRotation() { return vecRot; };

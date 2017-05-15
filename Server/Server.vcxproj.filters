@@ -19,9 +19,6 @@
     <ClInclude Include="CConfig.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
-    <ClInclude Include="Plugin.h">
-      <Filter>Source Files\Plugins</Filter>
-    </ClInclude>
     <ClInclude Include="CNetworkBlip.h">
       <Filter>Header Files\Network</Filter>
     </ClInclude>
@@ -31,10 +28,10 @@
     <ClInclude Include="CNetworkPlayer.h">
       <Filter>Header Files\Network</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\GTA-Orange\Shared\Console\CLog.h">
+    <ClInclude Include="..\shared\Console\CLog.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\GTA-Orange\Shared\Console\CConsole.h">
+    <ClInclude Include="..\shared\Console\CConsole.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
     <ClInclude Include="CNetwork3DText.h">
@@ -43,11 +40,17 @@
     <ClInclude Include="CNetworkObject.h">
       <Filter>Header Files\Network</Filter>
     </ClInclude>
-    <ClInclude Include="CClientScripting.h">
-      <Filter>Source Files\Plugins</Filter>
-    </ClInclude>
     <ClInclude Include="API_ext.h">
-      <Filter>Source Files\Plugins</Filter>
+      <Filter>Header Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="CClientScripting.h">
+      <Filter>Header Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="Plugin.h">
+      <Filter>Header Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\API.h">
+      <Filter>Header Files\Plugins</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +127,9 @@
     </Filter>
     <Filter Include="Source Files\Plugins">
       <UniqueIdentifier>{06b428d5-f058-40f3-b870-0d75e6b1e7bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Plugins">
+      <UniqueIdentifier>{a88e32f9-d378-4d1b-9c8b-b24ea3da7a19}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

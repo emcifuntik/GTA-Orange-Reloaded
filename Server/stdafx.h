@@ -81,7 +81,7 @@ typedef int BOOL;
 
 // Logging
 #include <Console/CConsole.h>
-#include <CLog.h>
+#include <Console/CLog.h>
 
 // RPC
 #include "CRPCPlugin.h"

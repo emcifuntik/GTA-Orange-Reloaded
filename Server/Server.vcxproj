@@ -19,8 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\GTA-Orange\Shared\Console\CConsole.h" />
-    <ClInclude Include="..\..\GTA-Orange\Shared\Console\CLog.h" />
+    <ClInclude Include="..\shared\API.h" />
+    <ClInclude Include="..\shared\Console\CConsole.h" />
+    <ClInclude Include="..\shared\Console\CLog.h" />
     <ClInclude Include="API_ext.h" />
     <ClInclude Include="CClientScripting.h" />
     <ClInclude Include="CNetwork3DText.h" />

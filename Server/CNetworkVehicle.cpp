@@ -146,9 +146,9 @@ void CNetworkVehicle::SendGlobal(RakNet::Packet *packet)
 	}
 }
 
-std::vector<unsigned long> CNetworkVehicle::GetPassengers()
+std::vector<unsigned int> CNetworkVehicle::GetPassengers()
 {
-	std::vector<unsigned long> result;
+	std::vector<unsigned int> result;
 	for (CNetworkPlayer *player : CNetworkPlayer::All())
 	{
 		if (player && player->bInVehicle && player->vehicle == rnGUID)

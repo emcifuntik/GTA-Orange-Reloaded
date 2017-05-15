@@ -86,7 +86,7 @@ public:
 				delete (double*)_val;
 				break;
 			case M_ULONG:
-				delete (ULONG*)_val;
+				delete (unsigned long*)_val;
 				break;
 			case M_ARRAY:
 			{
@@ -238,8 +238,8 @@ public:
 	virtual int GetVehicleWheelColor(unsigned long guid) = 0; //Not implemented
 	virtual bool SetVehicleWheelType(unsigned long guid, int type) = 0; //Not implemented
 	virtual int GetVehicleWheelType(unsigned long guid) = 0; //Not implemented
-	virtual unsigned long GetVehicleDriver(unsigned long guid) = 0;
-	virtual std::vector<unsigned long> GetVehiclePassengers(unsigned long guid) = 0;
+	virtual long GetVehicleDriver(unsigned long guid) = 0;
+	virtual std::vector<unsigned int> GetVehiclePassengers(unsigned long guid) = 0;
 
 	virtual unsigned long CreateObject(long model, float x, float y, float z, float pitch, float yaw, float roll) = 0;
 	virtual bool DeleteObject(unsigned long guid) = 0;
