@@ -36,6 +36,10 @@ public:
 	ID3D11Texture2D* m_pTexture = nullptr;
 	ID3D11ShaderResourceView* m_pTextureView = nullptr;
 	bool	ceftest2 = false;
+	void*	cefbuffer = nullptr;
+	bool	dirtybuffer = false;
+	std::mutex cefmutex;
+	std::condition_variable cv;
 	ID3D11Device *d3dDevice = nullptr;
 	ID3D11DeviceContext *d3dDeviceContext = nullptr;
 	IDXGISwapChain *d3dSwapChain = nullptr;

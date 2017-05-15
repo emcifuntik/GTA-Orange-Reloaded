@@ -89,7 +89,8 @@ void CEFView::Initialise()
 	CefWindowInfo windowInfo;
 	windowInfo.SetAsWindowless(CGlobals::Get().gtaHwnd, true);
 
-	bool test = CefBrowserHost::CreateBrowser(windowInfo, this, "https://gta-orange.net/hidev/cef.html", browserSettings, nullptr);
+	//bool test = CefBrowserHost::CreateBrowser(windowInfo, this, "https://gta-orange.net/hidev/cef.html", browserSettings, nullptr);
+	bool test = CefBrowserHost::CreateBrowser(windowInfo, this, "https://codepen.io/Alca/pen/JWZwEa", browserSettings, nullptr);
 }
 bool CEFView::CanGoBack()
 {
@@ -211,7 +212,6 @@ bool CEFView::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect)
 	rect.y = 0;
 	rect.width = viewPort->Width;
 	rect.height = viewPort->Height;
-	log << "GetViewRect" << std::endl;
 	return true;
 }
 
@@ -245,82 +245,11 @@ void CEFView::OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect)
 ////////////////////////////////////////////////////////////////////
 void CEFView::OnPaint(CefRefPtr<CefBrowser> browser, CefRenderHandler::PaintElementType paintType, const CefRenderHandler::RectList& dirtyRects, const void* buffer, int width, int height)
 {
-	CGlobals::Get().ceftest2 = false;
-	D3D11_BOX box;
-	box.left = 0;
-	box.top = 0;
-	box.right = width;
-	box.bottom = height;
-	// Map resource
-	D3D11_MAPPED_SUBRESOURCE mapped;
-	CGlobals::Get().d3dDeviceContext->Map(CGlobals::Get().m_pTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped);
+	CGlobals::Get().cefbuffer = (void*)buffer;
+	CGlobals::Get().dirtybuffer = true;
 
-	// Set subresource data and copy texture row by row
-	auto width2 = static_cast<unsigned int>(width * 4);
-	auto dstData = static_cast<byte*>(mapped.pData);
-	auto srcData = static_cast<const byte*>(buffer);
-
-	for (unsigned int y = 0; y < height; ++y)
-	{
-		log << (int)srcData[3] << std::endl;
-		std::memcpy(&dstData[mapped.RowPitch * y], &srcData[width2 * y], width2); // TODO: Copy only box
-	}
-	// Unmap
-	CGlobals::Get().d3dDeviceContext->Unmap(CGlobals::Get().m_pTexture, 0);
-
-	CGlobals::Get().ceftest2 = true;
-
-	std::string filename((CGlobals::Get().orangePath + "/webpage.bmp").c_str());
-
-	void* bits;
-
-	// Populate the bitmap info header.
-	BITMAPINFOHEADER info;
-	info.biSize = sizeof(BITMAPINFOHEADER);
-	info.biWidth = width;
-	info.biHeight = -height;  // minus means top-down bitmap
-	info.biPlanes = 1;
-	info.biBitCount = 32;
-	info.biCompression = BI_RGB;  // no compression
-	info.biSizeImage = 0;
-	info.biXPelsPerMeter = 1;
-	info.biYPelsPerMeter = 1;
-	info.biClrUsed = 0;
-	info.biClrImportant = 0;
-
-	// Create the bitmap and retrieve the bit buffer.
-	HDC screen_dc = GetDC(NULL);
-	HBITMAP bitmap = CreateDIBSection(screen_dc, reinterpret_cast<BITMAPINFO*>(&info), DIB_RGB_COLORS, &bits, NULL, 0);
-	ReleaseDC(NULL, screen_dc);
-
-	// Read the image into the bit buffer.
-	if (bitmap == NULL)
-		return;
-
-	/*if (!browser->GetImage(PET_VIEW, width, height, bits))
-	return;
-	*/
-	// Populate the bitmap file header.
-	BITMAPFILEHEADER file;
-	file.bfType = 0x4d42;
-	file.bfSize = sizeof(BITMAPFILEHEADER);
-	file.bfReserved1 = 0;
-	file.bfReserved2 = 0;
-	file.bfOffBits = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
-
-	// Write the bitmap to file.
-	HANDLE file_handle = CreateFileA(filename.c_str(), GENERIC_WRITE, 0, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
-	if (file_handle != INVALID_HANDLE_VALUE)
-	{
-		DWORD bytes_written = 0;
-		WriteFile(file_handle, &file, sizeof(file), &bytes_written, 0);
-		WriteFile(file_handle, &info, sizeof(info), &bytes_written, 0);
-		WriteFile(file_handle, buffer, width * height * 4, &bytes_written, 0);
-		CloseHandle(file_handle);
-	}
-
-	DeleteObject(bitmap);
-	log << "OnPaint" << std::endl;
+	std::unique_lock<std::mutex> lock(CGlobals::Get().cefmutex);
+	CGlobals::Get().cv.wait(lock);
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -389,7 +318,7 @@ bool CEFView::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> 
 ////////////////////////////////////////////////////////////////////
 CefRequestHandler::ReturnValue CEFView::OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefRequestCallback> callback)
 {
-	log << "ReturnValue" << std::endl;
+	//log << "ReturnValue" << std::endl;
 	return RV_CONTINUE;
 }
 

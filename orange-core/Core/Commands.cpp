@@ -33,7 +33,7 @@ int CommandProcessor(std::string command)
 	{
 		CEFCore Test = CEFCore();
 		Test.init();
-		Test.CreateWebView(2, 2, false, false);
+		Test.CreateWebView(2, 2, true, true);
 		return true;
 	}
 	

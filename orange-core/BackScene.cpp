@@ -22,8 +22,31 @@ void BackScene()
 	ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, 22.f, ImVec2(x1 - 1, y1 + 1), ImColor(0, 0, 0, 100), "GTA: Orange");
 	ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, 22.f, ImVec2(x1, y1), ImColor(0xFF, 0x8F, 0x00, 150), "GTA: Orange");*/
 
-	if (CGlobals::Get().ceftest2 && CGlobals::Get().m_pTextureView != nullptr)
+	if (CGlobals::Get().m_pTextureView != nullptr)
 	{
+		if (CGlobals::Get().dirtybuffer)
+		{
+			// Map resource
+			D3D11_MAPPED_SUBRESOURCE mapped;
+
+			if (SUCCEEDED(CGlobals::Get().d3dDeviceContext->Map(CGlobals::Get().m_pTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped)))
+			{
+				// Set subresource data and copy texture row by row
+				auto width2 = static_cast<unsigned int>(800 * 4);
+				auto dstData = static_cast<byte*>(mapped.pData);
+				auto srcData = static_cast<const byte*>(CGlobals::Get().cefbuffer);
+
+				for (unsigned int y = 0; y < 600; ++y)
+				{
+					std::memcpy(&dstData[mapped.RowPitch * y], &srcData[width2 * y], width2); // TODO: Copy only box
+				}
+				// Unmap
+				CGlobals::Get().d3dDeviceContext->Unmap(CGlobals::Get().m_pTexture, 0);
+			}
+
+			CGlobals::Get().cv.notify_all();
+		}
+
 		ImGui::GetWindowDrawList()->AddImage(CGlobals::Get().m_pTextureView, ImVec2(0, 0), ImVec2((float)viewPortGame->Width, (float)viewPortGame->Height));
 		//ImGui::SetCursorPos(ImVec2(0, 0));
 		//ImGui::Image(CGlobals::Get().m_pTextureView, ImVec2((float)viewPortGame->Width, (float)viewPortGame->Height));
