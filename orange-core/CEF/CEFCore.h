@@ -6,12 +6,14 @@
 #include <include/cef_parser.h>
 #include "stdafx.h"
 
-class CWebBrowserItem;
-
 class CEFCore
 {
-	public:
-		CEFCore();
-		void init();
-		void CreateWebView(unsigned int uiWidth, unsigned int uiHeight, bool bIsLocal, bool bTransparent);
+	static CEFCore* instance;
+public:
+	std::vector<CefRefPtr<CEFView>> views;
+
+	CEFCore();
+	static CEFCore* Get();
+	void init();
+	CefRefPtr<CEFView> CreateWebView(std::string url, unsigned int uiWidth, unsigned int uiHeight, bool bIsLocal, bool bTransparent);
 };

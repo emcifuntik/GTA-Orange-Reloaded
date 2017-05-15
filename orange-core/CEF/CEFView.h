@@ -26,7 +26,7 @@ class CEFView : private CefClient,
 	private CefJSDialogHandler, private CefDialogHandler, private CefDisplayHandler, private CefContextMenuHandler
 {
 public:
-	CEFView(bool bIsLocal, bool bTransparent = false);
+	CEFView(std::string url, bool bIsLocal, bool bTransparent = false);
 	virtual ~CEFView();
 	void                        Initialise();
 
@@ -82,14 +82,18 @@ public:
 	// CefContextMenuHandler methods
 	virtual void OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model) override;
 
+	void UpdateTexture();
+	void Render();
+
 private:
 	CefRefPtr<CefBrowser> m_pWebView;
-	CWebBrowserItem*    m_pWebBrowserRenderItem;
 
 	ID3D11Texture2D*	m_pTexture = nullptr;
+	ID3D11ShaderResourceView* m_pTextureView = nullptr;
 	bool                m_bBeingDestroyed;
 	bool                m_bIsLocal;
 	bool                m_bIsTransparent;
+	std::string			m_sURL;
 	POINT               m_vecMousePosition;
 	bool                m_mouseButtonStates[3];
 	float               m_fVolume;

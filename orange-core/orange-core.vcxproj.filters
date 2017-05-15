@@ -299,6 +299,12 @@
     <ClInclude Include="CEF\CEFSimple.h">
       <Filter>CEF\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CEFSchemeHandler.h">
+      <Filter>CEF\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BackScene.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -509,6 +515,9 @@
       <Filter>CEF\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CEF\CEFView.cpp">
+      <Filter>CEF\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CEFSchemeHandler.cpp">
       <Filter>CEF\Source Files</Filter>
     </ClCompile>
   </ItemGroup>

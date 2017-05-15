@@ -11,12 +11,14 @@
 #include <include/cef_parser.h>
 #include <include/cef_task.h>
 
-CEFView::CEFView(bool bIsLocal, bool bTransparent)
+CEFView::CEFView(std::string url, bool bIsLocal, bool bTransparent)
 {
 	m_bIsLocal = bIsLocal;
 	m_bIsTransparent = bTransparent;
 	m_bBeingDestroyed = false;
 	m_fVolume = 1.0f;
+
+	m_sURL = url;
 	//memset(m_mouseButtonStates, 0, sizeof(m_mouseButtonStates));
 
 	// Initialise properties
@@ -44,11 +46,14 @@ void CEFView::Initialise()
 
 	auto viewPort = GTA::CViewportGame::Get();
 
+	m_RenderData.width = viewPort->Width;
+	m_RenderData.height = viewPort->Height;
+
 	// Setup the description of the texture
 	D3D11_TEXTURE2D_DESC m_TextureDesc;
 	ZeroMemory(&m_TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
-	m_TextureDesc.Width = viewPort->Width;
-	m_TextureDesc.Height = viewPort->Height;
+	m_TextureDesc.Width = m_RenderData.width;
+	m_TextureDesc.Height = m_RenderData.height;
 	m_TextureDesc.MipLevels = 1;
 	m_TextureDesc.ArraySize = 1;
 	m_TextureDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
@@ -58,7 +63,7 @@ void CEFView::Initialise()
 	m_TextureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
 	// Create the empty texture
-	CGlobals::Get().d3dDevice->CreateTexture2D(&m_TextureDesc, nullptr, &CGlobals::Get().m_pTexture);
+	CGlobals::Get().d3dDevice->CreateTexture2D(&m_TextureDesc, nullptr, &m_pTexture);
 
 	// Setup the shader resource view description
 	D3D11_SHADER_RESOURCE_VIEW_DESC m_SrvDesc;
@@ -68,7 +73,7 @@ void CEFView::Initialise()
 	m_SrvDesc.Texture2D.MipLevels = -1;
 
 	// Create the shader resource view for the texture.
-	CGlobals::Get().d3dDevice->CreateShaderResourceView(CGlobals::Get().m_pTexture, &m_SrvDesc, &CGlobals::Get().m_pTextureView);
+	CGlobals::Get().d3dDevice->CreateShaderResourceView(m_pTexture, &m_SrvDesc, &m_pTextureView);
 
 	// Initialise the web session (which holds the actual settings) in in-memory mode
 	CefBrowserSettings browserSettings;
@@ -89,8 +94,7 @@ void CEFView::Initialise()
 	CefWindowInfo windowInfo;
 	windowInfo.SetAsWindowless(CGlobals::Get().gtaHwnd, true);
 
-	//bool test = CefBrowserHost::CreateBrowser(windowInfo, this, "https://gta-orange.net/hidev/cef.html", browserSettings, nullptr);
-	bool test = CefBrowserHost::CreateBrowser(windowInfo, this, "https://codepen.io/Alca/pen/JWZwEa", browserSettings, nullptr);
+	CefBrowserHost::CreateBrowser(windowInfo, this, m_sURL, browserSettings, nullptr);
 }
 bool CEFView::CanGoBack()
 {
@@ -205,13 +209,11 @@ bool CEFView::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect)
 {
 	if (m_bBeingDestroyed)
 		return false;
-
-	auto viewPort = GTA::CViewportGame::Get();
-
+	
 	rect.x = 0;
 	rect.y = 0;
-	rect.width = viewPort->Width;
-	rect.height = viewPort->Height;
+	rect.width = m_RenderData.width;
+	rect.height = m_RenderData.height;
 	return true;
 }
 
@@ -245,14 +247,14 @@ void CEFView::OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect)
 ////////////////////////////////////////////////////////////////////
 void CEFView::OnPaint(CefRefPtr<CefBrowser> browser, CefRenderHandler::PaintElementType paintType, const CefRenderHandler::RectList& dirtyRects, const void* buffer, int width, int height)
 {
-	CGlobals::Get().cefmutex.lock();
+	m_RenderData.dataMutex.lock();
 
-	CGlobals::Get().cefsize.fX = width;
-	CGlobals::Get().cefsize.fY = height;
-	CGlobals::Get().cefbuffer = (void*)buffer;
-	CGlobals::Get().dirtybuffer = true;
+	m_RenderData.buffer = (void*)buffer;
+	m_RenderData.width = width;
+	m_RenderData.height = height;
+	m_RenderData.changed = true;
 
-	CGlobals::Get().cefmutex.unlock();
+	m_RenderData.dataMutex.unlock();
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -435,4 +437,38 @@ void CEFView::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFr
 	log << "OnBeforeContextMenu" << std::endl;
 	// Show no context menu
 	model->Clear();
+}
+
+void CEFView::UpdateTexture()
+{
+	if (m_RenderData.changed && m_pTexture != nullptr)
+	{
+		// Map resource
+		m_RenderData.dataMutex.lock();
+
+		D3D11_MAPPED_SUBRESOURCE mapped;
+
+		if (SUCCEEDED(CGlobals::Get().d3dDeviceContext->Map(m_pTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped)))
+		{
+			// Set subresource data and copy texture row by row
+			auto width2 = static_cast<unsigned int>(m_RenderData.width * 4);
+			auto dstData = static_cast<byte*>(mapped.pData);
+			auto srcData = static_cast<const byte*>(m_RenderData.buffer);
+
+			for (unsigned int y = 0; y < m_RenderData.height; ++y)
+			{
+				std::memcpy(&dstData[mapped.RowPitch * y], &srcData[width2 * y], width2); // TODO: Copy only box
+			}
+			// Unmap
+			CGlobals::Get().d3dDeviceContext->Unmap(m_pTexture, 0);
+		}
+		m_RenderData.changed = false;
+
+		m_RenderData.dataMutex.unlock();
+	}
+}
+
+void CEFView::Render()
+{
+	ImGui::GetWindowDrawList()->AddImage(m_pTextureView, ImVec2(0, 0), ImVec2(m_RenderData.width, m_RenderData.height));
 }

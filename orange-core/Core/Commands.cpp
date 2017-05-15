@@ -31,9 +31,8 @@ int CommandProcessor(std::string command)
 
 	if (!command.compare("/cef"))
 	{
-		CEFCore Test = CEFCore();
-		Test.init();
-		Test.CreateWebView(2, 2, true, true);
+		CEFCore::Get()->CreateWebView("ui://index.html", 2, 2, true, true);
+		ShowCursor(TRUE);
 		return true;
 	}
 	

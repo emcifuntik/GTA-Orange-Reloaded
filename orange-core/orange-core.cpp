@@ -103,6 +103,7 @@ void OnGameStateChange(int gameState)
 	switch (gameState)
 	{
 	case GameStateIntro:
+		CEFCore::Get()->init();
 		break;
 	case GameStateLicenseShit:
 		break;

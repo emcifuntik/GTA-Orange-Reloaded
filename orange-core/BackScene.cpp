@@ -3,8 +3,8 @@
 void BackScene()
 {
 	auto viewPortGame = GTA::CViewportGame::Get();
-	ImGui::SetNextWindowPos(ImVec2(0.f, 0.f), ImGuiSetCond_Always);
-	ImGui::Begin("Background", 0, ImVec2((float)viewPortGame->Width, (float)viewPortGame->Height), 0.f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings);
+	ImGui::SetNextWindowPos(ImVec2(-4.f, 0.f), ImGuiSetCond_Always);
+	ImGui::Begin("Background", 0, ImVec2((float)viewPortGame->Width+8, (float)viewPortGame->Height), 0.f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.f, 0.f));
 	ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, 0.f);
 	ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, ImVec2(0.f, 0.f));
@@ -22,37 +22,10 @@ void BackScene()
 	ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, 22.f, ImVec2(x1 - 1, y1 + 1), ImColor(0, 0, 0, 100), "GTA: Orange");
 	ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, 22.f, ImVec2(x1, y1), ImColor(0xFF, 0x8F, 0x00, 150), "GTA: Orange");*/
 
-	if (CGlobals::Get().m_pTextureView != nullptr)
+	for (auto cefView : CEFCore::Get()->views)
 	{
-		if (CGlobals::Get().dirtybuffer)
-		{
-			// Map resource
-			CGlobals::Get().cefmutex.lock();
-
-			D3D11_MAPPED_SUBRESOURCE mapped;
-
-			if (SUCCEEDED(CGlobals::Get().d3dDeviceContext->Map(CGlobals::Get().m_pTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped)))
-			{
-				// Set subresource data and copy texture row by row
-				auto width2 = static_cast<unsigned int>(CGlobals::Get().cefsize.fX * 4);
-				auto dstData = static_cast<byte*>(mapped.pData);
-				auto srcData = static_cast<const byte*>(CGlobals::Get().cefbuffer);
-
-				for (unsigned int y = 0; y < CGlobals::Get().cefsize.fY; ++y)
-				{
-					std::memcpy(&dstData[mapped.RowPitch * y], &srcData[width2 * y], width2); // TODO: Copy only box
-				}
-				// Unmap
-				CGlobals::Get().d3dDeviceContext->Unmap(CGlobals::Get().m_pTexture, 0);
-			}
-			CGlobals::Get().dirtybuffer = false;
-
-			CGlobals::Get().cefmutex.unlock();
-		}
-
-		ImGui::GetWindowDrawList()->AddImage(CGlobals::Get().m_pTextureView, ImVec2(0, 0), ImVec2((float)viewPortGame->Width, (float)viewPortGame->Height));
-		//ImGui::SetCursorPos(ImVec2(0, 0));
-		//ImGui::Image(CGlobals::Get().m_pTextureView, ImVec2((float)viewPortGame->Width, (float)viewPortGame->Height));
+		cefView->UpdateTexture();
+		cefView->Render();
 	}
 	
 	if (CGlobals::Get().currentGameState == GameStatePlaying && CGlobals::Get().isDebug)

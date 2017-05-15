@@ -91,6 +91,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BackScene.h" />
+    <ClInclude Include="CEFSchemeHandler.h" />
     <ClInclude Include="CEF\CEFCore.h" />
     <ClInclude Include="CEF\CEFSimple.h" />
     <ClInclude Include="CEF\CEFView.h" />
@@ -167,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BackScene.cpp" />
+    <ClCompile Include="CEFSchemeHandler.cpp" />
     <ClCompile Include="CEF\CEFCore.cpp" />
     <ClCompile Include="CEF\CEFSimple.cpp" />
     <ClCompile Include="CEF\CEFView.cpp" />
