@@ -27,24 +27,27 @@ void BackScene()
 		if (CGlobals::Get().dirtybuffer)
 		{
 			// Map resource
+			CGlobals::Get().cefmutex.lock();
+
 			D3D11_MAPPED_SUBRESOURCE mapped;
 
 			if (SUCCEEDED(CGlobals::Get().d3dDeviceContext->Map(CGlobals::Get().m_pTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped)))
 			{
 				// Set subresource data and copy texture row by row
-				auto width2 = static_cast<unsigned int>(800 * 4);
+				auto width2 = static_cast<unsigned int>(CGlobals::Get().cefsize.fX * 4);
 				auto dstData = static_cast<byte*>(mapped.pData);
 				auto srcData = static_cast<const byte*>(CGlobals::Get().cefbuffer);
 
-				for (unsigned int y = 0; y < 600; ++y)
+				for (unsigned int y = 0; y < CGlobals::Get().cefsize.fY; ++y)
 				{
 					std::memcpy(&dstData[mapped.RowPitch * y], &srcData[width2 * y], width2); // TODO: Copy only box
 				}
 				// Unmap
 				CGlobals::Get().d3dDeviceContext->Unmap(CGlobals::Get().m_pTexture, 0);
 			}
+			CGlobals::Get().dirtybuffer = false;
 
-			CGlobals::Get().cv.notify_all();
+			CGlobals::Get().cefmutex.unlock();
 		}
 
 		ImGui::GetWindowDrawList()->AddImage(CGlobals::Get().m_pTextureView, ImVec2(0, 0), ImVec2((float)viewPortGame->Width, (float)viewPortGame->Height));

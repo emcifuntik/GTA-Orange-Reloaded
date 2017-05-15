@@ -40,6 +40,7 @@ public:
 	bool	dirtybuffer = false;
 	std::mutex cefmutex;
 	std::condition_variable cv;
+	CVector2 cefsize;
 	ID3D11Device *d3dDevice = nullptr;
 	ID3D11DeviceContext *d3dDeviceContext = nullptr;
 	IDXGISwapChain *d3dSwapChain = nullptr;

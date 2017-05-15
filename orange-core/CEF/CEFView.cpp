@@ -245,11 +245,14 @@ void CEFView::OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect)
 ////////////////////////////////////////////////////////////////////
 void CEFView::OnPaint(CefRefPtr<CefBrowser> browser, CefRenderHandler::PaintElementType paintType, const CefRenderHandler::RectList& dirtyRects, const void* buffer, int width, int height)
 {
+	CGlobals::Get().cefmutex.lock();
+
+	CGlobals::Get().cefsize.fX = width;
+	CGlobals::Get().cefsize.fY = height;
 	CGlobals::Get().cefbuffer = (void*)buffer;
 	CGlobals::Get().dirtybuffer = true;
 
-	std::unique_lock<std::mutex> lock(CGlobals::Get().cefmutex);
-	CGlobals::Get().cv.wait(lock);
+	CGlobals::Get().cefmutex.unlock();
 }
 
 ////////////////////////////////////////////////////////////////////
