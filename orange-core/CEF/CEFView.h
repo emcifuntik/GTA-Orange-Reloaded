@@ -85,8 +85,9 @@ public:
 	void UpdateTexture();
 	void Render();
 
-private:
 	CefRefPtr<CefBrowser> m_pWebView;
+
+private:
 
 	ID3D11Texture2D*	m_pTexture = nullptr;
 	ID3D11ShaderResourceView* m_pTextureView = nullptr;

@@ -104,15 +104,17 @@ void OnGameStateChange(int gameState)
 	{
 	case GameStateIntro:
 		CEFCore::Get()->init();
+		ShowCursor(TRUE);
 		break;
 	case GameStateLicenseShit:
 		break;
 	case GameStatePlaying:
 	{
 		TurnOnConsole();
+		D3DHook::HookD3D11();
+		CEFCore::Get()->CreateWebView("ui://index.html", 2, 2, true, true);
 		if (!ScriptEngine::Initialize())
 			log_error << "Failed to initialize ScriptEngine" << std::endl;
-		D3DHook::HookD3D11();
 		CChat::Get()->RegisterCommandProcessor(CommandProcessor);
 
 		log_info << "Game ready" << std::endl;

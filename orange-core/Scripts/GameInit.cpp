@@ -97,6 +97,7 @@ void Action()
 			ss << "{E30022}" << u8"\ueffb" << "{FFFFFF} Grand Theft Auto: {FF8F00}Orange {FFFFFF}loaded";
 			CChat::Get()->AddChatMessage(ss.str());
 		}
+
 		if(CNetworkConnection::Get()->bClear) {
 			CScriptEngine::Close();
 			CScriptEngine::Get()->Init();
@@ -110,6 +111,24 @@ void Action()
 			CNetworkBlip::Clear();
 
 			CNetworkConnection::Get()->bClear = false;
+		}
+
+		ImVec2 pos = ImGui::GetMousePos();
+
+		CefMouseEvent event;
+		event.x = pos.x;
+		event.y = pos.y;
+
+		event.modifiers |= EVENTFLAG_LEFT_MOUSE_BUTTON;
+		event.modifiers |= EVENTFLAG_RIGHT_MOUSE_BUTTON;
+		event.modifiers |= EVENTFLAG_MIDDLE_MOUSE_BUTTON;
+
+		// Is that even needed?
+		//if (UI::IsCtrlPressed) event.modifiers |= EVENTFLAG_CONTROL_DOWN;
+
+		for (auto cefView : CEFCore::Get()->views)
+		{
+			cefView->m_pWebView->GetHost()->SendMouseMoveEvent(event, false);
 		}
 
 		//Vector3 pos = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), true);

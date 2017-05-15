@@ -31,7 +31,12 @@ int CommandProcessor(std::string command)
 
 	if (!command.compare("/cef"))
 	{
-		CEFCore::Get()->CreateWebView("ui://index.html", 2, 2, true, true);
+		if (!params.size())
+		{
+			CChat::Get()->AddChatMessage("USAGE: /cef [url]", 0xAAAAAAFF);
+			return true;
+		}
+		CEFCore::Get()->CreateWebView(params[0], 2, 2, true, true);
 		ShowCursor(TRUE);
 		return true;
 	}
