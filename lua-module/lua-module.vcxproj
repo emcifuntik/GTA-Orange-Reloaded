@@ -154,9 +154,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="luasql.h" />
     <ClInclude Include="lua_Main.h" />
     <ClInclude Include="SResource.h" />

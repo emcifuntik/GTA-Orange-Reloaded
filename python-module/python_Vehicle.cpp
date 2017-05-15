@@ -370,11 +370,11 @@ PyObject* pythonFunctions::GTAOrange_GetVehicleWheelType(PyObject* self, PyObjec
 PyObject* pythonFunctions::GTAOrange_GetVehicleDriver(PyObject* self, PyObject* args)
 {
 	PyObject *vehid;
-	if (PyArg_UnpackTuple(args, "l", 1, 1, &vehid))
-	{
-		return PyLong_FromLong(API::Get().GetVehicleDriver(PyLong_AsLong(vehid)));
-	}
-	return PyBool_FromLong(0);
+	PyArg_UnpackTuple(args, "l", 1, 1, &vehid);
+	long result = API::Get().GetVehicleDriver(PyLong_AsLong(vehid));
+	if (result != -1)
+		return PyLong_FromLong(result);
+	return Py_None;
 }
 
 PyObject* pythonFunctions::GTAOrange_GetVehiclePassengers(PyObject* self, PyObject* args)
@@ -382,7 +382,7 @@ PyObject* pythonFunctions::GTAOrange_GetVehiclePassengers(PyObject* self, PyObje
 	PyObject *vehid;
 	if (PyArg_UnpackTuple(args, "l", 1, 1, &vehid))
 	{
-		std::vector<unsigned long> value = API::Get().GetVehiclePassengers(PyLong_AsLong(vehid));
+		std::vector<unsigned int> value = API::Get().GetVehiclePassengers(PyLong_AsLong(vehid));
 		if (value.size() == 0)
 			return Py_None;
 		else if(value.size() == 1)

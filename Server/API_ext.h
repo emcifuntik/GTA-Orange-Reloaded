@@ -69,8 +69,8 @@ public:
 	int GetVehicleWheelColor(unsigned long guid);
 	bool SetVehicleWheelType(unsigned long guid, int type);
 	int GetVehicleWheelType(unsigned long guid);
-	unsigned long GetVehicleDriver(unsigned long guid);
-	std::vector<unsigned long> GetVehiclePassengers(unsigned long guid);
+	long GetVehicleDriver(unsigned long guid);
+	std::vector<unsigned int> GetVehiclePassengers(unsigned long guid);
 	
 
 	//Pickup

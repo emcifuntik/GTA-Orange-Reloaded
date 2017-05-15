@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\shared\API.h" />
     <ClInclude Include="..\shared\Console\CConsole.h" />
     <ClInclude Include="..\shared\Console\CLog.h" />
     <ClInclude Include="API_ext.h" />
