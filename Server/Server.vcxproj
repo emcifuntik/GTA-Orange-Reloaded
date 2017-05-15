@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Console\CConsole.h" />
-    <ClInclude Include="..\Console\CLog.h" />
+    <ClInclude Include="..\shared\Console\CConsole.h" />
+    <ClInclude Include="..\shared\Console\CLog.h" />
     <ClInclude Include="API_ext.h" />
     <ClInclude Include="CClientScripting.h" />
     <ClInclude Include="CNetwork3DText.h" />
