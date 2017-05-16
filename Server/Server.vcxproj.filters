@@ -28,9 +28,6 @@
     <ClInclude Include="CNetworkPlayer.h">
       <Filter>Header Files\Network</Filter>
     </ClInclude>
-    <ClInclude Include="..\shared\Console\CLog.h">
-      <Filter>Header Files\Common</Filter>
-    </ClInclude>
     <ClInclude Include="..\shared\Console\CConsole.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
@@ -51,6 +48,9 @@
     </ClInclude>
     <ClInclude Include="..\shared\API.h">
       <Filter>Header Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\Console\CLogServer.h">
+      <Filter>Header Files\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

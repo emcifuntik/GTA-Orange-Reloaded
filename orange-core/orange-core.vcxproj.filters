@@ -16,9 +16,6 @@
     <Filter Include="Network">
       <UniqueIdentifier>{a8ce1800-593a-41cf-9546-3a2c0da75f05}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\MemoryHook">
-      <UniqueIdentifier>{62d01694-5599-4c75-9d93-3f4876b46557}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GUI">
       <UniqueIdentifier>{3cb60bbc-0b2d-4dbd-8047-37e5258211e9}</UniqueIdentifier>
     </Filter>
@@ -46,12 +43,6 @@
     <Filter Include="UI\Source Files">
       <UniqueIdentifier>{3b31eed6-c4a1-4ea0-b918-311d76fe9b0a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\MemoryHook\Header Files">
-      <UniqueIdentifier>{e795d493-02dc-46aa-8361-d0dc84eb6e0c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\MemoryHook\Source Files">
-      <UniqueIdentifier>{19a2b235-78ee-40e9-9349-e2de00874b89}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Source Files">
       <UniqueIdentifier>{1d35ddcd-b36e-41c8-849e-69199b6c50cb}</UniqueIdentifier>
     </Filter>
@@ -69,6 +60,15 @@
     </Filter>
     <Filter Include="GTA\Header Files">
       <UniqueIdentifier>{5f672a9b-8264-4f8f-870e-3d02ff9e0188}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MemoryHook">
+      <UniqueIdentifier>{62d01694-5599-4c75-9d93-3f4876b46557}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MemoryHook\Header Files">
+      <UniqueIdentifier>{e795d493-02dc-46aa-8361-d0dc84eb6e0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MemoryHook\Source Files">
+      <UniqueIdentifier>{19a2b235-78ee-40e9-9349-e2de00874b89}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -214,28 +214,28 @@
       <Filter>Network\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\Memory\minhook\src\buffer.h">
-      <Filter>UI\MemoryHook\Header Files</Filter>
+      <Filter>MemoryHook\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\Memory\GameMemory.h">
-      <Filter>UI\MemoryHook\Header Files</Filter>
+      <Filter>MemoryHook\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\Memory\minhook\src\HDE\hde64.h">
-      <Filter>UI\MemoryHook\Header Files</Filter>
+      <Filter>MemoryHook\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\Memory\Memory.h">
-      <Filter>UI\MemoryHook\Header Files</Filter>
+      <Filter>MemoryHook\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\Memory\minhook\include\MinHook.h">
-      <Filter>UI\MemoryHook\Header Files</Filter>
+      <Filter>MemoryHook\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\Memory\minhook\src\HDE\pstdint.h">
-      <Filter>UI\MemoryHook\Header Files</Filter>
+      <Filter>MemoryHook\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\Memory\minhook\src\HDE\table64.h">
-      <Filter>UI\MemoryHook\Header Files</Filter>
+      <Filter>MemoryHook\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\Memory\minhook\src\trampoline.h">
-      <Filter>UI\MemoryHook\Header Files</Filter>
+      <Filter>MemoryHook\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Registry.h">
       <Filter>Header Files</Filter>
@@ -414,25 +414,25 @@
       <Filter>Core\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D11\Memory\GameMemory.cpp">
-      <Filter>UI\MemoryHook\Source Files</Filter>
+      <Filter>MemoryHook\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D11\Memory\HMemory.cpp">
-      <Filter>UI\MemoryHook\Source Files</Filter>
+      <Filter>MemoryHook\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D11\Memory\Hooking.cpp">
-      <Filter>UI\MemoryHook\Source Files</Filter>
+      <Filter>MemoryHook\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D11\Memory\minhook\src\buffer.cpp">
-      <Filter>UI\MemoryHook\Source Files</Filter>
+      <Filter>MemoryHook\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D11\Memory\minhook\src\HDE\hde64.cpp">
-      <Filter>UI\MemoryHook\Source Files</Filter>
+      <Filter>MemoryHook\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D11\Memory\minhook\src\hook.cpp">
-      <Filter>UI\MemoryHook\Source Files</Filter>
+      <Filter>MemoryHook\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D11\Memory\minhook\src\trampoline.cpp">
-      <Filter>UI\MemoryHook\Source Files</Filter>
+      <Filter>MemoryHook\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Registry.cpp">
       <Filter>Source Files</Filter>
