@@ -744,13 +744,12 @@ int API::GetVehicleWheelType(unsigned long guid)
 	return false;
 }
 
-long API::GetVehicleDriver(unsigned long guid)
+int API::GetVehicleDriver(unsigned long guid)
 {
 	RakNetGUID _guid(guid);
 	auto veh = CNetworkVehicle::GetByGUID(_guid);
 	if (veh) {
-		if (RakNetGUID::ToUint32(veh->driverGUID) != 0)
-			return CNetworkPlayer::GetByGUID((RakNetGUID)veh->driverGUID)->GetID();
+		return veh->GetDriver();
 	}
 	return -1;
 }

@@ -94,6 +94,11 @@ void CNetworkPlayer::SetOnFootData(const OnFootSyncData& data)
 
 	if (!bInVehicle && bEnteringVeh)
 	{
+		if (cSeat == -1)
+		{
+			auto veh = CNetworkVehicle::GetByGUID(vehicle);
+			veh->hasDriver = false;
+		}
 		Plugin::Trigger("LeftVehicle", (unsigned long)GetID(), RakNetGUID::ToUint32(vehicle));
 		bEnteringVeh = false;
 	}
@@ -268,6 +273,12 @@ std::vector<CNetworkPlayer *> CNetworkPlayer::All()
 
 void CNetworkPlayer::Remove(int playerid)
 {
+	if (_players[playerid]->bInVehicle == true && _players[playerid]->cSeat == -1)
+	{
+		auto veh = CNetworkVehicle::GetByGUID(_players[playerid]->vehicle);
+		veh->hasDriver = false;
+	}
+
 	delete _players[playerid];
 	_players[playerid] = nullptr;
 }

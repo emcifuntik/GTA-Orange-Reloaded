@@ -40,6 +40,7 @@ public:
 	void SetRotation(CVector3 rotation);
 	void SetHealth(unsigned short health);
 	std::vector<unsigned int> GetPassengers();
+	int GetDriver();
 
 	CVector3 GetPosition() { return vecPos; };
 	CVector3 GetRotation() { return vecRot; };
