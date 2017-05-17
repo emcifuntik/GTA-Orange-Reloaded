@@ -32,6 +32,10 @@ void CEFCore::init()
 
 	CefInitialize(mainArgs, settings, app, sandboxInfo);
 	CefRegisterSchemeHandlerFactory("ui", "", new CEFSchemeHandlerFactory);
+
+
+	CefRefPtr<CefV8Handler> handler = new CEFV8Handler;
+	CefRefPtr<CefV8Value> func = CefV8Value::CreateFunction("orangeConnect", handler);
 }
 
 CefRefPtr<CEFView> CEFCore::CreateWebView(std::string url, unsigned int uiWidth, unsigned int uiHeight, bool bIsLocal, bool bTransparent)

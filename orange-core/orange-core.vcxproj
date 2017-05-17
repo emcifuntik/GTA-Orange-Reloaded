@@ -137,6 +137,7 @@
     <ClInclude Include="GTA\sysAllocator.h" />
     <ClInclude Include="GTA\VTasks.h" />
     <ClInclude Include="GuiDispatcher.h" />
+    <ClInclude Include="CEFV8Handler.h" />
     <ClInclude Include="icofont.h" />
     <ClInclude Include="md5.h" />
     <ClInclude Include="Memory.h" />
@@ -170,6 +171,7 @@
   <ItemGroup>
     <ClCompile Include="BackScene.cpp" />
     <ClCompile Include="CEFSchemeHandler.cpp" />
+    <ClCompile Include="CEFV8Handler.cpp" />
     <ClCompile Include="CEF\CEFCore.cpp" />
     <ClCompile Include="CEF\CEFSimple.cpp" />
     <ClCompile Include="CEF\CEFView.cpp" />

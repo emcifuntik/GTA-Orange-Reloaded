@@ -55,6 +55,8 @@ char* ipls[] = {
 	"CS3_05_water_grp2"
 };
 
+short KeyMap[256];
+
 void Action()
 {
 	bool teleported = false;
@@ -111,24 +113,6 @@ void Action()
 			CNetworkBlip::Clear();
 
 			CNetworkConnection::Get()->bClear = false;
-		}
-
-		ImVec2 pos = ImGui::GetMousePos();
-
-		CefMouseEvent event;
-		event.x = pos.x;
-		event.y = pos.y;
-
-		event.modifiers |= EVENTFLAG_LEFT_MOUSE_BUTTON;
-		event.modifiers |= EVENTFLAG_RIGHT_MOUSE_BUTTON;
-		event.modifiers |= EVENTFLAG_MIDDLE_MOUSE_BUTTON;
-
-		// Is that even needed?
-		//if (UI::IsCtrlPressed) event.modifiers |= EVENTFLAG_CONTROL_DOWN;
-
-		for (auto cefView : CEFCore::Get()->views)
-		{
-			cefView->m_pWebView->GetHost()->SendMouseMoveEvent(event, false);
 		}
 
 		//Vector3 pos = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), true);

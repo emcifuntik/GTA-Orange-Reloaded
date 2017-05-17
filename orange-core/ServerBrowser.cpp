@@ -2,9 +2,9 @@
 
 void ServerBrowser()
 {
+	ShowCursor(TRUE);
 	if (CGlobals::Get().displayServerBrowser)
 	{
-		ShowCursor(TRUE);
 		(*CGlobals::Get().canLangChange) = true;
 		CConfig::Get();
 		ImGui::SetNextWindowSize(ImVec2(600, 400), ImGuiSetCond_Always);

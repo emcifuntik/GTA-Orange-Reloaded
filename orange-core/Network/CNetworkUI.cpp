@@ -197,9 +197,7 @@ CNetworkUI::~CNetworkUI()
 
 void CNetworkUI::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, BOOL isExtended, BOOL isWithAlt, BOOL wasDownBefore, BOOL isUpNow)
 {
-	//if (isUpNow && wasDownBefore) log << "down: " << std::hex << key << std::endl;
-	//else if (!isUpNow && !wasDownBefore) log << "up: " << std::hex << key << std::endl;
-
+	//CGlobals::Get().tosend[key] = true;
 	if (CChat::Get()->Opened()) return;
 
 	if (!isUpNow)
