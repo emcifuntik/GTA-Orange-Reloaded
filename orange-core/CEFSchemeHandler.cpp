@@ -22,6 +22,8 @@ public:
 		std::string url = request->GetURL();
 		std::wstring scheme, path;
 
+		//log << __FUNCTION__ << ": " << request->GetURL().ToString() << std::endl;
+
 		CefURLParts parts;
 		CefParseURL(url, parts);
 
@@ -29,13 +31,12 @@ public:
 		path = CefString(&parts.path);
 
 		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> converter;
-		log << converter.to_bytes(scheme) << " " << converter.to_bytes(path) << std::endl;
+		//log << converter.to_bytes(scheme) << " " << converter.to_bytes(path) << std::endl;
 
-		if (scheme == L"ui")
+		if (scheme == L"http")
 		{
-			file = CGlobals::Get().orangePath + "/ui";
-			file += converter.to_bytes(path).substr(1);
-			log << file << std::endl;
+			file = CGlobals::Get().orangePath + "/" + converter.to_bytes(path).substr(1);
+			//log << "file: " << file << std::endl;
 		}
 		else
 		{
@@ -60,20 +61,7 @@ public:
 			ifile.open(file, std::ios::binary | std::ios::ate);
 			std::string ext = file.substr(file.rfind('.') + 1);
 
-			mime = "text/html";
-
-			if (ext == "png")
-			{
-				mime = "image/png";
-			}
-			else if (ext == "js")
-			{
-				mime = "application/javascript";
-			}
-			else if (ext == "css")
-			{
-				mime = "text/css";
-			}
+			mime = CefGetMimeType(ext);
 
 			callback->Continue();
 		};
@@ -103,6 +91,7 @@ public:
 
 		if (ifile.good())
 		{
+			//log << "OK" << std::endl;
 			response_length = ifile.tellg();
 			ifile.seekg(0, std::ios::beg);
 		}
@@ -125,6 +114,8 @@ public:
 			ifile.read((char*)data_out, bytes_to_read);
 			bytes_read = bytes_to_read;
 
+			//log << (char*)data_out << std::endl;
+
 			callback->Continue();
 			return true;
 		}
@@ -138,12 +129,20 @@ public:
 
 CefRefPtr<CefResourceHandler> CEFSchemeHandlerFactory::Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& scheme_name, CefRefPtr<CefRequest> request)
 {
-	if (scheme_name == "ui")
+	CefURLParts urlParts;
+	if (!CefParseURL(request->GetURL(), urlParts))
 	{
+		log << "Failed to parse" << std::endl;
+		return nullptr;
+	}
+
+	//log << __FUNCTION__ << ": " << request->GetURL().ToString() << ", " << scheme_name.ToString() << ", " << std::endl;
+
+	if (scheme_name == "http" && std::wstring(urlParts.host.str) == L"orange")
+	{
+		//log << "OK" << std::endl;
 		return new CEFResourceHandler();
 	}
 
-	CefRefPtr<CefResourceHandler> outHandler;
-
-	return outHandler;
+	return nullptr;
 }

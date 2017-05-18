@@ -265,7 +265,7 @@ void CEFView::OnPaint(CefRefPtr<CefBrowser> browser, CefRenderHandler::PaintElem
 ////////////////////////////////////////////////////////////////////
 void CEFView::OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, CursorType type, const CefCursorInfo& cursorInfo)
 {
-	log << "OnCursorChange" << std::endl;
+	//log << "OnCursorChange" << std::endl;
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -358,8 +358,7 @@ bool CEFView::OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> f
 ////////////////////////////////////////////////////////////////////
 void CEFView::OnAfterCreated(CefRefPtr<CefBrowser> browser)
 {
-	log << "OnAfterCreated" << std::endl;
-	// Set web view reference
+	//log << "OnAfterCreated" << std::endl;
 	m_pWebView = browser;
 }
 
@@ -421,8 +420,7 @@ bool CEFView::OnTooltip(CefRefPtr<CefBrowser> browser, CefString& title)
 ////////////////////////////////////////////////////////////////////
 bool CEFView::OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line)
 {
-	log << "OnConsoleMessage" << std::endl;
-
+	log << message.ToString() << std::endl;
 	return true;
 }
 

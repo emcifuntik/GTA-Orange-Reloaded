@@ -33,7 +33,6 @@ public:
 	bool isDeveloper = false;
 	bool d3dloaded = false;
 	Cam currentcam;
-	CVector2 cefsize;
 	ID3D11Device *d3dDevice = nullptr;
 	ID3D11DeviceContext *d3dDeviceContext = nullptr;
 	IDXGISwapChain *d3dSwapChain = nullptr;

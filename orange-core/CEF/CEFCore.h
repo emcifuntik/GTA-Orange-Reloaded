@@ -11,6 +11,7 @@ class CEFCore
 	static CEFCore* instance;
 public:
 	std::vector<CefRefPtr<CEFView>> views;
+	CefRefPtr<CEFSimple> app;
 
 	CEFCore();
 	static CEFCore* Get();

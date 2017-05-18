@@ -111,7 +111,7 @@ void OnGameStateChange(int gameState)
 		TurnOnConsole();
 		D3DHook::HookD3D11();
 		CEFCore::Get()->init();
-		CEFCore::Get()->CreateWebView("ui://index.html", 2, 2, true, true);
+		CEFCore::Get()->CreateWebView("http://orange/ui/index.html", 2, 2, true, true);
 		if (!ScriptEngine::Initialize())
 			log_error << "Failed to initialize ScriptEngine" << std::endl;
 		CChat::Get()->RegisterCommandProcessor(CommandProcessor);

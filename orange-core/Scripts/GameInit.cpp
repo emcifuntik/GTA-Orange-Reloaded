@@ -93,7 +93,7 @@ void Action()
 			UI::DISPLAY_RADAR(false);
 			CLocalPlayer::Get()->ChangeModel(Utils::Hash("mp_m_freemode_01"));
 			CScriptEngine::Get()->Init();
-			CGlobals::Get().displayServerBrowser = true;
+			//CGlobals::Get().displayServerBrowser = true;
 			teleported = true;
 			std::stringstream ss;
 			ss << "{E30022}" << u8"\ueffb" << "{FFFFFF} Grand Theft Auto: {FF8F00}Orange {FFFFFF}loaded";

@@ -144,10 +144,9 @@ using namespace RakNet;
 #pragma endregion
 
 #include "CEF/CEFView.h"
-#include "CEF/CEFCore.h"
 #include "CEF/CEFSimple.h"
+#include "CEF/CEFCore.h"
 #include "CEFSchemeHandler.h"
-#include "CEFV8Handler.h"
 
 #pragma region IMGUI
 #include "D3D11/Memory/Memory.h"

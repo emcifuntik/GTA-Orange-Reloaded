@@ -25,11 +25,20 @@ CConfig::CConfig()
 				InitConfig();
 				return;
 			}
-			uiPort = serverNode->IntAttribute("port");
-			sIP = std::string(serverNode->GetText());
+			if (serverNode->GetText())
+			{
+				sIP = std::string(serverNode->GetText());
+				uiPort = serverNode->IntAttribute("port");
+			}
+			else
+			{
+				sIP = "127.0.0.1";
+				uiPort = 7788;
+			}
 			CGlobals::Get().serverPort = uiPort;
 			strcpy_s(CGlobals::Get().serverIP, 32, sIP.c_str());
 		}
+
 		sNickName = std::string(root->FirstChildElement("player")->GetText());
 		strcpy_s(CGlobals::Get().nickName, 32, sNickName.c_str());
 	}

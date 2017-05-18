@@ -305,9 +305,6 @@
     <ClInclude Include="BackScene.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="CEFV8Handler.h">
-      <Filter>CEF\Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -521,9 +518,6 @@
       <Filter>CEF\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CEFSchemeHandler.cpp">
-      <Filter>CEF\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CEFV8Handler.cpp">
       <Filter>CEF\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
