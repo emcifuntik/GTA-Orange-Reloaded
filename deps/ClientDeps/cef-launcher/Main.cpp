@@ -14,9 +14,10 @@
 #include <include/cef_origin_whitelist.h>
 #include <include/cef_browser.h>
 #include <include/cef_command_line.h>
+#include "CEFApp.h"
 
 int WINAPI WinMain ( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdShow, int nCmdShow )
 {
 	CefMainArgs main_args(hInstance);
-	return CefExecuteProcess(main_args, nullptr, nullptr);
+	return CefExecuteProcess(main_args, new CEFApp, nullptr);
 }

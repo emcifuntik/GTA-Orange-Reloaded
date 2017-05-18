@@ -93,6 +93,7 @@ public:
 		{
 			//log << "OK" << std::endl;
 			response_length = ifile.tellg();
+			log << "length: " << response_length << std::endl;
 			ifile.seekg(0, std::ios::beg);
 		}
 		else
@@ -111,6 +112,7 @@ public:
 	{
 		if (ifile.good())
 		{
+			log << bytes_to_read << std::endl;
 			ifile.read((char*)data_out, bytes_to_read);
 			bytes_read = bytes_to_read;
 

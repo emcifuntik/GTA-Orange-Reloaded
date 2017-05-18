@@ -11,4 +11,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CEFApp.h">
+      <Filter>Quelldateien</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

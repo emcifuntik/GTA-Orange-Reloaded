@@ -13,7 +13,16 @@ public:
 	std::vector<CefRefPtr<CEFView>> views;
 	CefRefPtr<CEFSimple> app;
 
+	std::map<std::string, std::function<void(CefRefPtr<CefListValue> args)>> m_handlers;
+
 	CEFCore();
+
+	std::function<void(CefRefPtr<CefListValue> args)> GetHandler(std::string name)
+	{
+		return m_handlers[name];
+	}
+	void RegisterJSFunc(std::string name, std::function<void(CefRefPtr<CefListValue> args)> f);
+
 	static CEFCore* Get();
 	void init();
 	CefRefPtr<CEFView> CreateWebView(std::string url, unsigned int uiWidth, unsigned int uiHeight, bool bIsLocal, bool bTransparent);

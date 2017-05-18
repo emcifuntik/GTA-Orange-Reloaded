@@ -159,8 +159,13 @@ void CEFView::Refresh(bool bIgnoreCache)
 ////////////////////////////////////////////////////////////////////
 bool CEFView::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
 {
+	log << __FUNCTION__ << " " << message->GetName().ToString() << std::endl;
+
+	CefRefPtr<CefFrame> frame = browser->GetMainFrame();
+	frame->ExecuteJavaScript("$('#direct-inp').val('sosiska')", frame->GetURL(), 0);
+
 	CefRefPtr<CefListValue> argList = message->GetArgumentList();
-	if (message->GetName() == "TriggerLuaEvent")
+	if (message->GetName() == "TriggerEvent")
 	{
 		if (!m_bIsLocal)
 			return true;
@@ -168,19 +173,14 @@ bool CEFView::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcess
 		// Get event name
 		CefString eventName = argList->GetString(0);
 
-		// Get number of arguments from IPC process message
-		int numArgs = argList->GetInt(1);
-
-		// Get args
-		std::vector<std::string> args;
-		for (int i = 2; i < numArgs + 2; ++i)
-		{
-			args.push_back(argList->GetString(i));
-		}
-
 		// Queue event to run on the main thread
-		//auto func = std::bind(&CWebBrowserEventsInterface::Events_OnTriggerEvent, m_pEventsInterface, SString(eventName), args);
-		//g_pCore->GetWebCore()->AddEventToEventQueue(func, this, "OnProcessMessageReceived1");
+		auto func = CEFCore::Get()->GetHandler(eventName);
+		if (func) func(argList);
+		else
+		{
+			//BitStream args;
+			//CScriptEngine::Get()->onevent(&args);
+		}
 
 		// The message was handled
 		return true;
@@ -396,7 +396,7 @@ bool CEFView::OnFileDialog(CefRefPtr<CefBrowser> browser, CefDialogHandler::File
 ////////////////////////////////////////////////////////////////////
 void CEFView::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title)
 {
-	log << "OnTitleChange: " << std::endl;
+	//log << "OnTitleChange: " << std::endl;
 }
 
 ////////////////////////////////////////////////////////////////////
