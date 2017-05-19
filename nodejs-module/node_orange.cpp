@@ -101,7 +101,7 @@ namespace node
 
 		static void Print(const FunctionCallbackInfo<Value>& args)
 		{
-			Isolate* isolate = Isolate::GetCurrent();
+			Isolate* isolate = args.GetIsolate();
 			HandleScope scope(isolate);
 			if (args.Length() < 1) {
 				isolate->ThrowException(Exception::TypeError(
@@ -119,7 +119,7 @@ namespace node
 
 		static void CreateVehicle(const FunctionCallbackInfo<Value>& args)
 		{
-			Isolate* isolate = Isolate::GetCurrent();
+			Isolate* isolate = args.GetIsolate();
 			HandleScope scope(isolate);
 			if (args.Length() < 5) {
 				isolate->ThrowException(Exception::TypeError(
@@ -127,23 +127,77 @@ namespace node
 				return;
 			}
 			/*if (!args[0]->IsNumber()) {
-				isolate->ThrowException(Exception::TypeError(
-					String::NewFromUtf8(isolate, "First argument is not string")));
-				return;
+			isolate->ThrowException(Exception::TypeError(
+			String::NewFromUtf8(isolate, "First argument is not string")));
+			return;
 			}*/
 			//API::Get().CreateVehicle(523724515, 0.0f, 0.0f, 0.0f, 0.0f);
 		}
 
 		static void SetPlayerPosition(const FunctionCallbackInfo<Value>& args)
 		{
-			Isolate* isolate = Isolate::GetCurrent();
+			Isolate* isolate = args.GetIsolate();
 			HandleScope scope(isolate);
 
+			if (args.Length() < 4) {
+				isolate->ThrowException(Exception::TypeError(
+					String::NewFromUtf8(isolate, "Wrong number of arguments")));
+				return;
+			}
+			if (!args[0]->IsNumber()) {
+				isolate->ThrowException(Exception::TypeError(
+					String::NewFromUtf8(isolate, "PlayerID is not number")));
+				return;
+			}
+			if (!args[1]->IsNumber()) {
+				isolate->ThrowException(Exception::TypeError(
+					String::NewFromUtf8(isolate, "X position is not number")));
+				return;
+			}
+			if (!args[2]->IsNumber()) {
+				isolate->ThrowException(Exception::TypeError(
+					String::NewFromUtf8(isolate, "Y position is not number")));
+				return;
+			}
+			if (!args[3]->IsNumber()) {
+				isolate->ThrowException(Exception::TypeError(
+					String::NewFromUtf8(isolate, "Z position is not number")));
+				return;
+			}
 			long playerId = (long)args[0]->NumberValue();
 			float x = (float)args[1]->NumberValue();
 			float y = (float)args[2]->NumberValue();
 			float z = (float)args[3]->NumberValue();
 			API::Get().SetPlayerPosition(playerId, x, y, z);
+		}
+
+		static void GetPlayerPosition(const FunctionCallbackInfo<Value>& args)
+		{
+			Isolate* isolate = args.GetIsolate();
+			HandleScope scope(isolate);
+
+			if (args.Length() < 1) {
+				isolate->ThrowException(Exception::TypeError(
+					String::NewFromUtf8(isolate, "Wrong number of arguments")));
+				return;
+			}
+
+			if (!args[0]->IsNumber()) {
+				isolate->ThrowException(Exception::TypeError(
+					String::NewFromUtf8(isolate, "PlayerID is not number")));
+				return;
+			}
+
+			long playerId = (long)args[0]->NumberValue();
+
+			CVector3 position = API::Get().GetPlayerPosition(playerId);
+
+			Local<Array> positionArray = Array::New(isolate, 3);
+			positionArray->Set(0, Number::New(isolate, position.fX));
+			positionArray->Set(1, Number::New(isolate, position.fY));
+			positionArray->Set(2, Number::New(isolate, position.fZ));
+
+			args.GetReturnValue().Set(positionArray);
 		}
 
 		void Initialize(Local<Object> target, Local<Value> unused, Local<Context> context)
