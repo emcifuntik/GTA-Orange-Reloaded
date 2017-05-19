@@ -1,0 +1,3 @@
+[submodule "nodejs-module/uv_callback"]
+	path = nodejs-module/uv_callback
+	url = https://github.com/litesync/uv_callback
