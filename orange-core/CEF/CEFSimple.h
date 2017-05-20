@@ -3,7 +3,7 @@
 
 class CEFSimple : public CefApp, public CefRenderProcessHandler, public CefV8Handler {
 	// Error Handler
-	//static CefRefPtr<CefResourceHandler> HandleError(const SString& strError, unsigned int uiError);
+	static CefRefPtr<CefResourceHandler> HandleError(std::string strError, unsigned int uiError);
 
 	virtual void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) override;
 	virtual CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() override;

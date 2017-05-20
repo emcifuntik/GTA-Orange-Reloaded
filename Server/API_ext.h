@@ -7,6 +7,7 @@ class API: public APIBase
 	static API * instance;
 public:
 	void LoadClientScript(std::string name, char * buffer, size_t size);
+	void AddFile(std::string path);
 	void ClientEvent(const char * name, std::vector<MValue> args, long playerid);
 	void KickPlayer(long playerid);
 	//Player

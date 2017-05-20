@@ -13,15 +13,15 @@ public:
 	std::vector<CefRefPtr<CEFView>> views;
 	CefRefPtr<CEFSimple> app;
 
-	std::map<std::string, std::function<void(CefRefPtr<CefListValue> args)>> m_handlers;
+	std::map<std::string, std::function<void(CefRefPtr<CefFrame> frame, CefRefPtr<CefListValue> args)>> m_handlers;
 
 	CEFCore();
 
-	std::function<void(CefRefPtr<CefListValue> args)> GetHandler(std::string name)
+	std::function<void(CefRefPtr<CefFrame> frame, CefRefPtr<CefListValue> args)> GetHandler(std::string name)
 	{
 		return m_handlers[name];
 	}
-	void RegisterJSFunc(std::string name, std::function<void(CefRefPtr<CefListValue> args)> f);
+	void RegisterJSFunc(std::string name, std::function<void(CefRefPtr<CefFrame> frame, CefRefPtr<CefListValue> args)> f);
 
 	static CEFCore* Get();
 	void init();

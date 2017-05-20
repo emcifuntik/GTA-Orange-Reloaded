@@ -33,6 +33,11 @@ static const struct luaL_Reg gfunclib[] = {
 	{ "__getAllBlips", lua_GetAllBlips },
 	{ "__getBlipHandle", lua_GetBlipHandle },
 
+	{ "__createBrowser", lua_CreateBrowser },
+	{ "__invokeJS", lua_InvokeJS },
+	{ "__destroyBrowser", lua_DestroyBrowser },
+	{ "__showCursor", lua_ShowCursor },
+
 	{ NULL, NULL }
 };
 

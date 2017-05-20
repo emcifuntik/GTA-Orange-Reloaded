@@ -160,6 +160,20 @@ void Plugin::LoadPlugins()
                 resourceTypes[type](resource.c_str());
             }
             else log << "Unknown resource type: " << type << std::endl;
+
+			if (doc.FindValue("files"))
+			{
+				const YAML::Node& filess = doc["files"];
+				for (unsigned i = 0; i < filess.size(); i++) {
+					std::string res;;
+					filess[i] >> res;
+
+					std::stringstream path;
+					path << "resources\\" << resource << "\\" << res;
+
+					CClientScripting::AddFile(path.str());
+				}
+			}			
         }
     }
 }

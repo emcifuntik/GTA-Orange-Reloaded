@@ -7,7 +7,7 @@ CEFCore::CEFCore()
 
 }
 
-void CEFCore::RegisterJSFunc(std::string name, std::function<void(CefRefPtr<CefListValue> args)> f)
+void CEFCore::RegisterJSFunc(std::string name, std::function<void(CefRefPtr<CefFrame> frame, CefRefPtr<CefListValue> args)> f)
 {
 	m_handlers[name] = f;
 }
@@ -34,21 +34,20 @@ void CEFCore::init()
 
 	settings.multi_threaded_message_loop = true;
 	settings.windowless_rendering_enabled = true;
-	
-	//settings.single_process = true;
 
 	CefInitialize(mainArgs, settings, app, sandboxInfo);
 	CefRegisterSchemeHandlerFactory("http", "orange", new CEFSchemeHandlerFactory);
 
-	RegisterJSFunc("orangeConnect", [](CefRefPtr<CefListValue> args) {
-		log << "Connecting to " << args->GetString(1).ToString() << ":" << args->GetInt(2) << std::endl;
+	RegisterJSFunc("orangeConnect", [](CefRefPtr<CefFrame> frame, CefRefPtr<CefListValue> args) {
 		if (args->GetString(1).length() > 30)
 		{
 			CChat::Get()->AddChatMessage("Can't connect to the server", { 255, 0, 0, 255 });
 		}
 
+		log << "Connecting to " << args->GetString(1).ToString() << ":" << args->GetDouble(2) << std::endl;
+
 		strcpy_s(CGlobals::Get().serverIP, 32, args->GetString(1).ToString().c_str());
-		CGlobals::Get().serverPort = args->GetInt(2);
+		CGlobals::Get().serverPort = args->GetDouble(2) != 0 ? args->GetDouble(2) : 7788;
 		CGlobals::Get().name = args->GetString(3);
 
 		std::stringstream ss;
@@ -58,6 +57,7 @@ void CEFCore::init()
 		if (!CNetworkConnection::Get()->Connect(CGlobals::Get().serverIP, CGlobals::Get().serverPort))
 			CChat::Get()->AddChatMessage("Can't connect to the server", {
 				255, 0, 0, 255 });
+		
 
 		CConfig::Get()->sIP = CGlobals::Get().serverIP;
 		CConfig::Get()->uiPort = CGlobals::Get().serverPort;
@@ -66,6 +66,21 @@ void CEFCore::init()
 
 		CGlobals::Get().showChat = true;
 		return CefV8Value::CreateNull();
+	});
+
+	RegisterJSFunc("loadCfg", [](CefRefPtr<CefFrame> frame, CefRefPtr<CefListValue> args) {
+		std::stringstream ss;
+
+		ss << "loadCfg(['" << CConfig::Get()->sNickName <<
+			"', '" << CConfig::Get()->sIP <<
+			"', " << CConfig::Get()->uiPort << "]);";
+
+		frame->ExecuteJavaScript(ss.str(), frame->GetURL(), 0);
+	});
+
+	RegisterJSFunc("saveName", [](CefRefPtr<CefFrame> frame, CefRefPtr<CefListValue> args) {
+		CConfig::Get()->sNickName = args->GetString(1);
+		CConfig::Get()->Save();
 	});
 }
 

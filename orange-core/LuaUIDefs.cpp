@@ -212,3 +212,30 @@ int lua_ChatShown(lua_State *L)
 	lua_pushboolean(L, CChat::Get()->Opened());
 	return 1;
 }
+
+int lua_CreateBrowser(lua_State *L)
+{
+	lua_pushinteger(L, CEFCore::Get()->views.size());
+	CEFCore::Get()->CreateWebView(luaL_checkstring(L, 1), 0, 0, true, true);
+
+	return 1;
+}
+
+int lua_DestroyBrowser(lua_State *L)
+{
+
+	return 0;
+}
+
+int lua_InvokeJS(lua_State *L)
+{
+	int idx = lua_tointeger(L, 1);
+	CEFCore::Get()->views[idx]->m_pWebView->GetMainFrame()->ExecuteJavaScript(luaL_checkstring(L, 2), "", 0);
+	return 0;
+}
+
+int lua_ShowCursor(lua_State *L)
+{
+	ShowCursor(lua_toboolean(L, 1));
+	return 0;
+}

@@ -162,7 +162,6 @@ bool CEFView::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcess
 	log << __FUNCTION__ << " " << message->GetName().ToString() << std::endl;
 
 	CefRefPtr<CefFrame> frame = browser->GetMainFrame();
-	frame->ExecuteJavaScript("$('#direct-inp').val('sosiska')", frame->GetURL(), 0);
 
 	CefRefPtr<CefListValue> argList = message->GetArgumentList();
 	if (message->GetName() == "TriggerEvent")
@@ -175,11 +174,45 @@ bool CEFView::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcess
 
 		// Queue event to run on the main thread
 		auto func = CEFCore::Get()->GetHandler(eventName);
-		if (func) func(argList);
+		if (func) func(frame, argList);
 		else
 		{
-			//BitStream args;
-			//CScriptEngine::Get()->onevent(&args);
+			BitStream args;
+
+			RakString event(eventName.ToString().c_str());
+			int count = argList->GetSize();
+
+			args.Write(event);
+			args.Write(count);
+
+			for (int i = 1; i < count; i++)
+			{
+				switch (argList->GetType(i))
+				{
+				case VTYPE_NULL:
+					args.Write((char)0);
+					args.Write(false);
+					break;
+				case VTYPE_BOOL:
+					args.Write((char)0);
+					args.Write(argList->GetBool(i));
+					break;
+				case VTYPE_INT:
+					args.Write((char)1);
+					args.Write((double)argList->GetInt(i));
+					break;
+				case VTYPE_DOUBLE:
+					args.Write((char)1);
+					args.Write(argList->GetDouble(i));
+					break;
+				case VTYPE_STRING:
+					args.Write((char)2);
+					args.Write(RakString(argList->GetString(i).ToString().c_str()));
+					break;
+				}
+			}
+
+			CScriptEngine::Get()->onevent(&args);
 		}
 
 		// The message was handled

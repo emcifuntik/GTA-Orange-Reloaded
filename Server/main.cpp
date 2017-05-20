@@ -35,7 +35,6 @@ void sig_handler(int s) {
 	if(s == 2) Plugin::Trigger("ServerUnload");
 	else printf("Caught signal %d\n", s);
 	exit(1);
-
 }
 
 #endif

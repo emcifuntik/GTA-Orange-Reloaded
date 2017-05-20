@@ -283,6 +283,38 @@ void CNetworkConnection::Tick()
 				free(code);
 			}
 
+			bsIn.Read(count);
+
+			for (int i = 0; i < count; i++)
+			{
+				RakString name;
+				size_t size;
+				bsIn.Read(name);
+				bsIn.Read(size);
+
+				unsigned char* file = (unsigned char*)malloc(size);
+				bool result = bsIn.ReadAlignedBytes(file, size);
+
+				CScriptEngine::Get()->files.push_back(name.C_String());
+
+				std::string fpath = CGlobals::Get().orangePath + "/" + name.C_String();
+
+				//log << fpath << std::endl;
+
+				size_t pos = fpath.find_first_of("\\/", 1);
+				while (pos != std::string::npos)
+				{
+					//log << fpath.substr(0, pos) << std::endl;
+					CreateDirectoryA(fpath.substr(0, pos).c_str(), NULL);
+					pos = fpath.find_first_of("\\/", pos + 1);
+				};
+
+				std::ofstream ofile(fpath);
+				ofile.write((char*)file, size);
+
+				free(file);
+			}
+
 			cEstablished++;
 			if (cEstablished > 1)
 			{

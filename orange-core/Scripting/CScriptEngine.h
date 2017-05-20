@@ -11,6 +11,8 @@ public:
 	std::function<void(BitStream *bsIn)> onevent;
 	std::function<void(unsigned long guid, bool clear, float distance, CVector3 pos)> customHead;
 
+	std::vector<std::string> files;
+
 	~CScriptEngine();
 	static CScriptEngine * Get();
 

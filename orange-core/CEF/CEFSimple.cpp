@@ -13,12 +13,12 @@
 #include <include/wrapper/cef_stream_resource_handler.h>
 #include <include/cef_parser.h>
 
-/*CefRefPtr<CefResourceHandler> CEFSimple::HandleError(const SString& strError, unsigned int uiError)
+CefRefPtr<CefResourceHandler> CEFSimple::HandleError(std::string strError, unsigned int uiError)
 {
 	auto stream = CefStreamReader::CreateForData((void*)strError.c_str(), strError.length());
 	return new CefStreamResourceHandler(
 		uiError, strError, "text/plain", CefResponse::HeaderMap(), stream);
-}*/
+}
 
 void CEFSimple::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
 {

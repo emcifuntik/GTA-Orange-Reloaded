@@ -197,8 +197,24 @@ CNetworkUI::~CNetworkUI()
 
 void CNetworkUI::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, BOOL isExtended, BOOL isWithAlt, BOOL wasDownBefore, BOOL isUpNow)
 {
-	//CGlobals::Get().tosend[key] = true;
-	if (CChat::Get()->Opened()) return;
+	if (isUpNow && wasDownBefore)
+	{
+		for each(auto menu in menus)
+		{
+			if (menu->shown) return;
+		}
+		RakNet::BitStream bsOut;
+		bsOut.Write(key);
+		CRPCPlugin::Get()->rpc.Signal("KeyEvent", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+
+		bsOut.Reset();
+		bsOut.Write(RakString("KeyPress"));
+		bsOut.Write((int)1);
+		bsOut.Write((char)1);
+		bsOut.Write((double)key);
+
+		CScriptEngine::Get()->onevent(&bsOut);
+	}
 
 	if (!isUpNow)
 	{
@@ -271,17 +287,6 @@ void CNetworkUI::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, B
 			if (key == menu->button) menu->shown ^= 1;
 			//else log << "Pressed: 0x" << std::hex << key << " trigger: 0x" << std::hex << menu->button << std::endl;
 		}
-	}
-
-	if (isUpNow && wasDownBefore)
-	{
-		for each(auto menu in menus)
-		{
-			if (menu->shown) return;
-		}
-		RakNet::BitStream bsOut;
-		bsOut.Write(key);
-		CRPCPlugin::Get()->rpc.Signal("KeyEvent", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 	}
 }
 

@@ -43,6 +43,10 @@ int lua_menu(lua_State *L);
 int lua_MenuSetOpened(lua_State *L);
 int lua_MenuGetOpened(lua_State *L);
 int lua_ChatShown(lua_State *L);
+int lua_CreateBrowser(lua_State *L);
+int lua_DestroyBrowser(lua_State *L);
+int lua_InvokeJS(lua_State *L);
+int lua_ShowCursor(lua_State *L);
 
 //Buttons
 int lua_KeyState(lua_State *L);
