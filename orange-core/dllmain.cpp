@@ -101,6 +101,7 @@ const char * hwidsWO[] = {
 	"b9476e462d3502468bb1fa1d8ede63eb", //TReY
 	"7f209a5692c4476408904a0a17b87a27", //TReY second
 	"f3bbcbc509ca9dff1f68f99dcdc67948", //Evgeny
+	"1bc1bc590ab0b3e6702002a763834732", //DYZEN
 	"5408d1b001d806ea472d87d0b6202fa8"  //Gazreyn
 };
 
