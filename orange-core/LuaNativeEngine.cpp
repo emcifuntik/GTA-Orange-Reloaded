@@ -66,18 +66,18 @@ int lua_getvalue(lua_State *L)
 			}
 			case Type::N_STRING:
 			{
-				if (lua_isnumber(L, 1) || lua_isboolean(L, 1))
+				if (lua_type(L, 1) != 4)
 				{
 					container->ptr = (void*)lua_tointeger(L, 1);
 				}
 				else
 				{
-					const char* val = luaL_checkstring(L, 1);
+					const char* val = lua_tostring(L, 1);
 					int size = strlen(val);
-					char* value = new char[size + 1];
+					char* value = (char*)malloc(size + 1);
 					memcpy(value, val, size);
 					value[size] = '\0';
-					delete (char*)container->ptr;
+					if(container->ptr) free(container->ptr);
 					container->ptr = value;
 				}
 				break;
@@ -90,7 +90,7 @@ int lua_getvalue(lua_State *L)
 			case Type::N_DWORD:
 			case Type::N_DWORDPOINTER:
 			{
-				DWORD* value = new DWORD(luaL_checkinteger(L, 1));
+				DWORD* value = new DWORD(lua_tointeger(L, 1));
 				delete (DWORD*)container->ptr;
 				container->ptr = value;
 				break;

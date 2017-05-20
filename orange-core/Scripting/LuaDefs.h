@@ -32,6 +32,7 @@ int lua_print(lua_State *L);
 int lua_tick(lua_State *L);
 int lua_onevent(lua_State *L);
 int lua_trigger(lua_State *L);
+int lua_GetTime(lua_State *L);
 
 
 //Natives

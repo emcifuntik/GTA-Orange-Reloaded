@@ -15,6 +15,7 @@ static const struct luaL_Reg gfunclib[] = {
 	{ "__trigger", lua_trigger },
 	{ "__keyState", lua_KeyState },
 	{ "__chatOpened", lua_ChatShown },
+	{ "__gettime", lua_GetTime },
 
 	{ "__getAllPlayers", lua_GetAllPlayers},
 	{ "__getPlayerPedHandle", lua_GetPlayerHandle },

@@ -11,6 +11,7 @@ struct CMenuElement {
 	CVector2 pos;
 	UCHAR type;
 	std::string buffer;
+	float min = 0, max = 1;
 	float step = 0.05;
 	double state = 0;
 	std::function<void()> cb;

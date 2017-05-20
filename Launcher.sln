@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Launcher", "Launcher\Launcher.vcxproj", "{5C2C1A17-49F8-4349-975D-99D5D54907A7}"
 EndProject
@@ -38,6 +38,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cef", "deps\ClientDeps\cef\cef.vcxproj", "{C469151D-15D8-4DF2-B555-B06EB61D6C67}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "orange-core", "orange-core\orange-core.vcxproj", "{BE62E5F0-22AB-437C-AEF4-105B84989EF0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nodejs-module", "nodejs-module\nodejs-module.vcxproj", "{194C1530-6350-4966-94D7-42C0D07F58AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -222,6 +224,20 @@ Global
 		{BE62E5F0-22AB-437C-AEF4-105B84989EF0}.Release|x64.Build.0 = Release|x64
 		{BE62E5F0-22AB-437C-AEF4-105B84989EF0}.Release|x64.Deploy.0 = Release|x64
 		{BE62E5F0-22AB-437C-AEF4-105B84989EF0}.Release|x86.ActiveCfg = Release|x64
+		{194C1530-6350-4966-94D7-42C0D07F58AD}.Debug|x64.ActiveCfg = Debug|x64
+		{194C1530-6350-4966-94D7-42C0D07F58AD}.Debug|x64.Build.0 = Debug|x64
+		{194C1530-6350-4966-94D7-42C0D07F58AD}.Debug|x86.ActiveCfg = Debug|Win32
+		{194C1530-6350-4966-94D7-42C0D07F58AD}.Debug|x86.Build.0 = Debug|Win32
+		{194C1530-6350-4966-94D7-42C0D07F58AD}.Nightly|x64.ActiveCfg = Release|x64
+		{194C1530-6350-4966-94D7-42C0D07F58AD}.Nightly|x64.Build.0 = Release|x64
+		{194C1530-6350-4966-94D7-42C0D07F58AD}.Nightly|x64.Deploy.0 = Release|x64
+		{194C1530-6350-4966-94D7-42C0D07F58AD}.Nightly|x86.ActiveCfg = Release|Win32
+		{194C1530-6350-4966-94D7-42C0D07F58AD}.Nightly|x86.Build.0 = Release|Win32
+		{194C1530-6350-4966-94D7-42C0D07F58AD}.Nightly|x86.Deploy.0 = Release|Win32
+		{194C1530-6350-4966-94D7-42C0D07F58AD}.Release|x64.ActiveCfg = Release|x64
+		{194C1530-6350-4966-94D7-42C0D07F58AD}.Release|x64.Build.0 = Release|x64
+		{194C1530-6350-4966-94D7-42C0D07F58AD}.Release|x86.ActiveCfg = Release|Win32
+		{194C1530-6350-4966-94D7-42C0D07F58AD}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -240,5 +256,6 @@ Global
 		{9D68D3DA-DF4B-4A30-BA87-E89C69BAE813} = {CFCA64E3-1D2F-4864-AFBE-034762B6ADD0}
 		{C469151D-15D8-4DF2-B555-B06EB61D6C67} = {CFCA64E3-1D2F-4864-AFBE-034762B6ADD0}
 		{BE62E5F0-22AB-437C-AEF4-105B84989EF0} = {9DEB3DAA-E3FA-47FB-B952-20E7CE899BE9}
+		{194C1530-6350-4966-94D7-42C0D07F58AD} = {83580430-2C1D-47CF-8154-46ED82319C70}
 	EndGlobalSection
 EndGlobal

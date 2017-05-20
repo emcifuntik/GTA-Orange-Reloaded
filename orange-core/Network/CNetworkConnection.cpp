@@ -61,6 +61,7 @@ bool CNetworkConnection::Connect(std::string host, unsigned short port)
 void CNetworkConnection::Disconnect()
 {
 	bConnected = false;
+	tcpclient->Stop();
 	client->Shutdown(300);
 	CChat::Get()->Clear();
 	CChat::Get()->AddChatMessage("Disconnected");

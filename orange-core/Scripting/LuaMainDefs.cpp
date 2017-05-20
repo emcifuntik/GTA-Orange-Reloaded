@@ -248,6 +248,12 @@ int lua_KeyState(lua_State *L)
 	return 1;
 }
 
+int lua_GetTime(lua_State *L)
+{
+	lua_pushinteger(L, timeGetTime());
+	return 1;
+}
+
 void luaL_setfuncs(lua_State *L, const luaL_Reg *l, int nup)
 {
 	luaL_checkstack(L, nup + 1, "too many upvalues");

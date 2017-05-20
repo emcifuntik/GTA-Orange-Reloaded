@@ -744,21 +744,21 @@ int API::GetVehicleWheelType(unsigned long guid)
 	return false;
 }
 
-unsigned long API::GetVehicleDriver(unsigned long guid)
+int API::GetVehicleDriver(unsigned long guid)
 {
 	RakNetGUID _guid(guid);
 	auto veh = CNetworkVehicle::GetByGUID(_guid);
 	if (veh) {
-		return RakNetGUID::ToUint32(veh->driverGUID);
+		return veh->GetDriver();
 	}
-	return NULL;
+	return -1;
 }
 
-std::vector<unsigned long> API::GetVehiclePassengers(unsigned long guid)
+std::vector<unsigned int> API::GetVehiclePassengers(unsigned long guid)
 {
 	RakNetGUID _guid(guid);
 	auto veh = CNetworkVehicle::GetByGUID(_guid);
-	std::vector<unsigned long> value;
+	std::vector<unsigned int> value;
 	if (veh) {
 		value = veh->GetPassengers();
 	}

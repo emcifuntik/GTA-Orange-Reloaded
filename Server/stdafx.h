@@ -16,7 +16,7 @@
 #include <iomanip>
 
 // Windows Header Files:
-#ifdef _WIN32
+#ifdef _MSC_VER
 
 #define WIN32_LEAN_AND_MEAN
 
@@ -81,7 +81,7 @@ typedef int BOOL;
 
 // Logging
 #include <Console/CConsole.h>
-#include <CLog.h>
+#include <Console/CLogServer.h>
 
 // RPC
 #include "CRPCPlugin.h"

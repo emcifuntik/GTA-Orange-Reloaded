@@ -38,7 +38,7 @@
 #include "CVector3.h"
 #include "Utils.h"
 #include "Console\CConsole.h"
-#include "Console\CLog.h"
+#include "Console\CLogClient.h"
 #include <cfloat>
 #include <cstdarg> 
 #include <cstddef>

@@ -1,65 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Файлы исходного кода">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Заголовочные файлы">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Файлы ресурсов">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Scripts">
       <UniqueIdentifier>{6cf0d7e6-af71-4b62-800e-1b51058a8dfe}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core">
       <UniqueIdentifier>{bd3d3d20-3604-4c31-81c2-6dceb854e410}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Заголовочные файлы">
-      <UniqueIdentifier>{7cae8b51-d6cc-403a-a077-ea12e6e0e62e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Файлы исходного кода">
-      <UniqueIdentifier>{1d35ddcd-b36e-41c8-849e-69199b6c50cb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GTA">
       <UniqueIdentifier>{9bc55cf7-4487-4f80-bd3a-16e4be0711f9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GTA\Файлы исходного кода">
-      <UniqueIdentifier>{611e30c4-e613-4aca-8005-f48d08a3efc4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GTA\Заголовочные файлы">
-      <UniqueIdentifier>{5f672a9b-8264-4f8f-870e-3d02ff9e0188}</UniqueIdentifier>
     </Filter>
     <Filter Include="UI">
       <UniqueIdentifier>{2d2c3b1b-e3ee-4c0e-abed-43510c234fb4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\Файлы исходного кода">
-      <UniqueIdentifier>{3b31eed6-c4a1-4ea0-b918-311d76fe9b0a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Network">
       <UniqueIdentifier>{a8ce1800-593a-41cf-9546-3a2c0da75f05}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Network\Заголовочные файлы">
-      <UniqueIdentifier>{de355c4f-a826-4512-bb7b-cf543d3d7532}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Network\Файлы исходного кода">
-      <UniqueIdentifier>{1862c8f8-212a-4dd4-a1b5-8e7452503c8d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\MemoryHook">
-      <UniqueIdentifier>{62d01694-5599-4c75-9d93-3f4876b46557}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\MemoryHook\Заголовочные файлы">
-      <UniqueIdentifier>{e795d493-02dc-46aa-8361-d0dc84eb6e0c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Заголовочные файлы">
-      <UniqueIdentifier>{a02d1bc7-e287-4465-8811-5f03889c1e13}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\MemoryHook\Файлы исходного кода">
-      <UniqueIdentifier>{19a2b235-78ee-40e9-9349-e2de00874b89}</UniqueIdentifier>
     </Filter>
     <Filter Include="GUI">
       <UniqueIdentifier>{3cb60bbc-0b2d-4dbd-8047-37e5258211e9}</UniqueIdentifier>
@@ -69,6 +24,51 @@
     </Filter>
     <Filter Include="HWID">
       <UniqueIdentifier>{34a6b72f-145a-46b5-8f8c-bb63d21ff96b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="UI\Header Files">
+      <UniqueIdentifier>{a02d1bc7-e287-4465-8811-5f03889c1e13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Source Files">
+      <UniqueIdentifier>{3b31eed6-c4a1-4ea0-b918-311d76fe9b0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Source Files">
+      <UniqueIdentifier>{1d35ddcd-b36e-41c8-849e-69199b6c50cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GTA\Source Files">
+      <UniqueIdentifier>{611e30c4-e613-4aca-8005-f48d08a3efc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Source Files">
+      <UniqueIdentifier>{1862c8f8-212a-4dd4-a1b5-8e7452503c8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Header Files">
+      <UniqueIdentifier>{de355c4f-a826-4512-bb7b-cf543d3d7532}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Header Files">
+      <UniqueIdentifier>{7cae8b51-d6cc-403a-a077-ea12e6e0e62e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GTA\Header Files">
+      <UniqueIdentifier>{5f672a9b-8264-4f8f-870e-3d02ff9e0188}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MemoryHook">
+      <UniqueIdentifier>{62d01694-5599-4c75-9d93-3f4876b46557}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MemoryHook\Header Files">
+      <UniqueIdentifier>{e795d493-02dc-46aa-8361-d0dc84eb6e0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MemoryHook\Source Files">
+      <UniqueIdentifier>{19a2b235-78ee-40e9-9349-e2de00874b89}</UniqueIdentifier>
     </Filter>
     <Filter Include="CEF">
       <UniqueIdentifier>{1cef4db2-c620-4ab2-8587-b9495ef0488a}</UniqueIdentifier>
@@ -85,180 +85,178 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="orange-core.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Memory.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MemoryCache.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GtaScripts.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Globals.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Chat.h">
-      <Filter>Core\Заголовочные файлы</Filter>
+      <Filter>Core\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Commands.h">
-      <Filter>Core\Заголовочные файлы</Filter>
+      <Filter>Core\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\nativeCaller.h">
-      <Filter>Core\Заголовочные файлы</Filter>
+      <Filter>Core\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\nativeInvoker.h">
-      <Filter>Core\Заголовочные файлы</Filter>
+      <Filter>Core\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Natives.h">
-      <Filter>Core\Заголовочные файлы</Filter>
+      <Filter>Core\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\pgCollection.h">
-      <Filter>Core\Заголовочные файлы</Filter>
+      <Filter>Core\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\pgPtrCollection.h">
-      <Filter>Core\Заголовочные файлы</Filter>
+      <Filter>Core\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\scrEngine.h">
-      <Filter>Core\Заголовочные файлы</Filter>
+      <Filter>Core\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Script.h">
-      <Filter>Core\Заголовочные файлы</Filter>
+      <Filter>Core\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\ScriptInvoker.h">
-      <Filter>Core\Заголовочные файлы</Filter>
+      <Filter>Core\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\scrManager.h">
-      <Filter>Core\Заголовочные файлы</Filter>
+      <Filter>Core\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\scrThread.h">
-      <Filter>Core\Заголовочные файлы</Filter>
+      <Filter>Core\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\types.h">
-      <Filter>Core\Заголовочные файлы</Filter>
+      <Filter>Core\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GTA\CGraphics.h">
-      <Filter>GTA\Заголовочные файлы</Filter>
+      <Filter>GTA\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GTA\CRage.h">
-      <Filter>GTA\Заголовочные файлы</Filter>
+      <Filter>GTA\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GTA\CReplayInterface.h">
-      <Filter>GTA\Заголовочные файлы</Filter>
+      <Filter>GTA\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GTA\sysAllocator.h">
-      <Filter>GTA\Заголовочные файлы</Filter>
+      <Filter>GTA\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GTA\VTasks.h">
-      <Filter>GTA\Заголовочные файлы</Filter>
+      <Filter>GTA\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\d3dx11effect.h">
-      <Filter>UI\Заголовочные файлы</Filter>
+      <Filter>UI\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\d3dxGlobal.h">
-      <Filter>UI\Заголовочные файлы</Filter>
+      <Filter>UI\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\imgui.h">
-      <Filter>UI\Заголовочные файлы</Filter>
+      <Filter>UI\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\imgui_impl_dx11.h">
-      <Filter>UI\Заголовочные файлы</Filter>
+      <Filter>UI\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\imgui_internal.h">
-      <Filter>UI\Заголовочные файлы</Filter>
+      <Filter>UI\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\stb_rect_pack.h">
-      <Filter>UI\Заголовочные файлы</Filter>
+      <Filter>UI\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\stb_textedit.h">
-      <Filter>UI\Заголовочные файлы</Filter>
+      <Filter>UI\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\stb_truetype.h">
-      <Filter>UI\Заголовочные файлы</Filter>
+      <Filter>UI\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\d3dhook.h">
-      <Filter>UI\Заголовочные файлы</Filter>
+      <Filter>UI\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
     <ClInclude Include="Network\CConfig.h">
-      <Filter>Network\Заголовочные файлы</Filter>
+      <Filter>Network\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Network\CEntity.h">
-      <Filter>Network\Заголовочные файлы</Filter>
+      <Filter>Network\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Network\CLocalPlayer.h">
-      <Filter>Network\Заголовочные файлы</Filter>
+      <Filter>Network\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Network\CNetworkBlip.h">
-      <Filter>Network\Заголовочные файлы</Filter>
+      <Filter>Network\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Network\CNetworkConnection.h">
-      <Filter>Network\Заголовочные файлы</Filter>
+      <Filter>Network\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Network\CNetworkMarker.h">
-      <Filter>Network\Заголовочные файлы</Filter>
+      <Filter>Network\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Network\CNetworkPlayer.h">
-      <Filter>Network\Заголовочные файлы</Filter>
+      <Filter>Network\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Network\CNetworkUI.h">
-      <Filter>Network\Заголовочные файлы</Filter>
+      <Filter>Network\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Network\CNetworkVehicle.h">
-      <Filter>Network\Заголовочные файлы</Filter>
+      <Filter>Network\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Network\CPedestrian.h">
-      <Filter>Network\Заголовочные файлы</Filter>
+      <Filter>Network\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Network\CRPCPlugin.h">
-      <Filter>Network\Заголовочные файлы</Filter>
+      <Filter>Network\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Network\CVehicle.h">
-      <Filter>Network\Заголовочные файлы</Filter>
+      <Filter>Network\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Network\Functions.h">
-      <Filter>Network\Заголовочные файлы</Filter>
+      <Filter>Network\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\Memory\minhook\src\buffer.h">
-      <Filter>UI\MemoryHook\Заголовочные файлы</Filter>
+      <Filter>MemoryHook\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\Memory\GameMemory.h">
-      <Filter>UI\MemoryHook\Заголовочные файлы</Filter>
+      <Filter>MemoryHook\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\Memory\minhook\src\HDE\hde64.h">
-      <Filter>UI\MemoryHook\Заголовочные файлы</Filter>
+      <Filter>MemoryHook\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\Memory\Memory.h">
-      <Filter>UI\MemoryHook\Заголовочные файлы</Filter>
+      <Filter>MemoryHook\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\Memory\minhook\include\MinHook.h">
-      <Filter>UI\MemoryHook\Заголовочные файлы</Filter>
+      <Filter>MemoryHook\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\Memory\minhook\src\HDE\pstdint.h">
-      <Filter>UI\MemoryHook\Заголовочные файлы</Filter>
+      <Filter>MemoryHook\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\Memory\minhook\src\HDE\table64.h">
-      <Filter>UI\MemoryHook\Заголовочные файлы</Filter>
+      <Filter>MemoryHook\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D11\Memory\minhook\src\trampoline.h">
-      <Filter>UI\MemoryHook\Заголовочные файлы</Filter>
+      <Filter>MemoryHook\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Registry.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Network\CNetwork3DText.h">
-      <Filter>Network\Заголовочные файлы</Filter>
+      <Filter>Network\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Network\CNetworkObject.h">
-      <Filter>Network\Заголовочные файлы</Filter>
+      <Filter>Network\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GuiDispatcher.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Scripting\CScriptEngine.h">
       <Filter>Scripting</Filter>
@@ -273,19 +271,19 @@
       <Filter>Scripting</Filter>
     </ClInclude>
     <ClInclude Include="chatfont.h">
-      <Filter>UI\Заголовочные файлы</Filter>
+      <Filter>UI\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="fontawesome.h">
-      <Filter>UI\Заголовочные файлы</Filter>
+      <Filter>UI\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="tagfont.h">
-      <Filter>UI\Заголовочные файлы</Filter>
+      <Filter>UI\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="font_awesome.h">
-      <Filter>UI\Заголовочные файлы</Filter>
+      <Filter>UI\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="icofont.h">
-      <Filter>UI\Заголовочные файлы</Filter>
+      <Filter>UI\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="md5.h">
       <Filter>HWID</Filter>
@@ -304,32 +302,37 @@
     </ClInclude>
     <ClInclude Include="BackScene.h">
       <Filter>Заголовочные файлы</Filter>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="orange-core.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dllmain.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Utils.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Memory.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MemoryCache.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GtaScripts.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Globals.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scripts\NetworkScript.cpp">
       <Filter>Scripts</Filter>
@@ -344,130 +347,130 @@
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="Core\Chat.cpp">
-      <Filter>Core\Файлы исходного кода</Filter>
+      <Filter>Core\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\nativeInvoker.cpp">
-      <Filter>Core\Файлы исходного кода</Filter>
+      <Filter>Core\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\scrEngine.cpp">
-      <Filter>Core\Файлы исходного кода</Filter>
+      <Filter>Core\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\Script.cpp">
-      <Filter>Core\Файлы исходного кода</Filter>
+      <Filter>Core\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\ScriptInvoker.cpp">
-      <Filter>Core\Файлы исходного кода</Filter>
+      <Filter>Core\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\scrManager.cpp">
-      <Filter>Core\Файлы исходного кода</Filter>
+      <Filter>Core\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\scrThread.cpp">
-      <Filter>Core\Файлы исходного кода</Filter>
+      <Filter>Core\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GTA\CGraphics.cpp">
-      <Filter>GTA\Файлы исходного кода</Filter>
+      <Filter>GTA\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GTA\CRage.cpp">
-      <Filter>GTA\Файлы исходного кода</Filter>
+      <Filter>GTA\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GTA\CReplayInterface.cpp">
-      <Filter>GTA\Файлы исходного кода</Filter>
+      <Filter>GTA\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GTA\sysAllocator.cpp">
-      <Filter>GTA\Файлы исходного кода</Filter>
+      <Filter>GTA\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GTA\VTasks.cpp">
-      <Filter>GTA\Файлы исходного кода</Filter>
+      <Filter>GTA\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D11\d3dhook.cpp">
-      <Filter>UI\Файлы исходного кода</Filter>
+      <Filter>UI\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D11\imgui.cpp">
-      <Filter>UI\Файлы исходного кода</Filter>
+      <Filter>UI\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D11\imgui_draw.cpp">
-      <Filter>UI\Файлы исходного кода</Filter>
+      <Filter>UI\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D11\imgui_impl_dx11.cpp">
-      <Filter>UI\Файлы исходного кода</Filter>
+      <Filter>UI\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D11\rendering.cpp">
-      <Filter>UI\Файлы исходного кода</Filter>
+      <Filter>UI\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Network\CConfig.cpp">
-      <Filter>Network\Файлы исходного кода</Filter>
+      <Filter>Network\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Network\CEntity.cpp">
-      <Filter>Network\Файлы исходного кода</Filter>
+      <Filter>Network\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Network\CLocalPlayer.cpp">
-      <Filter>Network\Файлы исходного кода</Filter>
+      <Filter>Network\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Network\CNetworkBlip.cpp">
-      <Filter>Network\Файлы исходного кода</Filter>
+      <Filter>Network\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Network\CNetworkConnection.cpp">
-      <Filter>Network\Файлы исходного кода</Filter>
+      <Filter>Network\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Network\CNetworkMarker.cpp">
-      <Filter>Network\Файлы исходного кода</Filter>
+      <Filter>Network\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Network\CNetworkPlayer.cpp">
-      <Filter>Network\Файлы исходного кода</Filter>
+      <Filter>Network\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Network\CNetworkUI.cpp">
-      <Filter>Network\Файлы исходного кода</Filter>
+      <Filter>Network\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Network\CNetworkVehicle.cpp">
-      <Filter>Network\Файлы исходного кода</Filter>
+      <Filter>Network\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Network\CPedestrian.cpp">
-      <Filter>Network\Файлы исходного кода</Filter>
+      <Filter>Network\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Network\CRPCPlugin.cpp">
-      <Filter>Network\Файлы исходного кода</Filter>
+      <Filter>Network\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Network\CVehicle.cpp">
-      <Filter>Network\Файлы исходного кода</Filter>
+      <Filter>Network\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\Commands.cpp">
-      <Filter>Core\Файлы исходного кода</Filter>
+      <Filter>Core\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D11\Memory\GameMemory.cpp">
-      <Filter>UI\MemoryHook\Файлы исходного кода</Filter>
+      <Filter>MemoryHook\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D11\Memory\HMemory.cpp">
-      <Filter>UI\MemoryHook\Файлы исходного кода</Filter>
+      <Filter>MemoryHook\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D11\Memory\Hooking.cpp">
-      <Filter>UI\MemoryHook\Файлы исходного кода</Filter>
+      <Filter>MemoryHook\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D11\Memory\minhook\src\buffer.cpp">
-      <Filter>UI\MemoryHook\Файлы исходного кода</Filter>
+      <Filter>MemoryHook\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D11\Memory\minhook\src\HDE\hde64.cpp">
-      <Filter>UI\MemoryHook\Файлы исходного кода</Filter>
+      <Filter>MemoryHook\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D11\Memory\minhook\src\hook.cpp">
-      <Filter>UI\MemoryHook\Файлы исходного кода</Filter>
+      <Filter>MemoryHook\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D11\Memory\minhook\src\trampoline.cpp">
-      <Filter>UI\MemoryHook\Файлы исходного кода</Filter>
+      <Filter>MemoryHook\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Registry.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Network\CNetwork3DText.cpp">
-      <Filter>Network\Файлы исходного кода</Filter>
+      <Filter>Network\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Network\CNetworkObject.cpp">
-      <Filter>Network\Файлы исходного кода</Filter>
+      <Filter>Network\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Network\Functions.cpp">
-      <Filter>Network\Файлы исходного кода</Filter>
+      <Filter>Network\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GuiDispatcher.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ServerBrowser.cpp">
       <Filter>GUI</Filter>
@@ -523,15 +526,15 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="orange-core.rc">
-      <Filter>Файлы ресурсов</Filter>
+      <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Launcher\Launcher.ico">
-      <Filter>Файлы ресурсов</Filter>
+      <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Launcher.ico">
-      <Filter>Файлы ресурсов</Filter>
+      <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
 </Project>
