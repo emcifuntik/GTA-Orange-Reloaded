@@ -4,6 +4,7 @@ enum CallbackID
 {
 	CALLBACK_ON_RESOURCE_LOAD,
 	CALLBACK_ON_EVENT,
+	CALLBACK_ON_PLAYER_COMMAND_EVENT,
 	CALLBACKS_COUNT
 };
 
@@ -17,6 +18,12 @@ struct OnEventCallbackStruct
 {
 	char * event;
 	std::vector<MValue>* args;
+};
+
+struct OnPlayerCommandCallbackStruct
+{
+	long* playerid;
+	const char * command;
 };
 
 class NodeModule
@@ -34,6 +41,7 @@ public:
 	inline static NodeModule* GetModule() { return m_module; };
 	inline void SetCallback(CallbackID callbackID, CallbackInfo* callback) { m_callbacks[callbackID] = callback; };
 	inline CallbackInfo* GetCallback(CallbackID callbackID) { return m_callbacks[callbackID]; }
+	bool OnPlayerCommand(long playerid, const char * command);
 private:
 	static NodeModule* m_module;
 	node::Environment* m_env;

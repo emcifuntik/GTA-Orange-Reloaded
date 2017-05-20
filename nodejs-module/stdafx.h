@@ -24,3 +24,4 @@ using namespace std;
 
 #include "uv_callback/uv_callback.h"
 #include "NodeModule.h"
+#include "node_orange.h"

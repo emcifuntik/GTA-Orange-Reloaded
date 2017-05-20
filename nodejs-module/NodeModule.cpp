@@ -84,16 +84,28 @@ void NodeModule::OnResourceLoad(const char * resource)
 
 void NodeModule::OnEvent(const char * e, std::vector<MValue>* args)
 {
-	printf("Event: %s\n", e);
 	CallbackInfo* callbackInfo = GetCallback(CALLBACK_ON_EVENT);
 	char* e_c = new char[strlen(e) + 1];
 	strcpy(e_c, e);
 	OnEventCallbackStruct* callback = new OnEventCallbackStruct();
-	printf("before vector\n");
 	std::vector<MValue>* args_c = new std::vector<MValue>(*args);
-	printf("after vector\n");
 	callback->event = e_c;
 	callback->args = args_c;
 	uv_callback_fire(callbackInfo->callback, (void*)callback, NULL);
 	OnTick();
+}
+
+bool NodeModule::OnPlayerCommand(long playerid, const char * command)
+{
+	API::Get().SetPlayerHealth(playerid, 20);
+	CallbackInfo* callbackInfo = GetCallback(CALLBACK_ON_PLAYER_COMMAND_EVENT);
+	char* cmd = new char[strlen(command) + 1];
+	strcpy(cmd, command);
+	long* pid = new long(playerid);
+	OnPlayerCommandCallbackStruct* callback = new OnPlayerCommandCallbackStruct();
+	callback->command = cmd;
+	callback->playerid = pid;
+	uv_callback_fire(callbackInfo->callback, (void*)callback, NULL);
+	OnTick();
+	return false;
 }

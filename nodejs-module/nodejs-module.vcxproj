@@ -150,9 +150,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="api\API.h" />
-    <ClInclude Include="api\CVector3.h" />
     <ClInclude Include="NodeModule.h" />
+    <ClInclude Include="node_orange.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="uv_callback\uv_callback.h" />
@@ -161,6 +160,7 @@
     <ClCompile Include="nodejs-module.cpp" />
     <ClCompile Include="NodeModule.cpp" />
     <ClCompile Include="node_orange.cpp" />
+    <ClCompile Include="node_player.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="uv_callback\uv_callback.c" />
   </ItemGroup>

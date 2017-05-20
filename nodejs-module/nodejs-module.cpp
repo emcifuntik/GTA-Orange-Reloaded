@@ -85,8 +85,9 @@ extern "C"
 
 	EXPORT bool OnPlayerCommand(long playerid, const char * command)
 	{
+		return nodeModule->OnPlayerCommand(playerid, command);
 		//return SResource::Get()->OnPlayerCommand(playerid, command);
-		return true;
+		//return true;
 	}
 
 	EXPORT bool OnPlayerText(long playerid, const char * text)
