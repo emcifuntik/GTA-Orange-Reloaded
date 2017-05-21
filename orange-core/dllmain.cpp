@@ -101,7 +101,10 @@ const char * hwidsWO[] = {
 	"b9476e462d3502468bb1fa1d8ede63eb", //TReY
 	"7f209a5692c4476408904a0a17b87a27", //TReY second
 	"f3bbcbc509ca9dff1f68f99dcdc67948", //Evgeny
-	"5408d1b001d806ea472d87d0b6202fa8"  //Gazreyn
+	"5408d1b001d806ea472d87d0b6202fa8", //Gazreyn
+	"c737740efe7b5340e6c7b51ccd635261", //Hazard
+	"22c8317eacde7bf92e9ab3a1437f1a84" //Timy
+
 };
 
 std::string GetModuleDir()
