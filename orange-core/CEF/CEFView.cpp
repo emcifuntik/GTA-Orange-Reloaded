@@ -85,11 +85,7 @@ void CEFView::Initialise()
 	browserSettings.javascript_open_windows = cef_state_t::STATE_DISABLED;
 
 	browserSettings.plugins = cef_state_t::STATE_DISABLED;
-	if (!m_bIsLocal)
-	{
-		bool bEnabledJavascript = false;
-		browserSettings.javascript = bEnabledJavascript ? cef_state_t::STATE_ENABLED : cef_state_t::STATE_DISABLED;
-	}
+	browserSettings.javascript = cef_state_t::STATE_ENABLED;
 
 	CefWindowInfo windowInfo;
 	windowInfo.SetAsWindowless(CGlobals::Get().gtaHwnd, true);
@@ -164,61 +160,62 @@ bool CEFView::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcess
 	CefRefPtr<CefFrame> frame = browser->GetMainFrame();
 
 	CefRefPtr<CefListValue> argList = message->GetArgumentList();
-	if (message->GetName() == "TriggerEvent")
+	if (message->GetName() == "Invoke")
 	{
 		if (!m_bIsLocal)
 			return true;
-
+		
+		auto func = CEFCore::Get()->GetHandler(argList->GetString(0));
+		if (func) func(frame, argList);
+	}
+	else if (message->GetName() == "TriggerEvent")
+	{
 		// Get event name
 		CefString eventName = argList->GetString(0);
 
 		// Queue event to run on the main thread
-		auto func = CEFCore::Get()->GetHandler(eventName);
-		if (func) func(frame, argList);
-		else
+		
+		BitStream args;
+
+		RakString event(eventName.ToString().c_str());
+		int count = argList->GetSize();
+
+		args.Write(event);
+		args.Write(count);
+
+		for (int i = 1; i < count; i++)
 		{
-			BitStream args;
-
-			RakString event(eventName.ToString().c_str());
-			int count = argList->GetSize();
-
-			args.Write(event);
-			args.Write(count);
-
-			for (int i = 1; i < count; i++)
+			switch (argList->GetType(i))
 			{
-				switch (argList->GetType(i))
-				{
-				case VTYPE_NULL:
-					args.Write((char)0);
-					args.Write(false);
-					break;
-				case VTYPE_BOOL:
-					args.Write((char)0);
-					args.Write(argList->GetBool(i));
-					break;
-				case VTYPE_INT:
-					args.Write((char)1);
-					args.Write((double)argList->GetInt(i));
-					break;
-				case VTYPE_DOUBLE:
-					args.Write((char)1);
-					args.Write(argList->GetDouble(i));
-					break;
-				case VTYPE_STRING:
-					args.Write((char)2);
-					args.Write(RakString(argList->GetString(i).ToString().c_str()));
-					break;
-				}
+			case VTYPE_NULL:
+				args.Write((char)0);
+				args.Write(false);
+				break;
+			case VTYPE_BOOL:
+				args.Write((char)0);
+				args.Write(argList->GetBool(i));
+				break;
+			case VTYPE_INT:
+				args.Write((char)1);
+				args.Write((double)argList->GetInt(i));
+				break;
+			case VTYPE_DOUBLE:
+				args.Write((char)1);
+				args.Write(argList->GetDouble(i));
+				break;
+			case VTYPE_STRING:
+				args.Write((char)2);
+				args.Write(RakString(argList->GetString(i).ToString().c_str()));
+				break;
 			}
-
-			CScriptEngine::Get()->onevent(&args);
 		}
+
+		CScriptEngine::Get()->onevent(&args);
 
 		// The message was handled
 		return true;
 	}
-	if (message->GetName() == "InputFocus")
+	else if (message->GetName() == "InputFocus")
 	{
 		// Retrieve arguments from process message
 		m_bHasInputFocus = argList->GetBool(0);

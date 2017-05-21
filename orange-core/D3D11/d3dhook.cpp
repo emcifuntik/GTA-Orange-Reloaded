@@ -333,7 +333,7 @@ bool D3DHook::HookD3D11()
 		CGlobals::Get().newyorkFont->AddRemapChar(charTable[i].old_, charTable[i].new_);
 	}
 
-	CreateRenderTarget();
+	//CreateRenderTarget();
 	DWORD64* pD3D11_SwapChainVTable = (DWORD64*)swapchain;
 	pD3D11_SwapChainVTable = (DWORD64*)pD3D11_SwapChainVTable[0];
 	Memory::Init();

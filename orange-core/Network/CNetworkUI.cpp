@@ -207,13 +207,16 @@ void CNetworkUI::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, B
 		bsOut.Write(key);
 		CRPCPlugin::Get()->rpc.Signal("KeyEvent", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
-		bsOut.Reset();
-		bsOut.Write(RakString("KeyPress"));
-		bsOut.Write((int)1);
-		bsOut.Write((char)1);
-		bsOut.Write((double)key);
+		if (CScriptEngine::Get()->onevent)
+		{
+			bsOut.Reset();
+			bsOut.Write(RakString("KeyPress"));
+			bsOut.Write((int)1);
+			bsOut.Write((char)1);
+			bsOut.Write((double)key);
 
-		CScriptEngine::Get()->onevent(&bsOut);
+			CScriptEngine::Get()->onevent(&bsOut);
+		}
 	}
 
 	if (!isUpNow)

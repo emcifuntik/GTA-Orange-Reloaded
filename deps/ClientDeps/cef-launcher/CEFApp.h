@@ -11,6 +11,7 @@ class CEFApp : public CefApp, public CefRenderProcessHandler, public CefV8Handle
 		m_pFrame = frame;
 
 		context->GetGlobal()->SetValue("TriggerEvent", CefV8Value::CreateFunction("TriggerEvent", this), V8_PROPERTY_ATTRIBUTE_NONE);
+		context->GetGlobal()->SetValue("Invoke", CefV8Value::CreateFunction("Invoke", this), V8_PROPERTY_ATTRIBUTE_NONE);
 	};
 
 	virtual CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() override
@@ -23,7 +24,7 @@ class CEFApp : public CefApp, public CefRenderProcessHandler, public CefV8Handle
 		if (arguments.size() == 0)
 			return true;
 
-		CefRefPtr<CefProcessMessage> message = CefProcessMessage::Create("TriggerEvent");
+		CefRefPtr<CefProcessMessage> message = CefProcessMessage::Create(name);
 
 		auto args = message->GetArgumentList();
 		args->SetSize(arguments.size());
