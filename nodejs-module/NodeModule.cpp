@@ -38,6 +38,7 @@ bool NodeModule::Init()
 	v8::Local<v8::Context> context = v8::Context::New(isolate);
 	node::Environment* env = node::CreateEnvironment(node::CreateIsolateData(isolate, event_loop), context, argc, argv, exec_argc, exec_argv);
 
+
 	context->GetIsolate()->SetMicrotasksPolicy(v8::MicrotasksPolicy::kAuto);
 	v8::Context::Scope context_scope(context);
 

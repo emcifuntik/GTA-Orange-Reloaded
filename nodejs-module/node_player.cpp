@@ -28,7 +28,7 @@ namespace node
 					v8::String::NewFromUtf8(isolate, "clientEvent is not string")));
 				return;
 			}
-			long playerId = (long)args[0]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
 			const char* eventName = (const char*)*v8::String::Utf8Value(args[1]->ToDetailString());
 
 			v8::Handle<v8::Array> argsArray = v8::Handle<v8::Array>::Cast(args[2]);
@@ -56,7 +56,7 @@ namespace node
 					v8::String::NewFromUtf8(isolate, "playerId is not number")));
 				return;
 			}
-			long playerId = (long)args[0]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
 
 			API::Get().KickPlayer(playerId);
 		}
@@ -96,7 +96,7 @@ namespace node
 					v8::String::NewFromUtf8(isolate, "Z position is not number")));
 				return;
 			}
-			long playerId = (long)args[0]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
 			float x = (float)args[1]->NumberValue();
 			float y = (float)args[2]->NumberValue();
 			float z = (float)args[3]->NumberValue();
@@ -122,7 +122,7 @@ namespace node
 				return;
 			}
 
-			long playerId = (long)args[0]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
 
 			CVector3 position = API::Get().GetPlayerPosition(playerId);
 
@@ -175,7 +175,7 @@ namespace node
 					v8::String::NewFromUtf8(isolate, "Range is not number")));
 				return;
 			}
-			long playerId = (long)args[0]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
 			float x = (float)args[1]->NumberValue();
 			float y = (float)args[2]->NumberValue();
 			float z = (float)args[3]->NumberValue();
@@ -208,7 +208,7 @@ namespace node
 				return;
 			}
 
-			long playerId = (long)args[0]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
 			float angle = (float)args[1]->NumberValue();
 			args.GetReturnValue().Set(API::Get().SetPlayerHeading(playerId, angle));
 		}
@@ -231,7 +231,7 @@ namespace node
 				return;
 			}
 
-			long playerId = (long)args[0]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
 			args.GetReturnValue().Set(API::Get().GetPlayerHeading(playerId));
 		}
 		//virtual bool RemovePlayerWeapons(long playerid) = 0;
@@ -253,7 +253,7 @@ namespace node
 				return;
 			}
 
-			long playerId = (long)args[0]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
 			args.GetReturnValue().Set(API::Get().RemovePlayerWeapons(playerId));
 		}
 		//virtual bool GivePlayerWeapon(long playerid, long weapon, long ammo) = 0;
@@ -286,9 +286,9 @@ namespace node
 					v8::String::NewFromUtf8(isolate, "Ammo is not number")));
 				return;
 			}
-			long playerId = (long)args[0]->IntegerValue();
-			long weapon = args[1]->IsString() ? API::Get().Hash(*((v8::String::Utf8Value)args[1]->ToString())) : (long)args[1]->IntegerValue();
-			long ammo = (long)args[2]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
+			long weapon = args[1]->IsString() ? API::Get().Hash(*((v8::String::Utf8Value)args[1]->ToString())) : (long)args[1]->Int32Value();
+			long ammo = (long)args[2]->Int32Value();
 			args.GetReturnValue().Set(API::Get().GivePlayerWeapon(playerId, weapon, ammo));
 		}
 		//virtual bool GivePlayerAmmo(long playerid, long weapon, long ammo) = 0;
@@ -322,9 +322,9 @@ namespace node
 				return;
 			}
 
-			long playerId = (long)args[0]->IntegerValue();
-			long weapon = args[1]->IsString() ? API::Get().Hash(*((v8::String::Utf8Value)args[1]->ToString())) : (long)args[1]->IntegerValue();
-			long ammo = (long)args[2]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
+			long weapon = args[1]->IsString() ? API::Get().Hash(*((v8::String::Utf8Value)args[1]->ToString())) : (long)args[1]->Int32Value();
+			long ammo = (long)args[2]->Int32Value();
 			args.GetReturnValue().Set(API::Get().GivePlayerAmmo(playerId, weapon, ammo));
 		}
 		//virtual bool GivePlayerMoney(long playerid, long money) = 0;
@@ -352,8 +352,8 @@ namespace node
 				return;
 			}
 
-			long playerId = (long)args[0]->IntegerValue();
-			long money = (long)args[1]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
+			long money = (long)args[1]->Int32Value();
 			args.GetReturnValue().Set(API::Get().GivePlayerMoney(playerId, money));
 		}
 		//virtual bool SetPlayerMoney(long playerid, long money) = 0;
@@ -381,8 +381,8 @@ namespace node
 				return;
 			}
 
-			long playerId = (long)args[0]->IntegerValue();
-			long money = (long)args[1]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
+			long money = (long)args[1]->Int32Value();
 			args.GetReturnValue().Set(API::Get().SetPlayerMoney(playerId, money));
 		}
 		//virtual bool ResetPlayerMoney(long playerid) = 0;
@@ -454,8 +454,8 @@ namespace node
 				return;
 			}
 
-			long playerId = (long)args[0]->IntegerValue();
-			long model = args[1]->IsString() ? API::Get().Hash(*((v8::String::Utf8Value)args[1]->ToString())) : (long)args[1]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
+			long model = args[1]->IsString() ? API::Get().Hash(*((v8::String::Utf8Value)args[1]->ToString())) : (long)args[1]->Int32Value();
 			args.GetReturnValue().Set(API::Get().SetPlayerModel(playerId, model));
 		}
 		//virtual long GetPlayerModel(long playerid) = 0;
@@ -477,7 +477,7 @@ namespace node
 				return;
 			}
 
-			long playerId = (long)args[0]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
 			args.GetReturnValue().Set((long)API::Get().GetPlayerModel(playerId));
 		}
 		//virtual bool SetPlayerName(long playerid, const char * name) = 0;
@@ -505,7 +505,7 @@ namespace node
 				return;
 			}
 
-			long playerId = (long)args[0]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
 			v8::String::Utf8Value name(args[1]->ToString());
 			args.GetReturnValue().Set(API::Get().SetPlayerName(playerId, *name));
 		}
@@ -528,7 +528,7 @@ namespace node
 				return;
 			}
 
-			long playerId = (long)args[0]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
 			std::string name = API::Get().GetPlayerName(playerId);
 			args.GetReturnValue().Set(v8::String::NewFromUtf8(isolate, name.c_str()));
 		}
@@ -557,7 +557,7 @@ namespace node
 				return;
 			}
 
-			long playerId = (long)args[0]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
 			float health = (float)args[1]->NumberValue();
 			printf("Health: %f\n", health);
 			args.GetReturnValue().Set(API::Get().SetPlayerHealth(playerId, health));
@@ -581,7 +581,7 @@ namespace node
 				return;
 			}
 
-			long playerId = (long)args[0]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
 			args.GetReturnValue().Set((long)API::Get().GetPlayerHealth(playerId));
 		}
 		//virtual bool SetPlayerArmour(long playerid, float armour) = 0;
@@ -609,7 +609,7 @@ namespace node
 				return;
 			}
 
-			long playerId = (long)args[0]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
 			float armour = (float)args[1]->NumberValue();
 			args.GetReturnValue().Set(API::Get().SetPlayerArmour(playerId, armour));
 		}
@@ -632,7 +632,7 @@ namespace node
 				return;
 			}
 
-			long playerId = (long)args[0]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
 			args.GetReturnValue().Set((long)API::Get().GetPlayerArmour(playerId));
 		}
 		//virtual bool SetPlayerColor(long playerid, unsigned int color) = 0;
@@ -660,7 +660,7 @@ namespace node
 				return;
 			}
 
-			long playerId = (long)args[0]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
 			unsigned int color = (unsigned int)args[1]->NumberValue();
 			args.GetReturnValue().Set(API::Get().SetPlayerColor(playerId, color));
 		}
@@ -683,7 +683,7 @@ namespace node
 				return;
 			}
 
-			long playerId = (long)args[0]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
 			args.GetReturnValue().Set((unsigned int)API::Get().GetPlayerColor(playerId));
 		}
 		//virtual void BroadcastClientMessage(const char * message, unsigned int color) = 0;
@@ -746,7 +746,7 @@ namespace node
 				return;
 			}
 
-			long playerId = (long)args[0]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
 			v8::String::Utf8Value message(args[1]->ToString());
 			unsigned int color = (unsigned int)args[2]->NumberValue();
 			API::Get().SendClientMessage(playerId, *message, color);
@@ -782,7 +782,7 @@ namespace node
 				return;
 			}
 
-			long playerId = (long)args[0]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
 			unsigned long vehicle = (unsigned long)args[1]->NumberValue();
 			char seat = (char)args[2]->NumberValue();
 			args.GetReturnValue().Set(API::Get().SetPlayerIntoVehicle(playerId, vehicle, seat));
@@ -812,7 +812,7 @@ namespace node
 				return;
 			}
 
-			long playerId = (long)args[0]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
 			bool toggle = args[1]->BooleanValue();
 			API::Get().DisablePlayerHud(playerId, toggle);
 		}
@@ -835,7 +835,7 @@ namespace node
 				return;
 			}
 
-			long playerId = (long)args[0]->IntegerValue();
+			long playerId = (long)args[0]->Int32Value();
 			args.GetReturnValue().Set((unsigned int)API::Get().GetPlayerGUID(playerId));
 		}
 	}

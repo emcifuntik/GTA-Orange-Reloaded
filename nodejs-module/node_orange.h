@@ -35,5 +35,8 @@ namespace node
 		void SetPlayerIntoVehicle(const v8::FunctionCallbackInfo<v8::Value>& args);
 		void DisablePlayerHud(const v8::FunctionCallbackInfo<v8::Value>& args);
 		void GetPlayerGUID(const v8::FunctionCallbackInfo<v8::Value>& args);
+
+		void CreateVehicle(const v8::FunctionCallbackInfo<v8::Value>& args);
+
 	}
 }

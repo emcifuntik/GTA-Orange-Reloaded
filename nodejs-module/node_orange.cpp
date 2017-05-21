@@ -156,24 +156,6 @@ namespace node
 			API::Get().Print(*message);
 		}
 
-		void CreateVehicle(const v8::FunctionCallbackInfo<v8::Value>& args)
-		{
-			v8::Isolate* isolate = args.GetIsolate();
-			v8::HandleScope scope(isolate);
-			if (args.Length() < 5)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			/*if (!args[0]->IsNumber()) {
-			isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "First argument is not string")));
-			return;
-			}*/
-			//API::Get().CreateVehicle(523724515, 0.0f, 0.0f, 0.0f, 0.0f);
-		}
-
 		void Initialize(v8::Local<v8::Object> target, v8::Local<v8::Value> unused, v8::Local<v8::Context> context)
 		{
 			Environment* env = Environment::GetCurrent(context);
@@ -182,7 +164,6 @@ namespace node
 			env->SetMethod(target, "onEvent", OnEventFunction);
 			env->SetMethod(target, "onPlayerCommand", OnPlayerCommandFunction);
 			env->SetMethod(target, "print", Print);
-			env->SetMethod(target, "createVehicle", CreateVehicle);
 			//env->SetMethod(target, "loadClientScript", LoadClientScript);
 			env->SetMethod(target, "triggerClientEvent", node::orange::TriggerClientEvent);
 			env->SetMethod(target, "kickPlayer", KickPlayer);
