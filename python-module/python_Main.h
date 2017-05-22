@@ -70,6 +70,8 @@ public:
 	static PyObject* GTAOrange_GetVehicleCustomSecondaryColor(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_SetVehicleEngineStatus(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_GetVehicleEngineStatus(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_SetVehicleLocked(PyObject* self, PyObject* args);
+	static PyObject* GTAOrange_IsVehicleLocked(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_SetVehicleBodyHealth(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_SetVehicleEngineHealth(PyObject* self, PyObject* args);
 	static PyObject* GTAOrange_SetVehicleTankHealth(PyObject* self, PyObject* args);

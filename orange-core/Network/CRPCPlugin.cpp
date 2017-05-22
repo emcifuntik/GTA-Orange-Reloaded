@@ -61,6 +61,7 @@ void CRPCPlugin::BindFunctions()
 	rpc.RegisterSlot("SetVehicleColours", FPlayer::SetVehicleColours, 0);
 	rpc.RegisterSlot("SetVehicleTyresBulletproof", FPlayer::SetVehicleTyresBulletproof, 0);
 	rpc.RegisterSlot("SetVehicleEngineStatus", FPlayer::SetVehicleEngineStatus, 0);
+	rpc.RegisterSlot("SetVehicleLocked", FPlayer::SetVehicleLocked, 0);
 	rpc.RegisterSlot("SetVehicleBodyHealth", FPlayer::SetVehicleBodyHealth, 0);
 	rpc.RegisterSlot("SetVehicleEngineHealth", FPlayer::SetVehicleEngineHealth, 0);
 	rpc.RegisterSlot("SetVehicleTankHealth", FPlayer::SetVehicleTankHealth, 0);

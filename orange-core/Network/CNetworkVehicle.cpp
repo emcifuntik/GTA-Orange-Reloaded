@@ -49,6 +49,7 @@ void CNetworkVehicle::UpdateModel()
 		VEHICLE::SET_VEHICLE_ENGINE_ON(Handle, m_EngineState, true, true);
 		VEHICLE::SET_VEHICLE_TYRES_CAN_BURST(Handle, !m_TyresBulletproof);
 		VEHICLE::SET_VEHICLE_EXPLODES_ON_HIGH_EXPLOSION_DAMAGE(Handle, false);
+		VEHICLE::SET_VEHICLE_DOORS_LOCKED(Handle, m_Locked == false ? 0 : 2);
 		if (blip)
 		{
 			blip->Handle = UI::ADD_BLIP_FOR_ENTITY(Handle);
@@ -313,6 +314,8 @@ void CNetworkVehicle::SetVehicleData(VehicleData data, unsigned long ulDelay)
 	m_Color1 = data.Color1;
 	m_Color2 = data.Color2;
 
+	m_Locked = data.bLocked;
+
 	if (!m_Exploded && m_EngineHealth < 0 && m_TankHealth < 0 && (m_EngineHealth == -4000 || m_TankHealth == -1000))
 	{
 		NETWORK::NETWORK_EXPLODE_VEHICLE(Handle, 1, 0, 0);
@@ -402,6 +405,7 @@ void CNetworkVehicle::Tick()
 					VEHICLE::SET_VEHICLE_SIREN(veh->Handle, veh->m_Siren);
 					VEHICLE::SET_VEHICLE_ENGINE_ON(veh->Handle, veh->m_EngineState, true, true);
 					VEHICLE::SET_VEHICLE_TYRES_CAN_BURST(veh->Handle, !veh->m_TyresBulletproof);
+					VEHICLE::SET_VEHICLE_DOORS_LOCKED(veh->Handle, veh->m_Locked == false ? 0 : 2);
 					if (veh->blip)
 					{
 						veh->blip->Handle = UI::ADD_BLIP_FOR_ENTITY(veh->Handle);
@@ -471,5 +475,13 @@ void CNetworkVehicle::SetTargetSiren(bool state)
 	if (m_Siren != state) {
 		m_Siren = state;
 		VEHICLE::SET_VEHICLE_SIREN(Handle, m_Siren);
+	}
+}
+
+void CNetworkVehicle::SetTargetLocked(bool locked)
+{
+	if (m_Locked != locked) {
+		m_Locked = locked;
+		VEHICLE::SET_VEHICLE_DOORS_LOCKED(Handle, locked == false ? 0 : 2);
 	}
 }
