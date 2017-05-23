@@ -21,7 +21,7 @@
 #include "libplatform/libplatform.h"
 
 using namespace std;
-using namespace v8;
 
 #include "uv_callback/uv_callback.h"
 #include "NodeModule.h"
+#include "node_orange.h"

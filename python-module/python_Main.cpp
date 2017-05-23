@@ -58,6 +58,8 @@ static struct PyMethodDef methods[] = {
 	{ "GetVehicleCustomSecondaryColor", pythonFunctions::GTAOrange_GetVehicleCustomSecondaryColor, METH_VARARGS, "" },
 	{ "SetVehicleEngineStatus", pythonFunctions::GTAOrange_SetVehicleEngineStatus, METH_VARARGS, "" },
 	{ "GetVehicleEngineStatus", pythonFunctions::GTAOrange_GetVehicleEngineStatus, METH_VARARGS, "" },
+	{ "SetVehicleLocked", pythonFunctions::GTAOrange_SetVehicleLocked, METH_VARARGS, "" },
+	{ "IsVehicleLocked", pythonFunctions::GTAOrange_IsVehicleLocked, METH_VARARGS, "" },
 	{ "SetVehicleBodyHealth", pythonFunctions::GTAOrange_SetVehicleBodyHealth, METH_VARARGS, "" },
 	{ "SetVehicleEngineHealth", pythonFunctions::GTAOrange_SetVehicleEngineHealth, METH_VARARGS, "" },
 	{ "SetVehicleTankHealth", pythonFunctions::GTAOrange_SetVehicleTankHealth, METH_VARARGS, "" },

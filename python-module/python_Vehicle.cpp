@@ -202,6 +202,33 @@ PyObject* pythonFunctions::GTAOrange_GetVehicleEngineStatus(PyObject* self, PyOb
 	return PyBool_FromLong(0);
 }
 
+PyObject* pythonFunctions::GTAOrange_SetVehicleLocked(PyObject* self, PyObject* args)
+{
+	PyObject *vehid, *locked;
+	if (PyArg_UnpackTuple(args, "lb", 1, 2, &vehid, &locked))
+	{
+		bool state = false;
+		if (PyObject_IsTrue(locked) == 1)
+			state = true;
+		bool value = API::Get().SetVehicleLocked(PyLong_AsLong(vehid), state);
+		if (value)
+			return PyBool_FromLong(1);
+	}
+	return PyBool_FromLong(0);
+}
+
+PyObject* pythonFunctions::GTAOrange_IsVehicleLocked(PyObject* self, PyObject* args)
+{
+	PyObject *vehid;
+	if (PyArg_UnpackTuple(args, "l", 1, 1, &vehid))
+	{
+		bool value = API::Get().IsVehicleLocked(PyLong_AsLong(vehid));
+		if (value)
+			return PyBool_FromLong((int)value);
+	}
+	return PyBool_FromLong(0);
+}
+
 PyObject* pythonFunctions::GTAOrange_SetVehicleBodyHealth(PyObject* self, PyObject* args)
 {
 	PyObject *vehid, *health;

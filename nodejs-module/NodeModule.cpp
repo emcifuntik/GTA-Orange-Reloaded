@@ -21,25 +21,26 @@ bool NodeModule::Init()
 	char** argv = uv_setup_args(argc, argvv);
 	uv_loop_t* event_loop = uv_default_loop();
 
-	Platform* platform = v8::platform::CreateDefaultPlatform(4);
-	V8::InitializePlatform(platform);
-	V8::Initialize();
+	v8::Platform* platform = v8::platform::CreateDefaultPlatform(4);
+	v8::V8::InitializePlatform(platform);
+	v8::V8::Initialize();
 
 	int exec_argc;
 	const char** exec_argv;
 	node::Init(&argc, const_cast<const char**>(argv), &exec_argc, &exec_argv);
-	Isolate::CreateParams create_params;
+	v8::Isolate::CreateParams create_params;
 	create_params.array_buffer_allocator =
 		v8::ArrayBuffer::Allocator::NewDefaultAllocator();
-	Isolate* isolate = Isolate::New(create_params);
-	Isolate::Scope isolate_scope(isolate);
-	HandleScope handleScope(isolate);
+	v8::Isolate* isolate = v8::Isolate::New(create_params);
+	v8::Isolate::Scope isolate_scope(isolate);
+	v8::HandleScope handleScope(isolate);
 
-	v8::Local<v8::Context> context = Context::New(isolate);
+	v8::Local<v8::Context> context = v8::Context::New(isolate);
 	node::Environment* env = node::CreateEnvironment(node::CreateIsolateData(isolate, event_loop), context, argc, argv, exec_argc, exec_argv);
 
+
 	context->GetIsolate()->SetMicrotasksPolicy(v8::MicrotasksPolicy::kAuto);
-	Context::Scope context_scope(context);
+	v8::Context::Scope context_scope(context);
 
 	node::LoadEnvironment(env);
 
@@ -57,7 +58,7 @@ bool NodeModule::Init()
 bool more;
 
 void NodeModule::OnTick() {
-	Isolate::Scope isolateScope(m_isolate);
+	v8::Isolate::Scope isolateScope(m_isolate);
 	v8::platform::PumpMessageLoop(this->m_platform, this->m_env->isolate());
 	more = uv_run(m_env->event_loop(), UV_RUN_NOWAIT);
 
@@ -84,16 +85,28 @@ void NodeModule::OnResourceLoad(const char * resource)
 
 void NodeModule::OnEvent(const char * e, std::vector<MValue>* args)
 {
-	printf("Event: %s\n", e);
 	CallbackInfo* callbackInfo = GetCallback(CALLBACK_ON_EVENT);
 	char* e_c = new char[strlen(e) + 1];
 	strcpy(e_c, e);
 	OnEventCallbackStruct* callback = new OnEventCallbackStruct();
-	printf("before vector\n");
 	std::vector<MValue>* args_c = new std::vector<MValue>(*args);
-	printf("after vector\n");
 	callback->event = e_c;
 	callback->args = args_c;
 	uv_callback_fire(callbackInfo->callback, (void*)callback, NULL);
 	OnTick();
+}
+
+bool NodeModule::OnPlayerCommand(long playerid, const char * command)
+{
+	API::Get().SetPlayerHealth(playerid, 20);
+	CallbackInfo* callbackInfo = GetCallback(CALLBACK_ON_PLAYER_COMMAND_EVENT);
+	char* cmd = new char[strlen(command) + 1];
+	strcpy(cmd, command);
+	long* pid = new long(playerid);
+	OnPlayerCommandCallbackStruct* callback = new OnPlayerCommandCallbackStruct();
+	callback->command = cmd;
+	callback->playerid = pid;
+	uv_callback_fire(callbackInfo->callback, (void*)callback, NULL);
+	OnTick();
+	return false;
 }

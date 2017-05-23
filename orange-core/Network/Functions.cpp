@@ -99,16 +99,16 @@ namespace FPlayer
 		CLocalPlayer::Get()->SetHeading(heading);
 	}
 
-	void SetPlayerHealth(RakNet::BitStream *bitStream, RakNet::Packet *packet) // unsigned short health
+	void SetPlayerHealth(RakNet::BitStream *bitStream, RakNet::Packet *packet) // float health
 	{
-		unsigned short health;
+		float health;
 		bitStream->Read(health);
 		CLocalPlayer::Get()->SetHealth(health);
 	}
 
-	void SetPlayerArmour(RakNet::BitStream *bitStream, RakNet::Packet *packet) // unsigned short armour
+	void SetPlayerArmour(RakNet::BitStream *bitStream, RakNet::Packet *packet) // float armour
 	{
-		unsigned short armour;
+		float armour;
 		bitStream->Read(armour);
 		CLocalPlayer::Get()->SetArmour(armour);
 	}
@@ -346,6 +346,16 @@ namespace FPlayer
 		bitStream->Read(state);
 		CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(guid);
 		veh->SetTargetEngineStatus(state);
+	}
+
+	void SetVehicleLocked(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+	{
+		RakNetGUID guid;
+		bool locked;
+		bitStream->Read(guid);
+		bitStream->Read(locked);
+		CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(guid);
+		veh->SetTargetLocked(locked);
 	}
 
 	void SetVehicleBodyHealth(RakNet::BitStream *bitStream, RakNet::Packet *packet)
