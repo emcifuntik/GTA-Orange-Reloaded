@@ -9,8 +9,6 @@ Injector::Injector()
 void Injector::Run(std::wstring folder, std::wstring pePath)
 {
 	TCHAR Params[] = L"";
-	STARTUPINFO siStartupInfo;
-	PROCESS_INFORMATION piProcessInfo;
 	memset(&siStartupInfo, 0, sizeof(siStartupInfo));
 	memset(&piProcessInfo, 0, sizeof(piProcessInfo));
 	siStartupInfo.cb = sizeof(siStartupInfo);
@@ -28,9 +26,9 @@ void Injector::InjectAll(bool waitForUnpack)
 {
 	WaitUntilGameStarts();
 	Sleep(100);
-	int pid = FindProcess(PROCESS_NAME);
-	if(waitForUnpack)
-		WaitForUnpackFinished(pid);
+	HANDLE pid = piProcessInfo.hProcess;//FindProcess(PROCESS_NAME);
+	//if(waitForUnpack)
+	//	WaitForUnpackFinished(pid);
 	for each (std::string lib in libs)
 	{
 		if (!Inject(pid, lib.c_str()))
@@ -81,9 +79,9 @@ void Injector::WaitUntilGameStarts()
 	while (FindProcess(L"GTA5.exe") == -1);
 }
 
-bool Injector::Inject(int processId, std::string dllName)
+bool Injector::Inject(HANDLE process, std::string dllName)
 {
-	HANDLE process = OpenProcess(PROCESS_ALL_ACCESS, false, processId);
+	//HANDLE process = OpenProcess(PROCESS_ALL_ACCESS, false, processId);
 	if (!process)
 		return false;
 	LPVOID LoadLibraryA_ = (LPVOID)GetProcAddress(GetModuleHandle(L"kernel32.dll"), "LoadLibraryA");

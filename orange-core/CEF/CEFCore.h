@@ -25,11 +25,6 @@ public:
 	void RegisterJSFunc(std::string name, std::function<void(CefRefPtr<CefFrame> frame, CefRefPtr<CefListValue> args)> f);
 
 	static CEFCore* Get();
-	static void Close()
-	{
-		delete instance;
-		instance = nullptr;
-	};
 	void init();
 	CefRefPtr<CEFView> CreateWebView(std::string url, unsigned int uiWidth, unsigned int uiHeight, bool bIsLocal, bool bTransparent);
 };

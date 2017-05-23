@@ -16,7 +16,7 @@ class Injector
 	int FindProcess(std::wstring procName);
 	GameVersion GetGameVersion();
 	void WaitUntilGameStarts();
-	bool Inject(int processId, std::string dllName);
+	bool Inject(HANDLE process, std::string dllName);
 	void WaitForUnpackFinished(int pid);
 
 	// static fields
@@ -25,7 +25,11 @@ class Injector
 	// fields
 	std::vector<std::string> libs;
 	bool Injected = false;
+
 public:
+	STARTUPINFO siStartupInfo;
+	PROCESS_INFORMATION piProcessInfo;
+
 	// methods
 	void Run(std::wstring folder, std::wstring pePath);
 	void RunSteam();

@@ -112,12 +112,17 @@ void Action()
 			CNetworkMarker::Clear();
 			CNetworkBlip::Clear();
 
-			for(auto cefView : CEFCore::Get()->views)
+			for(int i = 0; i < CEFCore::Get()->views.size(); i++)
 			{
-				cefView->Release();
-			}
+				auto cefView = CEFCore::Get()->views[i];
 
-			CEFCore::Get()->views.erase(CEFCore::Get()->views.begin(), CEFCore::Get()->views.end());
+				if (cefView && !cefView->IsLocal())
+				{
+					cefView->CloseBrowser();
+					//cefView->Release();
+					CEFCore::Get()->views.erase(CEFCore::Get()->views.begin() + i--);
+				}
+			}
 
 			CNetworkConnection::Get()->bClear = false;
 		}

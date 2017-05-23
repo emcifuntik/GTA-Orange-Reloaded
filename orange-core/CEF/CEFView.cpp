@@ -26,13 +26,11 @@ CEFView::CEFView(std::string url, bool bIsLocal, bool bTransparent)
 }
 
 CEFView::~CEFView()
-{
-	/*m_pWebView->GetHost()->CloseBrowser(true);
-	
-	m_pWebView->Release();
+{	
+	//log << __FUNCTION__ << std::endl;
 	m_pWebView = nullptr;
 
-	m_RenderData.dataMutex.unlock();*/
+	m_RenderData.cv.notify_all();
 }
 
 void CEFView::Initialise()
@@ -104,7 +102,17 @@ void CEFView::CheckResize(int width, int height)
 
 		CreateTexture();
 		m_pWebView->GetHost()->WasResized();
+
+		m_RenderData.cv.notify_all();
 	}
+}
+
+void CEFView::CloseBrowser()
+{
+	if(m_pWebView)
+		m_pWebView->GetHost()->CloseBrowser(true);
+
+	m_RenderData.cv.notify_all();
 }
 
 bool CEFView::CanGoBack()
@@ -170,7 +178,7 @@ void CEFView::Refresh(bool bIgnoreCache)
 ////////////////////////////////////////////////////////////////////
 bool CEFView::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
 {
-	log << __FUNCTION__ << " " << message->GetName().ToString() << std::endl;
+	//log << __FUNCTION__ << " " << message->GetName().ToString() << std::endl;
 
 	CefRefPtr<CefFrame> frame = browser->GetMainFrame();
 
@@ -296,14 +304,18 @@ void CEFView::OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect)
 ////////////////////////////////////////////////////////////////////
 void CEFView::OnPaint(CefRefPtr<CefBrowser> browser, CefRenderHandler::PaintElementType paintType, const CefRenderHandler::RectList& dirtyRects, const void* buffer, int width, int height)
 {
-	m_RenderData.dataMutex.lock();
+	{
+		std::lock_guard<std::mutex> lock(m_RenderData.dataMutex);
 
-	m_RenderData.buffer = (void*)buffer;
-	m_RenderData.width = width;
-	m_RenderData.height = height;
-	m_RenderData.changed = true;
+		m_RenderData.buffer = (void*)buffer;
+		m_RenderData.width = width;
+		m_RenderData.height = height;
+		m_RenderData.changed = true;
+		m_RenderData.dirtyRects = dirtyRects;
+	}
 
-	m_RenderData.dataMutex.unlock();
+	std::unique_lock<std::mutex> lock(m_RenderData.cvMutex);
+	m_RenderData.cv.wait(lock);
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -325,7 +337,7 @@ void CEFView::OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle curs
 ////////////////////////////////////////////////////////////////////
 void CEFView::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, TransitionType transitionType)
 {
-	log << "OnLoadStart" << std::endl;
+	//log << "OnLoadStart" << std::endl;
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -336,7 +348,7 @@ void CEFView::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> fra
 ////////////////////////////////////////////////////////////////////
 void CEFView::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)
 {
-	log << "OnLoadEnd" << std::endl;
+	//log << "OnLoadEnd" << std::endl;
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -359,7 +371,7 @@ void CEFView::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> fra
 bool CEFView::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect)
 {
 
-	log << "OnBeforeBrowse" << std::endl;
+	//log << "OnBeforeBrowse" << std::endl;
 	// Return execution to CEF
 	return false;
 }
@@ -384,7 +396,8 @@ CefRequestHandler::ReturnValue CEFView::OnBeforeResourceLoad(CefRefPtr<CefBrowse
 ////////////////////////////////////////////////////////////////////
 void CEFView::OnBeforeClose(CefRefPtr<CefBrowser> browser)
 {
-	log << "OnBeforeClose" << std::endl;
+	m_pWebView = nullptr;
+	//log << "OnBeforeClose" << std::endl;
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -481,18 +494,19 @@ bool CEFView::OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& m
 ////////////////////////////////////////////////////////////////////
 void CEFView::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model)
 {
-	log << "OnBeforeContextMenu" << std::endl;
+	//log << "OnBeforeContextMenu" << std::endl;
 	// Show no context menu
 	model->Clear();
 }
 
 void CEFView::UpdateTexture()
 {
+	std::lock_guard<std::mutex> lock(m_RenderData.dataMutex);
+
 	if (m_RenderData.changed && m_pTexture != nullptr)
 	{
-		// Map resource
-		m_RenderData.dataMutex.lock();
 
+		// Map resource
 		D3D11_MAPPED_SUBRESOURCE mapped;
 
 		if (SUCCEEDED(CGlobals::Get().d3dDeviceContext->Map(m_pTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped)))
@@ -502,6 +516,7 @@ void CEFView::UpdateTexture()
 			auto dstData = static_cast<byte*>(mapped.pData);
 			auto srcData = static_cast<const byte*>(m_RenderData.buffer);
 
+			//for(auto rect : m_RenderData.dirtyRects)
 			for (unsigned int y = 0; y < m_RenderData.height; ++y)
 			{
 				std::memcpy(&dstData[mapped.RowPitch * y], &srcData[width2 * y], width2); // TODO: Copy only box
@@ -510,9 +525,9 @@ void CEFView::UpdateTexture()
 			CGlobals::Get().d3dDeviceContext->Unmap(m_pTexture, 0);
 		}
 		m_RenderData.changed = false;
-
-		m_RenderData.dataMutex.unlock();
 	}
+
+	m_RenderData.cv.notify_all();
 }
 
 void CEFView::Render()

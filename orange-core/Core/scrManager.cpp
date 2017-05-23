@@ -9,6 +9,8 @@ static HANDLE		mainFiber;
 static Script *		currentScript;
 scriptMap			ScriptManagerThread::m_scripts;
 
+bool m_mouseButtonStates[3];
+
 void Script::Tick() 
 {
 	if (mainFiber == nullptr)
@@ -257,15 +259,29 @@ void ScriptManager::WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			host->m_pWebView->GetHost()->SendKeyEvent(keyEvent);
 
 	}
-	else if (uMsg == WM_LBUTTONDOWN || uMsg == WM_LBUTTONUP || uMsg == WM_RBUTTONDOWN || uMsg == WM_RBUTTONUP)
+	else if (uMsg == WM_LBUTTONDOWN || uMsg == WM_LBUTTONUP || uMsg == WM_RBUTTONDOWN || uMsg == WM_RBUTTONUP || uMsg == WM_MBUTTONUP || uMsg == WM_MBUTTONDOWN)
 	{
 		CefMouseEvent mouseEvent;
 
 		mouseEvent.x = LOWORD(lParam);
 		mouseEvent.y = HIWORD(lParam);
 
+		cef_mouse_button_type_t btn;
+		bool state;
+
+		if (uMsg == WM_LBUTTONDOWN || uMsg == WM_LBUTTONUP)
+			btn = MBT_LEFT;
+		else if (uMsg == WM_RBUTTONDOWN || uMsg == WM_RBUTTONUP)
+			btn = MBT_RIGHT;
+		else
+			btn = MBT_MIDDLE;
+
+		state = uMsg == WM_LBUTTONUP || uMsg == WM_RBUTTONUP || uMsg == WM_MBUTTONUP;
+
+		m_mouseButtonStates[btn] = state;
+
 		for (auto host : CEFCore::Get()->views)
-			host->m_pWebView->GetHost()->SendMouseClickEvent(mouseEvent, (uMsg == WM_LBUTTONUP || uMsg == WM_LBUTTONDOWN) ? MBT_LEFT : MBT_RIGHT, (uMsg == WM_LBUTTONUP || uMsg == WM_RBUTTONUP), 1);
+			host->m_pWebView->GetHost()->SendMouseClickEvent(mouseEvent, btn, state, 1);
 		
 	}
 	else if (uMsg == WM_MOUSEMOVE)
@@ -274,6 +290,13 @@ void ScriptManager::WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		mouseEvent.x = LOWORD(lParam);
 		mouseEvent.y = HIWORD(lParam);
+
+		if (m_mouseButtonStates[MBT_LEFT])
+			mouseEvent.modifiers |= EVENTFLAG_LEFT_MOUSE_BUTTON;
+		if (m_mouseButtonStates[MBT_MIDDLE])
+			mouseEvent.modifiers |= EVENTFLAG_MIDDLE_MOUSE_BUTTON;
+		if (m_mouseButtonStates[MBT_RIGHT])
+			mouseEvent.modifiers |= EVENTFLAG_RIGHT_MOUSE_BUTTON;
 
 		for (auto host : CEFCore::Get()->views)
 			host->m_pWebView->GetHost()->SendMouseMoveEvent(mouseEvent, false);
@@ -293,7 +316,7 @@ void ScriptManager::WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		
 	}
 	else if (uMsg == WM_CLOSE)
-		CEFCore::Close();
+		TerminateProcess(GetCurrentProcess(), 0);
 
 	if (uMsg == WM_KEYDOWN || uMsg == WM_KEYUP || uMsg == WM_SYSKEYDOWN || uMsg == WM_SYSKEYUP)
 	{

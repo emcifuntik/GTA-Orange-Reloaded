@@ -59,6 +59,7 @@ const char * hwidsWO[] = {
 	"836e4e6671721f6f307f1768e508253e", //S4MPLE
 	"6b42fa1249dbe75a163833eb96d2939b", //DENO
 	"e38da14a8180f22a56db9661d345e125", //frontface
+	"1cd020df1aa5fdaf7a323fa1f8bce86d", //Tuxic
 
 	// Server-beta
 

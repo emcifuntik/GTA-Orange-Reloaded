@@ -32,6 +32,9 @@ public:
 	void CreateTexture();
 	void CheckResize(int width, int height);
 
+	bool IsLocal() { return m_bIsLocal; };
+	void CloseBrowser();
+
 	bool CanGoBack();
 	bool CanGoForward();
 	bool GoBack();

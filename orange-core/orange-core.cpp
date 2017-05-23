@@ -85,6 +85,11 @@ void TurnOnConsole()
 
 LRESULT APIENTRY WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	if (uMsg == WM_KILLFOCUS || (uMsg == WM_ACTIVATE && LOWORD(wParam) == WA_INACTIVE))
+	{
+		return true;
+	}
+
 	ScriptManager::WndProc(hwnd, uMsg, wParam, lParam);
 	ImGui_ImplDX11_WndProcHandler(hwnd, uMsg, wParam, lParam);
 	return CallWindowProc(CGlobals::Get().gtaWndProc, hwnd, uMsg, wParam, lParam);

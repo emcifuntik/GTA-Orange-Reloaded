@@ -9,6 +9,10 @@ CEFCore::CEFCore()
 
 CEFCore::~CEFCore()
 {
+	//for (auto view : views)
+	///	delete view;
+
+	//views.erase(views.begin(), views.end());
 	CefClearSchemeHandlerFactories();
 	CefShutdown();
 }
@@ -87,6 +91,10 @@ void CEFCore::init()
 	RegisterJSFunc("saveName", [](CefRefPtr<CefFrame> frame, CefRefPtr<CefListValue> args) {
 		CConfig::Get()->sNickName = args->GetString(1);
 		CConfig::Get()->Save();
+	});
+
+	RegisterJSFunc("quit", [](CefRefPtr<CefFrame> frame, CefRefPtr<CefListValue> args) {
+		TerminateProcess(GetCurrentProcess(), 0);
 	});
 }
 

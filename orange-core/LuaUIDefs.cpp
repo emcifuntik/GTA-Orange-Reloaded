@@ -83,7 +83,6 @@ int lua_menu(lua_State *L)
 						lua_pushvalue(L, 1);
 
 						lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
-						log << "button: " << child->name << std::endl;
 						if (lua_pcall(L, 0, 0, 0) != 0)
 						{
 							std::string err = luaL_checkstring(L, -1);
