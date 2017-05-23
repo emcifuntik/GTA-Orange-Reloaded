@@ -15,6 +15,7 @@ public:
 	bool bSirenState = false;			// vehicle siren state
 	bool bEngineStatus = true;			// vehicle engine status
 	bool bTyresBulletproof = false;		// vehicle tyres bulletproof
+	bool bLocked = false;				// vehicle locked
 	float iDirtLevel;					// vehicle dirt level
 
 	int Color1 = -1;

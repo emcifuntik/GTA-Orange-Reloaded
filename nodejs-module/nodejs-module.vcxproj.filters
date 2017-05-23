@@ -21,16 +21,13 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="api\API.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="api\CVector3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="NodeModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="uv_callback\uv_callback.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="node_orange.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -48,6 +45,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="uv_callback\uv_callback.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="node_player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

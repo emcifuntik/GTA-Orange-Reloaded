@@ -573,6 +573,34 @@ bool API::GetVehicleEngineStatus(unsigned long guid)
 	return false;
 }
 
+bool API::SetVehicleLocked(unsigned long guid, bool locked)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		if (veh->bLocked != locked)
+		{
+			veh->bLocked = locked;
+			BitStream bsOut;
+			bsOut.Write(_guid);
+			bsOut.Write(locked);
+			CRPCPlugin::Get()->Signal("SetVehicleLocked", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+		}
+		return true;
+	}
+	return false;
+}
+
+bool API::IsVehicleLocked(unsigned long guid)
+{
+	RakNetGUID _guid(guid);
+	auto veh = CNetworkVehicle::GetByGUID(_guid);
+	if (veh) {
+		return veh->bLocked;
+	}
+	return false;
+}
+
 bool API::SetVehicleBodyHealth(unsigned long guid, float health)
 {
 	RakNetGUID _guid(guid);

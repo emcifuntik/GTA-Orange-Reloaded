@@ -103,6 +103,7 @@ void CNetworkVehicle::GetVehicleData(VehicleData & data)
 	data.bTyresBulletproof = bTyresBulletproof;
 	data.Color1 = Color1;
 	data.Color2 = Color2;
+	data.bLocked = bLocked;
 }
 
 

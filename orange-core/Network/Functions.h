@@ -38,6 +38,7 @@ namespace FPlayer
 	void SetVehicleColours(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void SetVehicleTyresBulletproof(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void SetVehicleEngineStatus(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+	void SetVehicleLocked(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void SetVehicleBodyHealth(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void SetVehicleEngineHealth(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	void SetVehicleTankHealth(RakNet::BitStream *bitStream, RakNet::Packet *packet);

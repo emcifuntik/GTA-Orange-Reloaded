@@ -56,6 +56,8 @@ public:
 	bool GetVehicleCustomSecondaryColor(unsigned long guid, int *rColor, int *gColor, int *bColor);
 	bool SetVehicleEngineStatus(unsigned long guid, bool status, bool locked);
 	bool GetVehicleEngineStatus(unsigned long guid);
+	bool SetVehicleLocked(unsigned long guid, bool locked);
+	bool IsVehicleLocked(unsigned long guid);
 	bool SetVehicleBodyHealth(unsigned long guid, float health);
 	bool SetVehicleEngineHealth(unsigned long guid, float health);
 	bool SetVehicleTankHealth(unsigned long guid, float health);
