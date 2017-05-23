@@ -6,6 +6,7 @@ ULONGLONG lastSendTime = 0;
 void NetworkAction()
 {
 	keyboardHandlerRegister(CNetworkUI::ScriptKeyboardMessage);
+	keyboardHandlerRegister(CChat::ScriptKeyboardMessage);
 	for (;;)
 	{
 		CLocalPlayer::Get()->Tick();

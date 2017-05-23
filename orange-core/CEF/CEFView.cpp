@@ -27,23 +27,37 @@ CEFView::CEFView(std::string url, bool bIsLocal, bool bTransparent)
 
 CEFView::~CEFView()
 {
-	/*    if ( IsMainThread () )
-	{
-	if ( g_pCore->GetWebCore ()->GetFocusedWebView () == this )
-	g_pCore->GetWebCore ()->SetFocusedWebView ( nullptr );
-	}*/
-
-	// Ensure that CefRefPtr::~CefRefPtr doesn't try to release it twice (it has already been released in CEFView::OnBeforeClose)
+	/*m_pWebView->GetHost()->CloseBrowser(true);
+	
+	m_pWebView->Release();
 	m_pWebView = nullptr;
 
-	// Make sure we don't dead lock the CEF render thread
-	m_RenderData.cv.notify_all();
+	m_RenderData.dataMutex.unlock();*/
 }
 
 void CEFView::Initialise()
 {
-	//ID3D11Texture2D* m_pTexture;
+	CreateTexture();
 
+	CefBrowserSettings browserSettings;
+
+	browserSettings.javascript_access_clipboard = cef_state_t::STATE_DISABLED;
+	browserSettings.universal_access_from_file_urls = cef_state_t::STATE_DISABLED;
+	browserSettings.file_access_from_file_urls = cef_state_t::STATE_DISABLED;
+	browserSettings.webgl = cef_state_t::STATE_ENABLED;
+	browserSettings.javascript_open_windows = cef_state_t::STATE_DISABLED;
+
+	browserSettings.plugins = cef_state_t::STATE_DISABLED;
+	browserSettings.javascript = cef_state_t::STATE_ENABLED;
+
+	CefWindowInfo windowInfo;
+	windowInfo.SetAsWindowless(CGlobals::Get().gtaHwnd, true);
+
+	CefBrowserHost::CreateBrowser(windowInfo, this, m_sURL, browserSettings, nullptr);
+}
+
+void CEFView::CreateTexture()
+{
 	auto viewPort = GTA::CViewportGame::Get();
 
 	m_RenderData.width = viewPort->Width;
@@ -74,24 +88,25 @@ void CEFView::Initialise()
 
 	// Create the shader resource view for the texture.
 	CGlobals::Get().d3dDevice->CreateShaderResourceView(m_pTexture, &m_SrvDesc, &m_pTextureView);
-
-	// Initialise the web session (which holds the actual settings) in in-memory mode
-	CefBrowserSettings browserSettings;
-	//browserSettings.windowless_frame_rate = g_pCore->GetFrameRateLimit();
-	browserSettings.javascript_access_clipboard = cef_state_t::STATE_DISABLED;
-	browserSettings.universal_access_from_file_urls = cef_state_t::STATE_DISABLED; // Also filtered by resource interceptor, but set this nevertheless
-	browserSettings.file_access_from_file_urls = cef_state_t::STATE_DISABLED;
-	browserSettings.webgl = cef_state_t::STATE_ENABLED;
-	browserSettings.javascript_open_windows = cef_state_t::STATE_DISABLED;
-
-	browserSettings.plugins = cef_state_t::STATE_DISABLED;
-	browserSettings.javascript = cef_state_t::STATE_ENABLED;
-
-	CefWindowInfo windowInfo;
-	windowInfo.SetAsWindowless(CGlobals::Get().gtaHwnd, true);
-
-	CefBrowserHost::CreateBrowser(windowInfo, this, m_sURL, browserSettings, nullptr);
 }
+
+void CEFView::CheckResize(int width, int height)
+{
+	if (m_RenderData.width != width || m_RenderData.height != height)
+	{
+		m_RenderData.changed = false;
+
+		m_pTexture->Release();
+		m_pTexture = NULL;
+
+		m_pTextureView->Release();
+		m_pTextureView = NULL;
+
+		CreateTexture();
+		m_pWebView->GetHost()->WasResized();
+	}
+}
+
 bool CEFView::CanGoBack()
 {
 	if (!m_pWebView)
@@ -175,42 +190,46 @@ bool CEFView::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcess
 
 		// Queue event to run on the main thread
 		
-		BitStream args;
+		BitStream *args = new BitStream();
 
 		RakString event(eventName.ToString().c_str());
 		int count = argList->GetSize();
 
-		args.Write(event);
-		args.Write(count);
+		args->Write(event);
+		args->Write(count);
 
 		for (int i = 1; i < count; i++)
 		{
 			switch (argList->GetType(i))
 			{
 			case VTYPE_NULL:
-				args.Write((char)0);
-				args.Write(false);
+				args->Write((char)0);
+				args->Write(false);
 				break;
 			case VTYPE_BOOL:
-				args.Write((char)0);
-				args.Write(argList->GetBool(i));
+				args->Write((char)0);
+				args->Write(argList->GetBool(i));
 				break;
 			case VTYPE_INT:
-				args.Write((char)1);
-				args.Write((double)argList->GetInt(i));
+				args->Write((char)1);
+				args->Write((double)argList->GetInt(i));
 				break;
 			case VTYPE_DOUBLE:
-				args.Write((char)1);
-				args.Write(argList->GetDouble(i));
+				args->Write((char)1);
+				args->Write(argList->GetDouble(i));
 				break;
 			case VTYPE_STRING:
-				args.Write((char)2);
-				args.Write(RakString(argList->GetString(i).ToString().c_str()));
+				args->Write((char)2);
+				args->Write(RakString(argList->GetString(i).ToString().c_str()));
 				break;
 			}
 		}
 
-		CScriptEngine::Get()->onevent(&args);
+		CScriptInvoker::Get().Push([=]()
+		{
+			CScriptEngine::Get()->onevent(args);
+			delete args;
+		});
 
 		// The message was handled
 		return true;
@@ -498,5 +517,7 @@ void CEFView::UpdateTexture()
 
 void CEFView::Render()
 {
+	ImGui::GetWindowDrawList()->PushClipRectFullScreen();
 	ImGui::GetWindowDrawList()->AddImage(m_pTextureView, ImVec2(0, 0), ImVec2(m_RenderData.width, m_RenderData.height));
+	ImGui::GetWindowDrawList()->PopClipRect();
 }

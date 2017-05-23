@@ -7,6 +7,12 @@ CEFCore::CEFCore()
 
 }
 
+CEFCore::~CEFCore()
+{
+	CefClearSchemeHandlerFactories();
+	CefShutdown();
+}
+
 void CEFCore::RegisterJSFunc(std::string name, std::function<void(CefRefPtr<CefFrame> frame, CefRefPtr<CefListValue> args)> f)
 {
 	m_handlers[name] = f;
@@ -89,5 +95,6 @@ CefRefPtr<CEFView> CEFCore::CreateWebView(std::string url, unsigned int uiWidth,
 	CefRefPtr<CEFView> pWebView = new CEFView(url, bIsLocal, bTransparent);
 	pWebView->Initialise();
 	views.push_back(pWebView);
+
 	return pWebView;
 }

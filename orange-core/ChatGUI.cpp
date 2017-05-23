@@ -6,4 +6,4 @@ void ChatGui()
 		CChat::Get()->Render();
 }
 
-GUI(ChatGui);
+//GUI(ChatGui);

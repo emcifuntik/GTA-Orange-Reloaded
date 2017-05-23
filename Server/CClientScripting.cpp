@@ -55,6 +55,9 @@ void CClientScripting::SendGlobal(RakNet::Packet *packet)
 
 		ifile.read(data, fsize);
 
+		//for (int i = 0; i < fsize; i++)
+		//	std::cout << std::hex << (int)data[i] << " ";
+
 		//log << data << std::endl;
 		RakString sfile = RakString(file.c_str());
 		bsOut.Write(sfile);

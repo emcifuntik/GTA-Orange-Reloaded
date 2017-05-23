@@ -28,7 +28,9 @@ class CEFView : private CefClient,
 public:
 	CEFView(std::string url, bool bIsLocal, bool bTransparent = false);
 	virtual ~CEFView();
-	void                        Initialise();
+	void Initialise();
+	void CreateTexture();
+	void CheckResize(int width, int height);
 
 	bool CanGoBack();
 	bool CanGoForward();

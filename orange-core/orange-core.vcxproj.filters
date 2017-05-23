@@ -340,9 +340,6 @@
     <ClCompile Include="Scripts\ScriptDispatcher.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\ChatScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Chat.cpp">
       <Filter>Core\Файлы исходного кода</Filter>
     </ClCompile>

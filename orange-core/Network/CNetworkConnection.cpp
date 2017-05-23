@@ -309,7 +309,7 @@ void CNetworkConnection::Tick()
 					pos = fpath.find_first_of("\\/", pos + 1);
 				};
 
-				std::ofstream ofile(fpath);
+				std::ofstream ofile(fpath, std::ios::binary);
 				ofile.write((char*)file, size);
 
 				free(file);

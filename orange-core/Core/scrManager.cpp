@@ -292,6 +292,8 @@ void ScriptManager::WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			host->m_pWebView->GetHost()->SendMouseWheelEvent(mouseEvent, 0, delta);
 		
 	}
+	else if (uMsg == WM_CLOSE)
+		CEFCore::Close();
 
 	if (uMsg == WM_KEYDOWN || uMsg == WM_KEYUP || uMsg == WM_SYSKEYDOWN || uMsg == WM_SYSKEYUP)
 	{

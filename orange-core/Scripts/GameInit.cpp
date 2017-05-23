@@ -112,6 +112,13 @@ void Action()
 			CNetworkMarker::Clear();
 			CNetworkBlip::Clear();
 
+			for(auto cefView : CEFCore::Get()->views)
+			{
+				cefView->Release();
+			}
+
+			CEFCore::Get()->views.erase(CEFCore::Get()->views.begin(), CEFCore::Get()->views.end());
+
 			CNetworkConnection::Get()->bClear = false;
 		}
 

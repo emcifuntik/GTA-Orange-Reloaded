@@ -239,7 +239,6 @@
     <ClCompile Include="Scripting\CScriptEngine.cpp" />
     <ClCompile Include="Scripting\LuaMainDefs.cpp" />
     <ClCompile Include="Scripting\LuaEntityDefs.cpp" />
-    <ClCompile Include="Scripts\ChatScript.cpp" />
     <ClCompile Include="Scripts\GameInit.cpp" />
     <ClCompile Include="Scripts\NetworkScript.cpp" />
     <ClCompile Include="Scripts\ScriptDispatcher.cpp" />

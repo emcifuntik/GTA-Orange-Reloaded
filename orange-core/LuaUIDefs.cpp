@@ -9,7 +9,7 @@ int lua_menu(lua_State *L)
 
 	lua_getfield(L, -1, "heading");
 	if (!lua_isnil(L, -1)) menu->name = _strdup(lua_tostring(L, -1));
-	else menu->subname = "Heading";
+	else menu->name = "Heading";
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "subheading");
@@ -62,7 +62,7 @@ int lua_menu(lua_State *L)
 		lua_rawgeti(L, -1, 2);
 		const char* capture = lua_tostring(L, -1);
 		lua_pop(L, 1);
-
+		
 		child->name = _strdup(capture);
 		child->type = type;
 
@@ -83,7 +83,7 @@ int lua_menu(lua_State *L)
 						lua_pushvalue(L, 1);
 
 						lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
-
+						log << "button: " << child->name << std::endl;
 						if (lua_pcall(L, 0, 0, 0) != 0)
 						{
 							std::string err = luaL_checkstring(L, -1);
@@ -216,7 +216,7 @@ int lua_ChatShown(lua_State *L)
 int lua_CreateBrowser(lua_State *L)
 {
 	lua_pushinteger(L, CEFCore::Get()->views.size());
-	CEFCore::Get()->CreateWebView(luaL_checkstring(L, 1), 0, 0, true, true);
+	CEFCore::Get()->CreateWebView(luaL_checkstring(L, 1), 0, 0, false, true);
 
 	return 1;
 }

@@ -3,6 +3,7 @@
 void BackScene()
 {
 	auto viewPortGame = GTA::CViewportGame::Get();
+
 	ImGui::SetNextWindowPos(ImVec2(-4.f, 0.f), ImGuiSetCond_Always);
 	ImGui::Begin("Background", 0, ImVec2((float)viewPortGame->Width+8, (float)viewPortGame->Height), 0.f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.f, 0.f));
@@ -24,6 +25,7 @@ void BackScene()
 
 	for (auto cefView : CEFCore::Get()->views)
 	{
+		cefView->CheckResize(viewPortGame->Width, viewPortGame->Height);
 		cefView->UpdateTexture();
 		cefView->Render();
 	}
