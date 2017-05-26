@@ -98,7 +98,6 @@ void NodeModule::OnEvent(const char * e, std::vector<MValue>* args)
 
 bool NodeModule::OnPlayerCommand(long playerid, const char * command)
 {
-	API::Get().SetPlayerHealth(playerid, 20);
 	CallbackInfo* callbackInfo = GetCallback(CALLBACK_ON_PLAYER_COMMAND_EVENT);
 	char* cmd = new char[strlen(command) + 1];
 	strcpy(cmd, command);

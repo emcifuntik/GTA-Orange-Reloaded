@@ -44,18 +44,6 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			if (args.Length() < 3)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "playerId is not number")));
-				return;
-			}
 			long playerId = (long)args[0]->Int32Value();
 
 			API::Get().KickPlayer(playerId);
@@ -66,36 +54,6 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			if (args.Length() < 4)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-			if (!args[1]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "X position is not number")));
-				return;
-			}
-			if (!args[2]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Y position is not number")));
-				return;
-			}
-			if (!args[3]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Z position is not number")));
-				return;
-			}
 			long playerId = (long)args[0]->Int32Value();
 			float x = (float)args[1]->NumberValue();
 			float y = (float)args[2]->NumberValue();
@@ -107,20 +65,6 @@ namespace node
 		{
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
-
-			if (args.Length() < 1)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
 
 			long playerId = (long)args[0]->Int32Value();
 
@@ -139,42 +83,6 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			if (args.Length() < 5)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-			if (!args[1]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "X position is not number")));
-				return;
-			}
-			if (!args[2]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Y position is not number")));
-				return;
-			}
-			if (!args[3]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Z position is not number")));
-				return;
-			}
-			if (!args[4]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Range is not number")));
-				return;
-			}
 			long playerId = (long)args[0]->Int32Value();
 			float x = (float)args[1]->NumberValue();
 			float y = (float)args[2]->NumberValue();
@@ -188,25 +96,6 @@ namespace node
 		{
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
-
-			if (args.Length() < 2)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-			if (!args[1]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Angle is not number")));
-				return;
-			}
 
 			long playerId = (long)args[0]->Int32Value();
 			float angle = (float)args[1]->NumberValue();
@@ -240,19 +129,6 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			if (args.Length() < 1)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-
 			long playerId = (long)args[0]->Int32Value();
 			args.GetReturnValue().Set(API::Get().RemovePlayerWeapons(playerId));
 		}
@@ -262,30 +138,6 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			if (args.Length() < 3)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-			if (!args[1]->IsNumber() && !args[1]->IsString())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Weapon is not number or hash")));
-				return;
-			}
-			if (!args[2]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Ammo is not number")));
-				return;
-			}
 			long playerId = (long)args[0]->Int32Value();
 			long weapon = args[1]->IsString() ? API::Get().Hash(*((v8::String::Utf8Value)args[1]->ToString())) : (long)args[1]->Int32Value();
 			long ammo = (long)args[2]->Int32Value();
@@ -296,31 +148,6 @@ namespace node
 		{
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
-
-			if (args.Length() < 3)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-			if (!args[1]->IsNumber() && !args[1]->IsString())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Weapon is not number or hash")));
-				return;
-			}
-			if (!args[2]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Ammo is not number")));
-				return;
-			}
 
 			long playerId = (long)args[0]->Int32Value();
 			long weapon = args[1]->IsString() ? API::Get().Hash(*((v8::String::Utf8Value)args[1]->ToString())) : (long)args[1]->Int32Value();
@@ -333,25 +160,6 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			if (args.Length() < 2)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-			if (!args[1]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Money is not number")));
-				return;
-			}
-
 			long playerId = (long)args[0]->Int32Value();
 			long money = (long)args[1]->Int32Value();
 			args.GetReturnValue().Set(API::Get().GivePlayerMoney(playerId, money));
@@ -361,25 +169,6 @@ namespace node
 		{
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
-
-			if (args.Length() < 2)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-			if (!args[1]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Money is not number")));
-				return;
-			}
 
 			long playerId = (long)args[0]->Int32Value();
 			long money = (long)args[1]->Int32Value();
@@ -391,19 +180,6 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			if (args.Length() < 1)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-
 			long playerId = (long)args[0]->NumberValue();
 			args.GetReturnValue().Set(API::Get().ResetPlayerMoney(playerId));
 		}
@@ -413,19 +189,6 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			if (args.Length() < 1)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-
 			long playerId = (long)args[0]->NumberValue();
 			args.GetReturnValue().Set((long)API::Get().GetPlayerMoney(playerId));
 		}
@@ -434,25 +197,6 @@ namespace node
 		{
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
-
-			if (args.Length() < 2)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-			if (!args[1]->IsNumber() && !args[1]->IsString())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Model is not number or hash")));
-				return;
-			}
 
 			long playerId = (long)args[0]->Int32Value();
 			long model = args[1]->IsString() ? API::Get().Hash(*((v8::String::Utf8Value)args[1]->ToString())) : (long)args[1]->Int32Value();
@@ -464,19 +208,6 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			if (args.Length() < 1)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-
 			long playerId = (long)args[0]->Int32Value();
 			args.GetReturnValue().Set((long)API::Get().GetPlayerModel(playerId));
 		}
@@ -485,25 +216,6 @@ namespace node
 		{
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
-
-			if (args.Length() < 2)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-			if (!args[1]->IsString())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Name is not string")));
-				return;
-			}
 
 			long playerId = (long)args[0]->Int32Value();
 			v8::String::Utf8Value name(args[1]->ToString());
@@ -515,19 +227,6 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			if (args.Length() < 1)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-
 			long playerId = (long)args[0]->Int32Value();
 			std::string name = API::Get().GetPlayerName(playerId);
 			args.GetReturnValue().Set(v8::String::NewFromUtf8(isolate, name.c_str()));
@@ -537,25 +236,6 @@ namespace node
 		{
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
-
-			if (args.Length() < 2)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-			if (!args[1]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Health is not number")));
-				return;
-			}
 
 			long playerId = (long)args[0]->Int32Value();
 			float health = (float)args[1]->NumberValue();
@@ -568,19 +248,6 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			if (args.Length() < 1)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-
 			long playerId = (long)args[0]->Int32Value();
 			args.GetReturnValue().Set((long)API::Get().GetPlayerHealth(playerId));
 		}
@@ -589,25 +256,6 @@ namespace node
 		{
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
-
-			if (args.Length() < 2)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-			if (!args[1]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Armour is not number")));
-				return;
-			}
 
 			long playerId = (long)args[0]->Int32Value();
 			float armour = (float)args[1]->NumberValue();
@@ -619,19 +267,6 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			if (args.Length() < 1)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-
 			long playerId = (long)args[0]->Int32Value();
 			args.GetReturnValue().Set((long)API::Get().GetPlayerArmour(playerId));
 		}
@@ -640,25 +275,6 @@ namespace node
 		{
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
-
-			if (args.Length() < 2)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-			if (!args[1]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Color is not number")));
-				return;
-			}
 
 			long playerId = (long)args[0]->Int32Value();
 			unsigned int color = (unsigned int)args[1]->NumberValue();
@@ -670,19 +286,6 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			if (args.Length() < 1)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-
 			long playerId = (long)args[0]->Int32Value();
 			args.GetReturnValue().Set((unsigned int)API::Get().GetPlayerColor(playerId));
 		}
@@ -691,25 +294,6 @@ namespace node
 		{
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
-
-			if (args.Length() < 2)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsString())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Message is not number")));
-				return;
-			}
-			if (!args[1]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Color is not number")));
-				return;
-			}
 
 			v8::String::Utf8Value message(args[0]->ToString());
 			unsigned int color = (unsigned int)args[1]->NumberValue();
@@ -720,31 +304,6 @@ namespace node
 		{
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
-
-			if (args.Length() < 3)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-			if (!args[1]->IsString())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Message is not number")));
-				return;
-			}
-			if (!args[2]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Color is not number")));
-				return;
-			}
 
 			long playerId = (long)args[0]->Int32Value();
 			v8::String::Utf8Value message(args[1]->ToString());
@@ -757,31 +316,6 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			if (args.Length() < 3)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-			if (!args[1]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Vehicle is not number")));
-				return;
-			}
-			if (!args[2]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Seat is not number")));
-				return;
-			}
-
 			long playerId = (long)args[0]->Int32Value();
 			unsigned long vehicle = (unsigned long)args[1]->NumberValue();
 			char seat = (char)args[2]->NumberValue();
@@ -793,25 +327,6 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			if (args.Length() < 2)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
-			if (!args[1]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Toggle is not boolean")));
-				return;
-			}
-
 			long playerId = (long)args[0]->Int32Value();
 			bool toggle = args[1]->BooleanValue();
 			API::Get().DisablePlayerHud(playerId, toggle);
@@ -821,19 +336,6 @@ namespace node
 		{
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
-
-			if (args.Length() < 1)
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "Wrong number of arguments")));
-				return;
-			}
-			if (!args[0]->IsNumber())
-			{
-				isolate->ThrowException(v8::Exception::TypeError(
-					v8::String::NewFromUtf8(isolate, "PlayerID is not number")));
-				return;
-			}
 
 			long playerId = (long)args[0]->Int32Value();
 			args.GetReturnValue().Set((unsigned int)API::Get().GetPlayerGUID(playerId));

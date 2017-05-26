@@ -31,6 +31,8 @@ namespace node
 					argsArray->Set(i, v8::Boolean::New(isolate, value.getBool()));
 					break;
 				case M_ULONG:
+					argsArray->Set(i, v8::Uint32::New(isolate, value.getULong()));
+					break;
 				case M_DOUBLE:
 					argsArray->Set(i, v8::Number::New(isolate, value.getDouble()));
 					break;
