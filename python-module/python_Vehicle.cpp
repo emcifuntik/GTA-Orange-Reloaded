@@ -177,13 +177,16 @@ PyObject* pythonFunctions::GTAOrange_GetVehicleCustomSecondaryColor(PyObject* se
 
 PyObject* pythonFunctions::GTAOrange_SetVehicleEngineStatus(PyObject* self, PyObject* args)
 {
-	PyObject *vehid, *status;
-	if (PyArg_UnpackTuple(args, "lb", 1, 2, &vehid, &status))
+	PyObject *vehid, *status, *locked;
+	if (PyArg_UnpackTuple(args, "lbb", 1, 3, &vehid, &status, &locked))
 	{
-		bool state = false;
+		bool statestatus = false;
 		if (PyObject_IsTrue(status) == 1)
-			state = true;
-		bool value = API::Get().SetVehicleEngineStatus(PyLong_AsLong(vehid), state, true);
+			statestatus = true;
+		bool statelocked = false;
+		if (PyObject_IsTrue(locked) == 1)
+			statelocked = true;
+		bool value = API::Get().SetVehicleEngineStatus(PyLong_AsLong(vehid), statestatus, statelocked);
 		if (value)
 			return PyBool_FromLong(1);
 	}

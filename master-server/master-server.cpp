@@ -3,41 +3,39 @@
 
 #include "stdafx.h"
 
-struct OrangeServer
-{
-	std::string name;
-	std::string ip;
-	DWORD dietime = 0;
-	unsigned short port;
-	unsigned short players;
-	unsigned short max_players;
-};
-
-std::vector<OrangeServer*> servers;
 CivetServer *server;
-std::mutex smutex;
+//std::mutex smutex;
 
 class HTTPHandler : public CivetHandler
 {
 public:
 	bool handleGet(CivetServer *server, struct mg_connection *conn)
 	{
-		std::cout << "[Request] New request from " << mg_get_request_info(conn)->remote_addr << std::endl;
+		//std::cout << "[Request] New request from " << mg_get_request_info(conn)->remote_addr << std::endl;
 		std::string responce;
 
 		responce.append("[");
-		smutex.lock();
+		//smutex.lock();
 
+		std::vector<OrangeServer*> servers = OrangeServer::All();
+		bool first = true;
 		for (int i = 0; i < servers.size(); i++)
 		{
-			if (i > 0) responce.append(",");
+			if (!first)
+				responce.append(",");
+			else
+				first = false;
+
 			auto oserver = servers[i];
-			char buffer[256];
-			sprintf(buffer, "{\"ip\":\"%s\",\"port\":%d,\"name\":\"%s\",\"players\":%d,\"max-players\":%d}", oserver->ip.c_str(), oserver->port, oserver->name.c_str(), oserver->players, oserver->max_players);
-			responce.append(buffer);
+			if (oserver->init)
+			{
+				char buffer[256];
+				sprintf(buffer, "{\"ip\":\"%s\",\"port\":%d,\"name\":\"%s\",\"players\":%d,\"maxplayers\":%d,\"gamemode\":%s,\"isverified\":%s,\"haspassword\":%s}", oserver->IP.C_String(), oserver->Port, oserver->Hostname.C_String(), oserver->Players, oserver->MaxPlayers, oserver->Gamemode.C_String(), oserver->isVerified ? "true" : "false", oserver->hasPassword ? "true" : "false");
+				responce.append(buffer);
+			}
 		}
 
-		smutex.unlock();
+		//smutex.unlock();
 		responce.append("]");
 
 		mg_printf(conn,
@@ -60,32 +58,11 @@ int main()
 	server = new CivetServer(options);
 	server->addHandler("/server-list/", h);
 
-	OrangeServer *s = new OrangeServer;
-
-	s->name = "Orange TEST";
-	s->ip = "192.168.0.2";
-	s->port = 7788;
-	s->players = 100;
-	s->max_players = 256;
-
-	servers.push_back(s);
-	servers.push_back(s);
-	servers.push_back(s);
+	CNetworkManager::Get()->Start();
 
 	for (;;)
 	{
-		smutex.lock();
-		time_t t = time(0);
-
-		for (int i = 0; i < servers.size();)
-		{
-			auto srv = servers[i];
-			if(srv->dietime < t) servers.erase(servers.begin() + i);
-			else i++;
-		}
-
-		lasttime = t;
-		smutex.unlock();
+		CNetworkManager::Get()->Tick();
 	}
 
     return 0;

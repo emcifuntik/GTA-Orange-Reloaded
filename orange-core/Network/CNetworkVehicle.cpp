@@ -46,7 +46,7 @@ void CNetworkVehicle::UpdateModel()
 		Handle = VEHICLE::CREATE_VEHICLE(m_Model, curPos.fX, curPos.fY, curPos.fZ, curHead, true, true);
 		VEHICLE::SET_VEHICLE_COLOURS(Handle, m_Color1, m_Color2);
 		VEHICLE::SET_VEHICLE_SIREN(Handle, m_Siren);
-		VEHICLE::SET_VEHICLE_ENGINE_ON(Handle, m_EngineState, true, true);
+		VEHICLE::SET_VEHICLE_ENGINE_ON(Handle, m_EngineState, m_EngineLocked, true);
 		VEHICLE::SET_VEHICLE_TYRES_CAN_BURST(Handle, !m_TyresBulletproof);
 		VEHICLE::SET_VEHICLE_EXPLODES_ON_HIGH_EXPLOSION_DAMAGE(Handle, false);
 		VEHICLE::SET_VEHICLE_DOORS_LOCKED(Handle, m_Locked == false ? 0 : 2);
@@ -403,7 +403,7 @@ void CNetworkVehicle::Tick()
 					veh->Handle = VEHICLE::CREATE_VEHICLE(veh->m_Model, veh->m_interp.pos.vecTarget.fX, veh->m_interp.pos.vecTarget.fY, veh->m_interp.pos.vecTarget.fZ, veh->m_interp.rot.vecTarget.fZ, true, true);
 					VEHICLE::SET_VEHICLE_COLOURS(veh->Handle, veh->m_Color1, veh->m_Color2);
 					VEHICLE::SET_VEHICLE_SIREN(veh->Handle, veh->m_Siren);
-					VEHICLE::SET_VEHICLE_ENGINE_ON(veh->Handle, veh->m_EngineState, true, true);
+					VEHICLE::SET_VEHICLE_ENGINE_ON(veh->Handle, veh->m_EngineState, veh->m_EngineLocked, true);
 					VEHICLE::SET_VEHICLE_TYRES_CAN_BURST(veh->Handle, !veh->m_TyresBulletproof);
 					VEHICLE::SET_VEHICLE_DOORS_LOCKED(veh->Handle, veh->m_Locked == false ? 0 : 2);
 					if (veh->blip)
@@ -444,11 +444,12 @@ void CNetworkVehicle::SetTargetTyresBulletproof(bool bulletproof)
 	}
 }
 
-void CNetworkVehicle::SetTargetEngineStatus(bool state)
+void CNetworkVehicle::SetTargetEngineStatus(bool state, bool locked)
 {
-	if (m_EngineState != state) {
+	if (m_EngineState != state || m_EngineLocked != locked) {
 		m_EngineState = state;
-		VEHICLE::SET_VEHICLE_ENGINE_ON(Handle, m_EngineState, true, true);
+		m_EngineLocked = locked;
+		VEHICLE::SET_VEHICLE_ENGINE_ON(Handle, m_EngineState, m_EngineLocked, false);
 	}
 }
 

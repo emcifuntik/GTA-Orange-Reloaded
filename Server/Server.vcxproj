@@ -25,6 +25,7 @@
     <ClInclude Include="API_ext.h" />
     <ClInclude Include="CClientScripting.h" />
     <ClInclude Include="CNetwork3DText.h" />
+    <ClInclude Include="CNetworkMasterServer.h" />
     <ClInclude Include="CNetworkObject.h" />
     <ClInclude Include="CNetworkBlip.h" />
     <ClInclude Include="CNetworkConnection.h" />
@@ -44,6 +45,7 @@
     <ClCompile Include="CNetwork3DText.cpp" />
     <ClCompile Include="CNetworkBlip.cpp" />
     <ClCompile Include="CNetworkConnection.cpp" />
+    <ClCompile Include="CNetworkMasterServer.cpp" />
     <ClCompile Include="CNetworkObject.cpp" />
     <ClCompile Include="CNetworkPlayer.cpp" />
     <ClCompile Include="CConfig.cpp" />

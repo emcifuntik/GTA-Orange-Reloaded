@@ -13,7 +13,8 @@ public:
 	unsigned short int usHealth;		// vehicle health 
 	bool bTaxiLights = false;			// vehicle taxi lights
 	bool bSirenState = false;			// vehicle siren state
-	bool bEngineStatus = true;			// vehicle engine status
+	bool bEngineStatus = false;			// vehicle engine status
+	bool bEngineLocked = false;			// vehicle engine locked
 	bool bTyresBulletproof = false;		// vehicle tyres bulletproof
 	bool bLocked = false;				// vehicle locked
 	float iDirtLevel;					// vehicle dirt level

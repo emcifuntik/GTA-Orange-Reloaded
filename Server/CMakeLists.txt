@@ -11,6 +11,7 @@ set(SOURCE_FILES
         CNetwork3DText.cpp
         CNetworkBlip.cpp
         CNetworkConnection.cpp
+		CNetworkMasterServer.cpp
         CNetworkMarker.cpp
         CNetworkObject.cpp
         CNetworkPlayer.cpp

@@ -66,7 +66,8 @@ class CNetworkVehicle : public CVehicle
 	bool				m_Inited = false;
 	bool				m_bVisible = false;
 
-	bool				m_EngineState = true;
+	bool				m_EngineState = false;
+	bool				m_EngineLocked = false;
 	bool				m_Locked = false;
 	bool				m_TyresBulletproof = false;
 
@@ -95,7 +96,7 @@ public:
 
 	void SetTargetColours(int color1, int color2);
 	void SetTargetTyresBulletproof(bool bulletproof);
-	void SetTargetEngineStatus(bool state);
+	void SetTargetEngineStatus(bool state, bool locked);
 	void SetTargetBodyHealth(float health);
 	void SetTargetEngineHealth(float health);
 	void SetTargetTankHealth(float health);

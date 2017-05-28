@@ -59,6 +59,9 @@ int main(void)
 	log << "Port: " << color::lred << CConfig::Get()->Port << std::endl;
 	log << "Maximum players: " << color::lred << CConfig::Get()->MaxPlayers << std::endl;
 
+	if (CConfig::Get()->MasterServer)
+		CNetworkMasterServer::Get()->Connect();
+
 	Plugin::LoadPlugins();
 
 	/*CHTTPServer::Get()->Start(CConfig::Get()->HTTPPort);
@@ -71,6 +74,9 @@ int main(void)
 		CRPCPlugin::Get();
 		DWORD lastTick = 0;
 		RakNet::RakNetStatistics stat;
+		
+		if (CConfig::Get()->MasterServer)
+			CNetworkMasterServer::Get()->Init();
 
 		for (;;)
 		{
