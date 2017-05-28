@@ -27,4 +27,4 @@ set_target_properties(orange-server PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJEC
 
 include_directories(../deps/ServerDeps/yaml-cpp/include/ ../shared/ ../deps/RakNet/Source/)
 link_directories(../deps/bin/)
-target_link_libraries(orange-server ${PROJECT_BINARY_DIR}/../deps/bin/libRakNetDLL.so  -lpthread ${PROJECT_BINARY_DIR}/../deps/bin/libyaml-cpp.a -ldl)
+target_link_libraries(orange-server ${PROJECT_BINARY_DIR}/../deps/bin/libRakNetLibStatic.a  -lpthread ${PROJECT_BINARY_DIR}/../deps/bin/libyaml-cpp.a -ldl)
