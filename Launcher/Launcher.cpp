@@ -78,7 +78,7 @@ void LaunchGame()
 
 	std::string curPath = Utils::GetCurDir();
 	Injector::Get().PushLibrary(curPath + "\\orange-core.dll");
-	SetEnvironmentVariableA("PATH", (curPath+"").c_str());
+	SetEnvironmentVariableA("PATH", (curPath+"\\libs").c_str());
 
 	bool isSteam = false;
 	bool isPirate = false;

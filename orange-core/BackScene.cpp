@@ -2,10 +2,11 @@
 
 void BackScene()
 {
-	auto viewPortGame = GTA::CViewportGame::Get();
+	RECT viewRect;
+	GetClientRect(CGlobals::Get().gtaHwnd, &viewRect);
 
 	ImGui::SetNextWindowPos(ImVec2(-4.f, 0.f), ImGuiSetCond_Always);
-	ImGui::Begin("Background", 0, ImVec2((float)viewPortGame->Width+8, (float)viewPortGame->Height), 0.f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings);
+	ImGui::Begin("Background", 0, ImVec2(viewRect.right+8, viewRect.bottom), 0.f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.f, 0.f));
 	ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, 0.f);
 	ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, ImVec2(0.f, 0.f));
@@ -14,7 +15,7 @@ void BackScene()
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.f, 0.f));
 	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.f);
 
-	float x1 = viewPortGame->Width - CGlobals::Get().tagFont->CalcTextSizeA(22.f, 1000.f, 1000.f, "GTA: Orange").x - 5;
+	float x1 = viewRect.right - CGlobals::Get().tagFont->CalcTextSizeA(22.f, 1000.f, 1000.f, "GTA: Orange").x - 5;
 	float y1 = 0;
 
 	/*ImGui::GetWindowDrawList()->AddText(CGlobals::Get().tagFont, 22.f, ImVec2(x1 - 1, y1 - 1), ImColor(0, 0, 0, 100), "GTA: Orange");
@@ -25,7 +26,7 @@ void BackScene()
 
 	for (auto cefView : CEFCore::Get()->views)
 	{
-		cefView->CheckResize(viewPortGame->Width, viewPortGame->Height);
+		cefView->CheckResize(viewRect.right, viewRect.bottom);
 		cefView->UpdateTexture();
 		cefView->Render();
 	}
@@ -41,8 +42,8 @@ void BackScene()
 			"FPS: " << ImGui::GetIO().Framerate;
 
 		const char* text = ss.str().c_str();
-		float x = 0.23f * viewPortGame->Width;
-		float y = 0.85f * viewPortGame->Height;
+		float x = 0.23f *  viewRect.right;
+		float y = 0.85f *  viewRect.bottom;
 		ImColor color = ImColor(0x21, 0x96, 0xF3, 0xFF);
 
 		ImGui::GetWindowDrawList()->AddText(CGlobals::Get().chatFont, 14.f, ImVec2(x - 1, y - 1), ImColor(0, 0, 0, 255), text);

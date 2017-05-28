@@ -2,10 +2,10 @@
 
 void ServerBrowser()
 {
-	ShowCursor(TRUE);
+	//ShowCursor(TRUE);
 	if (CGlobals::Get().displayServerBrowser)
 	{
-		(*CGlobals::Get().canLangChange) = true;
+		//(*CGlobals::Get().canLangChange) = true;
 		CConfig::Get();
 		ImGui::SetNextWindowSize(ImVec2(600, 400), ImGuiSetCond_Always);
 		ImGui::SetNextWindowPosCenter(ImGuiSetCond_Always);
@@ -56,8 +56,8 @@ void ServerBrowser()
 			CConfig::Get()->sIP = std::string(CGlobals::Get().serverIP);
 			CConfig::Get()->uiPort = CGlobals::Get().serverPort;
 			CConfig::Get()->Save();
-			ShowCursor(FALSE);
-			(*CGlobals::Get().canLangChange) = false;
+			//ShowCursor(FALSE);
+			//(*CGlobals::Get().canLangChange) = false;
 		}
 		ImGui::End();
 		ImGui::PopFont();

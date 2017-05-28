@@ -143,8 +143,8 @@ void CChat::Render()
 		ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, 0.f);
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.f, 2.f));
-		if (CChat::Get()->Opened())
-			ShowCursor(TRUE);
+		//if (CChat::Get()->Opened())
+			//ShowCursor(TRUE);
 
 		ImGui::SetNextWindowPos(ImVec2(0, 190), ImGuiSetCond_Always);
 		ImGui::Begin("ChatInput", &bOpened, ImVec2(450, 50), .0f, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
@@ -386,19 +386,19 @@ void CChat::Open()
 	GRAPHICS::_PUSH_SCALEFORM_MOVIE_FUNCTION_PARAMETER_STRING("ALL");
 	GRAPHICS::_POP_SCALEFORM_MOVIE_FUNCTION_VOID();*/
 
-	(*CGlobals::Get().canLangChange) = true;
+	//(*CGlobals::Get().canLangChange) = true;
 	bOpened = true;
 	bJustOpened = true;
-	ShowCursor(TRUE);
+	//ShowCursor(TRUE);
 }
 
 
 void CChat::Close()
 {
 	//PLAYER::SET_PLAYER_CONTROL(PLAYER::PLAYER_ID(), true, 0);
-	(*CGlobals::Get().canLangChange) = false;
+	//(*CGlobals::Get().canLangChange) = false;
 	bOpened = false;
-	ShowCursor(FALSE);
+	//ShowCursor(FALSE);
 	ulLastUpdate = timeGetTime() - 4000;
 }
 

@@ -28,20 +28,6 @@ void CClientScripting::SendGlobal(RakNet::Packet *packet)
 {
 	RakNet::BitStream bsOut;
 	bsOut.Write((unsigned char)1);
-	bsOut.Write(scripts.size());
-
-	for (auto script : scripts)
-	{
-		unsigned int size = script.size;
-
-		bsOut.Write(RakString(script.name.c_str()));
-		bsOut.Write(size);
-		bsOut.WriteAlignedBytes(script.buffer, script.size);
-
-		//CRPCPlugin::Get()->Signal("LoadScript", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, packet->guid, false, false);
-		//log << "Sending: " << script.name << ", size: " << script.size << ", offset: " << bsOut.GetWriteOffset() << std::endl;
-	}
-
 	bsOut.Write(files.size());
 
 	for (std::string file : files)
@@ -65,6 +51,20 @@ void CClientScripting::SendGlobal(RakNet::Packet *packet)
 		bsOut.WriteAlignedBytes((unsigned char*)data, fsize);
 
 		free(data);
+	}
+
+	bsOut.Write(scripts.size());
+
+	for (auto script : scripts)
+	{
+		unsigned int size = script.size;
+
+		bsOut.Write(RakString(script.name.c_str()));
+		bsOut.Write(size);
+		bsOut.WriteAlignedBytes(script.buffer, script.size);
+
+		//CRPCPlugin::Get()->Signal("LoadScript", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, packet->guid, false, false);
+		//log << "Sending: " << script.name << ", size: " << script.size << ", offset: " << bsOut.GetWriteOffset() << std::endl;
 	}
 
 	CNetworkConnection::Get()->tcpserver->Send(reinterpret_cast<char*>(bsOut.GetData()), bsOut.GetNumberOfBytesUsed(), packet->systemAddress, false);

@@ -2,9 +2,6 @@
 #include "D3D11/imgui_internal.h"
 
 CNetworkUI* CNetworkUI::Instance = nullptr;
-std::vector<CMenu*> CNetworkUI::menus;
-
-screenInfo_ screenInfo;
 
 CNetworkUI::CNetworkUI()
 {
@@ -43,7 +40,25 @@ bool CNetworkUI::Render()
 
 void CNetworkUI::DXRender()
 {
-	float k = GTA::CViewportGame::Get()->Width / 1920.f;
+	if (showCursor)
+	{
+		if(::ShowCursor(TRUE) < 1)
+			while (::ShowCursor(TRUE) <= 0);
+		else
+			::ShowCursor(FALSE);
+	}
+	else
+	{
+		if (::ShowCursor(FALSE) > -1)
+			while (::ShowCursor(FALSE) >= 0);
+		else
+			::ShowCursor(TRUE);
+	}
+
+	RECT viewRect;
+	GetClientRect(CGlobals::Get().gtaHwnd, &viewRect);
+
+	float k = viewRect.right / 1920.f;
 
 	for each(auto menu in menus)
 	{
@@ -147,6 +162,26 @@ void CNetworkUI::DXRender()
 	}
 }
 
+void CNetworkUI::ShowCursor()
+{
+	showCursor = true;
+	while (::ShowCursor(TRUE) <= 0);
+}
+
+void CNetworkUI::HideCursor()
+{
+	showCursor = false;
+	while (::ShowCursor(FALSE) >= 0);
+
+	CefMouseEvent mouseEvent;
+
+	mouseEvent.x = -1;
+	mouseEvent.y = -1;
+
+	for (auto host : CEFCore::Get()->views)
+		host->m_pWebView->GetHost()->SendMouseMoveEvent(mouseEvent, false);
+}
+
 bool CNetworkUI::SetScreenInfo(const char* msg)
 {
 	screenInfo.shown = true;
@@ -199,7 +234,7 @@ void CNetworkUI::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, B
 {
 	if (isUpNow && wasDownBefore)
 	{
-		for each(auto menu in menus)
+		for each(auto menu in Get()->menus)
 		{
 			if (menu->shown) return;
 		}
@@ -222,31 +257,31 @@ void CNetworkUI::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, B
 	if (!isUpNow)
 	{
 		if (key == VK_DOWN)
-			for each(auto menu in menus)
+			for each(auto menu in Get()->menus)
 				if (menu->shown) {
-					if (menu->children[menu->active]->type == 3) *(CGlobals::Get().canLangChange) = false;
+					//if (menu->children[menu->active]->type == 3) *(CGlobals::Get().canLangChange) = false;
 
 					menu->active++;
 					if (menu->active > menu->children.size() - 1) menu->active = 0;
 					menu->jactive = true;
 
-					if (menu->children[menu->active]->type == 3) *(CGlobals::Get().canLangChange) = true;
+					//if (menu->children[menu->active]->type == 3) *(CGlobals::Get().canLangChange) = true;
 				}
 
 		if (key == VK_UP)
-			for each(auto menu in menus)
+			for each(auto menu in Get()->menus)
 				if (menu->shown) {
-					if (menu->children[menu->active]->type == 3) *(CGlobals::Get().canLangChange) = false;
+					//if (menu->children[menu->active]->type == 3) *(CGlobals::Get().canLangChange) = false;
 
 					if (menu->active == 0) menu->active = menu->children.size() - 1;
 					else menu->active--;
 					menu->jactive = true;
 
-					if (menu->children[menu->active]->type == 3) *(CGlobals::Get().canLangChange) = true;
+					//if (menu->children[menu->active]->type == 3) *(CGlobals::Get().canLangChange) = true;
 				}
 
 		if (key == VK_LEFT)
-			for each(auto menu in menus)
+			for each(auto menu in Get()->menus)
 				if (menu->shown) {
 					auto c = menu->children[menu->active];
 					if (c->type == 4 && c->state > c->min)
@@ -261,7 +296,7 @@ void CNetworkUI::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, B
 				}
 
 		if (key == VK_RIGHT)
-			for each(auto menu in menus)
+			for each(auto menu in Get()->menus)
 				if (menu->shown) {
 					auto c = menu->children[menu->active];
 					if (c->type == 4 && c->state < c->max)
@@ -275,7 +310,7 @@ void CNetworkUI::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, B
 				}
 
 		if (key == VK_RETURN)
-			for each(auto menu in menus)
+			for each(auto menu in Get()->menus)
 				if (menu->shown) {
 					if (CNetworkUI::Get()->Call(menu)) break;
 				}
@@ -284,7 +319,7 @@ void CNetworkUI::ScriptKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, B
 			for each(auto menu in menus)
 				menu->shown = false;*/
 
-		for each(auto menu in menus)
+		for each(auto menu in Get()->menus)
 		{
 			if (menu->shown && menu->children[menu->active]->type == 3) continue;
 			if (key == menu->button) menu->shown ^= 1;

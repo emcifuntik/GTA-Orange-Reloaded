@@ -18,8 +18,7 @@ CLocalPlayer::CLocalPlayer() :CPedestrian(PLAYER::PLAYER_PED_ID())
 
 	rageGlobals::SetPlayerColor(0xFF, 0x8F, 0x00, 0xFF);
 
-	typedef int(*ShowAbilityBar)(bool);
-	((ShowAbilityBar)CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1F26D4)())(false);
+	//typedef int(*ShowAbilityBar)(bool);
 
 	PLAYER::SET_PLAYER_HEALTH_RECHARGE_MULTIPLIER(PLAYER::PLAYER_ID(), 0.f);
 	PLAYER::SET_AUTO_GIVE_PARACHUTE_WHEN_ENTER_PLANE(PLAYER::PLAYER_ID(), false);
@@ -157,6 +156,7 @@ CLocalPlayer * CLocalPlayer::Get()
 
 void CLocalPlayer::Tick()
 {
+	((int(*)(bool))CMemory((uintptr_t)GetModuleHandle(NULL) + 0x1F26D4)())(false);
 	if (!Spawned)
 	{
 		AI::CLEAR_PED_TASKS_IMMEDIATELY(Handle);

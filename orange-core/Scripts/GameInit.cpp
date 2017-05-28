@@ -63,8 +63,13 @@ void Action()
 
 	while (true)
 	{
+		*(CGlobals::Get().canLangChange) = true;
 		if (!teleported)
 		{
+			CNetworkUI::Get()->ShowCursor();
+			GRAPHICS::_START_SCREEN_EFFECT("MenuMGHeistIn", 0, 0);
+			CEFCore::Get()->CreateWebView("http://orange/ui/index.html", 2, 2, true, true);
+
 			int map = GRAPHICS::REQUEST_SCALEFORM_MOVIE("minimap");
 			GRAPHICS::_PUSH_SCALEFORM_MOVIE_FUNCTION(map, "MULTIPLAYER_IS_ACTIVE");
 			GRAPHICS::_PUSH_SCALEFORM_MOVIE_FUNCTION_PARAMETER_BOOL(true);

@@ -8,6 +8,7 @@ class CNetworkPlayer
 	// Non-static
 	SystemAddress tcpaddr;
 	unsigned int uiID;
+	std::string sName;
 	RakNet::RakNetGUID rnGUID;
 	Hash hModel;
 	bool bDead = false;
@@ -27,7 +28,6 @@ class CNetworkPlayer
 	CVector3 vecRotation;
 	CVector3 vecMoveSpeed;
 	CVector3 vecAim;
-	std::string sName;
 	size_t uMoney;
 	float fTagDrawDistance = 50.f;
 	unsigned long ulLastVehUpdate = 0;

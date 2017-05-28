@@ -99,7 +99,6 @@ void __fastcall eventHook(GTA::CTask* _task)
 {
 	/*log_debug << _task->GetTree() << std::endl;
 	CLocalPlayer::Get()->updateTasks = true;*/
-	
 }
 
 bool consoleShowed = false;
@@ -108,18 +107,17 @@ void OnGameStateChange(int gameState)
 	switch (gameState)
 	{
 	case GameStateIntro:
+		TurnOnConsole();
+		D3DHook::HookD3D11();
+		CEFCore::Get()->init();
 		break;
 	case GameStateLicenseShit:
 		break;
 	case GameStatePlaying:
 	{
-		TurnOnConsole();
-		D3DHook::HookD3D11();
-		CEFCore::Get()->init();
-		CEFCore::Get()->CreateWebView("http://orange/ui/index.html", 2, 2, true, true);
 		if (!ScriptEngine::Initialize())
 			log_error << "Failed to initialize ScriptEngine" << std::endl;
-		CChat::Get()->RegisterCommandProcessor(CommandProcessor);
+		//CChat::Get()->RegisterCommandProcessor(CommandProcessor);
 
 		log_info << "Game ready" << std::endl;
 		CGlobals::Get().gtaWndProc = (WNDPROC)SetWindowLongPtr(CGlobals::Get().gtaHwnd, GWLP_WNDPROC, (LONG_PTR)WndProc);

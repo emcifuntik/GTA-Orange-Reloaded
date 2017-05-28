@@ -49,13 +49,6 @@ void CEFCore::init()
 	CefRegisterSchemeHandlerFactory("http", "orange", new CEFSchemeHandlerFactory);
 
 	RegisterJSFunc("orangeConnect", [](CefRefPtr<CefFrame> frame, CefRefPtr<CefListValue> args) {
-		if (args->GetString(1).length() > 30)
-		{
-			CChat::Get()->AddChatMessage("Can't connect to the server", { 255, 0, 0, 255 });
-		}
-
-		log << "Connecting to " << args->GetString(1).ToString() << ":" << args->GetDouble(2) << std::endl;
-
 		strcpy_s(CGlobals::Get().serverIP, 32, args->GetString(1).ToString().c_str());
 		CGlobals::Get().serverPort = args->GetDouble(2) != 0 ? args->GetDouble(2) : 7788;
 		CGlobals::Get().name = args->GetString(3);
@@ -64,17 +57,16 @@ void CEFCore::init()
 		ss << "Connecting to beta-test server"; //<< CGlobals::Get().serverIP << ":" << CGlobals::Get().serverPort;
 		CChat::Get()->AddChatMessage(ss.str());
 
-		if (!CNetworkConnection::Get()->Connect(CGlobals::Get().serverIP, CGlobals::Get().serverPort))
-			CChat::Get()->AddChatMessage("Can't connect to the server", {
-				255, 0, 0, 255 });
-		
+		GRAPHICS::_STOP_SCREEN_EFFECT("MenuMGHeistIn");
+
+		CNetworkConnection::Get()->Connect(CGlobals::Get().serverIP, CGlobals::Get().serverPort);
 
 		CConfig::Get()->sIP = CGlobals::Get().serverIP;
 		CConfig::Get()->uiPort = CGlobals::Get().serverPort;
 		CConfig::Get()->sNickName = CGlobals::Get().name;
 		CConfig::Get()->Save();
 
-		CGlobals::Get().showChat = true;
+		CNetworkUI::Get()->HideCursor();
 		return CefV8Value::CreateNull();
 	});
 

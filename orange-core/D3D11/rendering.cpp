@@ -3,7 +3,7 @@
 // =================================================================================
 #include "stdafx.h"
 
-bool ToRender = false;
+bool ToRender = true;
 
 void D3DHook::SetRender(bool state)
 {

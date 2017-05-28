@@ -259,7 +259,7 @@ void ScriptManager::WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			host->m_pWebView->GetHost()->SendKeyEvent(keyEvent);
 
 	}
-	else if (uMsg == WM_LBUTTONDOWN || uMsg == WM_LBUTTONUP || uMsg == WM_RBUTTONDOWN || uMsg == WM_RBUTTONUP || uMsg == WM_MBUTTONUP || uMsg == WM_MBUTTONDOWN)
+	else if (CNetworkUI::Get()->CursorShown() && (uMsg == WM_LBUTTONDOWN || uMsg == WM_LBUTTONUP || uMsg == WM_RBUTTONDOWN || uMsg == WM_RBUTTONUP || uMsg == WM_MBUTTONUP || uMsg == WM_MBUTTONDOWN))
 	{
 		CefMouseEvent mouseEvent;
 
@@ -284,7 +284,7 @@ void ScriptManager::WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			host->m_pWebView->GetHost()->SendMouseClickEvent(mouseEvent, btn, state, 1);
 		
 	}
-	else if (uMsg == WM_MOUSEMOVE)
+	else if (CNetworkUI::Get()->CursorShown() && uMsg == WM_MOUSEMOVE)
 	{
 		CefMouseEvent mouseEvent;
 
@@ -302,7 +302,7 @@ void ScriptManager::WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			host->m_pWebView->GetHost()->SendMouseMoveEvent(mouseEvent, false);
 		
 	}
-	else if (uMsg == WM_MOUSEWHEEL)
+	else if (CNetworkUI::Get()->CursorShown() && uMsg == WM_MOUSEWHEEL)
 	{
 		int delta = GET_WHEEL_DELTA_WPARAM(wParam);
 
@@ -313,7 +313,7 @@ void ScriptManager::WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		for (auto host : CEFCore::Get()->views)
 			host->m_pWebView->GetHost()->SendMouseWheelEvent(mouseEvent, 0, delta);
-		
+
 	}
 	else if (uMsg == WM_CLOSE)
 		TerminateProcess(GetCurrentProcess(), 0);

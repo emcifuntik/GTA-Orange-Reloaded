@@ -56,10 +56,11 @@ void CEFView::Initialise()
 
 void CEFView::CreateTexture()
 {
-	auto viewPort = GTA::CViewportGame::Get();
+	RECT viewRect;
+	GetClientRect(CGlobals::Get().gtaHwnd, &viewRect);
 
-	m_RenderData.width = viewPort->Width;
-	m_RenderData.height = viewPort->Height;
+	m_RenderData.width = viewRect.right;
+	m_RenderData.height = viewRect.bottom;
 
 	// Setup the description of the texture
 	D3D11_TEXTURE2D_DESC m_TextureDesc;
@@ -73,10 +74,10 @@ void CEFView::CreateTexture()
 	m_TextureDesc.Usage = D3D11_USAGE_DYNAMIC;
 	m_TextureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE /*| D3D11_BIND_RENDER_TARGET*/;
 	m_TextureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
+	
 	// Create the empty texture
-	CGlobals::Get().d3dDevice->CreateTexture2D(&m_TextureDesc, nullptr, &m_pTexture);
-
+	HRESULT res = CGlobals::Get().d3dDevice->CreateTexture2D(&m_TextureDesc, nullptr, &m_pTexture);
+	
 	// Setup the shader resource view description
 	D3D11_SHADER_RESOURCE_VIEW_DESC m_SrvDesc;
 	m_SrvDesc.Format = m_TextureDesc.Format;
@@ -90,14 +91,19 @@ void CEFView::CreateTexture()
 
 void CEFView::CheckResize(int width, int height)
 {
+	if (width == 0) return;
 	if (m_RenderData.width != width || m_RenderData.height != height)
 	{
+		log << width << " x " << height << std::endl;
 		m_RenderData.changed = false;
 
-		m_pTexture->Release();
-		m_pTexture = NULL;
+		if(m_pTexture)
+			m_pTexture->Release();
 
-		m_pTextureView->Release();
+		if(m_pTextureView)
+			m_pTextureView->Release();
+
+		m_pTexture = NULL;
 		m_pTextureView = NULL;
 
 		CreateTexture();
@@ -205,7 +211,7 @@ bool CEFView::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcess
 
 		args->Write(event);
 		args->Write(count);
-
+		
 		for (int i = 1; i < count; i++)
 		{
 			switch (argList->GetType(i))

@@ -271,23 +271,6 @@ void CNetworkConnection::Tick()
 			for (int i = 0; i < count; i++)
 			{
 				RakString name;
-				unsigned int size;
-				bsIn.Read(name);
-				bsIn.Read(size);
-
-				unsigned char* code = (unsigned char*)malloc(size);
-				bool result = bsIn.ReadAlignedBytes(code, size);
-
-				CScriptEngine::Get()->LoadScript(size, reinterpret_cast<char*>(code), name.C_String());
-
-				free(code);
-			}
-
-			bsIn.Read(count);
-
-			for (int i = 0; i < count; i++)
-			{
-				RakString name;
 				size_t size;
 				bsIn.Read(name);
 				bsIn.Read(size);
@@ -313,6 +296,23 @@ void CNetworkConnection::Tick()
 				ofile.write((char*)file, size);
 
 				free(file);
+			}
+
+			bsIn.Read(count);
+
+			for (int i = 0; i < count; i++)
+			{
+				RakString name;
+				unsigned int size;
+				bsIn.Read(name);
+				bsIn.Read(size);
+
+				unsigned char* code = (unsigned char*)malloc(size);
+				bool result = bsIn.ReadAlignedBytes(code, size);
+
+				CScriptEngine::Get()->LoadScript(size, reinterpret_cast<char*>(code), name.C_String());
+
+				free(code);
 			}
 
 			cEstablished++;

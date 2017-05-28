@@ -222,19 +222,27 @@ int lua_CreateBrowser(lua_State *L)
 
 int lua_DestroyBrowser(lua_State *L)
 {
-
+	int idx = lua_tointeger(L, 1);
+	auto view = CEFCore::Get()->views[idx];
+	if(view) view->CloseBrowser();
 	return 0;
 }
 
 int lua_InvokeJS(lua_State *L)
 {
 	int idx = lua_tointeger(L, 1);
-	CEFCore::Get()->views[idx]->m_pWebView->GetMainFrame()->ExecuteJavaScript(luaL_checkstring(L, 2), "", 0);
+	auto view = CEFCore::Get()->views[idx];
+	if (view) view->m_pWebView->GetMainFrame()->ExecuteJavaScript(luaL_checkstring(L, 2), "", 0);
 	return 0;
 }
 
 int lua_ShowCursor(lua_State *L)
 {
-	ShowCursor(lua_toboolean(L, 1));
+	//log << "cursor: " << lua_toboolean(L, 1) << std::endl;
+	if(lua_toboolean(L, 1))
+		CNetworkUI::Get()->ShowCursor();
+	else
+		CNetworkUI::Get()->HideCursor();
+
 	return 0;
 }
