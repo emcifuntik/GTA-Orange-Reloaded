@@ -14,12 +14,12 @@ void CNetworkManager::Tick()
 		{
 			case ID_DISCONNECTION_NOTIFICATION:
 			{
-				std::cout << "ID_DISCONNECTION_NOTIFICATION GUID: " << packet->guid.ToString() << std::endl;
+				OrangeServer* Server = OrangeServer::GetByGUID(packet->guid);
+				Server->~OrangeServer();
 				break;
 			}
 			case ID_NEW_INCOMING_CONNECTION:
 			{
-				std::cout << "ID_NEW_INCOMING_CONNECTION GUID: " << packet->guid.ToString() << std::endl;
 				OrangeServer* Server = new OrangeServer(packet->guid);
 				break;
 			}
@@ -46,8 +46,6 @@ void CNetworkManager::Tick()
 					Server->isVerified = false;
 					Server->init = true;
 				}
-				
-				std::cout << "ID_SERVER_INIT GUID: " << packet->guid.ToString() << std::endl;
 				break;
 			}
 			case 151:
@@ -59,13 +57,10 @@ void CNetworkManager::Tick()
 					bsIn.Read(Players);
 					Server->Players = Players;
 				}
-
-				std::cout << "ID_SERVER_UPDATE GUID: " << packet->guid.ToString() << std::endl;
 				break;
 			}
 			case ID_CONNECTION_LOST:
 			{
-				std::cout << "ID_CONNECTION_LOST GUID: " << packet->guid.ToString() << std::endl;
 				OrangeServer* Server = OrangeServer::GetByGUID(packet->guid);
 				Server->~OrangeServer();
 				break;
