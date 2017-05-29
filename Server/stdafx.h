@@ -73,6 +73,7 @@ typedef int BOOL;
 
 // Network manager
 #include "CNetworkConnection.h"
+#include "CNetworkMasterServer.h"
 
 // Shared stuff from MTA
 #include "CMath.h"

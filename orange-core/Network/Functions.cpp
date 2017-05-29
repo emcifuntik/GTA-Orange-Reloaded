@@ -342,10 +342,12 @@ namespace FPlayer
 	{
 		RakNetGUID guid;
 		bool state;
+		bool locked;
 		bitStream->Read(guid);
 		bitStream->Read(state);
+		bitStream->Read(locked);
 		CNetworkVehicle *veh = CNetworkVehicle::GetByGUID(guid);
-		veh->SetTargetEngineStatus(state);
+		veh->SetTargetEngineStatus(state, locked);
 	}
 
 	void SetVehicleLocked(RakNet::BitStream *bitStream, RakNet::Packet *packet)

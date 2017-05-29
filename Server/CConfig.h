@@ -11,6 +11,7 @@ public:
 	std::vector<std::string> Resources;
 	unsigned short Port;
 	unsigned short MaxPlayers;
+	bool MasterServer;
 	~CConfig();
 };
 

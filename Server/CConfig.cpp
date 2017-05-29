@@ -26,6 +26,8 @@ CConfig::CConfig()
 		else doc["port"] >> Port;
 		if (!doc.FindValue("players")) MaxPlayers = 128;
 		else doc["players"] >> MaxPlayers;
+		if (!doc.FindValue("masterserver")) MasterServer = false;
+		else doc["masterserver"] >> MasterServer;
 
 		const YAML::Node& resources = doc["resources"];
 

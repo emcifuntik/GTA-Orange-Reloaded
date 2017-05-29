@@ -25,8 +25,6 @@
 #include <RPC4Plugin.h>
 #include <PacketizedTCP.h>
 
+#include "OrangeServer.h"
 #include "NetworkManager.h"
 #include "CivetServer.h"
-
-
-// TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы

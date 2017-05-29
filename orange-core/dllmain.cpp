@@ -87,7 +87,7 @@ const char * hwidsWO[] = {
 	"a000afd0f8e3b5d222d06d9fe3935b06", //VFRZ
 	"ff0413fb80e1ab9f392071e2bad7f29d", //Appi
 	"0561034664916301aff422693153b675", //Goomba
-	"e62fc667d7bb75e4972d0eb28df496b1", //Scheffi
+	"e0fb7a3bf8ade3b1a7ff667884c34a4f", //Scheffi
 	"1be5c5ce6eb1bf812a73dadfd8cd8444", //TheBloodyScreen
 	"b9290a8467b586b9cbf91f8f588a5cfe", //Mars
 	//"aaf9a453dc5b5d125001b84c6dc9de9e", //TREY

@@ -50,7 +50,6 @@ struct VehicleData
 	bool bHorn : 1;
 	bool hasDriver : 1;
 	bool Burnout : 1;
-	bool bLocked : 1;
 
 	unsigned short int usHealth : 16;
 
@@ -64,7 +63,9 @@ struct VehicleData
 	float fTankHealth;
 
 	bool bEngineStatus : 1;
+	bool bEngineLocked : 1;
 	bool bTyresBulletproof : 1;
+	bool bLocked : 1;
 	short int Color1;
 	short int Color2;
 

@@ -51,11 +51,15 @@ void CNetworkPlayer::AddPlayer(CNetworkPlayer *player)
 CNetworkPlayer::CNetworkPlayer(RakNet::RakNetGUID GUID):rnGUID(GUID)
 {
 	AddPlayer(this);
+	if (CConfig::Get()->MasterServer)
+		CNetworkMasterServer::Get()->Update();
 }
 
 CNetworkPlayer::~CNetworkPlayer()
 {
 	_players[uiID] = nullptr;
+	if (CConfig::Get()->MasterServer)
+		CNetworkMasterServer::Get()->Update();
 }
 
 void CNetworkPlayer::SetTCPAddr(SystemAddress addr)

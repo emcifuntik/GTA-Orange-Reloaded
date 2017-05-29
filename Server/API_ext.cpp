@@ -554,9 +554,11 @@ bool API::SetVehicleEngineStatus(unsigned long guid, bool status, bool locked)
 	auto veh = CNetworkVehicle::GetByGUID(_guid);
 	if (veh) {
 		veh->bEngineStatus = status;
+		veh->bEngineLocked = locked;
 		BitStream bsOut;
 		bsOut.Write(_guid);
 		bsOut.Write(status);
+		bsOut.Write(locked);
 		CRPCPlugin::Get()->Signal("SetVehicleEngineStatus", &bsOut, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 		return true;
 	}
