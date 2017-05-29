@@ -96,7 +96,7 @@ const char * hwidsWO[] = {
 	"e18b236a388264eb0d9aeb78c19c30d2", //Metmonk
 	"e331c9ef2788a931c2abfd0f2cef564c", //ChristianWood
 	"742514290db11a0fef8206211a1092f0", //vaffanculo
-	"f946a5a452a79f52b323371a9be5b09e", //ddoommbbaass
+	"8187892454916b12364e9d4b981b07c0", //ddoommbbaass
 	"062a3a68664204673cfe7c15cb6c207d", //GAMELASTER
 	"b9476e462d3502468bb1fa1d8ede63eb", //TReY
 	"7f209a5692c4476408904a0a17b87a27", //TReY second
