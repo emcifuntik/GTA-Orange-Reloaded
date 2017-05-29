@@ -96,7 +96,7 @@ const char * hwidsWO[] = {
 	"e18b236a388264eb0d9aeb78c19c30d2", //Metmonk
 	"e331c9ef2788a931c2abfd0f2cef564c", //ChristianWood
 	"742514290db11a0fef8206211a1092f0", //vaffanculo
-	"8187892454916b12364e9d4b981b07c0", //ddoommbbaass
+	"f946a5a452a79f52b323371a9be5b09e", //ddoommbbaass
 	"062a3a68664204673cfe7c15cb6c207d", //GAMELASTER
 	"b9476e462d3502468bb1fa1d8ede63eb", //TReY
 	"7f209a5692c4476408904a0a17b87a27", //TReY second
@@ -107,7 +107,8 @@ const char * hwidsWO[] = {
 	"73a6196e92dbd89cb044f9838def35aa", //scrorpions
 	"5408d1b001d806ea472d87d0b6202fa8", //Gazreyn
 	"c737740efe7b5340e6c7b51ccd635261", //Hazard
-	"22c8317eacde7bf92e9ab3a1437f1a84" //Timy
+	"22c8317eacde7bf92e9ab3a1437f1a84", //Timy
+	"95e43a44dace91ca6c25c50c020dc6c6" //dugasz1
 };
 
 std::string GetModuleDir()
