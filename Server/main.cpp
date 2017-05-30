@@ -54,6 +54,8 @@ int main(void)
 	sigaction(SIGINT, &sigIntHandler, NULL);
 #endif
 
+	srand(time(NULL));
+
 	log << "Starting the server..." << std::endl;
 	log << "Hostname: " << color::lred << CConfig::Get()->Hostname << std::endl;
 	log << "Port: " << color::lred << CConfig::Get()->Port << std::endl;
