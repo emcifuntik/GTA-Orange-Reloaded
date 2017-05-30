@@ -71,8 +71,8 @@ class CNetworkVehicle : public CVehicle
 	bool				m_Locked = false;
 	bool				m_TyresBulletproof = false;
 
-	int					m_Color1 = -1;
-	int					m_Color2 = -1;
+	unsigned char		m_Color1;
+	unsigned char		m_Color2;
 
 	static std::vector<CNetworkVehicle *> VehiclePool;
 public:

@@ -90,7 +90,7 @@ PyObject* pythonFunctions::GTAOrange_GetVehicleColours(PyObject* self, PyObject*
 	PyObject *vehid;
 	if (PyArg_UnpackTuple(args, "l", 1, 1, &vehid))
 	{
-		int color1, color2;
+		unsigned char color1, color2;
 		bool value = API::Get().GetVehicleColours(PyLong_AsLong(vehid), &color1, &color2);
 		if (value)
 			return Py_BuildValue("ii", color1, color2);

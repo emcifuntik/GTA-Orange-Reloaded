@@ -19,8 +19,8 @@ public:
 	bool bLocked = false;				// vehicle locked
 	float iDirtLevel;					// vehicle dirt level
 
-	int Color1 = -1;
-	int Color2 = -1;
+	unsigned char Color1;
+	unsigned char Color2;
 
 	float fEngineHealth = 1000, fBodyHealth = 1000, fTankHealth = 1000;
 	bool bDrivable = true;

@@ -22,6 +22,9 @@ CNetworkVehicle::CNetworkVehicle(Hash model, float x, float y, float z, float he
 	for (Hash _model : CNetworkConnection::Get()->UsedModels) if (_model == model) e = true;
 	if (!e) CNetworkConnection::Get()->UsedModels.push_back(model);
 
+	this->Color1 = rand() % 160;
+	this->Color2 = rand() % 160;
+
 	RakNet::BitStream bsOut;
 
 	VehicleData data;

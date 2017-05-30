@@ -66,8 +66,9 @@ struct VehicleData
 	bool bEngineLocked : 1;
 	bool bTyresBulletproof : 1;
 	bool bLocked : 1;
-	short int Color1;
-	short int Color2;
+
+	unsigned char Color1;
+	unsigned char Color2;
 
 	CVector3 vecPos;
 	CVector3 vecRot;

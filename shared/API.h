@@ -214,8 +214,8 @@ public:
 	virtual CVector3 GetVehiclePosition(unsigned long vehid) = 0;
 	virtual bool SetVehicleRotation(unsigned long vehid, float rx, float ry, float rz) = 0;
 	virtual CVector3 GetVehicleRotation(unsigned long vehid) = 0;
-	virtual bool SetVehicleColours(unsigned long vehid, int Color1, int Color2) = 0;
-	virtual bool GetVehicleColours(unsigned long vehid, int *Color1, int *Color2) = 0;
+	virtual bool SetVehicleColours(unsigned long vehid, unsigned char Color1, unsigned char Color2) = 0;
+	virtual bool GetVehicleColours(unsigned long vehid, unsigned char *Color1, unsigned char *Color2) = 0;
 	virtual bool SetVehicleTyresBulletproof(unsigned long vehid, bool bulletproof) = 0;
 	virtual bool GetVehicleTyresBulletproof(unsigned long vehid) = 0;
 	virtual bool SetVehicleCustomPrimaryColor(unsigned long vehid, int rColor, int gColor, int bColor) = 0; //Not implemented

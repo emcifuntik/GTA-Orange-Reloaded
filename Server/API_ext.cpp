@@ -450,7 +450,7 @@ CVector3 API::GetVehicleRotation(unsigned long guid)
 	return CVector3(0, 0, 0);
 }
 
-bool API::SetVehicleColours(unsigned long guid, int Color1, int Color2)
+bool API::SetVehicleColours(unsigned long guid, unsigned char Color1, unsigned char Color2)
 {
 	RakNetGUID _guid(guid);
 	auto veh = CNetworkVehicle::GetByGUID(_guid);
@@ -467,7 +467,7 @@ bool API::SetVehicleColours(unsigned long guid, int Color1, int Color2)
 	return false;
 }
 
-bool API::GetVehicleColours(unsigned long guid, int *Color1, int *Color2)
+bool API::GetVehicleColours(unsigned long guid, unsigned char *Color1, unsigned char *Color2)
 {
 	RakNetGUID _guid(guid);
 	auto veh = CNetworkVehicle::GetByGUID(_guid);
