@@ -167,8 +167,8 @@ function _onPlayerPressKey(playerId, keyId) {
 
 function _onPlayerClientEvent(playerId, eventName, ...args) {
   let player = Player.getByID(playerId);
-  Player.trigger.apply(Player, [ player, eventName ].concat(args));
-  player.trigger.apply(player, [ eventName ].concat(args));
+  Player.trigger.apply(Player, [ player, eventName, ...args ]);
+  player.trigger.apply(player, [ eventName, ...args ]);
 }
 
 orange.eventHandler.on("PlayerConnect", _onPlayerConnect);

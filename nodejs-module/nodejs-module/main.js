@@ -56,7 +56,7 @@ orange.onResourceLoad(function(resource) {
 orange.onEvent(function(event, args) {
   console.log("Event: ", event, args);
   try {
-    orange.eventHandler.emit.apply(orange.eventHandler, [ event ].concat(args));
+    orange.eventHandler.emit.apply(orange.eventHandler, [ event, ...args ]);
   }
   catch(ex) {
     //this exceptions is required because default stacktrace shows only some weird informations inside vm2's contextify
