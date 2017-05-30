@@ -50,5 +50,8 @@
     <ClCompile Include="node_player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="node_vehicle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

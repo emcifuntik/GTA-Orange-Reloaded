@@ -38,13 +38,17 @@ public:
 	inline node::Environment* GetEnvironment() { return this->m_env; };
 	inline v8::Platform* GetPlatform() { return this->m_platform; };
 	inline v8::Isolate* GetIsolate() { return this->m_isolate; };
+	inline v8::Local<v8::Context> GetContext() { return *reinterpret_cast<v8::Local<v8::Context>*>(const_cast<v8::Persistent<v8::Context>*>(&m_context)); };
 	inline static NodeModule* GetModule() { return m_module; };
 	inline void SetCallback(CallbackID callbackID, CallbackInfo* callback) { m_callbacks[callbackID] = callback; };
 	inline CallbackInfo* GetCallback(CallbackID callbackID) { return m_callbacks[callbackID]; }
 	bool OnPlayerCommand(long playerid, const char * command);
+	bool OnServerCommand(std::string command);
+	bool OnPlayerText(long playerId, const char * text);
 private:
 	static NodeModule* m_module;
 	node::Environment* m_env;
+	v8::Persistent<v8::Context> m_context;
 	v8::Isolate* m_isolate;
 	v8::Platform* m_platform;
 	uv_loop_t* m_loop;

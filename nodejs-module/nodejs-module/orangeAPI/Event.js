@@ -8,7 +8,7 @@ class Event {
     }
     let eventIndex = this._events[event].length;
     this._events[event].push(callback);
-    var self = this;
+    let self = this;
     return {
       cancel: function() {
         delete this._events[event][eventIndex];
@@ -23,7 +23,7 @@ class Event {
     if(this._events[event] == null) {
       return;
     }
-    for(var i in this._events[event]) {
+    for(let i in this._events[event]) {
       this._events[event][i].apply(this, args);
     }
   }
@@ -37,7 +37,7 @@ class Event {
     }
     let eventIndex = this._events[event].length;
     this._events[event].push(callback);
-    var self = this;
+    let self = this;
     return {
       cancel: function() {
         delete this._events[event][eventIndex];
@@ -52,7 +52,7 @@ class Event {
     if(this._events[event] == null) {
       return;
     }
-    for(var i in this._events[event]) {
+    for(let i in this._events[event]) {
       this._events[event][i].apply(this, args);
     }
   }

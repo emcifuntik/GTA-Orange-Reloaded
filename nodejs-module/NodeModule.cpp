@@ -36,9 +36,8 @@ bool NodeModule::Init()
 	v8::HandleScope handleScope(isolate);
 
 	v8::Local<v8::Context> context = v8::Context::New(isolate);
+	m_context.Reset(isolate, context);
 	node::Environment* env = node::CreateEnvironment(node::CreateIsolateData(isolate, event_loop), context, argc, argv, exec_argc, exec_argv);
-
-
 	context->GetIsolate()->SetMicrotasksPolicy(v8::MicrotasksPolicy::kAuto);
 	v8::Context::Scope context_scope(context);
 
@@ -105,7 +104,18 @@ bool NodeModule::OnPlayerCommand(long playerid, const char * command)
 	OnPlayerCommandCallbackStruct* callback = new OnPlayerCommandCallbackStruct();
 	callback->command = cmd;
 	callback->playerid = pid;
-	uv_callback_fire(callbackInfo->callback, (void*)callback, NULL);
+	bool result;
+	uv_callback_fire_sync(callbackInfo->callback, (void*)callback, (void**)&result, 10000);
 	OnTick();
+	return result;
+}
+
+bool NodeModule::OnServerCommand(std::string command)
+{
+	return false;
+}
+
+bool NodeModule::OnPlayerText(long playerId, const char * text)
+{
 	return false;
 }

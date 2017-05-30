@@ -70,12 +70,12 @@ namespace node
 
 			CVector3 position = API::Get().GetPlayerPosition(playerId);
 
-			v8::Local<v8::Array> positionArray = v8::Array::New(isolate, 3);
-			positionArray->Set(0, v8::Number::New(isolate, position.fX));
-			positionArray->Set(1, v8::Number::New(isolate, position.fY));
-			positionArray->Set(2, v8::Number::New(isolate, position.fZ));
+			v8::Local<v8::Object> vectorObject = v8::Object::New(isolate);
+			vectorObject->Set(v8::String::NewFromUtf8(isolate, "x"), v8::Number::New(isolate, position.fX));
+			vectorObject->Set(v8::String::NewFromUtf8(isolate, "y"), v8::Number::New(isolate, position.fY));
+			vectorObject->Set(v8::String::NewFromUtf8(isolate, "z"), v8::Number::New(isolate, position.fZ));
 
-			args.GetReturnValue().Set(positionArray);
+			args.GetReturnValue().Set(vectorObject);
 		}
 		//virtual bool IsPlayerInRange(long playerid, float x, float y, float z, float range) = 0;
 		void IsPlayerInRange(const v8::FunctionCallbackInfo<v8::Value>& args)
@@ -180,7 +180,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			long playerId = (long)args[0]->NumberValue();
+			long playerId = (long)args[0]->Int32Value();
 			args.GetReturnValue().Set(API::Get().ResetPlayerMoney(playerId));
 		}
 		//virtual size_t GetPlayerMoney(long playerid) = 0;
@@ -189,7 +189,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			long playerId = (long)args[0]->NumberValue();
+			long playerId = (long)args[0]->Int32Value();
 			args.GetReturnValue().Set((long)API::Get().GetPlayerMoney(playerId));
 		}
 		//virtual bool SetPlayerModel(long playerid, long model) = 0;

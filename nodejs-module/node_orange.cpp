@@ -12,7 +12,7 @@ namespace node
 			v8::HandleScope scope(isolate);
 			v8::Isolate::Scope isolate_scope(isolate);
 			CallbackInfo* callbackInfo = NodeModule::GetModule()->GetCallback(CALLBACK_ON_EVENT);
-			v8::Local<v8::Context> context = v8::Context::New(isolate);
+			v8::Local<v8::Context> context = NodeModule::GetModule()->GetContext();
 			v8::Context::Scope context_scope(context);
 
 			v8::Local<v8::Array> argsArray = v8::Array::New(isolate, callback->args->size());
@@ -44,7 +44,9 @@ namespace node
 			const unsigned argc = 2;
 			v8::Local<v8::Value> argv[argc] = { v8::String::NewFromUtf8(isolate, callback->event), argsArray };
 			v8::Local<v8::Function> callbackFunc = v8::Local<v8::Function>::New(isolate, *callbackInfo->function);
-			callbackFunc->Call(v8::Null(isolate), argc, argv);
+			callbackFunc->Call(context->Global(), argc, argv);
+			free(callback->args);
+			free(callback->event);
 			free(value);
 			return NULL;
 		}
@@ -54,22 +56,25 @@ namespace node
 			char* str = (char*)value;
 			v8::Isolate* isolate = v8::Isolate::GetCurrent();
 			v8::HandleScope scope(isolate);
+			v8::Local<v8::Context> context = NodeModule::GetModule()->GetContext();
+			v8::Context::Scope context_scope(context);
 
 			CallbackInfo* callbackInfo = NodeModule::GetModule()->GetCallback(CALLBACK_ON_RESOURCE_LOAD);
 
 			const unsigned argc = 1;
 			v8::Local<v8::Value> argv[argc] = { v8::String::NewFromUtf8(isolate, str) };
 			v8::Local<v8::Function> callbackFunc = v8::Local<v8::Function>::New(isolate, *callbackInfo->function);
-			callbackFunc->Call(v8::Null(isolate), argc, argv);
+			callbackFunc->Call(context->Global(), argc, argv);
 			free(value);
 			return NULL;
 		}
 
 		void * OnPlayerCommandCallback(uv_callback_t *handle, void *value)
 		{
-			char* str = (char*)value;
 			v8::Isolate* isolate = v8::Isolate::GetCurrent();
 			v8::HandleScope scope(isolate);
+			v8::Local<v8::Context> context = NodeModule::GetModule()->GetContext();
+			v8::Context::Scope context_scope(context);
 
 			CallbackInfo* callbackInfo = NodeModule::GetModule()->GetCallback(CALLBACK_ON_PLAYER_COMMAND_EVENT);
 
@@ -78,7 +83,9 @@ namespace node
 			const unsigned argc = 2;
 			v8::Local<v8::Value> argv[argc] = { v8::Number::New(isolate, *callback->playerid), v8::String::NewFromUtf8(isolate, callback->command) };
 			v8::Local<v8::Function> callbackFunc = v8::Local<v8::Function>::New(isolate, *callbackInfo->function);
-			callbackFunc->Call(v8::Null(isolate), argc, argv);
+			callbackFunc->Call(context->Global(), argc, argv);
+			//free(callback->command);
+			free(callback->playerid);
 			free(value);
 			return NULL;
 		}
@@ -165,9 +172,10 @@ namespace node
 			env->SetMethod(target, "onResourceLoad", OnResourceLoadFunction);
 			env->SetMethod(target, "onEvent", OnEventFunction);
 			env->SetMethod(target, "onPlayerCommand", OnPlayerCommandFunction);
+
 			env->SetMethod(target, "print", Print);
 			//env->SetMethod(target, "loadClientScript", LoadClientScript);
-			env->SetMethod(target, "triggerClientEvent", node::orange::TriggerClientEvent);
+			env->SetMethod(target, "triggerClientEvent", TriggerClientEvent);
 			env->SetMethod(target, "kickPlayer", KickPlayer);
 			env->SetMethod(target, "setPlayerPosition", SetPlayerPosition);
 			env->SetMethod(target, "getPlayerPosition", GetPlayerPosition);
@@ -196,6 +204,30 @@ namespace node
 			env->SetMethod(target, "setPlayerIntoVehicle", SetPlayerIntoVehicle);
 			env->SetMethod(target, "disablePlayerHud", DisablePlayerHud);
 			env->SetMethod(target, "getPlayerGUID", GetPlayerGUID);
+
+			env->SetMethod(target, "createVehicle", CreateVehicle);
+			env->SetMethod(target, "deleteVehicle", DeleteVehicle);
+			env->SetMethod(target, "setVehiclePosition", SetVehiclePosition);
+			env->SetMethod(target, "getVehiclePosition", GetVehiclePosition);
+			env->SetMethod(target, "setVehicleRotation", SetVehicleRotation);
+			env->SetMethod(target, "getVehicleRotation", GetVehicleRotation);
+			env->SetMethod(target, "setVehicleColours", SetVehicleColours);
+			env->SetMethod(target, "getVehicleColours", GetVehicleColours);
+			env->SetMethod(target, "setVehicleTyresBulletproof", SetVehicleTyresBulletproof);
+			env->SetMethod(target, "getVehicleTyresBulletproof", GetVehicleTyresBulletproof);
+			env->SetMethod(target, "setVehicleEngineStatus", SetVehicleEngineStatus);
+			env->SetMethod(target, "getVehicleEngineStatus", GetVehicleEngineStatus);
+			env->SetMethod(target, "setVehicleLocked", SetVehicleLocked);
+			env->SetMethod(target, "isVehicleLocked", IsVehicleLocked);
+			env->SetMethod(target, "setVehicleBodyHealth", SetVehicleBodyHealth);
+			env->SetMethod(target, "setVehicleEngineHealth", SetVehicleEngineHealth);
+			env->SetMethod(target, "setVehicleTankHealth", SetVehicleTankHealth);
+			env->SetMethod(target, "getVehicleHealth", GetVehicleHealth);
+			env->SetMethod(target, "setVehicleSirenState", SetVehicleSirenState);
+			env->SetMethod(target, "getVehicleSirenState", GetVehicleSirenState);
+			env->SetMethod(target, "getVehicleDriver", GetVehicleDriver);
+			env->SetMethod(target, "getVehiclePassengers", GetVehiclePassengers);
+
 		}
 	}
 }

@@ -161,6 +161,7 @@
     <ClCompile Include="NodeModule.cpp" />
     <ClCompile Include="node_orange.cpp" />
     <ClCompile Include="node_player.cpp" />
+    <ClCompile Include="node_vehicle.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="uv_callback\uv_callback.c" />
   </ItemGroup>

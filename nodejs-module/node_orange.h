@@ -37,6 +37,39 @@ namespace node
 		void GetPlayerGUID(const v8::FunctionCallbackInfo<v8::Value>& args);
 
 		void CreateVehicle(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void DeleteVehicle(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void SetVehiclePosition(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void GetVehiclePosition(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void SetVehicleRotation(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void GetVehicleRotation(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void SetVehicleColours(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void GetVehicleColours(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void SetVehicleTyresBulletproof(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void GetVehicleTyresBulletproof(const v8::FunctionCallbackInfo<v8::Value>& args);
+		/*void SetVehicleCustomPrimaryColor(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void GetVehicleCustomPrimaryColor(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void SetVehicleCustomSecondaryColor(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void GetVehicleCustomSecondaryColor(const v8::FunctionCallbackInfo<v8::Value>& args);*/
+		void SetVehicleEngineStatus(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void GetVehicleEngineStatus(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void SetVehicleLocked(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void IsVehicleLocked(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void SetVehicleBodyHealth(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void SetVehicleEngineHealth(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void SetVehicleTankHealth(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void GetVehicleHealth(const v8::FunctionCallbackInfo<v8::Value>& args);
+		/*void SetVehicleNumberPlate(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void GetVehicleNumberPlate(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void SetVehicleNumberPlateStyle(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void GetVehicleNumberPlateStyle(const v8::FunctionCallbackInfo<v8::Value>& args);*/
+		void SetVehicleSirenState(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void GetVehicleSirenState(const v8::FunctionCallbackInfo<v8::Value>& args);
+		/*void SetVehicleWheelColor(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void GetVehicleWheelColor(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void SetVehicleWheelType(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void GetVehicleWheelType(const v8::FunctionCallbackInfo<v8::Value>& args);*/
+		void GetVehicleDriver(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void GetVehiclePassengers(const v8::FunctionCallbackInfo<v8::Value>& args);
 
 	}
 }

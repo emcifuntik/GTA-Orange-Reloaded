@@ -36,14 +36,12 @@ extern "C"
 
 	EXPORT bool OnResourceLoad(const char* resource)
 	{
-		//SResource::Get()->Start(resource);
 		nodeModule->OnResourceLoad(resource);
 		return true;
 	}
 
 	EXPORT void OnModuleInit()
 	{
-		//SResource::Get()->Init();
 		nodeModule = new NodeModule();
 		nodeModule->Init();
 		API::Get().Print("NodeJS module loaded");
@@ -61,15 +59,14 @@ extern "C"
 		return true;
 	}
 
-	EXPORT char* OnHTTPRequest(const char* method, const char* url, const char* query, std::string body)
+	/*EXPORT char* OnHTTPRequest(const char* method, const char* url, const char* query, std::string body)
 	{
-		//return SResource::Get()->OnHTTPRequest(method, url, query, body.c_str());;
 		return "lol";
-	}
+	}*/
 
 	EXPORT bool OnServerCommand(std::string command)
 	{
-		return true;
+		return nodeModule->OnServerCommand(command);
 	}
 
 	EXPORT bool OnPlayerDisconnect(long playerid, int reason)
@@ -79,33 +76,29 @@ extern "C"
 
 	EXPORT bool OnPlayerUpdate(long playerid)
 	{
-
 		return true;
 	}
 
 	EXPORT bool OnPlayerCommand(long playerid, const char * command)
 	{
 		return nodeModule->OnPlayerCommand(playerid, command);
-		//return SResource::Get()->OnPlayerCommand(playerid, command);
-		//return true;
 	}
 
 	EXPORT bool OnPlayerText(long playerid, const char * text)
 	{
-		//return SResource::Get()->OnPlayerText(playerid, text);
-		return true;
+		return nodeModule->OnPlayerText(playerid, text);
 	}
 
 	EXPORT bool OnKeyStateChanged(long playerid, int keycode, bool isUp)
 	{
 		//return SResource::Get()->OnKeyStateChanged(playerid, keycode, isUp);
+		//printf("PL: %i , kc: %i, %s\n", playerid, keycode, isUp ? "UP" : "DOWN");
 		return true;
 	}
 
 	EXPORT void OnEvent(const char* e, std::vector<MValue> *args)
 	{
 		nodeModule->OnEvent(e, args);
-		//SResource::Get()->OnEvent(e, args);
 		return;
 	}
 }

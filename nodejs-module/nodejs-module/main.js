@@ -1,22 +1,21 @@
 global.orange = process.binding('orange');
 const {NodeVM} = require('vm2');
-var fs = require("fs");
-var path = require("path");
+const fs = require("fs");
+const path = require("path");
+const EventEmitter = require('events');
 
-var Player;
-try
-{
-  Player = require("./orangeAPI/Player.js");
-}
-catch(ex)
-{
-  console.log(ex);
-}
+orange.eventHandler = new EventEmitter();
+
+const Player = require("./orangeAPI/Player.js");
+const Vehicle = require("./orangeAPI/Vehicle.js");
+const Vectors = require("./orangeAPI/Vectors.js");
 
 const vm = new NodeVM({
   console: 'redirect',
   sandbox: {
-    Player
+    Player: Player,
+    Vehicle: Vehicle,
+    Vector3: Vectors.Vector3
   },
   wrapper: "none",
   nesting: true, //not sure about this
@@ -42,23 +41,34 @@ vm.on("console.log", (...args) => {
 });
 
 orange.onResourceLoad(function(resource) {
-  var scriptPath = path.resolve(`./resources/${resource}/main.js`);
-  var script = fs.readFileSync(scriptPath);
+  let scriptPath = path.resolve(`./resources/${resource}/main.js`);
+  let script = fs.readFileSync(scriptPath);
   try {
-    vm.run(script, scriptPath);    
+    vm.run(script, scriptPath);
   }
   catch(ex) {
-    orange.print("NodeJS: Resource " + resource + " load failed! Reason:\n" + ex.stack);
+    orange.print("Resource " + resource + " load failed! Reason:\n" + ex.stack);
     return;
   }
-  orange.print("NodeJS: Loaded resource: " + resource);
+  orange.print("Resource " + resource + " has been loaded!");
 });
 
 orange.onEvent(function(event, args) {
-  orangeAPI.orange.onEvent(event, args);
+  console.log("Event: ", event, args);
+  try {
+    orange.eventHandler.emit.apply(orange.eventHandler, [ event ].concat(args));
+  }
+  catch(ex) {
+    //this exceptions is required because default stacktrace shows only some weird informations inside vm2's contextify
+    console.log(ex.stack);
+  }
 });
 
 orange.onPlayerCommand(function(playerId, command) {
-  orangeAPI.onPlayerCommand(playerId, command);
-
+  try {
+    orange.eventHandler.emit("PlayerCommand", playerId, command);    
+  }
+  catch(ex) {
+    console.log(ex.stack);
+  }
 });
