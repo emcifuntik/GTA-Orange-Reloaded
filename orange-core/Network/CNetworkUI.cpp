@@ -40,7 +40,21 @@ bool CNetworkUI::Render()
 
 void CNetworkUI::DXRender()
 {
-	if (showCursor)
+	CURSORINFO info;
+	info.cbSize = sizeof(CURSORINFO);
+
+	if (GetCursorInfo(&info))
+	{
+		if (info.flags == 0 && showCursor)
+		{
+			while (::ShowCursor(TRUE) <= 0);
+		}
+		else if (info.flags != 0 && !showCursor)
+		{
+			while (::ShowCursor(FALSE) >= 0);
+		}
+	}
+	/*if (showCursor)
 	{
 		if(::ShowCursor(TRUE) < 1)
 			while (::ShowCursor(TRUE) <= 0);
@@ -53,7 +67,7 @@ void CNetworkUI::DXRender()
 			while (::ShowCursor(FALSE) >= 0);
 		else
 			::ShowCursor(TRUE);
-	}
+	}*/
 
 	RECT viewRect;
 	GetClientRect(CGlobals::Get().gtaHwnd, &viewRect);

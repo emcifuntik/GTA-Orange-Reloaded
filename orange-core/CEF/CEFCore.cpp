@@ -85,6 +85,13 @@ void CEFCore::init()
 		CConfig::Get()->Save();
 	});
 
+	RegisterJSFunc("cursor", [](CefRefPtr<CefFrame> frame, CefRefPtr<CefListValue> args) {
+		if (args->GetBool(1))
+			CNetworkUI::Get()->ShowCursor();
+		else
+			CNetworkUI::Get()->HideCursor();
+	});
+
 	RegisterJSFunc("quit", [](CefRefPtr<CefFrame> frame, CefRefPtr<CefListValue> args) {
 		TerminateProcess(GetCurrentProcess(), 0);
 	});
