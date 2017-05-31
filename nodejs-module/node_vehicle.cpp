@@ -92,8 +92,8 @@ namespace node
 			v8::HandleScope scope(isolate);
 
 			long vehicleId = (long)args[0]->Int32Value();
-			int color1 = (int)args[1]->NumberValue();
-			int color2 = (int)args[2]->NumberValue();
+			unsigned char color1 = (unsigned char)args[1]->NumberValue();
+			unsigned char color2 = (unsigned char)args[2]->NumberValue();
 
 			args.GetReturnValue().Set(API::Get().SetVehicleColours(vehicleId, color1, color2));
 		}
@@ -104,8 +104,8 @@ namespace node
 			v8::HandleScope scope(isolate);
 
 			long vehicleId = (long)args[0]->Int32Value();
-			int color1 = 0;
-			int color2 = 0;
+			unsigned char color1 = 0;
+			unsigned char color2 = 0;
 
 			API::Get().GetVehicleColours(vehicleId, &color1, &color2);
 
