@@ -72,3 +72,9 @@ orange.onPlayerCommand(function(playerId, command) {
     console.log(ex.stack);
   }
 });
+
+orange.onServerCommand(function(command) {
+  if(command == "/node -v") {
+    console.log("NodeJS version: " + process.version);
+  }
+});

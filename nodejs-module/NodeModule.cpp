@@ -99,7 +99,7 @@ void NodeModule::OnEvent(const char * e, std::vector<MValue>* args)
 
 bool NodeModule::OnPlayerCommand(long playerid, const char * command)
 {
-	CallbackInfo* callbackInfo = GetCallback(CALLBACK_ON_PLAYER_COMMAND_EVENT);
+	CallbackInfo* callbackInfo = GetCallback(CALLBACK_ON_PLAYER_COMMAND);
 	char* cmd = new char[strlen(command) + 1];
 	strcpy(cmd, command);
 	long* pid = new long(playerid);
@@ -114,6 +114,11 @@ bool NodeModule::OnPlayerCommand(long playerid, const char * command)
 
 bool NodeModule::OnServerCommand(std::string command)
 {
+	CallbackInfo* callbackInfo = GetCallback(CALLBACK_ON_SERVER_COMMAND);
+	char* cmd = new char[command.length() + 1];
+	strcpy(cmd, command.c_str());
+	uv_callback_fire(callbackInfo->callback, (void*)cmd, NULL);
+	OnTick();
 	return false;
 }
 

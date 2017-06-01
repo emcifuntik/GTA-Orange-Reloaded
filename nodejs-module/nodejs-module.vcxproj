@@ -159,6 +159,7 @@
   <ItemGroup>
     <ClCompile Include="nodejs-module.cpp" />
     <ClCompile Include="NodeModule.cpp" />
+    <ClCompile Include="node_events.cpp" />
     <ClCompile Include="node_orange.cpp" />
     <ClCompile Include="node_player.cpp" />
     <ClCompile Include="node_vehicle.cpp" />

@@ -4,6 +4,12 @@ namespace node
 {
 	namespace orange
 	{
+		//Events
+		void OnResourceLoadFunction(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void OnEventFunction(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void OnPlayerCommandFunction(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void OnServerCommandFunction(const v8::FunctionCallbackInfo<v8::Value>& args);
+
 		//void LoadClientScript(const v8::FunctionCallbackInfo<v8::Value>& args)
 		void TriggerClientEvent(const v8::FunctionCallbackInfo<v8::Value>& args);
 		//Player
@@ -36,6 +42,7 @@ namespace node
 		void DisablePlayerHud(const v8::FunctionCallbackInfo<v8::Value>& args);
 		void GetPlayerGUID(const v8::FunctionCallbackInfo<v8::Value>& args);
 
+		//Vehicles
 		void CreateVehicle(const v8::FunctionCallbackInfo<v8::Value>& args);
 		void DeleteVehicle(const v8::FunctionCallbackInfo<v8::Value>& args);
 		void SetVehiclePosition(const v8::FunctionCallbackInfo<v8::Value>& args);
@@ -70,6 +77,5 @@ namespace node
 		void GetVehicleWheelType(const v8::FunctionCallbackInfo<v8::Value>& args);*/
 		void GetVehicleDriver(const v8::FunctionCallbackInfo<v8::Value>& args);
 		void GetVehiclePassengers(const v8::FunctionCallbackInfo<v8::Value>& args);
-
 	}
 }
