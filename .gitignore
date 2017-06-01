@@ -267,3 +267,6 @@ CMakeCache.txt
 /HighFive/Launcher/libcef.dll
 /HighFive/Launcher/d3dcompiler_47.dll
 /HighFive/Launcher/d3dcompiler_43.dll
+
+/deps/ServerDeps/node/*
+!/deps/ServerDeps/node/README-ORANGE.md

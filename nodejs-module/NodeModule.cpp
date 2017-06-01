@@ -40,13 +40,14 @@ bool NodeModule::Init()
 	node::Environment* env = node::CreateEnvironment(node::CreateIsolateData(isolate, event_loop), context, argc, argv, exec_argc, exec_argv);
 	context->GetIsolate()->SetMicrotasksPolicy(v8::MicrotasksPolicy::kAuto);
 	v8::Context::Scope context_scope(context);
+	//env->set_abort_on_uncaught_exception(false);
 
-	node::LoadEnvironment(env);
+	{
+		node::Environment::AsyncCallbackScope callback_scope(env);
+		//node::Environment::AsyncHooks::ExecScope exec_scope(env, 1, 0);
+		node::LoadEnvironment(env);
+	}
 
-	//SealHandleScope seal(isolate);
-
-	v8::Local<v8::Array> test = v8::Array::New(isolate, 1);
-	
 	this->m_env = env;
 	this->m_platform = platform;
 	this->m_isolate = isolate;
@@ -58,6 +59,7 @@ bool more;
 
 void NodeModule::OnTick() {
 	v8::Isolate::Scope isolateScope(m_isolate);
+	v8::SealHandleScope seal(m_isolate);
 	v8::platform::PumpMessageLoop(this->m_platform, this->m_env->isolate());
 	more = uv_run(m_env->event_loop(), UV_RUN_NOWAIT);
 
