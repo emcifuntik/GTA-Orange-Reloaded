@@ -24,7 +24,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 			
-			long vehicleId = args[0]->Int32Value();
+			unsigned long vehicleId = args[0]->Uint32Value();
 			args.GetReturnValue().Set(API::Get().DeleteVehicle(vehicleId));
 		}
 		//virtual bool SetVehiclePosition(unsigned long guid, float x, float y, float z) = 0;
@@ -33,7 +33,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			long vehicleId = args[0]->Int32Value();
+			unsigned long vehicleId = args[0]->Uint32Value();
 			float x = (float)args[1]->NumberValue();
 			float y = (float)args[2]->NumberValue();
 			float z = (float)args[3]->NumberValue();
@@ -45,7 +45,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			long vehicleId = (long)args[0]->Int32Value();
+			unsigned long vehicleId = args[0]->Uint32Value();
 
 			CVector3 position = API::Get().GetVehiclePosition(vehicleId);
 
@@ -62,7 +62,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			long vehicleId = args[0]->Int32Value();
+			unsigned long vehicleId = args[0]->Uint32Value();
 			float x = (float)args[1]->NumberValue();
 			float y = (float)args[2]->NumberValue();
 			float z = (float)args[3]->NumberValue();
@@ -74,7 +74,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			long vehicleId = (long)args[0]->Int32Value();
+			unsigned long vehicleId = args[0]->Uint32Value();
 
 			CVector3 position = API::Get().GetVehicleRotation(vehicleId);
 
@@ -91,7 +91,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			long vehicleId = (long)args[0]->Int32Value();
+			unsigned long vehicleId = args[0]->Uint32Value();
 			unsigned char color1 = (unsigned char)args[1]->NumberValue();
 			unsigned char color2 = (unsigned char)args[2]->NumberValue();
 
@@ -103,7 +103,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			long vehicleId = (long)args[0]->Int32Value();
+			unsigned long vehicleId = args[0]->Uint32Value();
 			unsigned char color1 = 0;
 			unsigned char color2 = 0;
 
@@ -121,7 +121,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			long vehicleId = (long)args[0]->Int32Value();
+			unsigned long vehicleId = args[0]->Uint32Value();
 			bool isBulletproof = (int)args[1]->BooleanValue();
 
 			args.GetReturnValue().Set(API::Get().SetVehicleTyresBulletproof(vehicleId, isBulletproof));
@@ -132,7 +132,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			long vehicleId = (long)args[0]->Int32Value();
+			unsigned long vehicleId = args[0]->Uint32Value();
 
 			args.GetReturnValue().Set(API::Get().GetVehicleTyresBulletproof(vehicleId));
 		}
@@ -146,7 +146,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			long vehicleId = (long)args[0]->Int32Value();
+			unsigned long vehicleId = args[0]->Uint32Value();
 			bool status = (int)args[1]->BooleanValue();
 
 			args.GetReturnValue().Set(API::Get().SetVehicleEngineStatus(vehicleId, status, false));
@@ -157,7 +157,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			long vehicleId = (long)args[0]->Int32Value();
+			unsigned long vehicleId = args[0]->Uint32Value();
 
 			args.GetReturnValue().Set(API::Get().GetVehicleEngineStatus(vehicleId));
 		}
@@ -167,7 +167,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			long vehicleId = (long)args[0]->Int32Value();
+			unsigned long vehicleId = args[0]->Uint32Value();
 			bool locked = (int)args[1]->BooleanValue();
 
 			args.GetReturnValue().Set(API::Get().SetVehicleLocked(vehicleId, locked));
@@ -178,7 +178,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			long vehicleId = (long)args[0]->Int32Value();
+			unsigned long vehicleId = args[0]->Uint32Value();
 
 			args.GetReturnValue().Set(API::Get().IsVehicleLocked(vehicleId));
 		}
@@ -188,7 +188,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			long vehicleId = (long)args[0]->Int32Value();
+			unsigned long vehicleId = args[0]->Uint32Value();
 			float health = (float)args[1]->NumberValue();
 
 			args.GetReturnValue().Set(API::Get().SetVehicleBodyHealth(vehicleId, health));
@@ -199,7 +199,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			long vehicleId = (long)args[0]->Int32Value();
+			unsigned long vehicleId = args[0]->Uint32Value();
 			float health = (float)args[1]->NumberValue();
 
 			args.GetReturnValue().Set(API::Get().SetVehicleEngineHealth(vehicleId, health));
@@ -210,7 +210,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			long vehicleId = (long)args[0]->Int32Value();
+			unsigned long vehicleId = args[0]->Uint32Value();
 			float health = (float)args[1]->NumberValue();
 
 			args.GetReturnValue().Set(API::Get().SetVehicleTankHealth(vehicleId, health));
@@ -221,7 +221,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			long vehicleId = (long)args[0]->Int32Value();
+			unsigned long vehicleId = args[0]->Uint32Value();
 			float body, engine, tank;
 			API::Get().GetVehicleHealth(vehicleId, &body, &engine, &tank);
 
@@ -242,7 +242,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			long vehicleId = (long)args[0]->Int32Value();
+			unsigned long vehicleId = args[0]->Uint32Value();
 			bool state = (int)args[1]->BooleanValue();
 
 			args.GetReturnValue().Set(API::Get().SetVehicleSirenState(vehicleId, state));
@@ -253,7 +253,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			long vehicleId = (long)args[0]->Int32Value();
+			unsigned long vehicleId = args[0]->Uint32Value();
 
 			args.GetReturnValue().Set(API::Get().GetVehicleSirenState(vehicleId));
 		}
@@ -268,7 +268,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			long vehicleId = (long)args[0]->Int32Value();
+			unsigned long vehicleId = args[0]->Uint32Value();
 
 			args.GetReturnValue().Set(API::Get().GetVehicleDriver(vehicleId));
 		}
@@ -278,7 +278,7 @@ namespace node
 			v8::Isolate* isolate = args.GetIsolate();
 			v8::HandleScope scope(isolate);
 
-			long vehicleId = (long)args[0]->Int32Value();
+			unsigned long vehicleId = args[0]->Uint32Value();
 			std::vector<unsigned int> passangers = API::Get().GetVehiclePassengers(vehicleId);
 
 			v8::Local<v8::Array> passangersArray = v8::Array::New(isolate, passangers.size());
