@@ -79,7 +79,7 @@ void NodeModule::OnResourceLoad(const char * resource)
 {
 	CallbackInfo* callbackInfo = GetCallback(CALLBACK_ON_RESOURCE_LOAD);
 	char* res = new char[strlen(resource) + 1];
-	strcpy(res, resource);
+	strcpy_s(res, sizeof(res), resource);
 	uv_callback_fire(callbackInfo->callback, (void*)res, NULL);
 	OnTick();
 }
@@ -88,7 +88,7 @@ void NodeModule::OnEvent(const char * e, std::vector<MValue>* args)
 {
 	CallbackInfo* callbackInfo = GetCallback(CALLBACK_ON_EVENT);
 	char* e_c = new char[strlen(e) + 1];
-	strcpy(e_c, e);
+	strcpy_s(e_c, sizeof(e_c), e);
 	OnEventCallbackStruct* callback = new OnEventCallbackStruct();
 	std::vector<MValue>* args_c = new std::vector<MValue>(*args);
 	callback->event = e_c;
@@ -101,7 +101,7 @@ bool NodeModule::OnPlayerCommand(long playerid, const char * command)
 {
 	CallbackInfo* callbackInfo = GetCallback(CALLBACK_ON_PLAYER_COMMAND);
 	char* cmd = new char[strlen(command) + 1];
-	strcpy(cmd, command);
+	strcpy_s(cmd, sizeof(cmd), command);
 	long* pid = new long(playerid);
 	OnPlayerCommandCallbackStruct* callback = new OnPlayerCommandCallbackStruct();
 	callback->command = cmd;
@@ -115,7 +115,7 @@ bool NodeModule::OnServerCommand(std::string command)
 {
 	CallbackInfo* callbackInfo = GetCallback(CALLBACK_ON_SERVER_COMMAND);
 	char* cmd = new char[command.length() + 1];
-	strcpy(cmd, command.c_str());
+	strcpy_s(cmd, sizeof(cmd), command.c_str());
 	uv_callback_fire(callbackInfo->callback, (void*)cmd, NULL);
 	OnTick();
 	return false;

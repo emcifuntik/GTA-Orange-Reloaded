@@ -15,7 +15,7 @@ namespace node
 			v8::Local<v8::Context> context = NodeModule::GetModule()->GetContext();
 			v8::Context::Scope context_scope(context);
 
-			v8::Local<v8::Array> argsArray = v8::Array::New(isolate, callback->args->size());
+			v8::Local<v8::Array> argsArray = v8::Array::New(isolate, (int)callback->args->size());
 			for (int i = 0; i < callback->args->size(); i++)
 			{
 				MValue value = callback->args->at(i);
