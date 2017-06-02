@@ -161,8 +161,8 @@ function _onPlayerSpawn(playerId, x, y, z) {
 function _onPlayerPressKey(playerId, keyId) {
   let player = Player.getByID(playerId);
 
-  Player.trigger("pressedKey", player, keyId);
-  player.trigger("pressedKey", keyId);
+  Player.trigger("pressKey", player, keyId);
+  player.trigger("pressKey", keyId);
 }
 
 function _onPlayerClientEvent(playerId, eventName, ...args) {
@@ -171,12 +171,31 @@ function _onPlayerClientEvent(playerId, eventName, ...args) {
   player.trigger.apply(player, [ eventName, ...args ]);
 }
 
+function _onPlayerEnterVehicle(playerId, vehicleId) {
+  let player = Player.getByID(playerId);
+  let vehicle = Vehicle.getByID(vehicleId);
+
+  Player.trigger("enterVehicle", player, vehicle);
+  player.trigger("enterVehicle", vehicle);
+}
+
+function _onPlayerLeftVehicle(playerId, vehicleId) {
+  let player = Player.getByID(playerId);
+  let vehicle = Vehicle.getByID(vehicleId);
+
+  Player.trigger("leftVehicle", player, vehicle);
+  player.trigger("leftVehicle", vehicle);
+}
+
+
 orange.eventHandler.on("PlayerConnect", _onPlayerConnect);
 orange.eventHandler.on("PlayerDisconnect", _onPlayerDisconnect);
 orange.eventHandler.on("PlayerDeath", _onPlayerDeath);
 orange.eventHandler.on("PlayerSpawn", _onPlayerSpawn);
-orange.eventHandler.on("PlayerPressKey", _onPlayerPressKey);
+orange.eventHandler.on("pressKey", _onPlayerPressKey);
 orange.eventHandler.on("PlayerClientEvent", _onPlayerClientEvent);
 orange.eventHandler.on("PlayerCommand", _onPlayerCommand);
+orange.eventHandler.on("EnterVehicle", _onPlayerEnterVehicle);
+orange.eventHandler.on("LeftVehicle", _onPlayerLeftVehicle);
 
 module.exports = Player;

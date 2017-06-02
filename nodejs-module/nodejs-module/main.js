@@ -9,13 +9,15 @@ orange.eventHandler = new EventEmitter();
 const Player = require("./orangeAPI/Player.js");
 const Vehicle = require("./orangeAPI/Vehicle.js");
 const Vectors = require("./orangeAPI/Vectors.js");
+const Server = require("./orangeAPI/Server.js");
 
 const vm = new NodeVM({
   console: 'redirect',
   sandbox: {
     Player: Player,
     Vehicle: Vehicle,
-    Vector3: Vectors.Vector3
+    Vector3: Vectors.Vector3,
+    Server: Server
   },
   wrapper: "none",
   nesting: true, //not sure about this
@@ -74,7 +76,8 @@ orange.onPlayerCommand(function(playerId, command) {
 });
 
 orange.onServerCommand(function(command) {
-  if(command == "/node -v") {
-    console.log("NodeJS version: " + process.version);
+  if(command == "node -v") {
+    return console.log("NodeJS version: " + process.version);
   }
+  Server.trigger("command", command);
 });

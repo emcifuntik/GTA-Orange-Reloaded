@@ -131,6 +131,30 @@ class Vehicle extends Event {
   get passangers() {
     return orange.getVehiclePassengers(this.id);
   }
+
+  static getById(vehicleId) {
+    return _vehiclesPool[vehicleId];
+  }
 }
+
+function _onPlayerEnterVehicle(playerId, vehicleId) {
+  let player = Player.getByID(playerId);
+  let vehicle = Vehicle.getByID(vehicleId);
+
+  Vehicle.trigger("playerEnter", vehicle, player);
+  vehicle.trigger("playerEnter", player);
+}
+
+function _onPlayerLeftVehicle(playerId, vehicleId) {
+  let player = Player.getByID(playerId);
+  let vehicle = Vehicle.getByID(vehicleId);
+
+  Vehicle.trigger("playerLeft", vehicle, player);
+  vehicle.trigger("playerLeft", player);
+}
+
+orange.eventHandler.on("EnterVehicle", _onPlayerEnterVehicle);
+orange.eventHandler.on("LeftVehicle", _onPlayerLeftVehicle);
+
 
 module.exports = Vehicle;

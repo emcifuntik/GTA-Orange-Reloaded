@@ -106,10 +106,9 @@ bool NodeModule::OnPlayerCommand(long playerid, const char * command)
 	OnPlayerCommandCallbackStruct* callback = new OnPlayerCommandCallbackStruct();
 	callback->command = cmd;
 	callback->playerid = pid;
-	bool result;
-	uv_callback_fire_sync(callbackInfo->callback, (void*)callback, (void**)&result, 10000);
+	uv_callback_fire(callbackInfo->callback, (void*)callback, NULL);
 	OnTick();
-	return result;
+	return false;
 }
 
 bool NodeModule::OnServerCommand(std::string command)
@@ -124,5 +123,6 @@ bool NodeModule::OnServerCommand(std::string command)
 
 bool NodeModule::OnPlayerText(long playerId, const char * text)
 {
+	//TODO! Maybe should not do until CEF and CEF chat will be released!
 	return false;
 }
