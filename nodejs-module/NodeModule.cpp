@@ -101,7 +101,7 @@ bool NodeModule::OnPlayerCommand(long playerid, const char * command)
 {
 	CallbackInfo* callbackInfo = GetCallback(CALLBACK_ON_PLAYER_COMMAND);
 	char* cmd = new char[strlen(command) + 1];
-	strcpy_s(cmd, strlen(cmd) + 1, command);
+	strcpy_s(cmd, strlen(command) + 1, command);
 	long* pid = new long(playerid);
 	OnPlayerCommandCallbackStruct* callback = new OnPlayerCommandCallbackStruct();
 	callback->command = cmd;
@@ -115,7 +115,7 @@ bool NodeModule::OnServerCommand(std::string command)
 {
 	CallbackInfo* callbackInfo = GetCallback(CALLBACK_ON_SERVER_COMMAND);
 	char* cmd = new char[command.length() + 1];
-	strcpy_s(cmd, strlen(cmd) + 1, command.c_str());
+	strcpy_s(cmd, command.length() + 1, command.c_str());
 	uv_callback_fire(callbackInfo->callback, (void*)cmd, NULL);
 	OnTick();
 	return false;
