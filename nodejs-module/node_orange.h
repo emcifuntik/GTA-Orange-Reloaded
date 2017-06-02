@@ -77,5 +77,18 @@ namespace node
 		void GetVehicleWheelType(const v8::FunctionCallbackInfo<v8::Value>& args);*/
 		void GetVehicleDriver(const v8::FunctionCallbackInfo<v8::Value>& args);
 		void GetVehiclePassengers(const v8::FunctionCallbackInfo<v8::Value>& args);
+
+		//Blips
+		void CreateBlipForAll(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void CreateBlipForPlayer(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void DeleteBlip(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void SetBlipColor(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void SetBlipScale(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void SetBlipRoute(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void SetBlipSprite(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void SetBlipName(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void SetBlipAsShortRange(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void AttachBlipToPlayer(const v8::FunctionCallbackInfo<v8::Value>& args);
+		void AttachBlipToVehicle(const v8::FunctionCallbackInfo<v8::Value>& args);
 	}
 }

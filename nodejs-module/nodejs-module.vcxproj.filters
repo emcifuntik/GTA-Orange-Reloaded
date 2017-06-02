@@ -56,5 +56,8 @@
     <ClCompile Include="node_events.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="node_blips.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
