@@ -73,6 +73,14 @@ class Player extends Event {
     orange.setPlayerModel(this.id, hash);
   }
 
+  get name() {
+    return orange.getPlayerName(this.id);
+  }
+
+  set name(name) {
+    orange.setPlayerName(this.id, name);
+  }
+
   get health() {
     return orange.getPlayerHealth(this.id);
   }
