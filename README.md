@@ -21,3 +21,5 @@ changelog goes here
 ## Libs:
 
 https://yadi.sk/d/bgLs5f0A33yfxv
+
+# 0x452 - is a cocksucker who leaked our source and discord guild to georgemp
